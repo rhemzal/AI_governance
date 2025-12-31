@@ -1,0 +1,17 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+
+# Temp / backups
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Logs
+*.log

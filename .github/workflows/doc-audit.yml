@@ -1,0 +1,20 @@
+name: Doc Audit
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  doc-audit:
+    name: Doc audit (PowerShell)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run doc audit
+        shell: pwsh
+        run: |
+          ./scripts/audit-docs.ps1 -FailOnWarning
