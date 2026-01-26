@@ -12,6 +12,7 @@ Context: Generated after a full re-run of `usage/AUDIT_PLAYBOOK.md`.
 1) Implement CI checks for gate principles
 - Why: the kit’s `ci/*_GATES.md` are intentionally principles; without wiring, enforcement falls back to human review (PR checklist discipline) until CI exists.
 - Minimum: one job each for docs/test/architecture/interface gates.
+  - Adoption guidance: implement progressively so CI stays high-signal (see `usage/CI_MINIMUM_ADOPTION.md`).
 
 2) Run `scripts/audit-docs.ps1 -FailOnWarning` in CI
 - Why: makes doc hygiene enforceable.

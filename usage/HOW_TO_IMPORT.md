@@ -97,6 +97,8 @@ Copy is the right choice when you want a proven baseline and your main work is e
 
    - keep `ci/*_GATES.md` as principles, and implement them in your CI/tooling, or
    - keep them as human-review gates (temporary fallback) until CI exists.
+4. Adopt CI progressively to avoid noisy failures in early projects:
+   - start with `usage/CI_MINIMUM_ADOPTION.md` (L0 doc hygiene → L1 tests → L2 boundary integrity → L3 risk signals)
 
 ### Common Failure Modes (Copy)
 - Teams copy again later and create duplicates (“v2 folder”), causing drift.
