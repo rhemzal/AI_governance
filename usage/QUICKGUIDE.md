@@ -46,6 +46,59 @@ Then require:
 Add:
 - “Include the `### DOC DELTA` block in your output (see `usage/HOW_TO_USE_WITH_COPILOT.md`).”
 
+### Recipe D — Adoption Assessment (Existing Repo; Kit Imported)
+Use this when the kit is already present in the repo and you want an AI to recommend what to adopt (and in what order) without blindly copying everything.
+
+Paste this prompt:
+
+```
+Load `constitution/AI_RULES.md`.
+This task is assessment-only: do not change code/docs; do not propose diffs unless I ask.
+
+Context:
+- This is an existing repository adopting the AI_governance kit.
+- The kit is already available in this repo (folders like `constitution/`, `usage/`, `adr/`).
+
+Assess the current repo state and recommend an adoption order:
+1) **Findability**: where are the governance docs, ADRs, CI definitions, and notes (`notes/`)?
+2) **Architecture boundaries**: what appears to be core vs integration boundary today? Where is boundary drift risk highest?
+3) **Tests**: what is the current test posture? Are tests deterministic/headless? Where are the biggest gaps?
+4) **Docs drift**: which docs likely drift from behavior? Are there duplicated sources of truth?
+5) **CI readiness**: which gates can be automated immediately (high-signal) vs which require prerequisites?
+
+Output:
+- A short assessment (bullets).
+- A staged adoption recommendation in order (L0 → L3), with prerequisites for each stage:
+  - L0: doc hygiene (fast, deterministic)
+  - L1: deterministic tests
+  - L2: boundary integrity
+  - L3: risk signals (coverage/flakiness budget/ADR-required checks)
+- What to defer (and why).
+- List any missing information you could not infer (max 3 questions).
+```
+
+### Recipe E — Adoption Assessment (Existing Repo; Kit Not Yet Imported / URL Reference)
+Use this when the kit is not yet imported and you only have a Git URL reference. The goal is to decide how to import first, then run Recipe D.
+
+Paste this prompt:
+
+```
+This task is assessment-only: do not change code/docs.
+
+Context:
+- This is an existing repository considering adoption of the AI_governance kit at: <PASTE_GIT_URL_HERE>
+- Assume the kit is not yet imported unless you see it in the repo.
+
+1) Recommend an import approach (Copy vs Submodule vs Fork) based on practical constraints (team workflow, desired update cadence, willingness to customize).
+2) Recommend the minimal set of folders to import first (focus on high-signal, low-friction value).
+3) After import, instruct me to run Recipe D to produce a staged adoption plan.
+
+Output:
+- Recommended import approach + why.
+- Minimal import set + why.
+- Next steps checklist (human-doable).
+```
+
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:
 - change architecture boundaries/dependency rules
