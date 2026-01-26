@@ -11,6 +11,10 @@ _Provenance: This document originates from the AI_governance kit (https://github
 - Add `constitution/` and align terminology.
 - Add CI gates as warnings first (optional), then enforce.
 
+Practical rule for early adoption: keep CI automation aligned with current project maturity.
+- Prefer adding automated checks that can pass immediately (doc hygiene).
+- If a gate’s prerequisites do not exist yet (no tests, no boundary tooling), keep the check informational/non-required or enforce it via PR checklist review until the prerequisites are in place.
+
 ## Step 3: Pay Down the Biggest Risks
 Prioritize:
 - hidden IO and global state
