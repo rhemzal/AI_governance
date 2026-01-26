@@ -10,3 +10,6 @@ It is intentionally excluded from version control:
 - Keep your own files here (whatever helps you work quickly).
 - Do not expect these notes to be reviewed or shared via PR.
 
+## Language
+- Any language is acceptable here. This folder is intentionally personal and not committed.
+

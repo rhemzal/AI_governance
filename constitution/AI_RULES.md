@@ -112,6 +112,33 @@ Some repositories include working notes intended to prevent context-switching (e
   - adding links to the Issue/ADR/PR where the item was resolved.
 - The AI MUST NOT refactor, reformat, or “clean up” notes as part of unrelated tasks.
 
+### 5.4 Language Policy (English-First; Translations Optional)
+To keep collaboration and AI-assisted work consistent, this kit defines a strict language policy for shared, canonical artifacts.
+
+#### 5.4.1 Canonical documentation (MUST be English)
+These are canonical and MUST be written in English:
+- root `README.md`
+- `constitution/**`
+- `ci/**`
+- `usage/**`
+- `adr/**`
+- `architecture/**` (including `architecture/rag/**`)
+- `.github/**` templates (issues / PRs)
+
+#### 5.4.2 Code comments (SHOULD be English)
+- Long-lived, shared code comments (public contracts, invariants, tricky logic) SHOULD be written in English.
+- Domain terms MAY remain in the domain’s natural language, but SHOULD be defined once (ADR/glossary) and used consistently (ubiquitous language).
+
+#### 5.4.3 Notes
+- `notes/local/**` MAY be any language (personal, not committed).
+- `notes/committed/**` SHOULD be English unless a local overlay explicitly defines another shared language.
+
+#### 5.4.4 Translations (optional; MUST be subordinate)
+Non-English translations MAY exist, but only as explicitly subordinate artifacts:
+- Translations MUST live under `translations/<lang>/...`.
+- Each translated document MUST state the canonical English source it mirrors (path + commit/SHA or version tag when possible).
+- Translations MUST NOT override canonical rules. If a translation conflicts with English canonical docs, English wins.
+
 ## 6. Mandatory AI Behavior (When Acting As a Coding Assistant)
 - Before making changes, the AI MUST identify which layer the change belongs to.
 - If a rule would be violated, the AI MUST stop and propose a compliant alternative.

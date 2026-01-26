@@ -53,6 +53,13 @@ If any affected file matches `notes/**`:
 - If the user did not explicitly ask to update notes: the AI MUST STOP and ask for explicit instruction.
 - If the user asked to update notes: the AI SHOULD follow the working-notes policy (append/link rather than rewrite where feasible).
 
+## 4.2 Language Guard (Hard Gate)
+If a change affects canonical documentation paths (e.g., `constitution/**`, `ci/**`, `usage/**`, `adr/**`, `architecture/**`, root `README.md`, `.github/**` templates):
+- the AI MUST produce English output by default.
+- if the user requests non-English output for a canonical document, the AI MUST:
+  - STOP and confirm the intent, and
+  - redirect the change into `translations/<lang>/...` as a subordinate translation (unless the repository has an explicit local overlay that overrides this policy).
+
 ## 5. Test Gate (“No Test, No Code”)
 No non-trivial change is accepted without:
 - tests
