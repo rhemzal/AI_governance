@@ -47,6 +47,9 @@ Do not run with two sources of truth.
 
 Recommended: record the decision as an ADR using `adr/ADR_TEMPLATE.md` (title suggestion: “Governance Baseline: Imported Kit vs Local”).
 
+If you want an AI to assess what to adopt (and in what order), see:
+- `usage/QUICKGUIDE.md` (Recipe D/E: adoption assessment prompts)
+
 ## Governance Versioning (Recommended)
 To keep governance auditable over time, record which kit version you imported.
 
