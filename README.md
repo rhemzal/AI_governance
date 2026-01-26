@@ -77,6 +77,7 @@ This repository provides governance guidance and reusable documentation. It is n
 
 ### Research References (Advisory)
 - `research/PROFESSIONAL_STANDARDS_AND_REFERENCES.md`
+- `research/NOTES_PARKING_LOT_PRACTICES.md`
 
 ### RAG Notes (Advisory)
 - `architecture/rag/README.md`

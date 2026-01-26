@@ -15,6 +15,7 @@ This is the fastest path to get value from this repository.
    - `constitution/`
    - `adr/`
    - `usage/`
+   - `notes/` (recommended: committed vs local parking-lot notes)
    - (optional) `ci/`, `interface/`, `architecture/`
 2. Link them from your repo’s main README (so developers find them).
 3. Decide how strict you want to be:

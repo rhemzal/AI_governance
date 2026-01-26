@@ -102,6 +102,16 @@ This section is a **style-agnostic profile**: it describes the constraints that 
   - a clear policy: committed artifact vs build output
 - Generated documentation MUST NOT be edited manually without updating its source.
 
+### 5.3 Working Notes / Parking-Lot Notes (Non-Canonical)
+Some repositories include working notes intended to prevent context-switching (e.g., `notes/`).
+
+- `notes/**` MUST be treated as **non-canonical working notes** by default.
+- The AI MUST NOT edit files under `notes/**` unless explicitly instructed.
+- If explicitly instructed to update a note, the AI SHOULD prefer:
+  - appending new entries instead of rewriting existing text, and/or
+  - adding links to the Issue/ADR/PR where the item was resolved.
+- The AI MUST NOT refactor, reformat, or “clean up” notes as part of unrelated tasks.
+
 ## 6. Mandatory AI Behavior (When Acting As a Coding Assistant)
 - Before making changes, the AI MUST identify which layer the change belongs to.
 - If a rule would be violated, the AI MUST stop and propose a compliant alternative.

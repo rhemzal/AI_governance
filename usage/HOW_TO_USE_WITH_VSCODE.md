@@ -77,6 +77,15 @@ Ask:
 For behavior changes, require:
 - `### DOC DELTA` (template lives in `usage/HOW_TO_USE_WITH_COPILOT.md`)
 
+### 6) Protect working notes from accidental edits (Optional)
+If your repo uses a `notes/` parking-lot, explicitly instruct the assistant not to “clean up” or rewrite it during unrelated tasks.
+
+Example prompt line you can add:
+- “Treat `notes/**` as non-canonical working notes. Do not edit them unless I explicitly ask. If asked, prefer append/link updates.”
+
+Tool-specific (Cursor) suggestion:
+- Create a local Cursor rule that enforces the same behavior for `notes/**` in your project. Keep it local/team-controlled; do not treat it as part of the imported kit baseline.
+
 ## Workflow Notes (Avoid Duplication)
 Team process guidance (parallel vs serial work, definition of done, Doc Delta discipline) is maintained in:
 - `usage/HOW_TO_USE_WITH_COPILOT.md`
