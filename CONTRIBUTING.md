@@ -16,8 +16,10 @@ This repository is a **project-agnostic** kit. Contributions should be:
 3. For rule changes, update both:
    - the **normative** statement (MUST/MUST NOT), and
    - the **enforcement** expectation (how it is verified).
-4. Run the doc audit locally:
-   - `powershell -File scripts/audit-docs.ps1 -FailOnWarning`
+4. Keep documentation changes high-signal:
+   - ensure referenced `.md` paths exist
+   - avoid duplication (single source of truth)
+   - keep the diff minimal and reviewable
 
 ## Style and consistency
 

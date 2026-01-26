@@ -14,7 +14,7 @@ Context: Generated after a full re-run of `usage/AUDIT_PLAYBOOK.md`.
 - Minimum: one job each for docs/test/architecture/interface gates.
   - Adoption guidance: implement progressively so CI stays high-signal (see `usage/CI_MINIMUM_ADOPTION.md`).
 
-2) Run `scripts/audit-docs.ps1 -FailOnWarning` in CI
+2) Add a documentation hygiene check to CI
 - Why: makes doc hygiene enforceable.
 
 3) Add dependency boundary enforcement appropriate to the stack
@@ -23,5 +23,5 @@ Context: Generated after a full re-run of `usage/AUDIT_PLAYBOOK.md`.
 4) Add a minimal “ADR required” check in CI
 - Trigger: changes touching boundaries/contracts/interfaces.
 
-5) (Optional) Extend `scripts/audit-docs.ps1` to also validate regular markdown links
-- Current limitation: it validates backtick `.md` references; it does not parse `[text](path)` links.
+5) (Optional) Extend your documentation hygiene check to also validate regular markdown links
+- Many lightweight doc checks validate backtick `.md` references but do not parse `[text](path)` links.

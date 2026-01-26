@@ -77,7 +77,7 @@ This repository provides governance guidance and reusable documentation. It is n
 This repository is intended to be publishable and reusable.
 
 - Documentation and other non-code content: **CC BY 4.0** (see `LICENSE`).
-- Scripts (e.g., `scripts/`): **MIT** (see `LICENSE-CODE`).
+- Code (if any): **MIT** (see `LICENSE-CODE`).
 
 ## Contributing
 See `CONTRIBUTING.md`.
