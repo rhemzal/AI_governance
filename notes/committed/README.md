@@ -4,6 +4,7 @@ Use this folder for **shared** notes that are worth keeping in git history.
 
 ## Policy (Recommended)
 - Treat these notes as **non-canonical** by default (working notes).
+- Language: these notes SHOULD be English by default (shared, reviewable) unless a local overlay defines another shared language.
 - Prefer **append-only** updates:
   - add a new entry rather than rewriting existing entries
   - add links to the Issue/ADR/PR where the item was resolved

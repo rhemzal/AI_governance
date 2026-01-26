@@ -12,6 +12,10 @@ This folder provides a low-friction place to capture project notes without derai
 - Prefer links over duplication: if something becomes a real decision, capture it as an ADR and link it here.
 - Keep committed notes **append-only and link-first** (avoid rewriting history; add links to the Issue/ADR/PR where resolved).
 
+## Language policy (recommended)
+- `notes/local/` can be written in any language (personal, not committed).
+- `notes/committed/` should be written in English by default (shared, reviewable), unless your local governance overlay defines another shared language.
+
 ## Related Documents
 - `constitution/AI_RULES.md`
 - `constitution/AI_ENFORCEMENT.md`

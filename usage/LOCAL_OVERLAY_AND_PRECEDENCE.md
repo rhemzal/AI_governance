@@ -16,6 +16,19 @@ Use this precedence order (highest wins):
 2. This kit’s constitution and enforcement documents
 3. Everything else (notes, examples, non-normative guidance)
 
+## Language Policy & Translations (Recommended)
+This kit is English-first for canonical governance so AI and humans share a stable baseline.
+
+Downstream repos MAY add language exceptions via a local overlay (recommended), for example:
+- a different shared language for `notes/committed/**`
+- a policy for translations (where they live, who maintains them)
+
+Recommended pattern:
+- Keep canonical governance documents in English.
+- Allow translations only as explicitly subordinate artifacts under `translations/<lang>/...`.
+  - Each translation should point to the canonical English source (path + version/SHA when possible).
+  - Translations must not override canonical rules.
+
 Within the imported kit, treat these as highest priority:
 - `constitution/AI_RULES.md` (normative rules)
 - `constitution/AI_ENFORCEMENT.md` (how rules are enforced and what evidence is required)
