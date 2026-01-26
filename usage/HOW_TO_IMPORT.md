@@ -75,6 +75,7 @@ After importing, verify these within one PR:
 ## Option A: Copy (Simplest)
 Copy these folders into your repo:
 - `constitution/`
+- `notes/`
 - `interface/`
 - `ci/`
 - `adr/`
@@ -99,6 +100,9 @@ Copy is the right choice when you want a proven baseline and your main work is e
    - keep them as human-review gates (temporary fallback) until CI exists.
 4. Adopt CI progressively to avoid noisy failures in early projects:
    - start with `usage/CI_MINIMUM_ADOPTION.md` (L0 doc hygiene → L1 tests → L2 boundary integrity → L3 risk signals)
+5. Enable a low-friction parking-lot for work-in-progress notes:
+   - use `notes/committed/` for shared notes
+   - use `notes/local/` for personal notes (intentionally ignored by `.gitignore`)
 
 ### Common Failure Modes (Copy)
 - Teams copy again later and create duplicates (“v2 folder”), causing drift.

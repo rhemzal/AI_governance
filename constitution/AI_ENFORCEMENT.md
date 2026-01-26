@@ -48,6 +48,11 @@ If needed, introduce a port.
 The AI MUST list all affected files and concepts.
 If scope expands, the AI MUST stop and ask for confirmation.
 
+## 4.1 Notes Protection (Hard Gate)
+If any affected file matches `notes/**`:
+- If the user did not explicitly ask to update notes: the AI MUST STOP and ask for explicit instruction.
+- If the user asked to update notes: the AI SHOULD follow the working-notes policy (append/link rather than rewrite where feasible).
+
 ## 5. Test Gate (“No Test, No Code”)
 No non-trivial change is accepted without:
 - tests

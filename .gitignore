@@ -15,3 +15,8 @@ Desktop.ini
 
 # Logs
 *.log
+
+# Notes
+notes/local/**
+!notes/local/
+!notes/local/README.md
