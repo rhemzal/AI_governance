@@ -34,6 +34,7 @@ Why third: it’s highly valuable, but language/tooling dependent.
 ## What to Do If You Have No CI Yet
 - Apply the same gates as PR checklist items (human review) until CI exists.
 - Do not weaken the rules; only change the enforcement mechanism.
+  - Note: this is a temporary enforcement mode (human-review fallback). Governance stays normative; the target state is CI-backed enforcement.
 
 ## Related Documents
 - `scripts/audit-docs.ps1`

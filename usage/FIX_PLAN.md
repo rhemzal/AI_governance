@@ -10,7 +10,7 @@ Context: Generated after a full re-run of `usage/AUDIT_PLAYBOOK.md`.
 
 ## Recommended Next Fixes (Downstream / Adoption)
 1) Implement CI checks for gate principles
-- Why: the kit’s `ci/*_GATES.md` are intentionally principles; without wiring, enforcement is manual.
+- Why: the kit’s `ci/*_GATES.md` are intentionally principles; without wiring, enforcement falls back to human review (PR checklist discipline) until CI exists.
 - Minimum: one job each for docs/test/architecture/interface gates.
 
 2) Run `scripts/audit-docs.ps1 -FailOnWarning` in CI

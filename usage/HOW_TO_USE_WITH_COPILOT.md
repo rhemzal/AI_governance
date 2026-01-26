@@ -123,7 +123,7 @@ In these cases, use AI for:
 - option exploration
 - drafting ADR alternatives
 - generating test scaffolding
-But keep the final decision-making and integration more manual/serial.
+But keep the final decision-making and integration more human-led/serial (this is a decision/review bottleneck, not “manual governance work” outside PRs).
 
 ## “No Infrastructure” Workflow (Still Safe)
 When you cannot rely on CI yet (early repo / local work), keep the governance enforceable locally:

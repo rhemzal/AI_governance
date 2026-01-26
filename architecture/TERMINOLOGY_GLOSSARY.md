@@ -37,6 +37,10 @@ These map cleanly to multiple architecture styles:
 - **Idempotency**: repeating an operation has the same effect as doing it once.
 - **Consistency model**: the guarantees about visibility/order of updates (strong vs eventual).
 
+## Governance & Enforcement Terms (AI Workflow)
+- **Human-review fallback (enforcement)**: temporary enforcement mode when CI gates are not wired yet; compliance is checked via PR checklist/review.
+- **Automation-first enforcement**: enforcement is implemented as deterministic checks (CI gates/scripts) and the PR provides evidence (e.g., `DOC DELTA`) rather than relying on informal manual process.
+
 ## Delivery & Operations Terms
 - **SLO/SLA**: service-level objective/agreement; what “good” means operationally.
 - **Backpressure**: resisting overload by slowing producers / shedding work.

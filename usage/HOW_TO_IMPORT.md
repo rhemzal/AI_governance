@@ -96,7 +96,7 @@ Copy is the right choice when you want a proven baseline and your main work is e
 3. Decide where architectural enforcement lives:
 
    - keep `ci/*_GATES.md` as principles, and implement them in your CI/tooling, or
-   - keep them as human-review gates until CI exists.
+   - keep them as human-review gates (temporary fallback) until CI exists.
 
 ### Common Failure Modes (Copy)
 - Teams copy again later and create duplicates (“v2 folder”), causing drift.

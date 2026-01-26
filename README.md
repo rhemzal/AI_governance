@@ -125,6 +125,7 @@ This repository provides governance guidance and reusable documentation. It is n
 
 ## PR Habit: “Doc Delta”
 When a PR changes behavior, include the `### DOC DELTA` block from `usage/HOW_TO_USE_WITH_COPILOT.md`.
+`DOC DELTA` is PR evidence/metadata: reference the source of truth (code/tests/ADRs) and list which docs were updated/removed. It can be filled by AI and reviewed like any other PR content.
 For architecture-impacting changes, ensure the ADR includes `## Documentation Impact` (see `adr/ADR_TEMPLATE.md`).
 
 ## Governance Principles (High-Level)
