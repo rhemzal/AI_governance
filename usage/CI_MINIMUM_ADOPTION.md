@@ -9,7 +9,7 @@ If you are adopting the kit in an existing repo, you can start with a minimal se
 
 ### Step 1 — Doc Hygiene Gate (Fast)
 Goal: prevent documentation drift and broken references.
-- Run `scripts/audit-docs.ps1 -FailOnWarning` in CI.
+- Add a documentation hygiene check to CI (fast, deterministic).
 - Make the job required on PRs.
 
 Why first: it is deterministic, fast, and enforces “single source of truth” behavior.
@@ -40,7 +40,7 @@ Use staged maturity. Keep automation running, but keep early checks **informatio
 
 ### CI Maturity Levels (Suggested)
 - **L0: Doc hygiene (required)**  
-  - Checks: doc audit (`scripts/audit-docs.ps1 -FailOnWarning`)  
+  - Checks: documentation hygiene (broken references, drift, duplication signals)  
   - Prerequisites: none (should be passable immediately)
 
 - **L1: Deterministic tests (required once tests exist)**  
@@ -61,7 +61,6 @@ Use staged maturity. Keep automation running, but keep early checks **informatio
   - Note: this is a temporary enforcement mode (human-review fallback). Governance stays normative; the target state is CI-backed enforcement.
 
 ## Related Documents
-- `scripts/audit-docs.ps1`
 - `ci/DOC_GATES.md`
 - `ci/TEST_GATES.md`
 - `ci/ARCHITECTURE_GATES.md`

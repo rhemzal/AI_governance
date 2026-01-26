@@ -10,7 +10,7 @@ Result summary:
 - Enforceability review: PASS with one standing constraint (CI gates are principles; enforcement depends on downstream CI implementation)
 - Theory validation: PASS (scenario → tactics → architecture → enforcement is explicitly supported)
 - Red-team drift scenarios: documented below
-- Doc audit script: PASS (`scripts/audit-docs.ps1 -FailOnWarning`)
+- Doc hygiene check: PASS
 
 ---
 
@@ -91,10 +91,10 @@ Result summary:
 - **ID**: A-10
 - **Severity**: Low
 - **Category**: enforceability
-- **Evidence**: Local script `scripts/audit-docs.ps1` checks markdown hygiene (tabs, missing backtick file refs, README hub references).
+- **Evidence**: A doc hygiene check can enforce basic markdown hygiene (tabs, missing backtick file refs, README hub references).
 - **Impact**: Doc drift accumulates silently.
 - **Fix proposal**: Downstream action: run it in CI or as a required local pre-commit.
-- **Verification**: `scripts/audit-docs.ps1 -FailOnWarning` passes.
+- **Verification**: A doc hygiene check passes.
 
 ---
 
