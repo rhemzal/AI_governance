@@ -98,14 +98,9 @@ These are recommended because they prevent common "stall after planning" failure
   - Canonical governance documents remain English-first.
 
 ### User Prompt (Copy/Paste): Quick LOW vs HIGH Risk Check
-Paste at the start of a task to force a consistent risk classification before edits:
+Keep this prompt as a single source of truth and link to it from overlays/docs:
 
-"Do a risk preflight before changes:
-- List exact files you will touch
-- Confirm whether any boundary contract/interface, adapter/integration, architecture decision, security behavior, CI/gates, or canonical governance docs are affected
-Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
-If LOW: proceed to execution.
-If HIGH/unclear: STOP and ask for confirmation."
+- `usage/RISK_PREFLIGHT_PROMPT.md`
 
 ## Overrides (If Any)
 Only use overrides when unavoidable.

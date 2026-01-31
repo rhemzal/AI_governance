@@ -51,12 +51,8 @@ Recommended ADR trigger examples:
 - you introduce exceptions to non-interactive execution/time limits
 
 ## User Prompt (Copy/Paste): Quick LOW vs HIGH Risk Check
-"Do a risk preflight before changes:
-- List exact files you will touch
-- Confirm whether any boundary contract/interface, adapter/integration, architecture decision, security behavior, CI/gates, or canonical governance docs are affected
-Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
-If LOW: proceed to execution.
-If HIGH/unclear: STOP and ask for confirmation."
+Keep this prompt as a single source of truth and link to it (avoid duplication):
+- `usage/RISK_PREFLIGHT_PROMPT.md`
 
 ## Common Mistakes to Avoid
 - Writing a second “rules doc” that rephrases the constitution.
