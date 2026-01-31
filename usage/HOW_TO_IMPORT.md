@@ -38,6 +38,9 @@ When you must add local rules, add them as **project-specific overlays** and cle
 See:
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`
 
+This kit provides a ready-to-copy overlay template:
+- `governance/LOCAL_OVERLAY_TEMPLATE.md` (copy to `governance/LOCAL_OVERLAY.md` in the target repo and customize)
+
 ## If You Already Have Governance
 Decide which of these this kit will be in your repo:
 - **Upstream baseline**: this kit is the canonical source for rules/gates; your repo adds a local overlay.
@@ -75,6 +78,9 @@ After importing, verify these within one PR:
 - Architecture selection is recorded (ADR) and boundary terms are consistent (core/boundary contracts/integration boundaries).
 - No duplicate “rules docs” were created during import.
 
+Recommended (when adopting Copilot/AI agents):
+- Add a repo-specific overlay using `governance/LOCAL_OVERLAY_TEMPLATE.md` and include a low-risk execution continuity rule.
+
 ## Option A: Copy (Simplest)
 Copy these folders into your repo:
 - `constitution/`
@@ -84,6 +90,7 @@ Copy these folders into your repo:
 - `adr/`
 - `usage/`
 - `architecture/`
+- `governance/` (optional but recommended: overlay template)
 
 Then link them from your main README.
 

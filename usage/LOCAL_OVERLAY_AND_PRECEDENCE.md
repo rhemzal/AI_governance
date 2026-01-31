@@ -51,12 +51,15 @@ If you cannot explain the conflict and risk, do not override: add an **Additions
 Recommended:
 - governance/LOCAL_OVERLAY.md (or docs/governance/LOCAL_OVERLAY.md) in the target repo.
 
+This kit also ships a ready-to-copy template:
+- `governance/LOCAL_OVERLAY_TEMPLATE.md` (copy it to `governance/LOCAL_OVERLAY.md` in the target repo and customize).
+
 Avoid:
 - editing imported kit files directly (unless you intentionally fork)
 - scattering extra rules across multiple team docs
 
 ## Overlay Template (Copy/Paste)
-Use this template in the target repo.
+Use this template in the target repo (or copy from `governance/LOCAL_OVERLAY_TEMPLATE.md`).
 
 # LOCAL GOVERNANCE OVERLAY
 
@@ -74,6 +77,35 @@ Use this template in the target repo.
 - Rule ID / short name:
   - What is required
   - Evidence expected in PR/CI
+
+### Suggested Additions (Low-Risk Workflow Defaults)
+These are recommended because they prevent common "stall after planning" failure modes in coding-agent workflows.
+
+- **LOW-RISK Execution Continuity (Do Not Stall)**
+  - If the AI has sufficient context to proceed safely, it MUST continue to execution (read/search/edit/run tests) rather than stopping after describing what it would do.
+  - The AI SHOULD only pause to ask questions when the task is genuinely blocked (missing credentials, missing inputs, high-risk ambiguity).
+
+- **LOW-RISK Scope Continuity**
+  - Adding a small helper, test, or doc update required by the same change is not considered scope expansion.
+  - If scope truly expands into a new module/area, the AI must announce the expansion and update the touched-file list.
+
+- **LOW-RISK Compliance Output Compatibility**
+  - For low-risk work, a short compliance footer is sufficient (e.g., `## COMPLIANCE` + `Decision: PROCEED|STOP`).
+  - For high-risk work, the full `## COMPLIANCE REPORT` requirements apply.
+
+- **National-Language Notes Allowance**
+  - National language is allowed in local notes areas (e.g., `notes/local/**`).
+  - Canonical governance documents remain English-first.
+
+### User Prompt (Copy/Paste): Quick LOW vs HIGH Risk Check
+Paste at the start of a task to force a consistent risk classification before edits:
+
+"Do a risk preflight before changes:
+- List exact files you will touch
+- Confirm whether any boundary contract/interface, adapter/integration, architecture decision, security behavior, CI/gates, or canonical governance docs are affected
+Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
+If LOW: proceed to execution.
+If HIGH/unclear: STOP and ask for confirmation."
 
 ## Overrides (If Any)
 Only use overrides when unavoidable.

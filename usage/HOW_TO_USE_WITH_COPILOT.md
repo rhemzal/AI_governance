@@ -20,6 +20,16 @@ Trigger “high-risk” mode when:
 - changing interface behavior (automation-first)
 - changing error model
 
+## Risk Preflight Prompt (Copy/Paste)
+Use this at the start of a task to force a consistent LOW vs HIGH risk classification before edits.
+
+"Do a risk preflight before changes:
+- List exact files you will touch
+- Confirm whether any boundary contract/interface, adapter/integration, architecture decision, security behavior, CI/gates, or canonical governance docs are affected
+Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
+If LOW: proceed to execution.
+If HIGH/unclear: STOP and ask for confirmation."
+
 ## Expected Outputs From the AI
 - explicit scope
 - constraints honored
