@@ -6,6 +6,33 @@ _Provenance: This document originates from the AI_governance kit (https://github
 This section is intentionally practical and time-stamped.
 GitHub Copilot features and UI can change; treat this as a workflow pattern, not a promise of specific product behavior.
 
+## Test Execution (Canonical Path)
+**DO NOT assume global pytest or global test runners.**
+
+Each repository should use a repo-local virtual environment and/or make/docker workflow.
+
+### Preferred Test Invocation Order
+1. **Make targets** (if available): `make test`, `make test-unit`, `make test-integration`
+2. **Repo-local venv** (Python projects): `.venv/bin/python -m pytest` or `.venv/bin/pytest`
+3. **Docker fallback** (if provided): `docker compose run --rm test` or similar
+
+### Why This Matters
+- Global test runners break reproducibility (version skew, missing dependencies).
+- Repo-local venvs ensure consistency across team members and CI.
+- Make targets abstract the test command and provide a stable interface.
+
+### When You Don't Know the Test Command
+1. Check for a `Makefile` with test targets: `grep -E "^test" Makefile`
+2. Check for a `.venv` directory and use `.venv/bin/python -m pytest`
+3. Check for `docker-compose.yml` or `compose.yml` with test services
+4. Check `README.md` or `CONTRIBUTING.md` for test instructions
+5. If none exist, create a virtual environment: `python3 -m venv .venv && .venv/bin/pip install -e .[dev]` (or similar)
+
+### For AI Assistants
+- Always discover the test execution path before assuming pytest is globally available.
+- Prefer `make test` if it exists; otherwise use `.venv/bin/python -m pytest`.
+- Never install or recommend installing test dependencies globally.
+
 ## Daily Work
 Use:
 - `constitution/AI_ENFORCEMENT_DAILY.md`

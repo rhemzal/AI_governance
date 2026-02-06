@@ -16,6 +16,7 @@ Do not expand scope without confirmation.
 - Overlay: Is there a local governance overlay, and was it considered?
 - Determinism: Any hidden time/random/env dependency?
 - Tests: What tests are required and where do they live?
+  - **Test execution**: Use repo-local test command (e.g., `make test`, `.venv/bin/python -m pytest`, or docker). **Never assume global pytest.**
 - Docs: What documentation must be updated (or deleted)?
 - Scope: List affected files.
 

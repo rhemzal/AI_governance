@@ -30,6 +30,15 @@ _This file is a template from the AI_governance kit. Copy it into your target re
 - National language is allowed in local notes areas (e.g., `notes/local/**`).
 - Canonical governance documents remain English-first.
 
+### Test Execution Path (Example)
+This is a recommended addition to make test execution explicit and discoverable.
+
+- **Test Command**: `[Specify your canonical test command here]`
+  - Example: `make test` or `.venv/bin/python -m pytest` or `docker compose run --rm test`
+- **Do not assume global pytest**: Always use repo-local virtual environment or make/docker workflow.
+- **Preferred order**: make targets → repo-local venv → docker fallback
+- **Reference**: See `usage/HOW_TO_USE_WITH_COPILOT.md` for detailed test execution guidance.
+
 ## Overrides (If Any)
 Only use overrides when unavoidable.
 
