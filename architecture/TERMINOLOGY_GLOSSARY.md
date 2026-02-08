@@ -80,6 +80,13 @@ Use this section to keep AI conversations precise.
 - **E2E**: End-to-end tests.
 - **UAT**: User Acceptance Testing.
 - **NFR**: Non-Functional Requirements (quality attributes).
+- **PBT**: Property-Based Testing (tests that validate invariants hold across many generated inputs rather than listing specific examples).
+- **Stateful testing**: Testing behavior across sequences of operations (e.g., state machines, workflows, resource lifecycles).
+- **Schema-driven testing**: API testing that validates conformance to schemas (OpenAPI, GraphQL, JSON Schema) programmatically.
+- **Mutation testing**: Testing the tests by injecting faults into code to verify tests catch real bugs.
+- **Chaos testing**: Testing resilience by deliberately injecting failures (network, dependencies, infrastructure) to validate recovery behavior.
+- **Load/soak testing**: Testing system behavior under sustained load to find throughput limits, latency issues, or resource exhaustion.
+- **Fuzzing**: Testing by feeding randomized or malformed inputs to discover crashes, hangs, or vulnerabilities.
 
 ### Delivery / Ops
 - **CI/CD**: Continuous Integration / Continuous Delivery.
