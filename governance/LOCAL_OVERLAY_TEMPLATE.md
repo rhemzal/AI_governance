@@ -14,9 +14,39 @@ _This file is a template from the AI_governance kit. Copy it into your target re
 
 ## Additions (Additive Rules)
 
+### Risk Semantics (LOW vs HIGH)
+- In Git workflows, most internal edits are reversible. Treat changes as **HIGH risk** primarily when they have external side effects, non-trivial blast radius, or create complexity/review explosion.
+- HIGH risk is **not** triggered by the mere possibility of an incorrect internal edit.
+
+**HIGH risk (STOP and confirm before edits)** when work involves:
+- external services/integrations, registrations, credentials, billing/payment steps, or any data-handling/exfiltration risk
+- public contracts/interfaces/boundaries, cross-service protocols, schema/migrations, or security-sensitive behavior
+- canonical governance/gates (`constitution/`, `ci/`, `usage/`, `architecture/`, `adr/`, `interface/`)
+- large cross-cutting refactors spanning multiple modules/areas (complexity/review explosion)
+
+**LOW risk (proceed to execution)** when work stays within:
+- a single module/component area
+- no new dependencies
+- no public contract/interface changes
+- no external integrations or sensitive data handling
+- changes remain reviewable (small helper/test/doc updates required by the same change are allowed)
+
 ### LOW-RISK Execution Continuity (Do Not Stall)
 - If the AI has sufficient context to proceed safely, it MUST continue to execution (read/search/edit/run tests) rather than stopping after describing what it would do.
 - The AI SHOULD only pause to ask questions when the task is genuinely blocked (missing credentials, missing inputs, high-risk ambiguity).
+
+### Operator Steering (“do not stop” / “do not pause”)
+- If the operator expresses general intent like “do not stop” / “do not pause”, interpret it as: continue within the current objective if safe; only stop on hard gates or if risk is HIGH/unclear after read-only discovery.
+- This MUST NOT be interpreted as permission to bypass hard stops.
+- If a STOP happens anyway, the AI MUST respond with:
+  - the exact gate/reason (1–2 lines)
+  - a minimal “unblock menu” (2–3 concrete reply options)
+  - a one-line scope boundary update the operator can paste verbatim
+
+Example “unblock menu” options:
+- “Proceed, but keep scope limited to: {module/component}; no new deps; no public contract changes.”
+- “Expand scope to include: {new area/files}; still no new deps; confirm?”
+- “Confirm HIGH-risk change: {what}; accepted risk: {summary}; proceed.”
 
 ### LOW-RISK Scope Continuity
 - Adding a small helper, test, or doc update required by the same change is not considered scope expansion.
