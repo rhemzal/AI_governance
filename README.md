@@ -49,6 +49,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - High-risk changes: [constitution/AI_ENFORCEMENT.md](constitution/AI_ENFORCEMENT.md)
 - Import guidance: [usage/HOW_TO_IMPORT.md](usage/HOW_TO_IMPORT.md)
 - Quick recipes & prompts: [usage/QUICKGUIDE.md](usage/QUICKGUIDE.md)
+- Testing quickstart: [DEVELOPMENT.md](DEVELOPMENT.md)
 - Progressive CI adoption: [usage/CI_MINIMUM_ADOPTION.md](usage/CI_MINIMUM_ADOPTION.md)
 - Architecture decision framework: [architecture/ARCHITECTURE_DECISION_FRAMEWORK.md](architecture/ARCHITECTURE_DECISION_FRAMEWORK.md)
 - ADR template: [adr/ADR_TEMPLATE.md](adr/ADR_TEMPLATE.md)
