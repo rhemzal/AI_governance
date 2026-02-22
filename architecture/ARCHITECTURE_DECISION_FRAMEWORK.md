@@ -25,9 +25,14 @@ Choose the dominant axis (often 1–2):
 - **Workflow-centric**: orchestration of steps dominates (pipelines, jobs).
 - **Configuration-centric**: architecture decisions live in configuration (YAML/JSON); code is a thin, generic runtime. Common in AI/ML pipelines, data processing, and template-based systems.
 - **Latency/throughput-centric**: performance constraints dominate design trade-offs.
+- **Extensibility-centric**: the system is a platform with extension points; third-party plugins/extensions are the primary growth vector. (See `architecture/rag/PLUGIN_EXTENSION_ARCHITECTURE.md`.)
+- **Contract-centric**: the API/schema/protocol IS the product; code exists to serve and conform to the contract. (See `architecture/rag/CONTRACT_FIRST_API_FIRST.md` and `architecture/rag/LIBRARY_SDK_REPO.md`.)
+- **Deployment-topology-centric**: where code runs (edge, multi-tier, serverless, hybrid cloud) dominates design trade-offs more than what the code does. (See `architecture/rag/SERVERLESS_FAAS.md`.)
 
 ### Why this matters
 Different architectural styles optimize different axes.
+
+For a full taxonomy of recognized solution classes and the kit's coverage of each, see `architecture/SOLUTION_CLASS_TAXONOMY.md`.
 
 ---
 
@@ -168,6 +173,7 @@ Create an ADR that includes:
 - `adr/ADR_TEMPLATE.md`
 - `adr/ADR_0002_Architecture_Is_Contextual.md`
 - `architecture/ARCHITECTURE_STYLE_MATRIX.md`
+- `architecture/SOLUTION_CLASS_TAXONOMY.md`
 - `architecture/DATA_MODELING_GUIDE.md`
 - `constitution/AI_RULES.md` and `constitution/AI_ENFORCEMENT.md`
 - `ci/ARCHITECTURE_GATES.md` and `ci/TEST_GATES.md`
