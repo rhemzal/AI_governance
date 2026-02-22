@@ -52,6 +52,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Testing quickstart: [DEVELOPMENT.md](DEVELOPMENT.md)
 - Progressive CI adoption: [usage/CI_MINIMUM_ADOPTION.md](usage/CI_MINIMUM_ADOPTION.md)
 - Architecture decision framework: [architecture/ARCHITECTURE_DECISION_FRAMEWORK.md](architecture/ARCHITECTURE_DECISION_FRAMEWORK.md)
+- Solution class taxonomy & coverage: [architecture/SOLUTION_CLASS_TAXONOMY.md](architecture/SOLUTION_CLASS_TAXONOMY.md)
 - ADR template: [adr/ADR_TEMPLATE.md](adr/ADR_TEMPLATE.md)
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
 

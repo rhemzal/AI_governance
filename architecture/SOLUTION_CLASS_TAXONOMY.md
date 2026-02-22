@@ -1,0 +1,121 @@
+# Solution Class Taxonomy & Coverage Map
+
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+## Purpose
+This document is the **central coverage map** for the AI_governance kit. It answers:
+- Which architectural styles, repo/project structure patterns, and cross-cutting concerns exist?
+- How fully does this kit cover each one?
+- Where should teams go if this kit does not fully cover their case?
+
+This is an **entry point for teams** evaluating whether the kit applies to their system.
+
+## Coverage Level Legend
+| Level | Meaning |
+|---|---|
+| **Full** | Kit has RAG note + matrix entry + framework guidance + enforcement consideration |
+| **Advisory** | RAG note + mentioned in matrix or framework; guidance exists but enforcement is not enforced by CI |
+| **Mentioned** | Referenced in passing in kit documents; no dedicated note or matrix column |
+| **Acknowledged** | Explicitly named; kit explains why it is not covered in depth and where to go instead (entry-point note) |
+| **Out of scope** | Explicitly excluded with rationale |
+
+---
+
+## A) Architecture Styles / Solution Classes
+
+| Solution Class | Coverage Level | Kit References | Notes |
+|---|---|---|---|
+| Hexagonal / Ports & Adapters | **Full** | RAG: `HEXAGONAL_RATIONALE_AND_FAILURE_MODES.md`; Matrix col; Framework §1 (behavior-centric), §6; `AI_RULES.md` §1 | Core kit style; full boundary model, failure modes, and enforcement guidance |
+| Layered | **Full** | RAG: `LAYERED_RATIONALE_AND_FAILURE_MODES.md`; Matrix col; Framework §6; `AI_RULES.md` §1 | Full coverage including failure modes and CI gate guidance |
+| Modular Monolith | **Full** | RAG: `MODULAR_MONOLITH.md`; Matrix col; Framework §6; `AI_RULES.md` §1 | Full coverage; recommended as default starting style |
+| Event-Driven | **Full** | RAG: `EVENT_DRIVEN_RATIONALE_AND_FAILURE_MODES.md`; Matrix col; Framework §1 (workflow-centric), §6 | Full coverage including choreography failure modes |
+| Microservices | **Full** | RAG: `MICROSERVICES_WHEN_NOT_TO.md`; Matrix col; Framework §6 | Covered primarily as "when NOT to"; full failure mode analysis |
+| CQRS | **Advisory** | RAG: `CQRS_WHEN_AND_WHEN_NOT.md`; mentioned in matrix notes | Advisory: when to choose, when not to choose; no dedicated matrix column |
+| Config-Driven Pipeline | **Advisory** | RAG: `CONFIG_DRIVEN_PIPELINES.md`; Matrix col; Framework §1 (configuration-centric) | Full RAG note and matrix column; enforcement advisory only |
+| Template Catalog | **Advisory** | RAG: `TEMPLATE_CATALOG.md`; mentioned in Framework | Advisory guidance for template-based generation |
+| Pipeline/Batch | **Advisory** | Matrix col (`Pipeline/Batch`); Framework §1 (workflow-centric) | Matrix column exists; no dedicated RAG note |
+| Serverless / FaaS | **Acknowledged** | RAG: `SERVERLESS_FAAS.md` (entry-point note); Framework §1 (deployment-topology-centric) | Kit boundary model applies; provider-specific enforcement is out of scope |
+| Orchestration-Centric (Saga / Workflow Engine) | **Acknowledged** | RAG: `ORCHESTRATION_SAGA_WORKFLOW.md` (entry-point note); Framework §1 (workflow-centric) | Complementary to event-driven choreography; orchestrator-specific tooling out of scope |
+| Plugin / Extension Architecture | **Acknowledged** | RAG: `PLUGIN_EXTENSION_ARCHITECTURE.md` (entry-point note); Framework §1 (extensibility-centric) | Extension point design patterns noted; plugin runtime/lifecycle tooling out of scope |
+| Streaming / Reactive (Continuous Data Flow) | **Acknowledged** | RAG: `STREAMING_REACTIVE.md` (entry-point note); Framework §1 (latency/throughput-centric) | Distinct from event-driven; stream-processing framework specifics out of scope |
+| Actor Model | **Acknowledged** | — | Conceptually similar to event-driven; actor framework specifics (Akka, Erlang/OTP) are out of scope. Use event-driven guidance as starting point |
+| Space-Based / Grid | **Acknowledged** | — | Niche pattern for extreme scale; no current kit coverage. Teams should consult vendor documentation |
+| Cell-Based / Bulkhead | **Acknowledged** | — | Failure isolation concept; partially covered by boundary model. Full cell architecture is out of scope |
+| Edge / Multi-Tier Deployment | **Acknowledged** | Framework §1 (deployment-topology-centric) | Deployment topology axis recognized in Framework; edge-specific patterns out of scope |
+| Embedded / Real-Time Systems | **Out of scope** | — | Hard real-time constraints, deterministic scheduling, and RTOS patterns are outside the kit's domain. Consult IEC 61508 / MISRA guidance |
+
+---
+
+## B) Repository / Project Structure Patterns
+
+| Repo / Project Pattern | Coverage Level | Kit References | Notes |
+|---|---|---|---|
+| Single-App Repo | **Full** (implicit) | All kit documents assume this as default | Default assumed structure; all enforcement and CI gates apply directly |
+| Template Catalog Repo | **Advisory** | RAG: `TEMPLATE_CATALOG.md` | Advisory guidance for template-based repos; scaffolding governance included |
+| Monorepo (Multi-Project) | **Acknowledged** | RAG: `MONOREPO_PATTERNS.md` (entry-point note) | Per-project governance works; cross-project boundary enforcement not yet covered |
+| Polyrepo (Coordinated Multi-Repo) | **Acknowledged** | — | Kit applies per repo; cross-repo contract governance (API versioning, shared schema) covered partially via `SCHEMA_EVOLUTION_AND_VERSIONING.md` |
+| Library / SDK Repo | **Acknowledged** | RAG: `LIBRARY_SDK_REPO.md` (entry-point note); Framework §1 (contract-centric) | Fundamentally different boundary model: public API surface IS the product |
+| Contract-First / API-First Repo | **Acknowledged** | RAG: `CONTRACT_FIRST_API_FIRST.md` (entry-point note); Framework §1 (contract-centric) | Schema is the primary artifact; schema drift and versioning failure modes covered |
+| Infrastructure-as-Code Repo | **Acknowledged** | — | IaC-specific linting and drift detection are out of scope; boundary model concepts (separation of concerns) apply |
+| Data / Analytics Repo | **Acknowledged** | — | Data modeling guidance in `DATA_MODELING_GUIDE.md` partially applies; data pipeline governance is advisory |
+| Mobile App Repo | **Acknowledged** | — | Boundary model applies (core vs. platform adapters); mobile-specific CI/CD (signing, store submission) is out of scope |
+| Documentation-Only Repo | **Acknowledged** | — | Documentation rules from `AI_RULES.md` §5 apply; no architecture enforcement needed |
+| Research / Experiment Repo | **Acknowledged** | — | Kit governance is intentionally lightweight here; teams may use advisory notes for framing experiments |
+| Generated / Scaffold-Output Repo | **Acknowledged** | RAG: `TEMPLATE_CATALOG.md` | Template catalog guidance applies to generation; generated code governance policy required in LOCAL_OVERLAY |
+| Fork-Based Contribution Model | **Acknowledged** | — | Standard fork/PR workflow; kit's doc delta and ADR conventions apply to contributions |
+
+---
+
+## C) Cross-Cutting Concerns
+
+These patterns can be layered on top of any architecture style or repo structure.
+
+| Cross-Cutting Concern | Coverage Level | Kit References | Notes |
+|---|---|---|---|
+| Multi-Tenancy | **Mentioned** | Implicitly relevant to boundary model and data isolation | Not yet dedicated guidance; tenant isolation is a boundary concern (apply `AI_RULES.md` §1) |
+| Feature Flags / Progressive Delivery | **Mentioned** | — | Deployment vs. release separation; no dedicated note. Treat feature flag state as integration boundary |
+| Observability-as-Architecture | **Mentioned** | Framework §4 (failure zones), `MEASURED_PERFORMANCE.md` | Partial: performance measurement covered; full observability-as-first-class concern not yet dedicated |
+| Zero-Trust / Defense-in-Depth | **Mentioned** | `AI_RULES.md` §1 (boundary contracts imply trust boundaries) | Boundary model aligns with zero-trust principles; security-specific enforcement is out of scope |
+| Offline-First / Local-First | **Mentioned** | RAG: `CONSISTENCY_MODELS.md` | Consistency model guidance partially applies; conflict-resolution and sync specifics are out of scope |
+| Multi-Language / Polyglot Codebase | **Mentioned** | `AI_RULES.md` §5.4 (language policy for docs) | Doc language policy defined; polyglot code governance (per-language linting, boundary contracts across languages) not yet covered |
+
+---
+
+## How to Extend This Taxonomy
+
+When a new solution class, repo pattern, or cross-cutting concern is identified, follow this checklist to add it to the kit:
+
+### Checklist: Adding a New Entry
+
+- [ ] **Assess coverage level**: Does this need Full, Advisory, Acknowledged, or just Mentioned?
+- [ ] **Write a RAG entry-point note** (if Acknowledged or higher):
+  - File: `architecture/rag/<CLASSNAME>.md`
+  - MUST include: Provenance banner, `## Coverage Level`, Core Idea, Why Teams Choose It, When to Choose, When NOT to Choose, Common Failure Modes, Heuristics, How This Kit's Boundary Model Applies, Entry Points in This Kit, Related Documents
+  - Follow the structure of existing advisory notes
+- [ ] **Add a matrix entry** (if Advisory or higher):
+  - Add column(s) to `architecture/ARCHITECTURE_STYLE_MATRIX.md`
+  - Add any new criterion rows if the new class surfaces new trade-off dimensions
+  - Add failure mode notes and quick guidance entries for the new column
+- [ ] **Update the Framework** (if Advisory or higher):
+  - Add a new axis to §1 of `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` if the class introduces a new primary axis
+  - Link to the new RAG note from Related Documents
+- [ ] **Consider enforcement** (if Full):
+  - Add CI gate or ADR-required check in `ci/ARCHITECTURE_GATES.md`
+  - Update `constitution/AI_RULES.md` if the class changes normative behavior
+- [ ] **Update this taxonomy**: Add a row to the appropriate table (A, B, or C) with the new entry's coverage level, kit references, and notes
+- [ ] **Update the RAG README** (`architecture/rag/README.md`): Add the new note to the appropriate category in the Notes Index
+- [ ] **Update `README.md`**: Add the new entry point to "Start here" if it is a top-level entry point
+- [ ] **Record an ADR** if the extension represents a significant kit governance decision (use `adr/ADR_TEMPLATE.md`)
+
+### Coverage Level Upgrade Path
+`Acknowledged` → `Advisory`: Write a full RAG note + add a matrix column.
+`Advisory` → `Full`: Add CI enforcement + update normative rules in `AI_RULES.md`.
+
+---
+
+## Related Documents
+- `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
+- `architecture/ARCHITECTURE_STYLE_MATRIX.md`
+- `architecture/rag/README.md`
+- `constitution/AI_RULES.md`
+- `adr/ADR_TEMPLATE.md`

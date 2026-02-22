@@ -15,6 +15,8 @@ Section 1 defines a **style-agnostic boundary profile** (core vs. integration bo
 - Layered
 - Modular monolith
 
+For a full taxonomy of recognized solution classes, repo patterns, and the kit's coverage level for each, see `architecture/SOLUTION_CLASS_TAXONOMY.md`.
+
 You may rename layers/modules to match your stack, but you MUST preserve the constraints.
 
 ## 0. Definitions
