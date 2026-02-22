@@ -2,6 +2,9 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
+## Coverage Level
+**Advisory** — The kit's trade-off matrix includes a Config-Driven Pipeline column. The boundary model applies to config schema design and runtime validation. Config-format-specific tooling (Hydra, DynaConf, Helm templating) and provider-specific pipeline runtimes are out of scope.
+
 ## Core Idea
 Systems where architecture decisions — components, connections, behavior parameters — are expressed **declaratively in configuration files** (YAML/JSON/TOML), and code serves as a **generic, thin runtime** that interprets and executes the configuration.
 
@@ -64,6 +67,20 @@ class PipelineConfig(BaseModel):
 ```
 
 Any config key not in the schema raises a `ValidationError` at load time — not at inference time. This is the boundary contract.
+
+## How This Kit's Boundary Model Applies
+The kit's boundary model (`AI_RULES.md` §1) maps onto config-driven systems clearly:
+- **Core** = the generic runtime that reads configuration and executes the declared topology; pure logic that does not depend on any specific configuration content.
+- **Boundary contracts** = the configuration schema itself (the YAML/JSON/TOML schema that the runtime accepts). This IS the contract between the configuration author and the runtime. Treat config schema changes with full API versioning discipline (see `SCHEMA_EVOLUTION_AND_VERSIONING.md`).
+- **Integration boundaries** = individual component implementations referenced by configuration (LLM providers, data sources, external APIs). Each component implementation is an adapter; the config schema describes the port.
+
+Magic constructors in YAML (e.g., `!SomeClass`) are a smell: they blur the boundary between configuration (declarative intent) and code (executable logic), making the integration boundary implicit and untestable. Document and audit them explicitly.
+
+## Entry Points in This Kit
+- `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` §1 — configuration-centric axis
+- `architecture/ARCHITECTURE_STYLE_MATRIX.md` — trade-off comparison including Config-Driven Pipeline column
+- `architecture/rag/PIPELINE_BATCH.md` — the imperative/non-declarative variant of pipeline architecture
+- `architecture/SOLUTION_CLASS_TAXONOMY.md` — coverage map
 
 ## Related Documents
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`

@@ -3,7 +3,7 @@
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
 ## Coverage Level
-**Acknowledged** (entry-point note) — Stream-processing framework specifics (Kafka Streams, Flink, Spark Streaming, Akka Streams, RxJava) are out of scope. The kit's boundary model and failure mode reasoning apply to the stream operator design.
+**Advisory** — The kit's boundary model applies to stream operator design and a Streaming/Reactive column is included in the trade-off matrix. Stream-processing framework specifics (Kafka Streams, Flink, Spark Streaming, Akka Streams, RxJava) are out of scope.
 
 ## Core Idea
 Streaming/Reactive architecture treats **continuous data flow as the primary paradigm**. The system is built around unbounded sequences of data items (streams) that are transformed, filtered, aggregated, and routed by a pipeline of operators.

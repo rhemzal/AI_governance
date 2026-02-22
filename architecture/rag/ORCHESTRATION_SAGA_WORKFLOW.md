@@ -3,7 +3,7 @@
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
 ## Coverage Level
-**Acknowledged** (entry-point note) — Complementary to event-driven choreography, which this kit already covers. Workflow engine specifics (Temporal, Conductor, AWS Step Functions, Airflow) are out of scope.
+**Advisory** — Complementary to event-driven choreography, which this kit already covers. The trade-off matrix includes an Orchestration (Saga/Workflow) column. Workflow engine specifics (Temporal, Conductor, AWS Step Functions, Airflow) are out of scope.
 
 ## Core Idea
 Orchestration-centric architecture uses a **central coordinator** (workflow engine or saga orchestrator) to manage multi-step processes. The orchestrator explicitly invokes each step, handles failures, manages retries, and tracks state.

@@ -3,7 +3,7 @@
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
 ## Coverage Level
-**Acknowledged** (entry-point note) — The kit's boundary model applies. Provider-specific enforcement (Lambda, Cloud Functions, Azure Functions) and deployment tooling are out of scope.
+**Advisory** — The kit's boundary model applies and the trade-off matrix includes a Serverless/FaaS column. Provider-specific enforcement (Lambda, Cloud Functions, Azure Functions) and deployment tooling are out of scope.
 
 ## Core Idea
 Functions-as-a-Service (FaaS) is a deployment topology where code is packaged as **individual functions** that are invoked by events (HTTP, queues, timers, storage triggers) and managed entirely by the cloud provider. Infrastructure provisioning, scaling, and runtime lifecycle are invisible to the developer.
