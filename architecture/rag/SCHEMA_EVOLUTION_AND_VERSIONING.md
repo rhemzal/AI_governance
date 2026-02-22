@@ -68,6 +68,41 @@ For each boundary:
   - avoid long-running locks; migrate in small steps
   - consider backfill jobs with idempotency
 
+## Worked Example: Code-Level Deprecation Pattern
+
+This pattern shows how to deprecate a configuration parameter while maintaining backward compatibility.
+
+### Pattern: Old Parameter → Warning → Map to New → Remove After Migration
+
+```python
+# Old parameter `with_cache` is deprecated in favor of `persistence_mode`
+class App(BaseModel):
+    with_cache: bool | None = None  # deprecated
+    persistence_mode: PersistenceMode | None = PersistenceMode.UDF_CACHING
+
+    def run(self):
+        if self.with_cache is not None:
+            warn(
+                "`with_cache` is deprecated. Use `persistence_mode` instead.",
+                DeprecationWarning,
+            )
+            self.persistence_mode = PersistenceMode.UDF_CACHING if self.with_cache else None
+        # ...
+```
+
+### Steps
+1. Keep old field in the schema (do not remove immediately).
+2. Emit an explicit `DeprecationWarning` when the old field is used.
+3. Map old field value to the new mechanism internally.
+4. Document the migration path and timeline.
+5. Remove the old field after a defined migration window.
+
+### Why This Works
+- Consumers are not broken immediately (backward compatible).
+- The deprecation is visible and actionable (not silent).
+- The mapping is explicit and testable.
+- This aligns with the "prefer additive change" and "deprecate explicitly" heuristics above.
+
 ## Related Documents
 - `architecture/rag/CQRS_WHEN_AND_WHEN_NOT.md`
 - `architecture/rag/CONSISTENCY_MODELS.md`
