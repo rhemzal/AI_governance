@@ -30,18 +30,18 @@ This is an **entry point for teams** evaluating whether the kit applies to their
 | Modular Monolith | **Full** | RAG: `MODULAR_MONOLITH.md`; Matrix col; Framework §6; `AI_RULES.md` §1 | Full coverage; recommended as default starting style |
 | Event-Driven | **Full** | RAG: `EVENT_DRIVEN_RATIONALE_AND_FAILURE_MODES.md`; Matrix col; Framework §1 (workflow-centric), §6 | Full coverage including choreography failure modes |
 | Microservices | **Full** | RAG: `MICROSERVICES_WHEN_NOT_TO.md`; Matrix col; Framework §6 | Covered primarily as "when NOT to"; full failure mode analysis |
-| CQRS | **Advisory** | RAG: `CQRS_WHEN_AND_WHEN_NOT.md`; mentioned in matrix notes | Advisory: when to choose, when not to choose; no dedicated matrix column |
-| Config-Driven Pipeline | **Advisory** | RAG: `CONFIG_DRIVEN_PIPELINES.md`; Matrix col; Framework §1 (configuration-centric) | Full RAG note and matrix column; enforcement advisory only |
+| CQRS | **Advisory** | RAG: `CQRS_WHEN_AND_WHEN_NOT.md`; Matrix col | Advisory: when to choose, when not to choose; matrix column added |
+| Config-Driven Pipeline | **Advisory** | RAG: `CONFIG_DRIVEN_PIPELINES.md`; Matrix col; Framework §1 (configuration-centric) | Full RAG note (incl. Coverage Level, Boundary Model, Entry Points) and matrix column; enforcement advisory only |
 | Template Catalog | **Advisory** | RAG: `TEMPLATE_CATALOG.md`; mentioned in Framework | Advisory guidance for template-based generation |
-| Pipeline/Batch | **Advisory** | Matrix col (`Pipeline/Batch`); Framework §1 (workflow-centric) | Matrix column exists; no dedicated RAG note |
-| Serverless / FaaS | **Acknowledged** | RAG: `SERVERLESS_FAAS.md` (entry-point note); Framework §1 (deployment-topology-centric) | Kit boundary model applies; provider-specific enforcement is out of scope |
-| Orchestration-Centric (Saga / Workflow Engine) | **Acknowledged** | RAG: `ORCHESTRATION_SAGA_WORKFLOW.md` (entry-point note); Framework §1 (workflow-centric) | Complementary to event-driven choreography; orchestrator-specific tooling out of scope |
+| Pipeline/Batch | **Advisory** | RAG: `PIPELINE_BATCH.md`; Matrix col; Framework §1 (workflow-centric) | Full RAG note added; matrix column exists |
+| Serverless / FaaS | **Advisory** | RAG: `SERVERLESS_FAAS.md`; Matrix col; Framework §1 (deployment-topology-centric) | Upgraded to Advisory; kit boundary model applies; provider-specific enforcement is out of scope |
+| Orchestration-Centric (Saga / Workflow Engine) | **Advisory** | RAG: `ORCHESTRATION_SAGA_WORKFLOW.md`; Matrix col; Framework §1 (workflow-centric) | Upgraded to Advisory; complementary to event-driven choreography; orchestrator-specific tooling out of scope |
 | Plugin / Extension Architecture | **Acknowledged** | RAG: `PLUGIN_EXTENSION_ARCHITECTURE.md` (entry-point note); Framework §1 (extensibility-centric) | Extension point design patterns noted; plugin runtime/lifecycle tooling out of scope |
-| Streaming / Reactive (Continuous Data Flow) | **Acknowledged** | RAG: `STREAMING_REACTIVE.md` (entry-point note); Framework §1 (latency/throughput-centric) | Distinct from event-driven; stream-processing framework specifics out of scope |
+| Streaming / Reactive (Continuous Data Flow) | **Advisory** | RAG: `STREAMING_REACTIVE.md`; Matrix col; Framework §1 (latency/throughput-centric) | Upgraded to Advisory; distinct from event-driven; stream-processing framework specifics out of scope |
 | Actor Model | **Acknowledged** | — | Conceptually similar to event-driven; actor framework specifics (Akka, Erlang/OTP) are out of scope. Use event-driven guidance as starting point |
 | Space-Based / Grid | **Acknowledged** | — | Niche pattern for extreme scale; no current kit coverage. Teams should consult vendor documentation |
 | Cell-Based / Bulkhead | **Acknowledged** | — | Failure isolation concept; partially covered by boundary model. Full cell architecture is out of scope |
-| Edge / Multi-Tier Deployment | **Acknowledged** | Framework §1 (deployment-topology-centric) | Deployment topology axis recognized in Framework; edge-specific patterns out of scope |
+| Edge / Multi-Tier Deployment | **Acknowledged** | RAG: `EDGE_MULTI_TIER_DEPLOYMENT.md` (entry-point note); Framework §1 (deployment-topology-centric) | Entry-point note added; edge-specific runtime, CDN configuration, IoT gateway specifics out of scope |
 | Embedded / Real-Time Systems | **Out of scope** | — | Hard real-time constraints, deterministic scheduling, and RTOS patterns are outside the kit's domain. Consult IEC 61508 / MISRA guidance |
 
 ---
@@ -52,9 +52,9 @@ This is an **entry point for teams** evaluating whether the kit applies to their
 |---|---|---|---|
 | Single-App Repo | **Full** (implicit) | All kit documents assume this as default | Default assumed structure; all enforcement and CI gates apply directly |
 | Template Catalog Repo | **Advisory** | RAG: `TEMPLATE_CATALOG.md` | Advisory guidance for template-based repos; scaffolding governance included |
-| Monorepo (Multi-Project) | **Acknowledged** | RAG: `MONOREPO_PATTERNS.md` (entry-point note) | Per-project governance works; cross-project boundary enforcement not yet covered |
+| Monorepo (Multi-Project) | **Acknowledged** | RAG: `MONOREPO_PATTERNS.md` (entry-point note; extended with Cross-Project CI and Governance Layering sections) | Per-project governance works; cross-project CI guidance and governance layering examples added |
 | Polyrepo (Coordinated Multi-Repo) | **Acknowledged** | — | Kit applies per repo; cross-repo contract governance (API versioning, shared schema) covered partially via `SCHEMA_EVOLUTION_AND_VERSIONING.md` |
-| Library / SDK Repo | **Acknowledged** | RAG: `LIBRARY_SDK_REPO.md` (entry-point note); Framework §1 (contract-centric) | Fundamentally different boundary model: public API surface IS the product |
+| Library / SDK Repo | **Acknowledged** | RAG: `LIBRARY_SDK_REPO.md` (entry-point note; extended with Contract Testing and CI Gate Adaptation sections); Framework §1 (contract-centric) | Fundamentally different boundary model: public API surface IS the product; contract testing and CI gate guidance added |
 | Contract-First / API-First Repo | **Acknowledged** | RAG: `CONTRACT_FIRST_API_FIRST.md` (entry-point note); Framework §1 (contract-centric) | Schema is the primary artifact; schema drift and versioning failure modes covered |
 | Infrastructure-as-Code Repo | **Acknowledged** | — | IaC-specific linting and drift detection are out of scope; boundary model concepts (separation of concerns) apply |
 | Data / Analytics Repo | **Acknowledged** | — | Data modeling guidance in `DATA_MODELING_GUIDE.md` partially applies; data pipeline governance is advisory |

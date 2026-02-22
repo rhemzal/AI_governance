@@ -113,6 +113,7 @@ Recommended baseline candidates:
 - Event-Driven (choreography)
 - Pipeline/Batch
 - Modular monolith (style + boundaries)
+- Streaming/Reactive (for latency/throughput-centric systems with continuous unbounded data)
 
 ---
 

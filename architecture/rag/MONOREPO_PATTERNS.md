@@ -52,6 +52,53 @@ The kit is designed around a **single-project repo** as the default. In a monore
 - `ci/ARCHITECTURE_GATES.md` — CI gate principles applicable per project
 - `architecture/SOLUTION_CLASS_TAXONOMY.md` — coverage map
 
+## Cross-Project CI Guidance
+
+Cross-project CI in a monorepo must balance two competing goals: run only what is affected (speed) and guarantee that cross-project changes are always tested together (correctness).
+
+**Affected-project detection patterns:**
+- Compute a change set from the PR diff (files changed since the merge base).
+- Map changed files to projects using a path-to-project manifest or tooling (Nx `affected`, Turborepo `--filter`, Bazel `query`).
+- Always include downstream dependents: if project A changed, run CI for any project that depends on A.
+- Treat shared tooling and root-level config changes as "affects all": a change to `eslint.config.js` or a root `pyproject.toml` triggers a full build.
+
+**Per-project vs. shared governance layering:**
+- **Shared gates (root-level)**: applied to every project unconditionally — e.g., license header checks, dependency vulnerability scans, top-level ADR policy.
+- **Per-project gates**: applied only within a project's directory scope — e.g., architecture boundary checks, project-specific lint rules, contract tests.
+- Define the split explicitly in a root-level `LOCAL_OVERLAY` so that the governance policy is inspectable without running CI.
+
+**CODEOWNERS strategy:**
+- Assign ownership at the project directory level (`/projects/service-a/ @team-alpha`), not at individual file level, to keep the file maintainable.
+- Add a catchall rule at the bottom (`* @platform-team`) to ensure nothing is unowned.
+- Mirror the CODEOWNERS structure with the LOCAL_OVERLAY structure: a project that has its own CODEOWNERS entry should also have its own LOCAL_OVERLAY.
+- Review CODEOWNERS on every project addition; ownership gaps are silent — no reviewer is assigned, no one is notified.
+
+## Governance Layering Examples
+
+The kit's `LOCAL_OVERLAY_TEMPLATE.md` supports two layers in a monorepo:
+
+**Repo-root LOCAL_OVERLAY** (`/LOCAL_OVERLAY.md` or `/governance/LOCAL_OVERLAY.md`):
+```
+# Scope: entire repository
+# Overrides: applied to all projects
+cross_project_import_policy: no direct cross-project internal imports; use published packages only
+shared_dependency_policy: pin all shared dependencies in root lockfile; do not pin per-project unless justified
+adr_policy: any change that introduces a new cross-project dependency requires an ADR
+```
+
+**Per-project LOCAL_OVERLAY** (`/projects/service-a/LOCAL_OVERLAY.md`):
+```
+# Scope: projects/service-a only
+# Overrides: extend root overlay for this project
+architecture_style: hexagonal
+boundary_enforcement: strict (CI gate active)
+contract_test_required: true
+```
+
+The per-project overlay EXTENDS the root overlay; it does not replace it. If both define a rule for the same key, the per-project rule takes precedence for that project only.
+
+This layering ensures that a new project added to the monorepo inherits all root-level governance by default and only needs to specify exceptions in its own overlay.
+
 ## Related Documents
 - `architecture/SOLUTION_CLASS_TAXONOMY.md`
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
