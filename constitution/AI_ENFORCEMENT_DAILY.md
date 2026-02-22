@@ -11,6 +11,7 @@ If any rule would be violated, stop and report.
 Do not expand scope without confirmation.
 
 ## Daily Checklist
+- AEP: If multi-file change, is the Autonomous Execution Plan declared READY before edits?
 - Architecture: Which layer is this change in?
 - Boundaries: Any inward-dependency violation?
 - Overlay: Is there a local governance overlay, and was it considered?
@@ -22,6 +23,7 @@ Do not expand scope without confirmation.
 
 ## Required Mini-Report
 ## COMPLIANCE
+- AEP: OK / NOT-REQUIRED / BLOCKED
 - Architecture: OK / ISSUE
 - Overlay: OK / NOT-APPLICABLE / UNKNOWN
 - Tests: OK / MISSING

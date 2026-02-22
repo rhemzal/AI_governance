@@ -14,6 +14,36 @@ _This file is a template from the AI_governance kit. Copy it into your target re
 
 ## Additions (Additive Rules)
 
+### Autonomous Execution Plan (AEP) — Pre-Execution Gate
+
+**When required**: Any task touching ≥2 files or spanning code + tests + docs.
+**Not required**: Single-file trivial edits, read-only/assessment tasks.
+
+Before executing edits, the AI MUST produce an AEP:
+
+1. **Objective**: 1–2 sentence observable outcome
+2. **Discovery log**: files read, rules/ADRs consulted, assumptions made
+3. **Risk**: `LOW | HIGH` + justification (per existing risk preflight)
+4. **Steps** (ordered, concrete):
+   - Each step: `file path` + `action` + `reason`
+   - Must include a test execution step (repo-local command)
+   - Must include a doc update step if behavior changes (DOC DELTA)
+5. **Blocking questions**: 0–3 max. If any → STOP. If none → declare READY.
+6. **Exit criteria**: tests green, docs updated, compliance report
+7. **AEP Status**: `READY | BLOCKED`
+
+**Validation rules (hard)**:
+- No "TBD" or placeholder steps in READY plans
+- No steps requiring operator input in READY plans
+- All files in steps must be within declared scope (Section 4 consistency)
+- Test execution step is mandatory
+- If scope expands during execution → STOP, update AEP, re-declare
+
+**On failure during execution**:
+- If any step fails unexpectedly → STOP
+- Report: which step, what failed, what assumption was wrong
+- Propose: updated AEP or scope reduction
+
 ### Risk Semantics (LOW vs HIGH)
 - In Git workflows, most internal edits are reversible. Treat changes as **HIGH risk** primarily when they have external side effects, non-trivial blast radius, or create complexity/review explosion.
 - HIGH risk is **not** triggered by the mere possibility of an incorrect internal edit.

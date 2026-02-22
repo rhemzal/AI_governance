@@ -111,3 +111,7 @@ Result summary:
 3) Docs drift via parallel “owners”
 - How it slips through: teams add a new doc that partially overlaps rules, but keep both.
 - Smallest fix: enforce D1 single source of truth and D5 anti-fragmentation; require “Doc Delta” block in PRs.
+
+4) "AEP exists" but steps are phantom
+- How it slips through: AI generates a formally complete AEP with vague steps ("update relevant files", "run tests"), then executes ad-hoc without following the plan.
+- Smallest fix: require concrete file paths in every AEP step; require specific test command; enforce "no TBD in READY plans" validation rule.

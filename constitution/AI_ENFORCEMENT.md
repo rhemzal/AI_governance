@@ -25,6 +25,16 @@ Required pre-change statement:
 - “Violations found: yes/no”
 - If yes: “STOP (needs refactor/approval)”
 
+## 1.1 Pre-Execution Plan (Hard Gate)
+For changes spanning 2+ files or crossing code + tests + documentation:
+- The AI MUST produce an Autonomous Execution Plan (AEP) before any edits.
+- The AEP MUST declare `AEP Status: READY | BLOCKED`.
+- If BLOCKED: the AI MUST list blocking items and STOP.
+- If READY: the AI MUST be able to execute all steps without further operator input.
+- An AEP with "TBD" steps, unresolved dependencies, or vague actions MUST NOT be declared READY.
+
+For trivial single-file edits: the existing compliance check (Section 1) is sufficient.
+
 ## 2. Fail-Fast Enforcement
 If an architectural boundary violation is detected, the AI MUST abort the solution and report it.
 No “workarounds” that ignore the rules.
