@@ -9,22 +9,23 @@ Legend:
 - ⚠️ Possible, but watch the trade-offs
 - ❌ Usually a mismatch
 
-| Criterion / Goal | Hexagonal (Ports & Adapters) | Layered | Modular Monolith | Event-Driven | Microservices | Pipeline/Batch |
-|---|---:|---:|---:|---:|---:|---:|
-| Stable domain rules | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ | ❌ |
-| Many external integrations | ✅ | ⚠️ | ⚠️ | ✅ | ⚠️ | ⚠️ |
-| Automation-first testability | ✅ | ⚠️ | ✅ | ⚠️ | ❌ | ⚠️ |
-| Determinism by design | ✅ | ⚠️ | ✅ | ❌ (harder) | ❌ (harder) | ⚠️ |
-| Simple CRUD (Create, Read, Update, Delete) / data-first | ⚠️ | ✅ | ✅ | ⚠️ | ❌ | ⚠️ |
-| High throughput streaming | ⚠️ | ❌ | ⚠️ | ✅ | ✅ | ✅ |
-| Low cognitive load for small teams | ⚠️ | ✅ | ✅ | ❌ | ❌ | ⚠️ |
-| Clear failure isolation boundaries | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ | ⚠️ |
+| Criterion / Goal | Hexagonal (Ports & Adapters) | Layered | Modular Monolith | Event-Driven | Microservices | Pipeline/Batch | Config-Driven Pipeline |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Stable domain rules | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ | ❌ | ❌ |
+| Many external integrations | ✅ | ⚠️ | ⚠️ | ✅ | ⚠️ | ⚠️ | ✅ |
+| Automation-first testability | ✅ | ⚠️ | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ |
+| Determinism by design | ✅ | ⚠️ | ✅ | ❌ (harder) | ❌ (harder) | ⚠️ | ⚠️ |
+| Simple CRUD (Create, Read, Update, Delete) / data-first | ⚠️ | ✅ | ✅ | ⚠️ | ❌ | ⚠️ | ❌ |
+| High throughput streaming | ⚠️ | ❌ | ⚠️ | ✅ | ✅ | ✅ | ✅ |
+| Low cognitive load for small teams | ⚠️ | ✅ | ✅ | ❌ | ❌ | ⚠️ | ✅ |
+| Clear failure isolation boundaries | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ | ⚠️ | ⚠️ |
 
 ## Notes (Failure Modes)
 - Hexagonal fails when you pretend a system is domain-centric but it is actually data/query-centric.
 - Event-driven fails when observability, ordering, and consistency requirements are underestimated.
 - Layered fails when “layers” become a dumping ground and boundaries are not enforced.
 - Pipelines fail when they accidentally evolve into distributed stateful systems without explicit coordination.
+- Config-driven pipelines fail when configuration grows into implicit code (Turing-complete YAML), when config schemas are not validated at load time, or when magic constructors hide tight coupling in declarative files.
 
 ## Quick Guidance (Choose / Avoid)
 Use this as a fast sanity check before writing an ADR.
@@ -34,6 +35,7 @@ Use this as a fast sanity check before writing an ADR.
 - Modular monolith: choose when you want strong boundaries without distributed ops; avoid if you need independent deploy/scaling now.
 - Event-driven: choose for async workflows + decoupled integration; avoid if you can’t invest in observability/versioning/idempotency.
 - Microservices: choose only with ops maturity + stable boundaries; avoid if you risk a distributed monolith.
+- Config-driven pipeline: choose for AI/ML pipelines and data processing where topology/components are the primary decision axis; avoid when domain logic is complex, when config becomes Turing-complete, or when you need fine-grained code-level boundary enforcement.
 
 ## Hybridization Guidance (Keep It Intentional)
 Most systems are hybrids.

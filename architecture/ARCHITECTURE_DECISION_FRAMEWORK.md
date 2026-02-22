@@ -23,6 +23,7 @@ Choose the dominant axis (often 1–2):
 - **Data-centric**: data shape/queries dominate; rules are thin.
 - **Integration-centric**: many external systems; protocols and adapters are the hard part.
 - **Workflow-centric**: orchestration of steps dominates (pipelines, jobs).
+- **Configuration-centric**: architecture decisions live in configuration (YAML/JSON); code is a thin, generic runtime. Common in AI/ML pipelines, data processing, and template-based systems.
 - **Latency/throughput-centric**: performance constraints dominate design trade-offs.
 
 ### Why this matters

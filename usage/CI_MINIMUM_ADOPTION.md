@@ -55,6 +55,30 @@ Use staged maturity. Keep automation running, but keep early checks **informatio
   - Checks: coverage as a risk signal (T2), flakiness budget (T4), “ADR required” checks for boundary changes (A3)  
   - Prerequisites: stable test execution history; agreed ownership for waivers and quarantine policies
 
+## CI Execution Hygiene (Recommended)
+
+Beyond what CI checks, how CI runs also matters for adoption and feedback quality.
+
+### Concurrency Groups (Cancel Stale Runs)
+Configure CI to cancel in-progress runs on feature branches when a new push arrives, but never cancel runs on the main/default branch.
+
+Example pattern (GitHub Actions):
+```yaml
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+```
+
+Why: avoids wasting resources on outdated commits; keeps feedback loops fast during active development.
+
+### Job Timeouts
+Add explicit wall-clock timeouts to CI jobs. This prevents hung jobs from blocking the pipeline indefinitely.
+
+This complements `constitution/AI_RULES.md` §6.2 (non-interactive execution & time limits), which applies to commands; CI jobs themselves also need time bounds.
+
+### Dependency Caching
+Cache dependencies (pip, npm, Maven, etc.) across CI runs to reduce feedback time. Faster CI = faster adoption = less temptation to skip checks.
+
 ## What to Do If You Have No CI Yet
 - Apply the same gates as PR checklist items (human review) until CI exists.
 - Do not weaken the rules; only change the enforcement mechanism.
