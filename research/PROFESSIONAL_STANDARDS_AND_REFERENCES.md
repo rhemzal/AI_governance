@@ -89,3 +89,8 @@ These are context-dependent and sector/jurisdiction specific; treat them as “c
 ## Notes
 - References above are intentionally high-level; exact editions/versions and applicability are organization-dependent.
 - If you want to enforce artifacts that align to these references, do it via ADR templates and CI gates rather than by adding more docs.
+
+## Related Documents
+- `research/EXTERNAL_PROJECT_EVALUATIONS.md`
+- `constitution/AI_RULES.md`
+- `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
