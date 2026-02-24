@@ -55,6 +55,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Solution class taxonomy & coverage: [architecture/SOLUTION_CLASS_TAXONOMY.md](architecture/SOLUTION_CLASS_TAXONOMY.md)
 - ADR template: [adr/ADR_TEMPLATE.md](adr/ADR_TEMPLATE.md)
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
+- External project evaluations: [research/EXTERNAL_PROJECT_EVALUATIONS.md](research/EXTERNAL_PROJECT_EVALUATIONS.md)
 
 ## Repository structure
 - `constitution/` — core rules and enforcement contracts
@@ -63,6 +64,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - `usage/` — import and adoption workflows (including prompt recipes)
 - `notes/` — committed vs local parking-lot notes
 - `architecture/` and `architecture/rag/` — decision guidance and advisory theory notes
+- `research/` — advisory research notes, professional standards references, and external project evaluations
 
 ## PR Habit: “Doc Delta”
 When a PR changes behavior, include the `### DOC DELTA` block from [usage/HOW_TO_USE_WITH_COPILOT.md](usage/HOW_TO_USE_WITH_COPILOT.md).
