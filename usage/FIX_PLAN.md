@@ -24,4 +24,4 @@ Context: Generated after a full re-run of `usage/AUDIT_PLAYBOOK.md`.
 - Trigger: changes touching boundaries/contracts/interfaces.
 
 5) (Optional) Extend your documentation hygiene check to also validate regular markdown links
-- Many lightweight doc checks validate backtick `.md` references but do not parse `[text](path)` links.
+- Many lightweight doc checks validate backtick `.md` references but do not parse standard markdown inline links with filesystem targets.
