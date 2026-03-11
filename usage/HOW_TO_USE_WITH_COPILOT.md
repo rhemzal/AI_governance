@@ -33,6 +33,14 @@ Each repository should use a repo-local virtual environment and/or make/docker w
 - Prefer `make test` if it exists; otherwise use `.venv/bin/python -m pytest`.
 - Never install or recommend installing test dependencies globally.
 
+## Repo-Local Output Paths (Temp, Artifacts, Caches)
+- AI MUST prefer repo-local paths for temporary artifacts, generated outputs, caches, logs, and intermediate files.
+- AI MUST NOT write to external paths (e.g. `/tmp`, home directory, parent directories) unless the operator explicitly requests it.
+- If a tool or command defaults to an external temp path, redirect it to a repo-local equivalent when feasible.
+- If redirection is not feasible, STOP and request confirmation before proceeding.
+- Recommended repo-local scratch directories: `.tmp/`, `tmp/`, `.artifacts/`, `.cache/` (follow repo convention).
+- Ephemeral outputs should be gitignored if they are not canonical artifacts.
+
 ## Daily Work
 Use:
 - `constitution/AI_ENFORCEMENT_DAILY.md`
