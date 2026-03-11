@@ -99,6 +99,14 @@ This is a recommended addition to make test execution explicit and discoverable.
 - **Preferred order**: make targets → repo-local venv → docker fallback
 - **Reference**: See `usage/HOW_TO_USE_WITH_COPILOT.md` for detailed test execution guidance.
 
+### Filesystem Write Boundary (Repo-Local Writes Only)
+- AI MUST treat the repository working tree as the default writable boundary.
+- AI MUST prefer repo-local paths for any generated files, caches, logs, artifacts, or intermediate outputs.
+- AI MUST NOT write outside the repository (e.g. `/tmp`, home directory, parent directories, arbitrary absolute external paths) unless the operator explicitly requests it.
+- If a command or tool would write outside the repo by default, the AI MUST redirect it to a repo-local path when feasible.
+- If such redirection is not feasible, the AI MUST STOP and request confirmation.
+- Recommended repo-local scratch directories: `.tmp/`, `tmp/`, `.artifacts/`, `.cache/` (follow repo convention; ephemeral outputs should be gitignored).
+
 ## Overrides (If Any)
 Only use overrides when unavoidable.
 

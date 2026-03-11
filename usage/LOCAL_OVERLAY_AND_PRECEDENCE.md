@@ -97,6 +97,13 @@ These are recommended because they prevent common "stall after planning" failure
   - National language is allowed in local notes areas (e.g., `notes/local/**`).
   - Canonical governance documents remain English-first.
 
+- **Filesystem Write Boundary (Repo-Local Writes Only)**
+  - AI MUST treat the repository working tree as the default writable boundary.
+  - AI MUST prefer repo-local paths for generated files, caches, logs, artifacts, and intermediate outputs.
+  - AI MUST NOT write outside the repository (e.g. `/tmp`, home directory, parent directories, arbitrary absolute external paths) unless the operator explicitly requests it.
+  - If a command or tool would write outside the repo by default, AI MUST redirect to a repo-local path when feasible; otherwise STOP and request confirmation.
+  - Recommended scratch directories: `.tmp/`, `tmp/`, `.artifacts/`, `.cache/` (per repo convention; ephemeral outputs should be gitignored).
+
 ### User Prompt (Copy/Paste): Quick LOW vs HIGH Risk Check
 Paste at the start of a task to force a consistent risk classification before edits:
 
