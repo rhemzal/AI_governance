@@ -32,6 +32,17 @@ Fail if new global singletons are added that:
 - hide IO
 - make tests non-deterministic
 
+## Gate A5: Structural Change Blast-Radius
+If a PR reorganises modules, splits or merges build targets, or moves files across package/module boundaries:
+- Verify that the rebuild/retest blast radius of unrelated modules has not increased (dependency graph check).
+- Require a stated justification for the structural change (boundary clarification, volatility reduction, or measurable build benefit).
+- If the structural change spans more than one logical slice (module/boundary/dependency direction), require a declared scope list before merge.
+
+Expected implementation options:
+- dependency graph diff (before vs after the PR)
+- build system `--affected` query or equivalent
+- PR checklist: "structural change justified by: boundary / volatility / build measurement / other (state)"
+
 ## Related Documents
 - `constitution/AI_RULES.md` and `constitution/AI_ENFORCEMENT.md`
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`

@@ -70,6 +70,15 @@ If a change affects canonical documentation paths (e.g., `constitution/**`, `ci/
   - STOP and confirm the intent, and
   - redirect the change into `translations/<lang>/...` as a subordinate translation (unless the repository has an explicit local overlay that overrides this policy).
 
+## 4.3 Structural Scope Guard (Hard Gate)
+If a proposed change includes structural work (module extraction, file reorganisation, bulk renaming, build-graph restructuring, or cross-cutting refactoring) that was NOT listed in the original scope:
+- The AI MUST STOP.
+- The AI MUST report: "Structural scope expansion detected — [description of structural change]."
+- The AI MUST propose the minimal-structural-impact alternative first.
+- The AI MUST NOT proceed with the structural expansion without explicit operator confirmation.
+
+If the operator confirms, the AI MUST declare the expanded structural scope before any edits (see Section 1.1 AEP requirement).
+
 ## 5. Test Gate (“No Test, No Code”)
 No non-trivial change is accepted without:
 - tests

@@ -79,6 +79,16 @@ This section is a **style-agnostic profile**: it describes the constraints that 
 - Keep functions and files small and single-purpose.
 - Avoid hidden coupling (implicit shared state, magical defaults).
 
+### 3.1 Incremental Structural Hygiene
+Structural changes (refactoring, module extraction, file reorganisation, build-graph cleanup) MUST be incremental and justified.
+
+- Structural changes MUST be tied to a concrete outcome: a boundary clarification, a reviewability improvement, or a measurable build or test benefit.
+- Large-scale mechanical restructuring (renaming all files, bulk extraction, cross-cutting reorganisation) MUST NOT be performed as a single change unless the full scope is declared up front, reviewed, and cannot be split.
+- Structural changes SHOULD be confined to one logical slice at a time: a single module, a single boundary, or a single dependency direction.
+- Extraction of responsibilities SHOULD be driven by boundary or volatility reasoning (see `architecture/rag/INFORMATION_HIDING.md`), not by file-size or line-count thresholds alone.
+- Build-graph changes (moving, splitting, or merging build targets) MUST NOT increase the rebuild blast radius of unrelated modules without justification.
+- "Cleanup" that has no observable behavioral or boundary effect SHOULD be deferred or batched separately from functional changes.
+
 ## 4. Testing Rules
 - Core (domain + use-cases): unit/behavior tests for business rules (high confidence target).
 - Integration boundaries: contract/integration tests for real I/O boundaries.
