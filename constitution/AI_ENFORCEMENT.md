@@ -127,8 +127,37 @@ The AI MUST NOT claim “best practices” unless:
 - derived from project rules and documents, or
 - explicitly marked as external, non-binding opinion.
 
+## 10. Adaptive Governance Check
+
+Before recommending or adding CI/CD, ADR requirements, documentation processes, or any enforcement mechanism, the AI assistant MUST answer the following questions:
+
+1. What is the current project maturity level?
+2. What concrete risk is this process or gate mitigating?
+3. Is the proposed gate required now, or can it be deferred?
+4. Is local verification sufficient?
+5. What is the maintenance cost of this process?
+6. What is the simplest useful enforcement mechanism?
+
+Every response that proposes, recommends, or adds CI/CD, enforcement mechanisms, documentation processes, ADRs, or workflow requirements MUST include this output block exactly:
+
+```
+GOVERNANCE FIT CHECK
+- Project stage: exploration / solo prototype / serious solo / shared / production
+- Recommended enforcement level: 0 / 1 / 2 / 3 / 4
+- CI/CD needed now: yes / no / partial
+- Reason:
+- What to defer:
+```
+
+If this block is missing from a response that proposes governance or process changes, the response is considered non-compliant.
+
+The AI assistant MUST NOT recommend enterprise-grade CI/CD, PR workflows, or release governance for solo or early-stage projects unless the risk clearly justifies it.
+
+See `constitution/ADAPTIVE_GOVERNANCE.md` for the full governance level definitions and anti-overengineering rules.
+
 ## Related Documents
 - `constitution/AI_RULES.md`
+- `constitution/ADAPTIVE_GOVERNANCE.md`
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
 - `adr/ADR_0002_Architecture_Is_Contextual.md`
 - `adr/ADR_0003_RAG_Is_Advisory_Not_Normative.md`
