@@ -5,23 +5,57 @@ _Provenance: This document originates from the AI_governance kit (https://github
 ## Purpose
 These gates enforce “no untested behavior” and prevent regressions.
 
-## Gate T1: Deterministic, Headless Tests
+See `constitution/ADAPTIVE_GOVERNANCE.md` for guidance on which level each gate is appropriate for.
+
+## Gate: T1 — Deterministic, Headless Tests
+
+- **Recommended from level:** 1
+- **Mandatory from level:** 2
+- **Risk mitigated:** Non-deterministic test results that mask real failures; tests that require human input and cannot run in CI.
+- **Local alternative:** Run tests locally with `make test` or equivalent. At Level 0–1, local execution is sufficient; no CI required.
+- **Cost:** Very low. Deterministic, headless tests are the baseline expectation for any test that will be rerun.
+- **Failure action:** Fail the pipeline. Non-deterministic or interactive tests MUST be fixed or quarantined before merge.
+
 Fail if:
 - tests require human input
 - tests depend on wall-clock time without control
 - tests depend on network unless explicitly marked as integration
 
-## Gate T2: Coverage as a Risk Signal (Not Vanity)
+## Gate: T2 — Coverage as a Risk Signal (Not Vanity)
+
+- **Recommended from level:** 2
+- **Mandatory from level:** 3
+- **Risk mitigated:** Critical logic paths with no test coverage; regressions in untested code going undetected.
+- **Local alternative:** At Level 0–1, coverage is not required. At Level 2, a developer or AI agent review of uncovered critical paths is sufficient.
+- **Cost:** Low to medium. Coverage tooling is cheap to run. Coverage thresholds that block iteration are expensive; use them carefully.
+- **Failure action:** At Level 3+, fail the pipeline if coverage falls below the declared threshold for critical packages. At Level 2, require a waiver comment if coverage is not tracked.
+
 Require one of:
 - minimum coverage threshold per critical package
 - or explicit waiver documented in PR (risk accepted, why, follow-up issue)
 
-## Gate T3: Layered Testing Expectations
+## Gate: T3 — Layered Testing Expectations
+
+- **Recommended from level:** 2
+- **Mandatory from level:** 3
+- **Risk mitigated:** Core logic tested only through integration tests (slow, fragile); boundary contracts tested without isolation (coupling).
+- **Local alternative:** At Level 1, ensure core logic has at least one fast unit test. Integration tests can be deferred.
+- **Cost:** Low. Layered testing is a design principle, not a tooling cost. The cost is in discipline, not infrastructure.
+- **Failure action:** At Level 3+, block merge if core logic has no unit tests. Require a stated testing layer justification.
+
 - Core (domain/use-cases): fast unit/behavior tests, no I/O
 - Boundary contracts (ports/interfaces): mocked or faked in core tests
 - Integration boundary (adapters/infrastructure): contract/integration tests where appropriate
 
-## Gate T4: Flakiness Budget
+## Gate: T4 — Flakiness Budget
+
+- **Recommended from level:** 2
+- **Mandatory from level:** 3
+- **Risk mitigated:** Flaky tests that erode trust in the test suite; persistent flakiness masking real failures.
+- **Local alternative:** At Level 1, note flaky tests in `notes/` and rerun manually when suspected. At Level 2, quarantine flaky tests rather than deleting them.
+- **Cost:** Low to medium. Flakiness tracking requires a policy and minimal tooling. The cost of not tracking is higher over time.
+- **Failure action:** At Level 3+, fail builds after N flakes in a window. Require a fix or quarantine policy before merge.
+
 If tests are flaky:
 - fail builds after N flakes in a window
 - require a fix or quarantine policy
@@ -37,7 +71,7 @@ Choose **TDD** (Test-Driven Development) when:
 Choose **BDD** (Behavior-Driven Development) when:
 - you are changing workflows / acceptance criteria
 - you need tests to communicate intent across roles (product/QA/engineering)
-- the most important risk is “wrong behavior”, not internal structure
+- the most important risk is "wrong behavior", not internal structure
 
 Common hybrid (recommended):
 - use BDD-style acceptance/contract tests to lock behavior at boundaries
@@ -83,6 +117,7 @@ These techniques are **optional** and should be considered based on risk profile
 
 ## Related Documents
 - `constitution/AI_RULES.md` and `constitution/AI_ENFORCEMENT.md`
+- `constitution/ADAPTIVE_GOVERNANCE.md`
 - `ci/ARCHITECTURE_GATES.md`
 - `ci/INTERFACE_GATES.md`
 
