@@ -102,6 +102,29 @@ Paste the prompt from:
 
 Fill in the context block, then require the `ARCHITECTURE DECISION PRECHECK` output. If `ADR required: yes`, stop and use `adr/ADR_TEMPLATE.md` before code changes.
 
+### Recipe G — Governance Audit (Kit or Imported Repo)
+Use quarterly, before a release tag, or after `[Import bundle change]` / governance-impacting edits.
+
+Paste this prompt:
+
+```
+Role: Strict governance reviewer.
+Load `usage/AUDIT_PLAYBOOK.md` and follow Steps 1–5.
+
+Goal: Find contradictions, duplication, unenforceable rules, missing theory support, and drift/bypass scenarios.
+
+Constraints:
+- Propose minimal diffs; prefer consolidating into existing docs.
+- Use the Findings Format from the playbook (ID, Severity, Category, Evidence, Impact, Fix proposal, Verification).
+- Output at least 10 findings (incl. 3 high-severity) and 3 drift scenarios.
+
+Deliverables:
+- Update or create `usage/AUDIT_REPORT.md`
+- Update `usage/FIX_PLAN.md` (top fixes ordered by severity)
+```
+
+Complete the **Doc Hygiene Checklist** in `DEVELOPMENT.md` as part of Step 1 evidence.
+
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:
 - change architecture boundaries/dependency rules
@@ -133,6 +156,7 @@ When ready, implement these gates in your CI tool:
 5. `adr/ADR_TEMPLATE.md`
 
 ## Related Documents
+- `usage/AUDIT_PLAYBOOK.md`
 - `architecture/ARCHITECTURE_DECISION_PROMPT.md`
 - `README.md`
 - `usage/HOW_TO_IMPORT.md`

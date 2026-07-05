@@ -17,6 +17,19 @@ The kit version is recorded in:
 - Git tags (recommended): `v0.1.0`, `v1.0.0`, …
 - `CHANGELOG.md` (human-readable release notes)
 
+Record **all three** in your import ADR when they differ (common on `main` between tags).
+
+## Current release mapping
+
+| Git tag | Manifest `version` | Adoption contract | Notes |
+| --- | --- | --- | --- |
+| `v1.0.0` (2025-12-31) | *(no manifest file)* | Pre-bundle baseline | Public-ready kit without `kit-manifest.yml` bundles. |
+| `main` (ahead of `v1.0.0`) | `0.1` | Experimental (`0.x`) | Bundles (`minimal` … `full`), `VERSIONING.md`, architecture entry point — see `CHANGELOG.md` **Unreleased**. |
+
+**Rule:** Pin imports by **git tag and/or commit SHA**. Read `kit-manifest.yml` `version` from the **same** commit you copy or submodule-pin. Do not mix a release tag with a manifest from a newer branch.
+
+When `main` is ahead of the latest tag, treat **Unreleased** changelog entries as the delta from the last tag until a new tag is published.
+
 ## After you import
 
 Record the import in an ADR (see `usage/HOW_TO_IMPORT.md` → Governance Versioning):
@@ -32,6 +45,7 @@ Example ADR fields:
 Kit: AI_governance
 Bundle: standard + architecture
 Source: tag v0.2.0 (commit abc1234)
+Manifest version: 0.1
 Strategy: Copy
 ```
 

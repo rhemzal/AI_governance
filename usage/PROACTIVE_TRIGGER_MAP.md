@@ -32,7 +32,7 @@ Example: `constitution/AI_RULES.md` + `ci/TEST_GATES.md` → high-risk + adaptiv
 
 | Check | Command / doc |
 | --- | --- |
-| Doc hygiene (links, provenance, manifest, terminology) | AI-assisted / local doc hygiene review appropriate for the repository |
+| Doc hygiene (links, provenance, manifest, terminology) | `DEVELOPMENT.md` → Doc Hygiene Checklist (paste output into PR or `usage/AI_RUN_EVIDENCE.md`) |
 | Doc gates (principles) | `ci/DOC_GATES.md` |
 | AEP for multi-file agent work | `usage/AEP_VALIDATION.md` |
 | AVR on verification failure | `constitution/AI_ENFORCEMENT_DAILY.md` |

@@ -1,5 +1,7 @@
 # AGENTS.md — AI Governance Projection
 
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
 This is a short agent-facing projection.
 The source of truth remains the governance kit documents.
 
@@ -10,6 +12,7 @@ The source of truth remains the governance kit documents.
 - For behavior changes, include DOC DELTA.
 - For high-risk changes, use the full `## COMPLIANCE REPORT` from `constitution/AI_ENFORCEMENT.md`.
 - High-risk = architecture boundaries, public contracts, CI gates, interface behavior, security, error model.
+- Use non-interactive commands and wall-clock timeouts (`constitution/AI_RULES.md` §6.2).
 
 ## Required context
 

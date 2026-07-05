@@ -40,6 +40,10 @@ bundles:
     purpose: Recommended baseline for serious solo / multi-agent projects.
     extends: minimal
     paths:
+      - kit-manifest.yml
+      - VERSIONING.md
+      - DEVELOPMENT.md
+      - CHANGELOG.md
       - constitution/
       - ci/
       - adr/

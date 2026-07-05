@@ -4,16 +4,40 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Documentation Hygiene (Kit Repo)
 
-Before PRs that touch documentation or import bundles, run a **doc hygiene review** appropriate for the repository — for example:
+This kit repo intentionally ships **gate principles** (`ci/*_GATES.md`) without bundled CI workflows. Maintainers enforce doc hygiene via the checklist below (or downstream CI wired from `usage/CI_MINIMUM_ADOPTION.md`).
 
-- AI-assisted review against the checklist below
-- A local checklist walkthrough
-- A CI doc-hygiene gate (see `ci/DOC_GATES.md`)
-- Project-specific tooling in the downstream repository
-
-Review scope includes: broken markdown links, import-target provenance banners, README entry-point links, ambiguous acronym usage per `architecture/TERMINOLOGY_GLOSSARY.md`, `## Related Documents` on significant docs, and `kit-manifest.yml` path validity.
+Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** and paste results into the PR or `usage/AI_RUN_EVIDENCE.md`.
 
 See `ci/DOC_GATES.md` for gate principles and `usage/PROACTIVE_TRIGGER_MAP.md` for path-prefix triggers.
+
+### Doc Hygiene Checklist (tool-agnostic)
+
+Complete all steps; record **PASS / FAIL** and any failed paths.
+
+1. **Manifest paths** — Every explicit path in `kit-manifest.yml` bundles exists on disk (files and directories).
+2. **Hub links** — Relative markdown links in `README.md`, `usage/HOW_TO_IMPORT.md`, `usage/ADOPTION_BUNDLES.md`, and `architecture/README.md` resolve to existing files.
+3. **Bundled cross-refs** — For each bundle (`minimal`, `standard`, `full`), every root-level `.md` file referenced from bundled `usage/*.md` is included in that bundle’s resolved path set (or the doc says “read from upstream kit repo only”).
+4. **Provenance** — Import-target files under `constitution/`, `ci/`, `adr/`, `usage/`, `architecture/`, `governance/LOCAL_OVERLAY_TEMPLATE.md`, `AGENTS.md`, and `.github/copilot-instructions.md` include a Provenance banner in the first ~500 characters.
+5. **Terminology** — New or changed acronyms in normative docs match `architecture/TERMINOLOGY_GLOSSARY.md` or are expanded on first use.
+6. **Related Documents** — Significant new or changed docs include `## Related Documents` with valid paths.
+7. **Import bundle change** — If `kit-manifest.yml` bundle composition changed: `usage/ADOPTION_BUNDLES.md` aligned and `CHANGELOG.md` entry under `[Import bundle change]`.
+
+**Checklist output template** (paste into PR):
+
+```markdown
+## Doc Hygiene Checklist
+- Date:
+- Commit/PR:
+1. Manifest paths: PASS / FAIL — notes:
+2. Hub links: PASS / FAIL — notes:
+3. Bundled cross-refs: PASS / FAIL — notes:
+4. Provenance: PASS / FAIL — notes:
+5. Terminology: PASS / FAIL — notes:
+6. Related Documents: PASS / FAIL — notes:
+7. Import bundle change: PASS / FAIL / N/A — notes:
+```
+
+Review scope also includes: ambiguous acronym usage per `architecture/TERMINOLOGY_GLOSSARY.md` and normative/advisory separation for `architecture/rag/` edits.
 
 ## Testing Quickstart
 

@@ -101,27 +101,19 @@ Recommended (when adopting Copilot/AI agents):
 - Add a repo-specific overlay using `governance/LOCAL_OVERLAY_TEMPLATE.md` and include a low-risk execution continuity rule.
 
 ## Option A: Copy (Simplest)
-Copy the `full` bundle from `kit-manifest.yml` (or compose `standard` + `architecture` + `research` + `interface/` + `notes/` + `governance/`).
+Resolve and copy the **`full` bundle** from `kit-manifest.yml` (composes `standard` + `architecture` + `research`, plus `interface/`, `notes/`, and `governance/`).
 
-Equivalent folder list:
-- `constitution/`
-- `notes/`
-- `interface/`
-- `ci/`
-- `adr/`
-- `usage/`
-- `architecture/`
-- `governance/` (optional but recommended: overlay template)
+Do not maintain a parallel folder list — the manifest is the single source of truth for copy paths. For smaller adoption, resolve `minimal`, `standard`, or `standard` + `architecture` / `research` instead of `full`.
 
-Also copy agent projections from the `minimal` bundle if not already included: `AGENTS.md`, `.github/copilot-instructions.md`.
+After resolution, copy every listed path (files and directories) into your target repo, preserving relative paths. The `standard` bundle includes root meta docs (`kit-manifest.yml`, `VERSIONING.md`, `DEVELOPMENT.md`, `CHANGELOG.md`) referenced by `usage/` workflows.
 
-Then link them from your main README.
+Then link imported paths from your main README.
 
 ### When Copy Is the Right Choice
 Copy is the right choice when you want a proven baseline and your main work is enforcing it in your repo (not co-developing the kit).
 
 ### Minimal Integration Steps (Recommended)
-1. Copy the folders.
+1. Resolve bundle paths from `kit-manifest.yml` and copy them.
 2. In your repo README, add a “Governance” section that links to:
 
    - `constitution/AI_ENFORCEMENT_DAILY.md`

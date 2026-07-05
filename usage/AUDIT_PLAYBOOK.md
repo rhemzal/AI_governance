@@ -27,9 +27,11 @@ Mandatory:
 - `README.md`
 - `constitution/AI_RULES.md`
 - `constitution/AI_ENFORCEMENT.md`
+- `architecture/README.md`
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
 - `architecture/ARCHITECTURE_STYLE_MATRIX.md`
 - `architecture/rag/README.md`
+- `kit-manifest.yml` and `usage/ADOPTION_BUNDLES.md` (if bundles are in scope)
 
 Optional (if relevant):
 - `interface/INTERFACE_RULES_PROPOSAL.md`, `interface/INTERFACE_CI_GATES.md`

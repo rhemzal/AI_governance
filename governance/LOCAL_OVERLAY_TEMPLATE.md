@@ -1,6 +1,6 @@
 # LOCAL GOVERNANCE OVERLAY (TEMPLATE)
 
-_This file is a template from the AI_governance kit. Copy it into your target repository as `governance/LOCAL_OVERLAY.md` and customize it. Keep a short provenance note (source repo + version/SHA) so audits can trace the baseline._
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). Copy it into your target repository as `governance/LOCAL_OVERLAY.md` and customize it. Keep this line to preserve traceability._
 
 ## Purpose
 - Why this overlay exists (org policy, deployment constraints, tooling, risk posture).

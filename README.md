@@ -4,6 +4,8 @@ This repository is a reusable, project-agnostic governance kit for **AI-assisted
 
 Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes live in `architecture/rag/`.
 
+**Version note:** The latest git tag may lag `main`. If you import from `main`, read `CHANGELOG.md` **Unreleased** and `VERSIONING.md` (release mapping) — do not assume the tag alone describes bundle layout.
+
 ## Choose your path
 
 - **Evaluate in 10 minutes**: read the assessment prompt in [Quick use](#quick-use-existing-project), then skim [Core rules](constitution/AI_RULES.md), [Daily AI work](constitution/AI_ENFORCEMENT_DAILY.md), and [Adaptive governance](constitution/ADAPTIVE_GOVERNANCE.md).
@@ -76,6 +78,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - AEP validation spec: [usage/AEP_VALIDATION.md](usage/AEP_VALIDATION.md)
 - Security minimum adoption: [usage/SECURITY_MINIMUM_ADOPTION.md](usage/SECURITY_MINIMUM_ADOPTION.md)
 - Governance KPI scorecard: [usage/GOVERNANCE_SCORECARD.md](usage/GOVERNANCE_SCORECARD.md)
+- Audit playbook (kit review): [usage/AUDIT_PLAYBOOK.md](usage/AUDIT_PLAYBOOK.md)
 - AI run evidence block: [usage/AI_RUN_EVIDENCE.md](usage/AI_RUN_EVIDENCE.md)
 - Proactive trigger map (multi-agent): [usage/PROACTIVE_TRIGGER_MAP.md](usage/PROACTIVE_TRIGGER_MAP.md)
 - Agent instruction projection: [AGENTS.md](AGENTS.md)

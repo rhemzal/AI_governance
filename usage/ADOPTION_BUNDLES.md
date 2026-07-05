@@ -33,6 +33,7 @@ Smallest useful set for “try it this week”:
 
 Everything in **minimal**, plus:
 
+- Root meta docs: `kit-manifest.yml`, `VERSIONING.md`, `DEVELOPMENT.md`, `CHANGELOG.md` (referenced by `usage/` import, versioning, and hygiene workflows)
 - Full `constitution/`, `ci/`, `adr/`, `usage/`
 - Local overlay template (`governance/LOCAL_OVERLAY_TEMPLATE.md`)
 
