@@ -79,6 +79,14 @@ If a proposed change includes structural work (module extraction, file reorganis
 
 If the operator confirms, the AI MUST declare the expanded structural scope before any edits (see Section 1.1 AEP requirement).
 
+## 4.4 Terminology Check (Hard Gate)
+Before introducing or using an acronym in governance, architecture, CI/CD, testing, or AI workflow documents, the AI MUST check whether the term already exists in `architecture/TERMINOLOGY_GLOSSARY.md`.
+
+If the acronym is ambiguous or overloaded:
+- expand it on first use
+- avoid using it as the primary term
+- mark project-local terms explicitly (with definition)
+
 ## 5. Test Gate (“No Test, No Code”)
 No non-trivial change is accepted without:
 - tests

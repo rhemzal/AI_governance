@@ -170,6 +170,12 @@ Non-English translations MAY exist, but only as explicitly subordinate artifacts
   - wrap execution so it fails fast rather than blocking
 - Long-running commands MUST be time-bounded (wall-clock timeout) and must fail clearly if the limit is hit.
 
+### 6.3 Terminology Hygiene
+- The AI MUST expand ambiguous acronyms on first use in a response or document change.
+- When terminology affects architecture, tests, CI/CD, or agent autonomy, the AI MUST consult `architecture/TERMINOLOGY_GLOSSARY.md`.
+- Project-local acronyms MUST be marked explicitly as **project-local** (with expansion on first use).
+- If an acronym is ambiguous or overloaded, the AI MUST prefer the explicit phrase over the acronym as the primary term.
+
 ## Related Documents
 - `constitution/AI_ENFORCEMENT.md`
 - `ci/ARCHITECTURE_GATES.md`

@@ -82,6 +82,13 @@ Methodology does not bypass gates:
 - if you change a boundary contract, tests must change with it (and justify why)
 - integration/UI tests are allowed only when they are stable and non-interactive
 
+## Guidance: TDD vs AVR loop
+- **TDD** is a development methodology: failing tests drive design of new behavior.
+- **AVR loop** (Autonomous Verification & Repair) is an AI-agent execution pattern: verify → detect failure → diagnose → minimal compliant repair → rerun checks → report.
+- Use **TDD** when tests should drive design of new behavior.
+- Use **AVR** whenever an AI agent executes work autonomously and must verify, detect failures, repair minimally, and rerun checks without operator input.
+- **AVR does not replace** TDD, BDD, integration tests, or CI gates — it complements them during autonomous agent execution.
+
 ## Advisory: Advanced Testing Techniques (Optional)
 These techniques are **optional** and should be considered based on risk profile and complexity. Use them when they provide clear risk reduction beyond standard tests.
 

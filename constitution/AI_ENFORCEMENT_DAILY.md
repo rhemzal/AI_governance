@@ -18,6 +18,7 @@ Do not expand scope without confirmation.
 - Determinism: Any hidden time/random/env dependency?
 - Tests: What tests are required and where do they live?
   - **Test execution**: Use repo-local test command (e.g., `make test`, `.venv/bin/python -m pytest`, or docker). **Never assume global pytest.**
+- **AVR loop**: If verification fails, diagnose, apply the smallest compliant fix, rerun checks, and report. Do not ask the operator unless blocked.
 - Docs: What documentation must be updated (or deleted)?
 - Scope: List affected files.
 

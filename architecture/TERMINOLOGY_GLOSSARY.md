@@ -75,7 +75,16 @@ Use this section to keep AI conversations precise.
 
 ### Testing
 - **SUT**: System Under Test.
-- **TDD**: Test-Driven Development.
+- **TDD** (Test-Driven Development): a development methodology where failing tests drive design and implementation of new behavior (red → green → refactor).
+- **TFD** (Test-First Development): write a test before production code, without necessarily following the full TDD design loop; broader and less prescriptive than TDD.
+- **TDF**: avoid as a canonical acronym in this kit — ambiguous (often confused with TDD/TFD) and not a standard term here. If a project uses **TDF** locally, it MUST define the expansion and meaning explicitly as **project-local**.
+- **failure detection**: recognizing that a check failed (test, lint, build, gate) — output observation, not root-cause analysis.
+- **failure diagnosis**: determining why a failure occurred (which layer, which contract, which assumption).
+- **repair attempt**: a minimal, rule-compliant change made to address a diagnosed failure, followed by rerunning checks.
+- **regression guard**: a test or gate whose primary job is to prevent reintroduction of a previously fixed defect or violated contract.
+- **characterization test**: locks current behavior (including legacy quirks) to enable safe refactoring; documents “what it does now,” not necessarily “what it should do.”
+- **contract test**: verifies a boundary contract (port/interface/API) against its declared shape and semantics.
+- **golden/snapshot test**: compares output to a stored reference artifact; useful for stable, reviewable outputs; treat snapshot updates as intentional contract changes.
 - **BDD**: Behavior-Driven Development.
 - **E2E**: End-to-end tests.
 - **UAT**: User Acceptance Testing.
@@ -106,8 +115,14 @@ Use this section to keep AI conversations precise.
 - **DORA**: (EU) Digital Operational Resilience Act.
 
 ### AI Workflow
+- **AVR loop** (Autonomous Verification & Repair loop): an AI-agent execution pattern — run checks, detect failures, diagnose, apply the smallest compliant fix, rerun checks, and report; continue without operator input unless blocked.
 - **RAG**: Retrieval-Augmented Generation (advisory grounding in this repo).
 - **MCP**: Model Context Protocol (optional external context integration).
+
+**TDD vs AVR (do not conflate):**
+- **TDD** is a human/team development methodology that uses failing tests to drive design.
+- **AVR** is an agent execution pattern for autonomous verify → diagnose → repair → rerun cycles.
+- **AVR does not replace** TDD, BDD, CI gates, or integration tests — it complements them when an AI agent executes work autonomously.
 
 ### Accessibility
 - **a11y**: Accessibility (shorthand: “a” + 11 letters + “y”).
