@@ -80,6 +80,7 @@ Use this section to keep AI conversations precise.
 - **TDF**: avoid as a canonical acronym in this kit — ambiguous (often confused with TDD/TFD) and not a standard term here. If a project uses **TDF** locally, it MUST define the expansion and meaning explicitly as **project-local**.
 - **failure detection**: recognizing that a check failed (test, lint, build, gate) — output observation, not root-cause analysis.
 - **failure diagnosis**: determining why a failure occurred (which layer, which contract, which assumption).
+- **RCA** (Root Cause Analysis): stronger claim than failure diagnosis. AI must not claim root cause unless supported by evidence. During AVR loops, prefer “working diagnosis” unless verified.
 - **repair attempt**: a minimal, rule-compliant change made to address a diagnosed failure, followed by rerunning checks.
 - **regression guard**: a test or gate whose primary job is to prevent reintroduction of a previously fixed defect or violated contract.
 - **characterization test**: locks current behavior (including legacy quirks) to enable safe refactoring; documents “what it does now,” not necessarily “what it should do.”
@@ -99,6 +100,7 @@ Use this section to keep AI conversations precise.
 
 ### Delivery / Ops
 - **CI/CD**: Continuous Integration / Continuous Delivery.
+- **CD** (ambiguous): may mean Continuous Delivery or Continuous Deployment. This kit uses **Continuous Delivery** unless explicitly stated otherwise. Expand on first use.
 - **SLA/SLO**: availability/latency goals (often confused or used interchangeably).
 - **MTTR**: Mean Time To Recovery.
 - **RTO**: Recovery Time Objective (maximum acceptable time to restore service after an incident).
@@ -112,9 +114,14 @@ Use this section to keep AI conversations precise.
 
 ### Compliance / Regulation (Context-Dependent)
 - **NIS2**: EU Network and Information Systems Directive (NIS2).
-- **DORA**: (EU) Digital Operational Resilience Act.
+- **DORA** (ambiguous — do not use bare): may mean software delivery performance metrics or EU regulation. Always disambiguate:
+  - **DORA metrics**: software delivery performance metrics (deployment frequency, lead time, MTTR, change failure rate).
+  - **EU DORA**: Digital Operational Resilience Act.
 
 ### AI Workflow
+- **AEP** (Autonomous Execution Plan): **project-local** planning artifact required before multi-file or cross-cutting AI changes; must be declared READY or BLOCKED.
+- **Exit criteria**: explicit, verifiable conditions for completing an AI task.
+- **DoD** (Definition of Done): team/project term; do not use it as a substitute for concrete exit criteria.
 - **AVR loop** (Autonomous Verification & Repair loop): an AI-agent execution pattern — run checks, detect failures, diagnose, apply the smallest compliant fix, rerun checks, and report; continue without operator input unless blocked.
 - **RAG**: Retrieval-Augmented Generation (advisory grounding in this repo).
 - **MCP**: Model Context Protocol (optional external context integration).
@@ -138,7 +145,7 @@ Example prompt snippets:
 - “Define **SUT** and propose tests by layer (domain/application/adapters)."
 
 ## When Confusion Is Likely
-- Same acronym means different things across teams/tools (e.g., ES).
+- Same acronym means different things across teams/tools (e.g., ES, DORA, CD).
 - “Model” is overloaded: domain model vs persistence model vs read model.
 - “Architecture” is overloaded: code structure vs deployment topology.
 - “Quality” is overloaded: quality attributes vs code quality vs UX polish.
