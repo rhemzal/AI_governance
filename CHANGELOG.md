@@ -9,7 +9,6 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Advisory-only] `usage/ADOPTION_BUNDLES.md` — human guide for bundle selection.
 - [Advisory-only] `usage/PROACTIVE_TRIGGER_MAP.md` — path-prefix trigger map for multi-agent checks.
 - [Advisory-only] `VERSIONING.md` — kit versioning and upgrade policy for importers.
-- [Governance-impacting] `scripts/doctor.py` — doc hygiene checks (links, provenance, README anchors, terminology, manifest paths, Related Documents).
 
 ### Changed
 - [Advisory-only] Agent projections (`AGENTS.md`, `.github/copilot-instructions.md`) — Quick rules summary block.
@@ -18,6 +17,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ### Removed
 - Docs: remove OS-specific doc-audit script; keep CI guidance tool-agnostic.
+- [Advisory-only] Removed the Python doctor script before release to preserve the kit's documentation-first, tool-agnostic positioning.
 
 ## v1.0.0 — 2025-12-31
 

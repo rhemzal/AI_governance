@@ -67,7 +67,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Import bundles (machine-readable): [kit-manifest.yml](kit-manifest.yml)
 - Adoption bundles (human guide): [usage/ADOPTION_BUNDLES.md](usage/ADOPTION_BUNDLES.md)
 - Kit versioning policy: [VERSIONING.md](VERSIONING.md)
-- Doc hygiene check: `python scripts/doctor.py`
+- Doc hygiene review: [PROACTIVE_TRIGGER_MAP.md](usage/PROACTIVE_TRIGGER_MAP.md), [DOC_GATES.md](ci/DOC_GATES.md)
 - Import guidance: [usage/HOW_TO_IMPORT.md](usage/HOW_TO_IMPORT.md)
 - Quick recipes & prompts: [usage/QUICKGUIDE.md](usage/QUICKGUIDE.md)
 - Testing quickstart: [DEVELOPMENT.md](DEVELOPMENT.md)

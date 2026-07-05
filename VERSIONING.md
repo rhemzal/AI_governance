@@ -46,7 +46,7 @@ Strategy: Copy
 
 ## Submodule / fork consumers
 
-- **Submodule:** pin SHA; upgrade via PR with changelog review and `python scripts/doctor.py` (or local doc hygiene equivalent).
+- **Submodule:** pin SHA; upgrade via PR with changelog review and a doc hygiene review appropriate for the downstream repository.
 - **Copy:** re-copy changed paths or merge manually; preserve provenance banners; record old → new version in an ADR.
 - **Fork:** maintain your own tags; document upstream cherry-pick policy.
 

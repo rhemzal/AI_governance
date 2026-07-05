@@ -4,13 +4,14 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Documentation Hygiene (Kit Repo)
 
-Run the kit doctor before PRs that touch documentation or import bundles:
+Before PRs that touch documentation or import bundles, run a **doc hygiene review** appropriate for the repository — for example:
 
-```bash
-python scripts/doctor.py
-```
+- AI-assisted review against the checklist below
+- A local checklist walkthrough
+- A CI doc-hygiene gate (see `ci/DOC_GATES.md`)
+- Project-specific tooling in the downstream repository
 
-Checks include: broken markdown links, import-target provenance banners, README entry-point links, ambiguous acronym usage per `architecture/TERMINOLOGY_GLOSSARY.md`, `## Related Documents` on significant docs, and `kit-manifest.yml` path validity.
+Review scope includes: broken markdown links, import-target provenance banners, README entry-point links, ambiguous acronym usage per `architecture/TERMINOLOGY_GLOSSARY.md`, `## Related Documents` on significant docs, and `kit-manifest.yml` path validity.
 
 See `ci/DOC_GATES.md` for gate principles and `usage/PROACTIVE_TRIGGER_MAP.md` for path-prefix triggers.
 

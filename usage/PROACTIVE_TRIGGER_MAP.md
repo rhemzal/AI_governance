@@ -19,7 +19,7 @@ Use this map so agents do not guess which governance mode applies.
 | `governance/**` | **High-risk** (local policy) | Overlay precedence check (`usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`); no silent conflict with imported kit rules. |
 | `adr/**` | **Medium → High** | New ADR uses `adr/ADR_TEMPLATE.md`; accepted ADRs are durable decisions — link from affected rules/gates. |
 | `.github/**` | **Medium** | Projection brevity check; no duplicated governance playbooks; point to `constitution/` and `usage/` instead. |
-| `kit-manifest.yml` | **Medium** | Manifest paths exist (`python scripts/doctor.py`); update `usage/ADOPTION_BUNDLES.md` if bundle purpose changes; **Import bundle change** changelog entry. |
+| `kit-manifest.yml` | **Medium** | Manifest paths exist (doc hygiene review); update `usage/ADOPTION_BUNDLES.md` if bundle purpose changes; **Import bundle change** changelog entry. |
 | Root projections (`AGENTS.md`, `README.md`) | **Medium** | Brevity + link integrity; README must keep top links to core entry points. |
 
 ## Multi-prefix changes
@@ -32,7 +32,7 @@ Example: `constitution/AI_RULES.md` + `ci/TEST_GATES.md` → high-risk + adaptiv
 
 | Check | Command / doc |
 | --- | --- |
-| Doc hygiene (links, provenance, manifest, terminology) | `python scripts/doctor.py` |
+| Doc hygiene (links, provenance, manifest, terminology) | AI-assisted / local doc hygiene review appropriate for the repository |
 | Doc gates (principles) | `ci/DOC_GATES.md` |
 | AEP for multi-file agent work | `usage/AEP_VALIDATION.md` |
 | AVR on verification failure | `constitution/AI_ENFORCEMENT_DAILY.md` |
