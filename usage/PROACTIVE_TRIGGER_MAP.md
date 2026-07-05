@@ -32,9 +32,11 @@ Example: `constitution/AI_RULES.md` + `ci/TEST_GATES.md` → high-risk + adaptiv
 
 | Check | Command / doc |
 | --- | --- |
-| Doc hygiene (links, provenance, manifest, terminology) | `DEVELOPMENT.md` → Doc Hygiene Checklist (paste output into PR or `usage/AI_RUN_EVIDENCE.md`) |
+| Doc hygiene (links, provenance, manifest, terminology) | Kit repo: `.github/workflows/doc-hygiene.yml`; manual: `DEVELOPMENT.md` checklist |
 | Doc gates (principles) | `ci/DOC_GATES.md` |
-| AEP for multi-file agent work | `usage/AEP_VALIDATION.md` |
+| AEP for multi-file agent work | `usage/AEP_VALIDATION.md`; optional CI: `usage/CI_STARTER_WORKFLOWS.md` §5 |
+| Boundary integrity (downstream) | `usage/CI_STARTER_WORKFLOWS.md` §3; `ci/ARCHITECTURE_GATES.md` |
+| ADR on architecture paths (downstream) | `usage/CI_STARTER_WORKFLOWS.md` §4 |
 | AVR on verification failure | `constitution/AI_ENFORCEMENT_DAILY.md` |
 
 ## Related Documents

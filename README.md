@@ -4,7 +4,7 @@ This repository is a reusable, project-agnostic governance kit for **AI-assisted
 
 Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes live in `architecture/rag/`.
 
-**Version note:** The latest git tag may lag `main`. If you import from `main`, read `CHANGELOG.md` **Unreleased** and `VERSIONING.md` (release mapping) — do not assume the tag alone describes bundle layout.
+**Version note:** Latest release: `v0.2.0` (manifest `0.2`). If you import from `main` ahead of the tag, read `CHANGELOG.md` **Unreleased** and `VERSIONING.md` (release mapping).
 
 ## Choose your path
 
@@ -74,7 +74,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Quick recipes & prompts: [usage/QUICKGUIDE.md](usage/QUICKGUIDE.md)
 - Testing quickstart: [DEVELOPMENT.md](DEVELOPMENT.md)
 - Progressive CI adoption: [usage/CI_MINIMUM_ADOPTION.md](usage/CI_MINIMUM_ADOPTION.md)
-- CI starter workflows (reference): [usage/CI_STARTER_WORKFLOWS.md](usage/CI_STARTER_WORKFLOWS.md)
+- CI starter workflows (reference): [usage/CI_STARTER_WORKFLOWS.md](usage/CI_STARTER_WORKFLOWS.md) (kit repo: `.github/workflows/doc-hygiene.yml`)
 - AEP validation spec: [usage/AEP_VALIDATION.md](usage/AEP_VALIDATION.md)
 - Security minimum adoption: [usage/SECURITY_MINIMUM_ADOPTION.md](usage/SECURITY_MINIMUM_ADOPTION.md)
 - Governance KPI scorecard: [usage/GOVERNANCE_SCORECARD.md](usage/GOVERNANCE_SCORECARD.md)

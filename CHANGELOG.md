@@ -4,9 +4,14 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+_(No entries yet.)_
+
+## v0.2.0 — 2026-07-05
+
 ### Added
-- [Import bundle change] `kit-manifest.yml` — machine-readable adoption bundles (`minimal`, `standard`, `architecture`, `research`, `full`).
+- [Import bundle change] `kit-manifest.yml` — machine-readable adoption bundles (`minimal`, `standard`, `architecture`, `research`, `full`); manifest schema `0.2`.
 - [Import bundle change] `kit-manifest.yml` — `standard` bundle includes `kit-manifest.yml`, `VERSIONING.md`, `DEVELOPMENT.md`, `CHANGELOG.md`.
+- [Advisory-only] `.github/workflows/doc-hygiene.yml` — kit-repo L0 doc hygiene (shell + `yq` + `lychee`; no Python scripts).
 - [Advisory-only] `usage/ADOPTION_BUNDLES.md` — human guide for bundle selection.
 - [Advisory-only] `usage/PROACTIVE_TRIGGER_MAP.md` — path-prefix trigger map for multi-agent checks.
 - [Advisory-only] `VERSIONING.md` — kit versioning and upgrade policy for importers; current release mapping table.
@@ -23,13 +28,15 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Advisory-only] Agent projections (`AGENTS.md`, `.github/copilot-instructions.md`) — Quick rules summary block; architecture entry point; provenance banners; non-interactive/timeout quick rule.
 - [Advisory-only] Import docs (`usage/HOW_TO_IMPORT.md`, `usage/QUICKGUIDE.md`, `README.md`) — reference manifest and adoption bundles; Option A resolves paths from manifest only.
 - [Advisory-only] `usage/ADOPTION_BUNDLES.md` — documents root meta docs in `standard`.
+- [Advisory-only] `usage/CI_STARTER_WORKFLOWS.md` — expanded starters (doc hygiene, boundary, AEP advisory); points to kit workflow.
 - [Advisory-only] Provenance banners added to remaining architecture and research import-target documents.
 - [Advisory-only] `architecture/SOLUTION_CLASS_TAXONOMY.md` — Feature Flags and Observability upgraded to Advisory; extension checklist clarifies cross-cutting matrix entries.
 - [Advisory-only] `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`, `architecture/ARCHITECTURE_STYLE_MATRIX.md`, `architecture/DATA_MODELING_GUIDE.md` — links and `DATA MODEL DECISION RECORD` mini-template.
 - [Import bundle change] `kit-manifest.yml` — `architecture` bundle includes `README.md` and `ARCHITECTURE_DECISION_PROMPT.md`.
-- [Advisory-only] `README.md` — version note for `main` ahead of tag; link to audit playbook.
+- [Advisory-only] `README.md` — version note; link to audit playbook.
 - [Advisory-only] `usage/AUDIT_PLAYBOOK.md` — `architecture/README.md` in mandatory inputs.
-- [Advisory-only] `usage/PROACTIVE_TRIGGER_MAP.md` — doc hygiene points to `DEVELOPMENT.md` checklist.
+- [Advisory-only] `usage/PROACTIVE_TRIGGER_MAP.md` — automation hooks for CI starters and kit workflow.
+- [Advisory-only] `governance/LOCAL_OVERLAY_TEMPLATE.md` — standard provenance banner.
 
 ### Removed
 - Docs: remove OS-specific doc-audit script; keep CI guidance tool-agnostic.

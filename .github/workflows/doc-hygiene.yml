@@ -1,0 +1,79 @@
+# Kit-repo reference implementation for ci/DOC_GATES.md (L0 doc hygiene).
+# Adopters: copy/adapt from usage/CI_STARTER_WORKFLOWS.md — no Python required.
+name: doc-hygiene
+
+on:
+  pull_request:
+    paths:
+      - '**.md'
+      - 'kit-manifest.yml'
+      - '.github/**'
+      - 'governance/**'
+  push:
+    branches: [main]
+    paths:
+      - '**.md'
+      - 'kit-manifest.yml'
+      - '.github/**'
+      - 'governance/**'
+
+concurrency:
+  group: doc-hygiene-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Required root meta files exist
+        run: |
+          set -euo pipefail
+          for f in README.md kit-manifest.yml VERSIONING.md DEVELOPMENT.md CHANGELOG.md; do
+            test -f "$f" || { echo "Missing required file: $f"; exit 1; }
+          done
+
+      - name: Manifest explicit paths exist (yq)
+        run: |
+          set -euo pipefail
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+          check_paths() {
+            local bundle="$1"
+            yq -r ".bundles.${bundle}.paths[]? // empty" kit-manifest.yml | while IFS= read -r p; do
+              [ -z "$p" ] && continue
+              if [[ "$p" == */ ]]; then
+                test -d "${p%/}" || { echo "Missing directory ($bundle): $p"; exit 1; }
+              else
+                test -e "$p" || { echo "Missing path ($bundle): $p"; exit 1; }
+              fi
+            done
+          }
+          for bundle in minimal standard architecture research full; do
+            check_paths "$bundle"
+          done
+
+      - name: Provenance banners on import targets
+        run: |
+          set -euo pipefail
+          fail=0
+          files=()
+          while IFS= read -r f; do files+=("$f"); done < <(find constitution ci adr usage architecture -name '*.md' -type f 2>/dev/null | sort)
+          files+=(AGENTS.md .github/copilot-instructions.md governance/LOCAL_OVERLAY_TEMPLATE.md)
+          for f in "${files[@]}"; do
+            [ -f "$f" ] || continue
+            if ! head -c 500 "$f" | grep -q 'Provenance'; then
+              echo "Missing Provenance banner: $f"
+              fail=1
+            fi
+          done
+          exit "$fail"
+
+      - name: Markdown link check (hub docs)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude-mail './README.md' './usage/HOW_TO_IMPORT.md' './usage/ADOPTION_BUNDLES.md' './architecture/README.md'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

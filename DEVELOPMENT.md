@@ -4,9 +4,9 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Documentation Hygiene (Kit Repo)
 
-This kit repo intentionally ships **gate principles** (`ci/*_GATES.md`) without bundled CI workflows. Maintainers enforce doc hygiene via the checklist below (or downstream CI wired from `usage/CI_MINIMUM_ADOPTION.md`).
+This kit repo ships a **reference L0 doc-hygiene workflow** at `.github/workflows/doc-hygiene.yml` (shell + `yq` + `lychee` — no Python scripts). Adopters copy/adapt patterns from `usage/CI_STARTER_WORKFLOWS.md`.
 
-Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** and paste results into the PR or `usage/AI_RUN_EVIDENCE.md`.
+Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** below (or rely on the CI job when it covers the same checks). Paste results into the PR or `usage/AI_RUN_EVIDENCE.md` when running manually.
 
 See `ci/DOC_GATES.md` for gate principles and `usage/PROACTIVE_TRIGGER_MAP.md` for path-prefix triggers.
 
@@ -38,6 +38,8 @@ Complete all steps; record **PASS / FAIL** and any failed paths.
 ```
 
 Review scope also includes: ambiguous acronym usage per `architecture/TERMINOLOGY_GLOSSARY.md` and normative/advisory separation for `architecture/rag/` edits.
+
+**Automation (kit repo):** CI job `doc-hygiene` covers checklist items 1 (manifest explicit paths), 2 (hub link check), and 4 (provenance). Complete items 3, 5–7 manually when CI does not apply.
 
 ## Testing Quickstart
 
@@ -95,3 +97,9 @@ For detailed testing guidance, architecture gates, and enforcement principles, s
 - [usage/HOW_TO_USE_WITH_COPILOT.md](usage/HOW_TO_USE_WITH_COPILOT.md) — Test execution canonical path
 - [ci/TEST_GATES.md](ci/TEST_GATES.md) — Test CI gates and principles
 - [constitution/AI_ENFORCEMENT_DAILY.md](constitution/AI_ENFORCEMENT_DAILY.md) — Daily AI enforcement checklist
+
+## Related Documents
+- `.github/workflows/doc-hygiene.yml`
+- `usage/CI_STARTER_WORKFLOWS.md`
+- `usage/PROACTIVE_TRIGGER_MAP.md`
+- `ci/DOC_GATES.md`

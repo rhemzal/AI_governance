@@ -6,25 +6,50 @@ This guide provides **ready-to-copy GitHub Actions starter examples** for the ga
 
 These are **reference implementations**, not mandatory stack-specific prescriptions. Adapt tooling, commands, and paths to your repository.
 
+**Kit repo living reference:** `.github/workflows/doc-hygiene.yml` (shell + `yq` + `lychee` — no Python scripts in the repository).
+
 ## 1) Documentation hygiene gate (starter)
+
+Copy from the kit repo or use this minimal pattern:
 
 ```yaml
 name: doc-hygiene
 on:
   pull_request:
+    paths: ['**.md', 'kit-manifest.yml']
   push:
-    branches: [ main ]
+    branches: [main]
+    paths: ['**.md', 'kit-manifest.yml']
+
+concurrency:
+  group: doc-hygiene-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
-  docs:
+  hygiene:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Validate markdown links (example)
+
+      - name: Provenance banners (import targets)
         run: |
-          echo "Replace with your checker (e.g., link/doc consistency scripts)."
-          echo "Gate intent: ci/DOC_GATES.md"
+          set -euo pipefail
+          fail=0
+          while IFS= read -r f; do
+            head -c 500 "$f" | grep -q 'Provenance' || { echo "Missing Provenance: $f"; fail=1; }
+          done < <(find constitution ci adr usage -name '*.md' -type f)
+          exit "$fail"
+
+      - name: Markdown link check (hub docs)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress './README.md'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+Gate intent: `ci/DOC_GATES.md` (D1–D3). Manual checklist: `DEVELOPMENT.md`.
 
 ## 2) Deterministic test gate (starter with timeout)
 
@@ -41,10 +66,10 @@ jobs:
         timeout-minutes: 15
         run: |
           echo "Use repo-local canonical test command."
-          echo "Examples: make test OR .venv/bin/python -m pytest"
+          echo "Examples: make test OR your stack's headless test runner"
 ```
 
-## 3) Boundary integrity gate (starter placeholders)
+## 3) Boundary integrity gate (starter)
 
 ```yaml
 name: boundary-integrity
@@ -57,11 +82,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run boundary checks
         run: |
-          echo "Implement per ecosystem:"
-          echo "- Python: import-linter / custom import allow-deny checks"
+          set -euo pipefail
+          echo "Implement per ecosystem (ci/ARCHITECTURE_GATES.md Gate A1):"
+          echo "- Python: import-linter or custom import allow/deny checks"
           echo "- TypeScript: dependency-cruiser / eslint import boundaries"
           echo "- JVM: ArchUnit tests"
           echo "- Go: package dependency checks + architectural tests"
+          # Example: fail if a forbidden import pattern appears
+          # if grep -R "from domain.internal" src/; then exit 1; fi
+          exit 0
 ```
 
 ## 4) ADR-required check for architecture-impacting paths
@@ -89,8 +118,51 @@ jobs:
           fi
 ```
 
+## 5) AEP READY advisory check (multi-file PRs)
+
+Use when agents or humans post AEP blocks in PR descriptions. Advisory until required by local policy (`usage/AEP_VALIDATION.md`).
+
+```yaml
+name: aep-advisory
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+jobs:
+  aep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Count changed files
+        id: diff
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.sha }}"
+          COUNT="$(git diff --name-only "$BASE" "$HEAD" | wc -l | tr -d ' ')"
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+      - name: Warn when multi-file PR lacks AEP READY markers
+        if: steps.diff.outputs.count >= 2
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          if ! printf '%s' "$PR_BODY" | grep -q 'AEP Status'; then
+            echo "::warning::Multi-file PR without AEP Status field (see usage/AEP_VALIDATION.md)"
+          fi
+          if printf '%s' "$PR_BODY" | grep -q 'AEP Status: READY'; then
+            for token in TBD TODO 'as needed' etc.; do
+              if printf '%s' "$PR_BODY" | grep -qi "$token"; then
+                echo "::error::AEP READY contains vague placeholder: $token"
+                exit 1
+              fi
+            done
+          fi
+```
+
 ## Notes for adopters
 - Keep this file as a **starter pack**; adapt commands to your stack.
+- Prefer **shell + existing CI actions** over custom repository scripts.
 - Keep rule text canonical in:
   - `ci/DOC_GATES.md`
   - `ci/TEST_GATES.md`
@@ -98,7 +170,9 @@ jobs:
   - `constitution/AI_ENFORCEMENT.md`
 
 ## Related Documents
+- `.github/workflows/doc-hygiene.yml` (kit repo reference)
 - `usage/CI_MINIMUM_ADOPTION.md`
+- `usage/AEP_VALIDATION.md`
 - `ci/DOC_GATES.md`
 - `ci/TEST_GATES.md`
 - `ci/ARCHITECTURE_GATES.md`

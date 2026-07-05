@@ -11,7 +11,7 @@ If you are adopting the kit in an existing repo, you can start with a minimal se
 Goal: prevent documentation drift and broken references.
 - Add a documentation hygiene check to CI (fast, deterministic).
 - Make the job required on PRs.
-- In this kit repo, apply a doc hygiene review (see `DEVELOPMENT.md` and `usage/PROACTIVE_TRIGGER_MAP.md`).
+- In this kit repo, CI runs `.github/workflows/doc-hygiene.yml` (reference L0). Downstream repos: copy/adapt from `usage/CI_STARTER_WORKFLOWS.md`.
 
 Why first: it is deterministic, fast, and enforces “single source of truth” behavior.
 

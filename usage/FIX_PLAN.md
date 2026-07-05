@@ -4,7 +4,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 Date: 2026-07-05
 Context: Generated after full re-run of `usage/AUDIT_PLAYBOOK.md` (see `usage/AUDIT_REPORT.md`).
-**Implementation status (2026-07-05):** Immediate fixes #1–#3 and recommended fixes #4–#6 applied in this repo. Items #7–#8 remain downstream/standing.
+**Implementation status (2026-07-05):** Fixes #1–#8 applied for kit-repo scope. Downstream adopters still wire gates in their own repos from `usage/CI_MINIMUM_ADOPTION.md` and `usage/CI_STARTER_WORKFLOWS.md`.
 
 ## Immediate Fixes (Required Before Next Release Tag)
 
@@ -36,13 +36,13 @@ Context: Generated after full re-run of `usage/AUDIT_PLAYBOOK.md` (see `usage/AU
 ### 6) Non-interactive gate in agent projections (A-10) — **Low** — **Done**
 - One Quick rules bullet in `AGENTS.md` and `.github/copilot-instructions.md` pointing to `constitution/AI_RULES.md` §6.2.
 
-### 7) Downstream CI adoption (A-06) — **Downstream / standing**
-- Implement progressive gates per `usage/CI_MINIMUM_ADOPTION.md` (doc → tests → boundaries → risk signals).
-- Kit repo may remain without workflows if checklist in fix #3 is explicit.
+### 7) Downstream CI adoption (A-06) — **Done** (kit repo reference)
+- Kit repo: `.github/workflows/doc-hygiene.yml` (L0, shell/`yq`/`lychee`, no Python scripts).
+- Adopters: progressive gates per `usage/CI_MINIMUM_ADOPTION.md`; copy starters from `usage/CI_STARTER_WORKFLOWS.md`.
 
-### 8) Boundary and AEP enforcement (standing drift scenarios) — **Downstream**
-- Dependency allowlist / static analysis for architecture boundaries.
-- AEP READY validation per `usage/AEP_VALIDATION.md` (concrete paths, no TBD, explicit test command).
+### 8) Boundary and AEP enforcement (standing drift scenarios) — **Done** (reference starters)
+- `usage/CI_STARTER_WORKFLOWS.md` §3 (boundary), §4 (ADR-required), §5 (AEP advisory) — shell/GitHub Actions only.
+- Downstream: implement stack-specific boundary tooling and make jobs required when prerequisites exist.
 
 ## Suggested PR Themes (One Theme per PR)
 

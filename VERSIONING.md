@@ -24,7 +24,8 @@ Record **all three** in your import ADR when they differ (common on `main` betwe
 | Git tag | Manifest `version` | Adoption contract | Notes |
 | --- | --- | --- | --- |
 | `v1.0.0` (2025-12-31) | *(no manifest file)* | Pre-bundle baseline | Public-ready kit without `kit-manifest.yml` bundles. |
-| `main` (ahead of `v1.0.0`) | `0.1` | Experimental (`0.x`) | Bundles (`minimal` … `full`), `VERSIONING.md`, architecture entry point — see `CHANGELOG.md` **Unreleased**. |
+| `v0.2.0` (2026-07-05) | `0.2` | Experimental (`0.x`) | Bundles, meta docs in `standard`, doc-hygiene CI reference, audit 2026-07-05. |
+| `main` (ahead of `v0.2.0`) | `0.2` | Experimental (`0.x`) | See `CHANGELOG.md` **Unreleased** for deltas after `v0.2.0`. |
 
 **Rule:** Pin imports by **git tag and/or commit SHA**. Read `kit-manifest.yml` `version` from the **same** commit you copy or submodule-pin. Do not mix a release tag with a manifest from a newer branch.
 
@@ -45,7 +46,7 @@ Example ADR fields:
 Kit: AI_governance
 Bundle: standard + architecture
 Source: tag v0.2.0 (commit abc1234)
-Manifest version: 0.1
+Manifest version: 0.2
 Strategy: Copy
 ```
 
@@ -69,6 +70,7 @@ Strategy: Copy
 `kit-manifest.yml` `version` tracks the **manifest schema and bundle contract**, not every doc edit.
 
 - Manifest `0.1` → initial bundle definitions (`minimal`, `standard`, `architecture`, `research`, `full`)
+- Manifest `0.2` → `standard` includes root meta docs (`kit-manifest.yml`, `VERSIONING.md`, `DEVELOPMENT.md`, `CHANGELOG.md`); manifest schema bump only (bundle names unchanged)
 - Future manifest bumps should appear in `CHANGELOG.md` under **Import bundle change**
 
 ## Related Documents
