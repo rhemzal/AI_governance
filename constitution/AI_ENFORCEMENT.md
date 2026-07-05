@@ -105,11 +105,15 @@ If documentation is auto-generated (including AI-produced generation):
 - the AI MUST propose consolidation if the change introduces a new doc that overlaps existing topics
 
 ## 7. CI/CD Gates (Normative Expectation)
-CI MUST be configured to fail on:
+CI-backed gates are mandatory when CI/CD is adopted at the applicable governance level defined by `constitution/ADAPTIVE_GOVERNANCE.md`.
+
+When CI/CD is adopted for a gate, CI MUST be configured to fail on:
 - architectural boundary violations
 - missing tests for new behavior
 - prohibited imports/calls (where applicable)
 - documentation drift for changed public behaviors
+
+Before CI/CD exists, the same expectations MUST still be enforced through local verification and PR evidence where practical. This changes only the enforcement mechanism, not the rule or gate expectation.
 
 Details live in:
 - `ci/ARCHITECTURE_GATES.md`
