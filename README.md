@@ -4,6 +4,12 @@ This repository is a reusable, project-agnostic governance kit for **AI-assisted
 
 Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes live in `architecture/rag/`.
 
+## Choose your path
+
+- **Evaluate in 10 minutes**: read the assessment prompt in [Quick use](#quick-use-existing-project), then skim [Core rules](constitution/AI_RULES.md), [Daily AI work](constitution/AI_ENFORCEMENT_DAILY.md), and [Adaptive governance](constitution/ADAPTIVE_GOVERNANCE.md).
+- **Import minimal useful subset**: start with [How to Import](usage/HOW_TO_IMPORT.md), [CI minimum adoption](usage/CI_MINIMUM_ADOPTION.md), and the short agent projections: [AGENTS.md](AGENTS.md), [.github/copilot-instructions.md](.github/copilot-instructions.md).
+- **Extend/customize the kit**: use [Local overlays & precedence](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md), [ADR template](adr/ADR_TEMPLATE.md), and [Architecture decision framework](architecture/ARCHITECTURE_DECISION_FRAMEWORK.md) before changing canonical rules.
+
 ## Grounded in engineering practice
 
 This project does not attempt to reinvent software engineering fundamentals.
@@ -67,6 +73,8 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Security minimum adoption: [usage/SECURITY_MINIMUM_ADOPTION.md](usage/SECURITY_MINIMUM_ADOPTION.md)
 - Governance KPI scorecard: [usage/GOVERNANCE_SCORECARD.md](usage/GOVERNANCE_SCORECARD.md)
 - AI run evidence block: [usage/AI_RUN_EVIDENCE.md](usage/AI_RUN_EVIDENCE.md)
+- Agent instruction projection: [AGENTS.md](AGENTS.md)
+- Copilot instruction projection: [.github/copilot-instructions.md](.github/copilot-instructions.md)
 - Translation freshness guidance: [usage/TRANSLATION_FRESHNESS.md](usage/TRANSLATION_FRESHNESS.md)
 - Architecture decision framework: [architecture/ARCHITECTURE_DECISION_FRAMEWORK.md](architecture/ARCHITECTURE_DECISION_FRAMEWORK.md)
 - Solution class taxonomy & coverage: [architecture/SOLUTION_CLASS_TAXONOMY.md](architecture/SOLUTION_CLASS_TAXONOMY.md)
