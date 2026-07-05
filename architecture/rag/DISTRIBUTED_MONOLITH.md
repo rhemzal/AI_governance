@@ -1,5 +1,8 @@
 # Distributed Monolith — Advisory Note
 
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+
 ## Core Idea
 A system that is *distributed like microservices* (many deployables, network calls) but *coupled like a monolith* (tight runtime dependencies, shared releases in practice).
 

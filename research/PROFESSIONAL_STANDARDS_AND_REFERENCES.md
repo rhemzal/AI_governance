@@ -1,5 +1,8 @@
 # Professional Standards & References (Research, Advisory)
 
+_Provenance: This research note was added to the AI_governance kit (https://github.com/rhemzal/AI_governance)._
+
+
 ## Purpose
 This page exists to support **theoretical and professional validation** of architecture and governance decisions.
 

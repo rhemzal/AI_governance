@@ -3,6 +3,14 @@
 This file is a concise projection for GitHub Copilot.
 It is not a separate source of truth.
 
+## Quick rules
+
+- For multi-file or cross-cutting changes, produce AEP first (`usage/AEP_VALIDATION.md`).
+- If verification fails, use the AVR loop before asking the operator.
+- For behavior changes, include DOC DELTA.
+- For high-risk changes, use the full `## COMPLIANCE REPORT` from `constitution/AI_ENFORCEMENT.md`.
+- High-risk = architecture boundaries, public contracts, CI gates, interface behavior, security, error model.
+
 ## Read first
 
 - Core rules: `constitution/AI_RULES.md`
@@ -27,13 +35,16 @@ Use routine mode for small, low-risk edits.
 
 Use high-risk mode before changing:
 - architecture boundaries
+- dependency rules
 - public contracts
-- interface behavior
+- CLI/API/interface behavior
 - CI/CD gates
+- canonical governance documents
 - security behavior
-- canonical governance rules
+- error model
+- system-of-record assumptions
 
-High-risk work must include a compliance report and ADR consideration.
+High-risk work must include a full compliance report, ADR consideration, explicit affected-file list, and verification evidence.
 
 ## AEP and verification
 
@@ -57,6 +68,22 @@ For behavior changes:
 - include DOC DELTA
 - preserve single source of truth
 - avoid duplicate docs
+
+## Output expectations
+
+For low-risk work, end with:
+
+```text
+## COMPLIANCE
+- AEP: OK / NOT-REQUIRED / BLOCKED
+- Architecture: OK / ISSUE
+- Tests: OK / MISSING
+- Docs: OK / UPDATE
+- Scope: OK / EXPANDED
+- Decision: PROCEED / STOP
+```
+
+For high-risk work, use the full `## COMPLIANCE REPORT` from `constitution/AI_ENFORCEMENT.md`.
 
 ## Related
 

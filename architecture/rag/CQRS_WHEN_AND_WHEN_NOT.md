@@ -1,5 +1,8 @@
 # CQRS (Command Query Responsibility Segregation) — When and When Not (Advisory)
 
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+
 ## Core Idea
 Separate write model (commands) from read model (queries).
 

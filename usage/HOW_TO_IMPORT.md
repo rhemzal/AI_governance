@@ -4,6 +4,23 @@ _Provenance note: Imported copies should preserve origin information. This kit i
 
 This kit is documentation-first governance: you import it to make AI-assisted changes enforceable (rules, gates, ADR discipline, and auditability).
 
+## Import Bundles (Machine-Readable)
+
+Do not import everything by default. Use `kit-manifest.yml` at the kit root to select a bundle:
+
+| Bundle | When to use |
+| --- | --- |
+| `minimal` | Fastest useful adoption: agent projections, core rules, daily enforcement, quick recipes, ADR template. |
+| `standard` | Recommended baseline: `minimal` plus full `constitution/`, `ci/`, `adr/`, `usage/`, and the local overlay template. |
+| `architecture` | Architecture selection and advisory RAG notes (decision framework, style matrix, taxonomy, data modeling, terminology, `architecture/rag/`). |
+| `research` | Advisory research and external playbook references (`research/`). |
+| `full` | Complete copy import (Option A below): composes `standard` + `architecture` + `research`, plus `interface/`, `notes/`, and full `governance/`. |
+
+Bundle paths use `extends` / `composes` resolution (union, deduplicated). Importers must honor `exclude` entries (e.g. `notes/local/**`).
+
+For humans: start with `minimal` or `standard`, then add bundles as needed.
+For agents and automation: read `kit-manifest.yml` first; use `usage/ADOPTION_BUNDLES.md` for human-oriented bundle selection.
+
 ## Choose an Import Strategy (When to Use What)
 Pick based on two questions:
 1) Do you want **upstream updates**?
@@ -56,6 +73,8 @@ If you want an AI to assess what to adopt (and in what order), see:
 ## Governance Versioning (Recommended)
 To keep governance auditable over time, record which kit version you imported.
 
+See `VERSIONING.md` for version series (`0.x` vs `1.0+`) and changelog label meanings (`Governance-impacting`, `Advisory-only`, `Import bundle change`, `Breaking rule change`).
+
 **If you Copy**:
 - Record the import as an ADR (what was imported, date, and source commit/tag if known).
    - Do not remove the “Provenance” banner from imported documents.
@@ -82,7 +101,9 @@ Recommended (when adopting Copilot/AI agents):
 - Add a repo-specific overlay using `governance/LOCAL_OVERLAY_TEMPLATE.md` and include a low-risk execution continuity rule.
 
 ## Option A: Copy (Simplest)
-Copy these folders into your repo:
+Copy the `full` bundle from `kit-manifest.yml` (or compose `standard` + `architecture` + `research` + `interface/` + `notes/` + `governance/`).
+
+Equivalent folder list:
 - `constitution/`
 - `notes/`
 - `interface/`
@@ -91,6 +112,8 @@ Copy these folders into your repo:
 - `usage/`
 - `architecture/`
 - `governance/` (optional but recommended: overlay template)
+
+Also copy agent projections from the `minimal` bundle if not already included: `AGENTS.md`, `.github/copilot-instructions.md`.
 
 Then link them from your main README.
 
@@ -165,6 +188,9 @@ Enforcement is style-agnostic and expressed as boundary rules (core vs boundary 
 - `ci/ARCHITECTURE_GATES.md` and `ci/TEST_GATES.md`
 
 ## Related Documents
+- `kit-manifest.yml`
+- `usage/ADOPTION_BUNDLES.md`
+- `VERSIONING.md`
 - `README.md`
 - `usage/CI_MINIMUM_ADOPTION.md`
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`

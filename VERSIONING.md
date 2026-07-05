@@ -1,0 +1,66 @@
+# Kit Versioning Policy
+
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+This policy helps consumers answer: **which kit version do I have, and what kind of update is this?**
+
+## Version scheme
+
+| Series | Meaning |
+| --- | --- |
+| **0.x** | Experimental. Breaking governance changes are allowed. Bundle composition and file layout may change. |
+| **1.0+** | Stable adoption contract: bundle names, core file paths, and normative document roles remain compatible unless marked breaking. |
+
+The kit version is recorded in:
+
+- `kit-manifest.yml` → `version` (bundle manifest schema + kit release series)
+- Git tags (recommended): `v0.1.0`, `v1.0.0`, …
+- `CHANGELOG.md` (human-readable release notes)
+
+## After you import
+
+Record the import in an ADR (see `usage/HOW_TO_IMPORT.md` → Governance Versioning):
+
+- import date
+- bundle(s) imported (`minimal`, `standard`, `architecture`, `research`, `full`)
+- source tag and/or commit SHA
+- whether you use Copy, Submodule, or Fork
+
+Example ADR fields:
+
+```text
+Kit: AI_governance
+Bundle: standard + architecture
+Source: tag v0.2.0 (commit abc1234)
+Strategy: Copy
+```
+
+## Upgrade decision guide
+
+| Changelog label | Action for importers |
+| --- | --- |
+| **Advisory-only** | Optional refresh. No rule enforcement change expected. |
+| **Import bundle change** | Review `kit-manifest.yml` and `usage/ADOPTION_BUNDLES.md`; adjust copied paths or overlay. |
+| **Governance-impacting** | Read affected `constitution/` / `ci/` docs; update local overlay if needed; rerun verification. |
+| **Breaking rule change** | Treat as a governance dependency upgrade: ADR required, diff review, re-validate CI/doc gates. |
+
+## Submodule / fork consumers
+
+- **Submodule:** pin SHA; upgrade via PR with changelog review and `python scripts/doctor.py` (or local doc hygiene equivalent).
+- **Copy:** re-copy changed paths or merge manually; preserve provenance banners; record old → new version in an ADR.
+- **Fork:** maintain your own tags; document upstream cherry-pick policy.
+
+## Relationship to manifest `version`
+
+`kit-manifest.yml` `version` tracks the **manifest schema and bundle contract**, not every doc edit.
+
+- Manifest `0.1` → initial bundle definitions (`minimal`, `standard`, `architecture`, `research`, `full`)
+- Future manifest bumps should appear in `CHANGELOG.md` under **Import bundle change**
+
+## Related Documents
+
+- `CHANGELOG.md`
+- `kit-manifest.yml`
+- `usage/HOW_TO_IMPORT.md`
+- `usage/ADOPTION_BUNDLES.md`
+- `adr/ADR_TEMPLATE.md`

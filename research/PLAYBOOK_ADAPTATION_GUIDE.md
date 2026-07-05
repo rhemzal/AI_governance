@@ -1,5 +1,8 @@
 # PLAYBOOK_ADAPTATION_GUIDE.md
 
+_Provenance: This research note was added to the AI_governance kit (https://github.com/rhemzal/AI_governance)._
+
+
 ## Status
 
 **Research and adaptation reference — non-normative.**
@@ -128,7 +131,7 @@ Do not require human PR review by default for solo projects.
 Source inspiration:
 
 - GitLab AI-Assisted Development Playbook
-- DORA
+- DORA metrics
 - OpenSSF
 - AWS Well-Architected
 
@@ -156,7 +159,7 @@ Avoid:
 
 Source inspiration:
 
-- DORA
+- DORA metrics
 - GitLab model validation
 
 Adaptation for AI-assisted development:

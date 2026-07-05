@@ -1,5 +1,8 @@
 # Architecture Style Matrix (Trade-Off Map)
 
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+
 ## Purpose
 This matrix is a **trade-off map**, not dogma.
 It supports the `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`.

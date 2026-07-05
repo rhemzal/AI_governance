@@ -3,6 +3,14 @@
 This is a short agent-facing projection.
 The source of truth remains the governance kit documents.
 
+## Quick rules
+
+- For multi-file or cross-cutting changes, produce AEP first (`usage/AEP_VALIDATION.md`).
+- If verification fails, use the AVR loop before asking the operator.
+- For behavior changes, include DOC DELTA.
+- For high-risk changes, use the full `## COMPLIANCE REPORT` from `constitution/AI_ENFORCEMENT.md`.
+- High-risk = architecture boundaries, public contracts, CI gates, interface behavior, security, error model.
+
 ## Required context
 
 Before work, read or consult as applicable:

@@ -11,13 +11,8 @@ This is the fastest path to get value from this repository.
 - Make decisions explicit (ADRs) so the AI stops guessing.
 
 ## 1) 10-Minute Adoption (Any Repo)
-1. Copy these folders into your repo:
-   - `constitution/`
-   - `adr/`
-   - `usage/`
-   - `notes/` (recommended: committed vs local parking-lot notes)
-   - (optional) `ci/`, `interface/`, `architecture/`
-2. Link them from your repo’s main README (so developers find them).
+1. Import a bundle from `kit-manifest.yml` (start with `minimal` or `standard`; add `architecture` / `research` as needed).
+2. Link imported paths from your repo’s main README (so developers find them).
 3. Decide how strict you want to be:
    - day-to-day: use the daily enforcement prompt
    - high-risk changes: require full enforcement + compliance report
@@ -90,12 +85,12 @@ Context:
 - Assume the kit is not yet imported unless you see it in the repo.
 
 1) Recommend an import approach (Copy vs Submodule vs Fork) based on practical constraints (team workflow, desired update cadence, willingness to customize).
-2) Recommend the minimal set of folders to import first (focus on high-signal, low-friction value).
+2) Read `kit-manifest.yml` from the kit repo and recommend a bundle (`minimal`, `standard`, `architecture`, `research`, or `full`) — do not guess folder lists from README alone.
 3) After import, instruct me to run Recipe D to produce a staged adoption plan.
 
 Output:
 - Recommended import approach + why.
-- Minimal import set + why.
+- Recommended `kit-manifest.yml` bundle(s) + why.
 - Next steps checklist (human-doable).
 ```
 

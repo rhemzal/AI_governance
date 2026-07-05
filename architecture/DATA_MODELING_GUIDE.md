@@ -1,5 +1,8 @@
 # Data Modeling Guide (Project-Agnostic)
 
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+
 ## Purpose
 This guide helps choose and communicate data modeling approaches and hybrids.
 It is optimized for teams that want **clear trade-offs**, not theory-heavy jargon.

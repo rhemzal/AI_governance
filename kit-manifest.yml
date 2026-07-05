@@ -1,0 +1,73 @@
+version: "0.1"
+
+kit:
+  name: AI-Assisted Development Governance Kit
+  repository: https://github.com/rhemzal/AI_governance
+
+# Machine-readable import bundles for copy/submodule/fork workflows.
+#
+# Path rules:
+# - Repo-root-relative paths.
+# - Trailing slash = directory (include all tracked contents).
+# - No trailing slash = single file.
+#
+# Bundle rules:
+# - `extends` / `composes` are resolved recursively; paths are unioned and deduplicated.
+# - Pick one baseline: `minimal` (fastest) or `standard` (recommended).
+# - Add `architecture` and/or `research` when needed.
+# - Use `full` for the complete copy-import set (HOW_TO_IMPORT Option A).
+#
+# Importers MUST skip paths listed under `exclude`.
+#
+# Human bundle guide: usage/ADOPTION_BUNDLES.md
+
+exclude:
+  - notes/local/**
+  - .git/
+
+bundles:
+  minimal:
+    purpose: Smallest useful adoption for an existing repo.
+    paths:
+      - AGENTS.md
+      - .github/copilot-instructions.md
+      - constitution/AI_RULES.md
+      - constitution/AI_ENFORCEMENT_DAILY.md
+      - usage/QUICKGUIDE.md
+      - adr/ADR_TEMPLATE.md
+
+  standard:
+    purpose: Recommended baseline for serious solo / multi-agent projects.
+    extends: minimal
+    paths:
+      - constitution/
+      - ci/
+      - adr/
+      - usage/
+      - governance/LOCAL_OVERLAY_TEMPLATE.md
+
+  architecture:
+    purpose: Architecture selection and decision support.
+    paths:
+      - architecture/ARCHITECTURE_DECISION_FRAMEWORK.md
+      - architecture/ARCHITECTURE_STYLE_MATRIX.md
+      - architecture/SOLUTION_CLASS_TAXONOMY.md
+      - architecture/DATA_MODELING_GUIDE.md
+      - architecture/TERMINOLOGY_GLOSSARY.md
+      - architecture/rag/
+
+  research:
+    purpose: Advisory grounding and external playbook references.
+    paths:
+      - research/
+
+  full:
+    purpose: Complete copy import (HOW_TO_IMPORT Option A). Superset of all bundles.
+    composes:
+      - standard
+      - architecture
+      - research
+    paths:
+      - interface/
+      - notes/
+      - governance/

@@ -1,5 +1,8 @@
 # Architecture Decision Framework (Project-Agnostic)
 
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+
 ## Purpose
 This document provides a **decision framework** for selecting an architectural style (e.g., Hexagonal, Layered, Event-Driven, Pipeline) **without cargo-culting**.
 

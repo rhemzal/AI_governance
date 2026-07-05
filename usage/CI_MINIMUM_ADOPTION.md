@@ -11,6 +11,7 @@ If you are adopting the kit in an existing repo, you can start with a minimal se
 Goal: prevent documentation drift and broken references.
 - Add a documentation hygiene check to CI (fast, deterministic).
 - Make the job required on PRs.
+- In this kit repo, run `python scripts/doctor.py` (see `DEVELOPMENT.md`).
 
 Why first: it is deterministic, fast, and enforces “single source of truth” behavior.
 

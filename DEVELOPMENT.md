@@ -2,6 +2,18 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
+## Documentation Hygiene (Kit Repo)
+
+Run the kit doctor before PRs that touch documentation or import bundles:
+
+```bash
+python scripts/doctor.py
+```
+
+Checks include: broken markdown links, import-target provenance banners, README entry-point links, ambiguous acronym usage per `architecture/TERMINOLOGY_GLOSSARY.md`, `## Related Documents` on significant docs, and `kit-manifest.yml` path validity.
+
+See `ci/DOC_GATES.md` for gate principles and `usage/PROACTIVE_TRIGGER_MAP.md` for path-prefix triggers.
+
 ## Testing Quickstart
 
 This section provides a concise reference for running tests in repositories that adopt this governance kit.

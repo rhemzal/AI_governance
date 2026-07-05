@@ -1,5 +1,8 @@
 # RESEARCH_ENGINEERING_PLAYBOOKS.md
 
+_Provenance: This research note was added to the AI_governance kit (https://github.com/rhemzal/AI_governance)._
+
+
 ## Status
 
 **Research and adaptation reference — non-normative.**
@@ -235,7 +238,7 @@ Avoid:
 
 ### Relevant findings
 
-DORA identifies software delivery performance metrics focused on delivering safely, quickly, and efficiently. The metrics distinguish throughput and instability, and can be used across different technologies and systems.
+The DORA metrics program identifies software delivery performance metrics focused on delivering safely, quickly, and efficiently. The metrics distinguish throughput and instability, and can be used across different technologies and systems.
 
 Relevant source:
 - https://dora.dev/guides/dora-metrics/
@@ -259,7 +262,7 @@ Adapt:
 
 Avoid:
 
-- Applying enterprise DORA dashboards to early projects.
+- Applying enterprise DORA metrics dashboards to early projects.
 
 ## 9. OpenSSF Scorecard
 
@@ -360,7 +363,7 @@ Existing public sources provide strong pieces:
 - GitHub: Copilot custom instructions
 - GitLab: AI-assisted development playbook and autonomy levels
 - Thoughtworks: technology maturity classification
-- DORA: delivery outcome metrics
+- DORA metrics: delivery outcome metrics
 - OpenSSF: automated security health checks
 - AWS: operational excellence evaluation
 - AGENTS.md ecosystem: agent context files and emerging risks

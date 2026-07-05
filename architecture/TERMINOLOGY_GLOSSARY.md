@@ -1,5 +1,8 @@
 # Architecture & Data Terminology Glossary (Advisory)
 
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+
 ## Purpose
 Provide a shared vocabulary so architecture discussions are consistent, reviewable, and less “LLM-magic”.
 

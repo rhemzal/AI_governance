@@ -1,5 +1,8 @@
 # Hexagonal Architecture — Rationale and Failure Modes (Advisory)
 
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+
+
 ## Core Idea
 Protect the core (domain/application) from volatility at the edges by using **ports** and **adapters**.
 
