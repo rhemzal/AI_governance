@@ -183,6 +183,16 @@ When an AI coding agent operates in this repository or any repository using this
 
 > **Do not add a CI/CD gate, ADR requirement, documentation process, or enforcement mechanism unless it mitigates a concrete risk and has acceptable maintenance cost.**
 
+### External engineering playbooks
+
+External engineering playbooks must be adapted, not copied.
+
+A principle may be adopted when it improves code health, verification, maintainability, or architectural clarity.
+
+A process may be adopted only when the project maturity and risk justify its maintenance cost.
+
+See `research/RESEARCH_ENGINEERING_PLAYBOOKS.md` and `research/PLAYBOOK_ADAPTATION_GUIDE.md` for research and adaptation guidance (non-normative).
+
 Additional rules:
 
 - Do not add required reviewers, branch protection, or PR policies to solo projects.
@@ -219,6 +229,8 @@ If this block is missing from a response that proposes governance or process cha
 ## Related Documents
 - `constitution/AI_RULES.md`
 - `constitution/AI_ENFORCEMENT.md`
+- `research/RESEARCH_ENGINEERING_PLAYBOOKS.md`
+- `research/PLAYBOOK_ADAPTATION_GUIDE.md`
 - `ci/ARCHITECTURE_GATES.md`
 - `ci/TEST_GATES.md`
 - `ci/INTERFACE_GATES.md`

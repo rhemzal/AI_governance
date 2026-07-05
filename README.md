@@ -4,6 +4,17 @@ This repository is a reusable, project-agnostic governance kit for **AI-assisted
 
 Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes live in `architecture/rag/`.
 
+## Grounded in engineering practice
+
+This project does not attempt to reinvent software engineering fundamentals.
+It adapts proven engineering playbook principles for AI-assisted development.
+
+The goal is not enterprise bureaucracy, but lightweight, adaptive governance suitable for solo developers, teams, and AI coding agents.
+
+The kit draws on established practices — including code health, playbook-driven shared practice, repository-local AI instructions, AI-assisted development harnesses, adaptive CI/CD, delivery metrics, security automation, and operational excellence — without copying enterprise processes directly.
+
+Research and adaptation references (non-normative): [research/RESEARCH_ENGINEERING_PLAYBOOKS.md](research/RESEARCH_ENGINEERING_PLAYBOOKS.md), [research/PLAYBOOK_ADAPTATION_GUIDE.md](research/PLAYBOOK_ADAPTATION_GUIDE.md).
+
 ## Quick use (existing project)
 If you’re evaluating this kit for an existing repo, start with an assessment prompt before importing anything.
 
@@ -62,6 +73,8 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - ADR template: [adr/ADR_TEMPLATE.md](adr/ADR_TEMPLATE.md)
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
 - External project evaluations: [research/EXTERNAL_PROJECT_EVALUATIONS.md](research/EXTERNAL_PROJECT_EVALUATIONS.md)
+- Engineering playbook research: [research/RESEARCH_ENGINEERING_PLAYBOOKS.md](research/RESEARCH_ENGINEERING_PLAYBOOKS.md)
+- Playbook adaptation guide: [research/PLAYBOOK_ADAPTATION_GUIDE.md](research/PLAYBOOK_ADAPTATION_GUIDE.md)
 
 ## Repository structure
 - `constitution/` — core rules and enforcement contracts
@@ -70,7 +83,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - `usage/` — import and adoption workflows (including prompt recipes)
 - `notes/` — committed vs local parking-lot notes
 - `architecture/` and `architecture/rag/` — decision guidance and advisory theory notes
-- `research/` — advisory research notes, professional standards references, and external project evaluations
+- `research/` — advisory research notes, engineering playbook research, professional standards references, and external project evaluations
 
 ## PR Habit: “Doc Delta”
 When a PR changes behavior, include the `### DOC DELTA` block from [usage/HOW_TO_USE_WITH_COPILOT.md](usage/HOW_TO_USE_WITH_COPILOT.md).

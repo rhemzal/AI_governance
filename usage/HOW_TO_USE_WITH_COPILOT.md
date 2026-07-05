@@ -41,6 +41,24 @@ Each repository should use a repo-local virtual environment and/or make/docker w
 - Recommended repo-local scratch directories: `.tmp/`, `tmp/`, `.artifacts/`, `.cache/` (follow repo convention).
 - Ephemeral outputs should be gitignored if they are not canonical artifacts.
 
+## Agent Instruction Files (AGENTS.md, Copilot Instructions)
+
+Agent instruction files must not become large duplicated playbooks.
+They should contain only minimal, task-critical instructions and references to deeper governance documents.
+
+Recommended pattern:
+- **Source of truth**: `constitution/`, `ci/`, `adr/`, `architecture/`
+- **Projections** (keep short): `AGENTS.md`, `.github/copilot-instructions.md`
+
+Each projection should include:
+- how to build, test, and verify changes
+- links to `constitution/AI_RULES.md` and the appropriate enforcement doc
+- one or two project-specific constraints not covered elsewhere
+
+Do not paste full governance documents, architecture theory, or enterprise process into files loaded on every AI task.
+
+See `research/PLAYBOOK_ADAPTATION_GUIDE.md` (Section 1.1 and Agent Instructions) for adaptation rationale.
+
 ## Daily Work
 Use:
 - `constitution/AI_ENFORCEMENT_DAILY.md`

@@ -155,9 +155,30 @@ The AI assistant MUST NOT recommend enterprise-grade CI/CD, PR workflows, or rel
 
 See `constitution/ADAPTIVE_GOVERNANCE.md` for the full governance level definitions and anti-overengineering rules.
 
+## 11. Playbook Adaptation Check
+
+Before importing any practice from an external engineering playbook, the AI MUST complete this check:
+
+```
+PLAYBOOK ADAPTATION CHECK
+- Source practice:
+- Underlying principle:
+- Is this a principle or a process?
+- Minimum project level where it applies:
+- Risk mitigated:
+- Maintenance cost:
+- Adopt / adapt / defer / reject:
+```
+
+If the check recommends **adopt** or **adapt**, the AI MUST also include the GOVERNANCE FIT CHECK (Section 10) when proposing any new process, gate, or enforcement mechanism.
+
+Research and adaptation references (non-normative): `research/RESEARCH_ENGINEERING_PLAYBOOKS.md`, `research/PLAYBOOK_ADAPTATION_GUIDE.md`.
+
 ## Related Documents
 - `constitution/AI_RULES.md`
 - `constitution/ADAPTIVE_GOVERNANCE.md`
+- `research/RESEARCH_ENGINEERING_PLAYBOOKS.md`
+- `research/PLAYBOOK_ADAPTATION_GUIDE.md`
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
 - `adr/ADR_0002_Architecture_Is_Contextual.md`
 - `adr/ADR_0003_RAG_Is_Advisory_Not_Normative.md`

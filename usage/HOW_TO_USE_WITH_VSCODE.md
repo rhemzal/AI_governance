@@ -25,6 +25,8 @@ Your VS Code setup stores:
 
 Avoid “documenting every click”. Prefer stable, tool-agnostic habits.
 
+Agent instruction files (`AGENTS.md`, `.github/copilot-instructions.md`) must stay short: minimal task-critical instructions plus links to `constitution/` and `usage/` — not duplicated playbooks. See `usage/HOW_TO_USE_WITH_COPILOT.md`.
+
 ## Recommended Extensions (Minimal Set)
 Keep the set small to reduce cognitive load.
 
