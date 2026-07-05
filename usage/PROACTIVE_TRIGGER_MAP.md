@@ -12,7 +12,7 @@ Use this map so agents do not guess which governance mode applies.
 | --- | --- | --- |
 | `constitution/**` | **High-risk** | Load `constitution/AI_ENFORCEMENT.md`; ADR consideration; full `## COMPLIANCE REPORT`; terminology check (`architecture/TERMINOLOGY_GLOSSARY.md`). |
 | `ci/**` | **High-risk** | Adaptive Governance Check (`constitution/ADAPTIVE_GOVERNANCE.md`); CI adoption consistency (`usage/CI_MINIMUM_ADOPTION.md`); verify gate docs align with enforcement level. |
-| `architecture/**` | **Medium** (often ADR-adjacent) | Terminology check; architecture decision consistency (`architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`); confirm `architecture/rag/` edits stay advisory/non-normative. |
+| `architecture/**` | **Medium** (often ADR-adjacent) | Start at `architecture/README.md`; terminology check; decision consistency (`architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`, `architecture/ARCHITECTURE_DECISION_PROMPT.md` for prechecks); new RAG notes via `architecture/rag/RAG_NOTE_TEMPLATE.md` + taxonomy checklist; confirm `architecture/rag/` edits stay advisory/non-normative. |
 | `interface/**` | **High-risk** | Automation-first check (`adr/ADR_0001_Automation_First_Interfaces.md`); interface gates (`ci/INTERFACE_GATES.md`, `interface/INTERFACE_CI_GATES.md`). |
 | `research/**` | **Low** (advisory) | Advisory/non-normative check — must not override `constitution/` or `ci/`; ambiguous acronym check per `architecture/TERMINOLOGY_GLOSSARY.md`. |
 | `usage/**` | **Medium** | Import/adoption consistency; broken link check; DOC DELTA when behavior guidance changes. |

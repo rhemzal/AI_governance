@@ -84,8 +84,40 @@ When discussing “models”, always disambiguate which model you mean:
 
 Ask the AI to restate your definitions before proposing changes.
 
+## 5) Data Model Decision Record
+
+When persistence or modeling is central, capture decisions in a short block (paste into an ADR or attach to `ARCHITECTURE DECISION PRECHECK` output). Not a separate ADR type — a consistent mini-template.
+
+```text
+DATA MODEL DECISION RECORD
+- Domain model:
+- Persistence model:
+- Read model:
+- System of record:
+- Invariants:
+- Schema evolution strategy:
+- Migration / rollback:
+- Testing strategy:
+```
+
+Fill each line explicitly; use `none` or `N/A` only when justified.
+
+| Field | What to state |
+|---|---|
+| Domain model | Objects, behavior, where invariants live (rich vs anemic) |
+| Persistence model | Tables, documents, events — how domain maps to storage |
+| Read model | Projections, views, CQRS read side if any |
+| System of record | State vs events; source of truth for each aggregate |
+| Invariants | Rules and **where enforced** (domain, DB constraint, both) |
+| Schema evolution strategy | Versioning, backward compatibility, expand-contract |
+| Migration / rollback | How schema/data changes ship and revert |
+| Testing strategy | Determinism, replay, fixture strategy, contract tests |
+
+See also `architecture/rag/STATE_VS_EVENT_MODEL.md` and `architecture/rag/SCHEMA_EVOLUTION_AND_VERSIONING.md`.
+
 ## Related Documents
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
+- `architecture/ARCHITECTURE_DECISION_PROMPT.md`
 - `architecture/rag/STATE_VS_EVENT_MODEL.md`
 - `architecture/rag/MEASURED_PERFORMANCE.md`
 - `architecture/TERMINOLOGY_GLOSSARY.md`

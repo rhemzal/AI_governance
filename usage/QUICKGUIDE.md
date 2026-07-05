@@ -94,6 +94,14 @@ Output:
 - Next steps checklist (human-doable).
 ```
 
+### Recipe F — Architecture Decision Precheck (Before Style / ADR)
+Use before picking hexagonal vs layered vs event-driven vs hybrid, or before architecture-impacting implementation.
+
+Paste the prompt from:
+- `architecture/ARCHITECTURE_DECISION_PROMPT.md`
+
+Fill in the context block, then require the `ARCHITECTURE DECISION PRECHECK` output. If `ADR required: yes`, stop and use `adr/ADR_TEMPLATE.md` before code changes.
+
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:
 - change architecture boundaries/dependency rules
@@ -125,6 +133,7 @@ When ready, implement these gates in your CI tool:
 5. `adr/ADR_TEMPLATE.md`
 
 ## Related Documents
+- `architecture/ARCHITECTURE_DECISION_PROMPT.md`
 - `README.md`
 - `usage/HOW_TO_IMPORT.md`
 - `usage/HOW_TO_USE_WITH_COPILOT.md`

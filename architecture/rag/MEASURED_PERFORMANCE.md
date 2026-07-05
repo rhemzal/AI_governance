@@ -26,6 +26,7 @@ The same measurement discipline applies to structural and build-graph changes:
 - "Cleanup" PRs accumulate structural churn without any demonstrable benefit.
 
 ## Related Documents
+- `architecture/rag/OBSERVABILITY_AS_ARCHITECTURE.md` (runtime diagnosability; complementary to this note)
 - `constitution/AI_RULES.md` §3.1 (Incremental Structural Hygiene)
 - `architecture/rag/INFORMATION_HIDING.md` (Extraction Discipline)
 - `ci/ARCHITECTURE_GATES.md` Gate A5

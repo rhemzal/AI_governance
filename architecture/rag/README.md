@@ -11,6 +11,7 @@ Rules:
 - Each note includes failure modes (“when this fails”).
 - Prefer actionable heuristics over academic depth.
 - Prefer extending an existing note over creating a new micro-note.
+- New or upgraded notes: use [RAG_NOTE_TEMPLATE.md](RAG_NOTE_TEMPLATE.md) and the extension checklist in `architecture/SOLUTION_CLASS_TAXONOMY.md`.
 
 Recommended usage:
 - Link the note in an ADR when its concept is used.
@@ -19,6 +20,7 @@ Recommended usage:
 Related documents:
 - `adr/ADR_0003_RAG_Is_Advisory_Not_Normative.md`
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
+- [RAG_NOTE_TEMPLATE.md](RAG_NOTE_TEMPLATE.md)
 
 ## Notes Index
 Architecture styles:
@@ -49,6 +51,10 @@ General theory & decision support:
 - [INFORMATION_HIDING.md](INFORMATION_HIDING.md)
 - [CONWAYS_LAW.md](CONWAYS_LAW.md)
 - [MEASURED_PERFORMANCE.md](MEASURED_PERFORMANCE.md)
+
+Cross-cutting concerns (Advisory):
+- [OBSERVABILITY_AS_ARCHITECTURE.md](OBSERVABILITY_AS_ARCHITECTURE.md)
+- [FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md](FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md)
 
 Additional solution classes (Acknowledged — entry-point notes):
 - [PLUGIN_EXTENSION_ARCHITECTURE.md](PLUGIN_EXTENSION_ARCHITECTURE.md)

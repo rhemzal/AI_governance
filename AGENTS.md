@@ -19,6 +19,7 @@ Before work, read or consult as applicable:
 - `constitution/AI_ENFORCEMENT.md`
 - `constitution/ADAPTIVE_GOVERNANCE.md`
 - `architecture/TERMINOLOGY_GLOSSARY.md`
+- `architecture/README.md` (architecture entry point; consult before `architecture/rag/` work)
 - `usage/AEP_VALIDATION.md`
 
 ## Default operating mode

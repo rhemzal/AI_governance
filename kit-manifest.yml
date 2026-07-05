@@ -49,7 +49,9 @@ bundles:
   architecture:
     purpose: Architecture selection and decision support.
     paths:
+      - architecture/README.md
       - architecture/ARCHITECTURE_DECISION_FRAMEWORK.md
+      - architecture/ARCHITECTURE_DECISION_PROMPT.md
       - architecture/ARCHITECTURE_STYLE_MATRIX.md
       - architecture/SOLUTION_CLASS_TAXONOMY.md
       - architecture/DATA_MODELING_GUIDE.md

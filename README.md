@@ -81,7 +81,9 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Agent instruction projection: [AGENTS.md](AGENTS.md)
 - Copilot instruction projection: [.github/copilot-instructions.md](.github/copilot-instructions.md)
 - Translation freshness guidance: [usage/TRANSLATION_FRESHNESS.md](usage/TRANSLATION_FRESHNESS.md)
+- Architecture guidance (start here): [architecture/README.md](architecture/README.md)
 - Architecture decision framework: [architecture/ARCHITECTURE_DECISION_FRAMEWORK.md](architecture/ARCHITECTURE_DECISION_FRAMEWORK.md)
+- Architecture decision prompt (copy-paste): [architecture/ARCHITECTURE_DECISION_PROMPT.md](architecture/ARCHITECTURE_DECISION_PROMPT.md)
 - Solution class taxonomy & coverage: [architecture/SOLUTION_CLASS_TAXONOMY.md](architecture/SOLUTION_CLASS_TAXONOMY.md)
 - ADR template: [adr/ADR_TEMPLATE.md](adr/ADR_TEMPLATE.md)
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
@@ -95,7 +97,8 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - `adr/` — ADR templates and accepted decisions for this kit
 - `usage/` — import and adoption workflows (including prompt recipes)
 - `notes/` — committed vs local parking-lot notes
-- `architecture/` and `architecture/rag/` — decision guidance and advisory theory notes
+- `architecture/` — [decision guidance entry point](architecture/README.md) (framework, prompt, taxonomy, data modeling)
+- `architecture/rag/` — advisory theory notes (use `rag/RAG_NOTE_TEMPLATE.md` for new notes)
 - `research/` — advisory research notes, engineering playbook research, professional standards references, and external project evaluations
 
 ## PR Habit: “Doc Delta”

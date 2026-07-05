@@ -73,6 +73,13 @@ Hybrids that often fail without strong governance:
 - Event-driven + no schema evolution policy
 - CQRS everywhere (projection sprawl)
 
+## Cross-Cutting Concerns (Layered on Any Style)
+
+These are not architecture-style columns; they apply across styles. See `architecture/SOLUTION_CLASS_TAXONOMY.md` §C.
+
+- **Observability-as-Architecture**: choose when async boundaries, retries, or multi-adapter flows need designed-in traceability; avoid bolt-on logging after complex topology ships. (See `architecture/rag/OBSERVABILITY_AS_ARCHITECTURE.md`.)
+- **Feature flags / progressive delivery**: choose when deploy≠release and controlled rollout is required; avoid when flags become permanent hidden state without test pinning. (See `architecture/rag/FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md`.)
+
 ## Related Documents
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
 - `architecture/SOLUTION_CLASS_TAXONOMY.md`
@@ -86,5 +93,7 @@ Hybrids that often fail without strong governance:
 - `architecture/rag/MICROSERVICES_WHEN_NOT_TO.md`
 - `architecture/rag/CQRS_WHEN_AND_WHEN_NOT.md`
 - `architecture/rag/STREAMING_REACTIVE.md`
+- `architecture/rag/OBSERVABILITY_AS_ARCHITECTURE.md`
+- `architecture/rag/FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md`
 - `architecture/TERMINOLOGY_GLOSSARY.md`
 

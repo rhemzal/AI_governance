@@ -73,8 +73,8 @@ These patterns can be layered on top of any architecture style or repo structure
 | Cross-Cutting Concern | Coverage Level | Kit References | Notes |
 |---|---|---|---|
 | Multi-Tenancy | **Mentioned** | Implicitly relevant to boundary model and data isolation | Not yet dedicated guidance; tenant isolation is a boundary concern (apply `AI_RULES.md` §1) |
-| Feature Flags / Progressive Delivery | **Mentioned** | — | Deployment vs. release separation; no dedicated note. Treat feature flag state as integration boundary |
-| Observability-as-Architecture | **Mentioned** | Framework §4 (failure zones), `MEASURED_PERFORMANCE.md` | Partial: performance measurement covered; full observability-as-first-class concern not yet dedicated |
+| Feature Flags / Progressive Delivery | **Advisory** | RAG: `FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md`; Framework §4–§5 | Flag state as integration boundary; determinism and testing guidance; vendor platforms out of scope |
+| Observability-as-Architecture | **Advisory** | RAG: `OBSERVABILITY_AS_ARCHITECTURE.md`; Framework §4; `MEASURED_PERFORMANCE.md` | When diagnosability belongs in design (correlation, retries, failure zones); tooling/runbooks out of scope |
 | Zero-Trust / Defense-in-Depth | **Mentioned** | `AI_RULES.md` §1 (boundary contracts imply trust boundaries) | Boundary model aligns with zero-trust principles; security-specific enforcement is out of scope |
 | Offline-First / Local-First | **Mentioned** | RAG: `CONSISTENCY_MODELS.md` | Consistency model guidance partially applies; conflict-resolution and sync specifics are out of scope |
 | Multi-Language / Polyglot Codebase | **Mentioned** | `AI_RULES.md` §5.4 (language policy for docs) | Doc language policy defined; polyglot code governance (per-language linting, boundary contracts across languages) not yet covered |
@@ -90,12 +90,10 @@ When a new solution class, repo pattern, or cross-cutting concern is identified,
 - [ ] **Assess coverage level**: Does this need Full, Advisory, Acknowledged, or just Mentioned?
 - [ ] **Write a RAG entry-point note** (if Acknowledged or higher):
   - File: `architecture/rag/<CLASSNAME>.md`
-  - MUST include: Provenance banner, `## Coverage Level`, Core Idea, Why Teams Choose It, When to Choose, When NOT to Choose, Common Failure Modes, Heuristics, How This Kit's Boundary Model Applies, Entry Points in This Kit, Related Documents
-  - Follow the structure of existing advisory notes
+  - Use `architecture/rag/RAG_NOTE_TEMPLATE.md` (extracted structure; prefer extending an existing note over a new file)
 - [ ] **Add a matrix entry** (if Advisory or higher):
-  - Add column(s) to `architecture/ARCHITECTURE_STYLE_MATRIX.md`
-  - Add any new criterion rows if the new class surfaces new trade-off dimensions
-  - Add failure mode notes and quick guidance entries for the new column
+  - **Architecture styles / repo patterns:** add column(s) to `architecture/ARCHITECTURE_STYLE_MATRIX.md`; add criterion rows and failure-mode notes as needed.
+  - **Cross-cutting concerns:** add or extend the “Cross-Cutting Concerns” section in the matrix (not a style column); link the RAG note from framework §4 where relevant.
 - [ ] **Update the Framework** (if Advisory or higher):
   - Add a new axis to §1 of `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` if the class introduces a new primary axis
   - Link to the new RAG note from Related Documents
@@ -115,7 +113,9 @@ When a new solution class, repo pattern, or cross-cutting concern is identified,
 
 ## Related Documents
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
+- `architecture/ARCHITECTURE_DECISION_PROMPT.md`
 - `architecture/ARCHITECTURE_STYLE_MATRIX.md`
 - `architecture/rag/README.md`
+- `architecture/rag/RAG_NOTE_TEMPLATE.md`
 - `constitution/AI_RULES.md`
 - `adr/ADR_TEMPLATE.md`

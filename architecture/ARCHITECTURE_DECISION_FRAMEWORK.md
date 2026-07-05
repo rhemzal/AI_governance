@@ -18,6 +18,8 @@ Architecture style selection MUST:
 
 If the answers are unknown, treat this as risk and explicitly record it.
 
+For everyday AI-assisted work, use the copy-paste prompt and fixed output block in `architecture/ARCHITECTURE_DECISION_PROMPT.md` before implementation.
+
 ---
 
 ## 1) Identify the System’s Primary Axis
@@ -88,6 +90,10 @@ Answer:
 - Where can failures happen? (network, DB, external APIs, user inputs)
 - How do we isolate failures from cascading?
 - What MUST remain deterministic and testable?
+
+Cross-cutting guidance (layered on any style):
+- **Observability-as-Architecture** — design correlation, retries, and failure visibility with the system; see `architecture/rag/OBSERVABILITY_AS_ARCHITECTURE.md`.
+- **Feature flags / progressive delivery** — treat flag state as an integration boundary; pin flag state in tests; see `architecture/rag/FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md`.
 
 ---
 
@@ -174,11 +180,14 @@ Create an ADR that includes:
 - how decisions are enforced (CI gates, tests)
 
 ## Related Documents
+- `architecture/ARCHITECTURE_DECISION_PROMPT.md`
 - `adr/ADR_TEMPLATE.md`
 - `adr/ADR_0002_Architecture_Is_Contextual.md`
 - `architecture/ARCHITECTURE_STYLE_MATRIX.md`
 - `architecture/SOLUTION_CLASS_TAXONOMY.md`
 - `architecture/DATA_MODELING_GUIDE.md`
+- `architecture/rag/OBSERVABILITY_AS_ARCHITECTURE.md`
+- `architecture/rag/FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md`
 - `constitution/AI_RULES.md` and `constitution/AI_ENFORCEMENT.md`
 - `ci/ARCHITECTURE_GATES.md` and `ci/TEST_GATES.md`
 

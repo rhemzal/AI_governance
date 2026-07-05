@@ -18,6 +18,7 @@ It is not a separate source of truth.
 - High-risk work: `constitution/AI_ENFORCEMENT.md`
 - Adaptive governance: `constitution/ADAPTIVE_GOVERNANCE.md`
 - Terminology: `architecture/TERMINOLOGY_GLOSSARY.md`
+- Architecture decisions: `architecture/README.md` (then framework / prompt as needed)
 
 ## How to work
 
