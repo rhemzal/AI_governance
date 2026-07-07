@@ -72,6 +72,8 @@ When tests fail, do not default to long log archaeology.
 Use the smallest useful scope, stop on first critical signal, capture minimal evidence, apply AVR loop, and rerun.
 Do not weaken or delete tests to make the run pass.
 
+See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
+
 ## Documentation
 
 For behavior changes:
