@@ -73,6 +73,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Import guidance: [usage/HOW_TO_IMPORT.md](usage/HOW_TO_IMPORT.md)
 - Quick recipes & prompts: [usage/QUICKGUIDE.md](usage/QUICKGUIDE.md)
 - Testing quickstart: [DEVELOPMENT.md](DEVELOPMENT.md)
+- AI test diagnostics playbook: [usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md](usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md)
 - Progressive CI adoption: [usage/CI_MINIMUM_ADOPTION.md](usage/CI_MINIMUM_ADOPTION.md)
 - CI starter workflows (reference): [usage/CI_STARTER_WORKFLOWS.md](usage/CI_STARTER_WORKFLOWS.md) (kit repo: `.github/workflows/doc-hygiene.yml`)
 - AEP validation spec: [usage/AEP_VALIDATION.md](usage/AEP_VALIDATION.md)
