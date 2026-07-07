@@ -89,6 +89,25 @@ Methodology does not bypass gates:
 - Use **AVR** whenever an AI agent executes work autonomously and must verify, detect failures, repair minimally, and rerun checks without operator input.
 - **AVR does not replace** TDD, BDD, integration tests, or CI gates — it complements them during autonomous agent execution.
 
+## Guidance: Fail-Fast Diagnostic Testing
+
+AI agents SHOULD prefer short, observable test loops.
+
+When a test can expose critical runtime signals during execution, the agent SHOULD stop on the first critical signal instead of completing a long scenario and analyzing logs afterward.
+
+Critical signals include:
+- assertion failures
+- uncaught runtime errors
+- failed required network calls
+- critical console errors
+- timeouts
+- contract/schema violations
+- visual/DOM/accessibility mismatches
+
+The agent MUST preserve enough evidence to diagnose the failure before attempting repair.
+
+See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
+
 ## Advisory: Advanced Testing Techniques (Optional)
 These techniques are **optional** and should be considered based on risk profile and complexity. Use them when they provide clear risk reduction beyond standard tests.
 
@@ -127,4 +146,4 @@ These techniques are **optional** and should be considered based on risk profile
 - `constitution/ADAPTIVE_GOVERNANCE.md`
 - `ci/ARCHITECTURE_GATES.md`
 - `ci/INTERFACE_GATES.md`
-
+- `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`

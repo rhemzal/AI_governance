@@ -66,6 +66,12 @@ If verification fails:
 - use AVR loop: detect → diagnose → minimal compliant repair → rerun → report
 - do not ask for help unless blocked
 
+## Testing diagnostics
+
+When tests fail, do not default to long log archaeology.
+Use the smallest useful scope, stop on first critical signal, capture minimal evidence, apply AVR loop, and rerun.
+Do not weaken or delete tests to make the run pass.
+
 ## Documentation
 
 For behavior changes:

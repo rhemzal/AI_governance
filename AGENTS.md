@@ -74,6 +74,18 @@ When verification fails:
 
 Do not ask the operator unless genuinely blocked.
 
+## Test diagnostics
+
+When testing:
+- run the smallest useful scope first
+- prefer fail-fast diagnostics over long post-run log analysis
+- stop on first critical signal
+- capture minimal evidence
+- use the AVR loop before asking the operator
+- do not weaken or delete tests to make verification pass
+
+See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
+
 ## Verification
 
 Always discover repo-local verification first:

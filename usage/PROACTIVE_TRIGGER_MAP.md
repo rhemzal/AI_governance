@@ -22,6 +22,12 @@ Use this map so agents do not guess which governance mode applies.
 | `kit-manifest.yml` | **Medium** | Manifest paths exist (doc hygiene review); update `usage/ADOPTION_BUNDLES.md` if bundle purpose changes; **Import bundle change** changelog entry. |
 | Root projections (`AGENTS.md`, `README.md`) | **Medium** | Brevity + link integrity; README must keep top links to core entry points. |
 
+## Event triggers
+
+| Event | Risk mode | Required checks / actions |
+| --- | --- | --- |
+| GUI / interface test failure | Medium → High | Use `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`; capture first failure signal; avoid full rerun until diagnosis. |
+
 ## Multi-prefix changes
 
 If a PR spans multiple prefixes, apply the **highest** risk mode from the table and union all mapped checks.
