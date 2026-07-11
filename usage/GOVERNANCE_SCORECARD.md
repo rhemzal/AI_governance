@@ -14,6 +14,16 @@ Use it as advisory reporting unless your local policy makes specific metrics man
 - median PR cycle time (open to merge)
 - governance exceptions/waivers open vs closed
 
+### Optional AI productivity KPIs
+
+When using `usage/AI_PRODUCTIVITY_CALIBRATION.md`, add (from local ledger aggregates or `governance/AI_CALIBRATION_SUMMARY.md`):
+
+- median `ai_iterations` per `task_class`
+- median `T_ai_active` vs `T_lead` (AI work vs total lead time)
+- `human_rescue` rate (% tasks where human finished after AI stalled)
+- `estimate_error_ratio` trend (Phase 3 only; target: not systematically > 1.3)
+- `human_vs_ai_ratio` per class (only when `human_source` is `measured` or `calibrated_ratio`)
+
 ## Collection cadence (suggested)
 - Weekly: tactical signals (gate failures, flakiness, blockers)
 - Monthly: trend review (adoption, waivers, cycle time)
@@ -42,6 +52,13 @@ Use it as advisory reporting unless your local policy makes specific metrics man
 - Median PR cycle time:
 - Governance waivers open/closed:
 
+### AI productivity KPIs (optional)
+- Calibration phase: Phase 0 | 1 | 2 | 3
+- Median ai_iterations (top task_class):
+- human_rescue rate:
+- estimate_error_ratio trend (Phase 3):
+- human_vs_ai_ratio (if data supports):
+
 ### Notes / actions
 - Top failure mode:
 - Next corrective action:
@@ -49,6 +66,7 @@ Use it as advisory reporting unless your local policy makes specific metrics man
 ```
 
 ## Related Documents
+- `usage/AI_PRODUCTIVITY_CALIBRATION.md`
 - `usage/AUDIT_PLAYBOOK.md`
 - `usage/GOVERNANCE_WAIVERS.md`
 - `usage/CI_MINIMUM_ADOPTION.md`

@@ -163,6 +163,46 @@ Issue:
 
 When cause is unclear or the first fix failed, use **Prompt 7** (triage) then **Prompt 6** (hypothesis falsification) — not another blind implementation guess or catalog-wide pattern listing.
 
+### Recipe I — AI Productivity Calibration (Phase 0 plan + post-task ledger)
+
+Use at project start or when building a local productivity dataset. Requires `usage/AI_PRODUCTIVITY_CALIBRATION.md` (standard bundle).
+
+**Before the task** — paste:
+
+```
+Load usage/AI_PRODUCTIVITY_CALIBRATION.md.
+
+Planning mode: COLD_START (Phase 0).
+Do NOT state calendar time estimates for human teams or AI assistants.
+
+Plan this task with:
+- task_class (from taxonomy)
+- explicit file paths and steps
+- AI iteration budget (count, not minutes)
+- verify command (repo-local)
+- Risk: LOW | HIGH
+
+If AEP is required, include Planning mode: COLD_START and omit ETA fields.
+
+Task:
+<PASTE TASK>
+```
+
+**After the task closes** — paste:
+
+```
+Load usage/templates/AI_PRODUCTIVITY_LEDGER.template.md.
+
+The task is closed. Produce a ledger entry for notes/local/ai-productivity/ledger.md with:
+- required fields: task_id, date, task_class, risk, T_ai_active, T_lead, ai_iterations
+- recommended fields where known: T_scope, T_operator, T_verify, T_review, T_docs, T_fixups, human_rescue, verify_failures, scope_expansion
+
+Do not invent T_human_manual. Use human_source: unknown unless I provide measured data.
+
+Task summary:
+<PASTE WHAT WAS DONE>
+```
+
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:
 - change architecture boundaries/dependency rules
@@ -194,6 +234,7 @@ When ready, implement these gates in your CI tool:
 5. `adr/ADR_TEMPLATE.md`
 
 ## Related Documents
+- `usage/AI_PRODUCTIVITY_CALIBRATION.md`
 - `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
 - `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`
 - `usage/DECISION_PROMPTS_DEBUGGING.md`

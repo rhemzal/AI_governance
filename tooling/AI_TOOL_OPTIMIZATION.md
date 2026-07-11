@@ -31,6 +31,7 @@ Provide a structured way to optimize AI-assisted workflows without turning tooli
 ## Related Documents
 - `adr/ADR_0004_Tooling_Is_Experimental.md`
 - `tooling/BENCHMARK_SCENARIOS.md`
+- `usage/AI_PRODUCTIVITY_CALIBRATION.md` — ongoing calibration beyond one-off benchmarks
 - `constitution/AI_RULES.md` and `constitution/AI_ENFORCEMENT.md`
 
 ## Optional: External Priors for Planning (As of 2025-12-28)
@@ -47,9 +48,10 @@ Rules:
 - Strong tests and deterministic design reduce total cost more than “better prompts” alone.
 
 ### How to Use Priors Safely
-1. Start with a conservative estimate range (wide uncertainty band).
-2. Run 3–10 benchmark scenarios on the real repo.
-3. Replace priors with measured medians and variability.
+1. **Phase 0:** scope-only plans — no calendar ETA (see `usage/AI_PRODUCTIVITY_CALIBRATION.md`).
+2. Run benchmark scenarios B1–B4 (`tooling/BENCHMARK_SCENARIOS.md`) as starter Phase 1 ledger entries.
+3. After 10–20 closed tasks, replace priors with measured medians per `task_class`.
+4. Optionally publish aggregates to `governance/AI_CALIBRATION_SUMMARY.md` (template in kit).
 
 ### Planning Template (Priors → Measurements)
 - Prior assumptions (qualitative):

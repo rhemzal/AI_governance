@@ -52,6 +52,7 @@ bundles:
       - adr/
       - usage/
       - governance/LOCAL_OVERLAY_TEMPLATE.md
+      - governance/AI_CALIBRATION_SUMMARY.template.md
 
   architecture:
     purpose: Architecture selection and decision support.

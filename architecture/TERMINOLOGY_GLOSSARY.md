@@ -114,6 +114,12 @@ Use this section to keep AI conversations precise.
 - **corpus budget** (alias **pattern budget**): maximum number of docs, patterns, or actions per iteration (typical: 2–3 for methods/patterns; 1 baseline bundle + max 1 optional for adoption). Prevents catalog dumps and parallel unfocused work.
 - **scope triage**: narrowing task scope (audit scope, bundle scope, discovery scope) before loading full playbooks or governance trees.
 
+### AI productivity calibration (advisory)
+- **cold start** (Phase 0): planning mode with **no calendar ETA** for human or AI teams; scope-only plans (`task_class`, files, iteration count, verify command). See `usage/AI_PRODUCTIVITY_CALIBRATION.md`.
+- **task class**: category for aggregating productivity metrics (e.g. `fix_local`, `boundary`, `cross_cutting`).
+- **T_ai_active**: wall-clock minutes while the AI assistant actively worked (tool calls, generation) — distinct from total lead time (`T_lead`).
+- **human_source**: provenance for human-duration comparisons — `measured` (historical pre-AI task), `calibrated_ratio` (derived from local data), or `unknown`. **Never** `llm_guess`.
+
 - **RCA** (Root Cause Analysis): stronger claim than failure diagnosis. AI must not claim root cause unless supported by evidence. During AVR loops, prefer “working diagnosis” unless verified.
 - **repair attempt**: a minimal, rule-compliant change made to address a diagnosed failure, followed by rerunning checks.
 - **regression guard**: a test or gate whose primary job is to prevent reintroduction of a previously fixed defect or violated contract.

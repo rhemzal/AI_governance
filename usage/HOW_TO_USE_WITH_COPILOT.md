@@ -267,60 +267,58 @@ Cadence:
   - flakiness / regression review
 
 ## Time Planning & Cost Model for AI-Heavy Development (As of 2025-12-28)
-Goal: plan realistically for “automation-first coding” by modeling **human time** and **iteration loops**, not only typing speed.
 
-Important note: This kit does not assume a universal global multiplier.
-Productivity gains vary wildly by domain, codebase health, and enforcement strictness.
-Use this as a **measurement-driven model**.
+Goal: plan realistically for “automation-first coding” by modeling **iteration loops** and **measured lead time**, not human-team calendar guesses.
 
-### What to Measure (Per Change)
-Track these buckets (minutes/hours):
+**Canonical calibration guide:** `usage/AI_PRODUCTIVITY_CALIBRATION.md` (phases, ledger, human vs AI methodology).
+
+### Phase 0 rule (cold start)
+
+During Phase 0–1, do **not** state calendar estimates for human teams or AI assistants (“2 days”, “~4 hours”). Plan with `task_class`, file paths, iteration budget (**count**), verify command, and risk (LOW/HIGH). See Recipe I in `usage/QUICKGUIDE.md`.
+
+### Time buckets (per change)
+
+Track in minutes where possible:
 - `T_scope`: clarifying scope + constraints
-- `T_ai_cycles`: AI iterations (prompt → diff → adjust)
+- `T_ai_active`: wall-clock while AI worked (tools, generation); ledger field in calibration guide
+- `T_ai_cycles` / `ai_iterations`: AI iterations (prompt → diff → adjust) — prefer **count** in Phase 0
+- `T_operator`: human wait (review prompts, decisions)
+- `T_verify` / `T_tests`: tests, CI, local verify
 - `T_review`: PR review + governance checks
-- `T_tests`: writing/fixing tests + flakiness handling
 - `T_docs`: docs updates + consolidation (Doc Delta)
-- `T_fixups`: post-merge defects / follow-up PRs
+- `T_fixups`: post-merge defects / follow-up PRs (within 7 days)
+- `T_lead`: start → merge
 
-### Baseline vs AI Comparison
-Maintain two baselines:
+### Baseline vs AI comparison
+
+Maintain two baselines (see calibration guide for `human_source` rules):
 - **Manual baseline**: historical median for similar tasks (pre-AI or “AI off”).
 - **AI-governed baseline**: tasks done with this kit (AI on + enforcement).
 
-Compare using:
-- lead time (start → merged)
-- rework rate (follow-up PRs per feature)
-- defect escape rate (bugs after merge)
-- churn (lines changed outside the intended scope)
+Compare: lead time, rework rate, defect escape rate, churn outside scope.
 
-### Planning Heuristic (No Fake Precision)
-For estimates, use a range:
-$$T_{total} = T_{scope} + T_{ai\_cycles} + T_{review} + T_{tests} + T_{docs} + T_{fixups}$$
+### Planning heuristic (no fake precision)
 
-Then:
-- If the task is **architecture-impacting**, increase the uncertainty band (more review/ADR time).
-- If tests are weak/flaky, increase `T_tests` and `T_fixups` (AI tends to amplify this cost).
+After Phase 2 calibration (N ≥ 10 per `task_class`), use data-derived **ranges** — not LLM calendar guesses.
 
-### What to Parallelize vs Serialize (Time-Model View)
-Parallelize when it reduces `T_total` without increasing `T_fixups`:
-- tests/doc updates after the behavior is decided
-- integration boundary work after boundary contracts are frozen
+$$T_{total} \approx T_{scope} + T_{ai\_active} + T_{operator} + T_{verify} + T_{review} + T_{docs} + T_{fixups}$$
 
-Serialize when parallelism increases rework:
-- changing public contracts
-- changing boundaries and invariants
+Increase uncertainty for architecture-impacting work or weak/flaky tests.
 
-### Practical Template (Paste Into an Issue/Plan)
-**AI Time Plan**
-- Scope/constraints (T_scope):
-- AI iteration budget (T_ai_cycles):
-- Tests budget (T_tests):
-- Docs/consolidation budget (T_docs):
-- Review/governance budget (T_review):
-- Risk buffer (T_fixups):
+### Practical template (Phase 0 — scope only)
+
+**AI Scope Plan** (no calendar ETA)
+- Planning mode: COLD_START
+- task_class:
+- Files / steps (explicit paths):
+- AI iteration budget (count, not minutes):
+- Verify command:
+- Risk: LOW | HIGH
 
 **Success signals**
 - tests deterministic: yes/no
 - Doc Delta completed: yes/no
 - no boundary violations: yes/no
+
+After task closure, append a ledger entry — `usage/templates/AI_PRODUCTIVITY_LEDGER.template.md`.
 

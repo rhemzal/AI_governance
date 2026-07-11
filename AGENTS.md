@@ -115,6 +115,13 @@ When scope or method is unclear, run **method triage** before loading large corp
 
 Do not paste full playbooks into every task; link and load selected sections only. **Skip bullets for paths not in your bundle.**
 
+## Planning calibration (when `usage/AI_PRODUCTIVITY_CALIBRATION.md` is present)
+
+- **Phase 0–1:** do not state calendar time estimates for human or AI teams.
+- Plan with: `task_class`, explicit file paths, iteration budget (**count**, not minutes), verify command, risk (LOW/HIGH).
+- After task closure: offer ledger fields (`T_ai_active`, `ai_iterations`, `T_lead`, …) for `notes/local/ai-productivity/ledger.md`.
+- Human-duration questions: answer only with `human_source` `measured` | `calibrated_ratio` | `unknown` — never invent a human-team calendar estimate.
+
 ## Verification
 
 Always discover repo-local verification first:

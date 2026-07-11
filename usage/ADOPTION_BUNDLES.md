@@ -35,8 +35,8 @@ Smallest useful set for “try it this week”:
 Everything in **minimal**, plus:
 
 - Root meta docs: `kit-manifest.yml`, `VERSIONING.md`, `DEVELOPMENT.md`, `CHANGELOG.md` (referenced by `usage/` import, versioning, and hygiene workflows)
-- Full `constitution/`, `ci/`, `adr/`, `usage/`
-- Local overlay template (`governance/LOCAL_OVERLAY_TEMPLATE.md`)
+- Full `constitution/`, `ci/`, `adr/`, `usage/` (incl. `usage/AI_PRODUCTIVITY_CALIBRATION.md`, `usage/templates/`)
+- Local overlay template and calibration summary template (`governance/LOCAL_OVERLAY_TEMPLATE.md`, `governance/AI_CALIBRATION_SUMMARY.template.md`)
 
 **This is the recommended default** for repos where AI agents do regular multi-file work.
 

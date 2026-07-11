@@ -85,6 +85,10 @@ For troubleshooting/performance/debug work, start at `usage/DEBUGGING_INDEX.md` 
 
 When scope is unclear, triage methods before loading large corpora. Full corpus budget and entry points: **`AGENTS.md` → Method triage** (skip paths not in your bundle).
 
+## Planning calibration
+
+When `usage/AI_PRODUCTIVITY_CALIBRATION.md` is present: Phase 0–1 = no calendar ETA; plan scope-only; after closure offer ledger fields; human-duration only with `human_source` measured | calibrated_ratio | unknown. See `AGENTS.md`.
+
 ## Documentation
 
 For behavior changes:

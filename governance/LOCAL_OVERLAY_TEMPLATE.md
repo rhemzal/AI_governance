@@ -139,6 +139,20 @@ Temporary gate exceptions must follow `usage/GOVERNANCE_WAIVERS.md`. Track open 
 - If such redirection is not feasible, the AI MUST STOP and request confirmation.
 - Recommended repo-local scratch directories: `.tmp/`, `tmp/`, `.artifacts/`, `.cache/` (follow repo convention; ephemeral outputs should be gitignored).
 
+### AI productivity calibration (optional)
+
+Declare when using `usage/AI_PRODUCTIVITY_CALIBRATION.md`:
+
+```markdown
+- **Calibration phase:** Phase 0 | Phase 1 | Phase 2 | Phase 3
+- **Declared:** YYYY-MM-DD
+- **Local ledger:** notes/local/ai-productivity/ledger.md (gitignored; copy from usage/templates/AI_PRODUCTIVITY_LEDGER.template.md)
+- **Team summary (optional):** governance/AI_CALIBRATION_SUMMARY.md (aggregates only; copy from governance/AI_CALIBRATION_SUMMARY.template.md)
+- **Min sample before class-specific ranges:** N ≥ 10 per task_class
+```
+
+Promote Phase 0–1 “no calendar ETA” to required here if your team wants strict enforcement.
+
 ## Overrides (If Any)
 Only use overrides when unavoidable.
 

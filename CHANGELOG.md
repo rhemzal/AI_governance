@@ -4,7 +4,20 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
-_(No entries yet.)_
+### Added
+- [Advisory-only] `usage/AI_PRODUCTIVITY_CALIBRATION.md` — phased planning (cold start → collect → calibrate → ranges); human vs AI methodology.
+- [Advisory-only] `usage/templates/AI_PRODUCTIVITY_LEDGER.template.md` — local gitignored ledger template.
+- [Advisory-only] `governance/AI_CALIBRATION_SUMMARY.template.md` — optional team aggregate summary.
+- [Advisory-only] `usage/QUICKGUIDE.md` Recipe I — Phase 0 scope-only planning + post-task ledger capture.
+
+### Changed
+- [Advisory-only] `usage/HOW_TO_USE_WITH_COPILOT.md` — Time Planning defers to calibration guide; Phase 0 no calendar ETA.
+- [Advisory-only] `tooling/AI_TOOL_OPTIMIZATION.md`, `tooling/BENCHMARK_SCENARIOS.md` — linked to calibration; B1–B4 as Phase 1 starters.
+- [Advisory-only] `usage/GOVERNANCE_SCORECARD.md` — optional AI productivity KPIs.
+- [Advisory-only] `architecture/TERMINOLOGY_GLOSSARY.md` — cold start, task class, T_ai_active, human_source.
+- [Advisory-only] `AGENTS.md`, `.github/copilot-instructions.md`, `governance/LOCAL_OVERLAY_TEMPLATE.md` — planning calibration projection.
+- [Advisory-only] `usage/ADOPTION_BUNDLES.md` — standard bundle notes for calibration templates.
+- [Import bundle change] `kit-manifest.yml` — `standard` adds `governance/AI_CALIBRATION_SUMMARY.template.md`.
 
 ## v0.3.0 — 2026-07-11
 

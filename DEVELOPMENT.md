@@ -120,6 +120,7 @@ Use these commands in order of preference:
 
 For detailed testing guidance, architecture gates, and enforcement principles, see:
 - [usage/HOW_TO_USE_WITH_COPILOT.md](usage/HOW_TO_USE_WITH_COPILOT.md) — Test execution canonical path
+- [usage/AI_PRODUCTIVITY_CALIBRATION.md](usage/AI_PRODUCTIVITY_CALIBRATION.md) — AI productivity phases and ledger (advisory)
 - [ci/TEST_GATES.md](ci/TEST_GATES.md) — Test CI gates and principles
 - [constitution/AI_ENFORCEMENT_DAILY.md](constitution/AI_ENFORCEMENT_DAILY.md) — Daily AI enforcement checklist
 
@@ -134,4 +135,5 @@ For detailed testing guidance, architecture gates, and enforcement principles, s
 - `usage/CI_STARTER_WORKFLOWS.md`
 - `usage/ENFORCEMENT_MATRIX.md`
 - `usage/PROACTIVE_TRIGGER_MAP.md`
+- `usage/AI_PRODUCTIVITY_CALIBRATION.md`
 - `ci/DOC_GATES.md`
