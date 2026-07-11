@@ -44,9 +44,9 @@ Everything in **minimal**, plus:
 Add when you need decision support, not just enforcement:
 
 - Entry point: `architecture/README.md`
-- Architecture decision framework, copy-paste prompt (`ARCHITECTURE_DECISION_PROMPT.md`), style matrix, solution taxonomy
+- Architecture decision framework, copy-paste prompt (`architecture/ARCHITECTURE_DECISION_PROMPT.md`), style matrix, solution taxonomy
 - Data modeling guide (incl. `DATA MODEL DECISION RECORD` mini-template) and terminology glossary
-- Advisory notes under `architecture/rag/` (incl. `RAG_NOTE_TEMPLATE.md` for new notes)
+- Advisory notes under `architecture/rag/` (incl. `architecture/rag/RAG_NOTE_TEMPLATE.md` for new notes)
 
 Does **not** replace ADRs. Use it to inform ADRs written in your repo.
 

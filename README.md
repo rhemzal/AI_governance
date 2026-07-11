@@ -8,6 +8,14 @@ Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes li
 
 ## Choose your path
 
+## I am…
+
+- **Kit maintainer** — [DEVELOPMENT.md](DEVELOPMENT.md), [Audit playbook](usage/AUDIT_PLAYBOOK.md), kit CI workflows (`.github/workflows/`), [Release readiness](usage/RELEASE_READINESS.md)
+- **Adopter** — [Adoption bundles](usage/ADOPTION_BUNDLES.md), [How to import](usage/HOW_TO_IMPORT.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes D/E
+- **AI agent** — [AGENTS.md](AGENTS.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes A/B, [Enforcement matrix](usage/ENFORCEMENT_MATRIX.md)
+
+## Choose your path (evaluate / import / extend)
+
 - **Evaluate in 10 minutes**: read the assessment prompt in [Quick use](#quick-use-existing-project), then skim [Core rules](constitution/AI_RULES.md), [Daily AI work](constitution/AI_ENFORCEMENT_DAILY.md), and [Adaptive governance](constitution/ADAPTIVE_GOVERNANCE.md).
 - **Import minimal useful subset**: pick a bundle in [kit-manifest.yml](kit-manifest.yml) ([human guide](usage/ADOPTION_BUNDLES.md): `minimal` or `standard`), then follow [How to Import](usage/HOW_TO_IMPORT.md) and [CI minimum adoption](usage/CI_MINIMUM_ADOPTION.md). Agent projections: [AGENTS.md](AGENTS.md), [.github/copilot-instructions.md](.github/copilot-instructions.md).
 - **Extend/customize the kit**: use [Local overlays & precedence](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md), [ADR template](adr/ADR_TEMPLATE.md), and [Architecture decision framework](architecture/ARCHITECTURE_DECISION_FRAMEWORK.md) before changing canonical rules.
@@ -74,11 +82,13 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Quick recipes & prompts: [usage/QUICKGUIDE.md](usage/QUICKGUIDE.md)
 - Testing quickstart: [DEVELOPMENT.md](DEVELOPMENT.md)
 - AI test diagnostics playbook: [usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md](usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md)
+- Debugging index (start here): [usage/DEBUGGING_INDEX.md](usage/DEBUGGING_INDEX.md)
 - Debugging effectiveness catalog: [usage/DEBUGGING_EFFECTIVENESS_CATALOG.md](usage/DEBUGGING_EFFECTIVENESS_CATALOG.md)
 - Debugging acceleration playbook: [usage/DEBUGGING_ACCELERATION_PLAYBOOK.md](usage/DEBUGGING_ACCELERATION_PLAYBOOK.md)
 - Debugging decision prompts: [usage/DECISION_PROMPTS_DEBUGGING.md](usage/DECISION_PROMPTS_DEBUGGING.md)
 - Progressive CI adoption: [usage/CI_MINIMUM_ADOPTION.md](usage/CI_MINIMUM_ADOPTION.md)
-- CI starter workflows (reference): [usage/CI_STARTER_WORKFLOWS.md](usage/CI_STARTER_WORKFLOWS.md) (kit repo: `.github/workflows/doc-hygiene.yml`)
+- Enforcement matrix (what CI automates): [usage/ENFORCEMENT_MATRIX.md](usage/ENFORCEMENT_MATRIX.md)
+- CI starter workflows (reference): [usage/CI_STARTER_WORKFLOWS.md](usage/CI_STARTER_WORKFLOWS.md) (kit repo: `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`)
 - AEP validation spec: [usage/AEP_VALIDATION.md](usage/AEP_VALIDATION.md)
 - Security minimum adoption: [usage/SECURITY_MINIMUM_ADOPTION.md](usage/SECURITY_MINIMUM_ADOPTION.md)
 - Governance KPI scorecard: [usage/GOVERNANCE_SCORECARD.md](usage/GOVERNANCE_SCORECARD.md)

@@ -6,7 +6,9 @@ This guide provides **ready-to-copy GitHub Actions starter examples** for the ga
 
 These are **reference implementations**, not mandatory stack-specific prescriptions. Adapt tooling, commands, and paths to your repository.
 
-**Kit repo living reference:** `.github/workflows/doc-hygiene.yml` (shell + `yq` + `lychee` — no Python scripts in the repository).
+**Kit repo living reference:** `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml` (inline shell + `yq` + `lychee` — **no repository scripts**).
+
+Adopters copy **`run:` blocks** from these workflows or the starters below into their CI vendor. Do not rely on a shared script directory in the kit.
 
 ## 1) Documentation hygiene gate (starter)
 
@@ -47,9 +49,28 @@ jobs:
           args: --no-progress './README.md'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Optional: bundled cross-ref check (standard/full adopters with kit-manifest.yml).
+      # Full inline step: see .github/workflows/doc-hygiene.yml in the kit repo.
 ```
 
-Gate intent: `ci/DOC_GATES.md` (D1–D3). Manual checklist: `DEVELOPMENT.md`.
+Gate intent: `ci/DOC_GATES.md` (D1–D3, D5 warning). Manual checklist: `DEVELOPMENT.md`. Matrix: `usage/ENFORCEMENT_MATRIX.md`.
+
+## 1b) Bundled cross-ref check (inline pattern)
+
+For repos that ship `kit-manifest.yml` and `usage/` docs, add a step that:
+
+1. Resolves `minimal`, `standard`, and `full` bundle path sets via `yq` (including `extends` / `composes` unions).
+2. Scans bundled `usage/*.md` for root-level `` `FILE.md` `` / `](FILE.md)` references.
+3. Fails when a referenced root `.md` is not in the bundle path set (allowlist target-repo hubs: `README.md`, `CONTRIBUTING.md`).
+
+Copy the complete inline implementation from `.github/workflows/doc-hygiene.yml` (`Bundled cross-refs` step) — do not add a repository script.
+
+```yaml
+      - name: Bundled cross-refs (example placeholder)
+        run: |
+          echo "Copy the Bundled cross-refs step from kit repo doc-hygiene.yml"
+```
 
 ## 2) Deterministic test gate (starter with timeout)
 
@@ -162,7 +183,7 @@ jobs:
 
 ## Notes for adopters
 - Keep this file as a **starter pack**; adapt commands to your stack.
-- Prefer **shell + existing CI actions** over custom repository scripts.
+- Prefer **inline CI `run:` steps** and existing CI actions over custom repository scripts (`adr/ADR_0004_Tooling_Is_Experimental.md`).
 - Keep rule text canonical in:
   - `ci/DOC_GATES.md`
   - `ci/TEST_GATES.md`
@@ -171,7 +192,10 @@ jobs:
 
 ## Related Documents
 - `.github/workflows/doc-hygiene.yml` (kit repo reference)
+- `.github/workflows/aep-advisory.yml` (kit repo reference)
+- `.github/workflows/adr-required.yml` (kit repo reference)
 - `usage/CI_MINIMUM_ADOPTION.md`
+- `usage/ENFORCEMENT_MATRIX.md`
 - `usage/AEP_VALIDATION.md`
 - `ci/DOC_GATES.md`
 - `ci/TEST_GATES.md`

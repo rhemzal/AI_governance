@@ -4,11 +4,36 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Documentation Hygiene (Kit Repo)
 
-This kit repo ships a **reference L0 doc-hygiene workflow** at `.github/workflows/doc-hygiene.yml` (shell + `yq` + `lychee` — no Python scripts). Adopters copy/adapt patterns from `usage/CI_STARTER_WORKFLOWS.md`.
+This kit repo ships **reference L0–L1 workflows** under `.github/workflows/` (inline shell + `yq` + `lychee` — **no repository scripts**). Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
 
-Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** below (or rely on the CI job when it covers the same checks). Paste results into the PR or `usage/AI_RUN_EVIDENCE.md` when running manually.
+Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** below (or rely on CI when it covers the same checks). Paste results into the PR or `usage/AI_RUN_EVIDENCE.md` when running manually.
 
-See `ci/DOC_GATES.md` for gate principles and `usage/PROACTIVE_TRIGGER_MAP.md` for path-prefix triggers.
+See `ci/DOC_GATES.md` for gate principles, `usage/ENFORCEMENT_MATRIX.md` for what is automated vs manual, and `usage/PROACTIVE_TRIGGER_MAP.md` for path-prefix triggers.
+
+### CI vs manual checklist (kit repo)
+
+| Checklist item | Kit CI (`doc-hygiene`) | Manual / other CI |
+| --- | --- | --- |
+| 1. Manifest paths | Yes | — |
+| 2. Hub links | Yes (lychee) | — |
+| 3. Bundled cross-refs | Yes (inline shell) | — |
+| 4. Provenance | Yes | — |
+| 5. Terminology | — | Review |
+| 6. Related Documents | — | Review |
+| 7. Import bundle change | — | Review + `CHANGELOG.md` |
+| D5 anti-fragmentation | Warning (PR, new `usage/` / `architecture/` docs) | Hub link in PR |
+
+**Other kit workflows:** `aep-advisory.yml` (multi-file PR AEP tokens), `adr-required.yml` (governance path changes require ADR).
+
+### Local verification (tool-agnostic)
+
+No repository scripts are required. Before opening a PR you may:
+
+1. Run the checklist steps manually (grep, link checker, manifest review).
+2. On GitHub Actions: push a branch and inspect workflow results.
+3. Copy individual `run:` blocks from `.github/workflows/doc-hygiene.yml` into your shell if your environment has `bash`, `yq`, and `grep`.
+
+Adopters should not depend on kit-specific script paths — only on **documented CI patterns** in `usage/CI_STARTER_WORKFLOWS.md`.
 
 ### Doc Hygiene Checklist (tool-agnostic)
 
@@ -39,7 +64,7 @@ Complete all steps; record **PASS / FAIL** and any failed paths.
 
 Review scope also includes: ambiguous acronym usage per `architecture/TERMINOLOGY_GLOSSARY.md` and normative/advisory separation for `architecture/rag/` edits.
 
-**Automation (kit repo):** CI job `doc-hygiene` covers checklist items 1 (manifest explicit paths), 2 (hub link check), and 4 (provenance). Complete items 3, 5–7 manually when CI does not apply.
+**Automation (kit repo):** CI job `doc-hygiene` covers checklist items 1–4 and D5 warning; `aep-advisory` and `adr-required` cover cross-cutting gates. Complete items 5–7 manually when not automated. See `usage/ENFORCEMENT_MATRIX.md`.
 
 ## Testing Quickstart
 
@@ -100,6 +125,9 @@ For detailed testing guidance, architecture gates, and enforcement principles, s
 
 ## Related Documents
 - `.github/workflows/doc-hygiene.yml`
+- `.github/workflows/aep-advisory.yml`
+- `.github/workflows/adr-required.yml`
 - `usage/CI_STARTER_WORKFLOWS.md`
+- `usage/ENFORCEMENT_MATRIX.md`
 - `usage/PROACTIVE_TRIGGER_MAP.md`
 - `ci/DOC_GATES.md`

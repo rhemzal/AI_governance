@@ -86,7 +86,7 @@ When testing:
 
 See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
 
-For troubleshooting/performance/debug work, compare strategies first: `usage/DECISION_PROMPTS_DEBUGGING.md` + `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` (playbook: `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`). When cause is unclear, run **Prompt 7** triage (max 3 pattern IDs) before Prompt 6 / fixes.
+For troubleshooting/performance/debug work, start at `usage/DEBUGGING_INDEX.md`, then `usage/DECISION_PROMPTS_DEBUGGING.md` + catalog/playbook as needed. When cause is unclear, run **Prompt 7** triage (max 3 pattern IDs) before Prompt 6 / fixes.
 
 ## Method triage (non-debugging)
 
@@ -97,6 +97,7 @@ When scope or method is unclear, run **method triage** before loading large corp
 - **Governance audit:** `usage/AUDIT_PLAYBOOK.md` — pick audit scope before Steps 1–5.
 - **Kit adoption:** `usage/ADOPTION_BUNDLES.md` — 1 baseline bundle + max 1 optional.
 - **AEP discovery:** `usage/AEP_VALIDATION.md` — use `usage/PROACTIVE_TRIGGER_MAP.md` to narrow consulted paths.
+- **Enforcement status:** `usage/ENFORCEMENT_MATRIX.md` — what kit CI automates vs adopter wiring.
 
 Do not paste full playbooks into every task; link and load selected sections only.
 

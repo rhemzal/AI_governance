@@ -1,0 +1,47 @@
+# Kit-repo dogfood: AEP advisory gate for multi-file PRs.
+# Adopters: copy/adapt from usage/CI_STARTER_WORKFLOWS.md §5 — inline CI only, no repository scripts.
+name: aep-advisory
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+concurrency:
+  group: aep-advisory-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  aep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Count changed files
+        id: diff
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.sha }}"
+          COUNT="$(git diff --name-only "$BASE" "$HEAD" | wc -l | tr -d ' ')"
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: AEP advisory checks (multi-file PRs)
+        if: steps.diff.outputs.count >= 2
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          if ! printf '%s' "$PR_BODY" | grep -q 'AEP Status'; then
+            echo "::warning::Multi-file PR without AEP Status field (see usage/AEP_VALIDATION.md)"
+          fi
+          if printf '%s' "$PR_BODY" | grep -q 'AEP Status: READY'; then
+            for token in TBD TODO 'as needed' etc.; do
+              if printf '%s' "$PR_BODY" | grep -qi "$token"; then
+                echo "::error::AEP READY contains vague placeholder: $token"
+                exit 1
+              fi
+            done
+          fi

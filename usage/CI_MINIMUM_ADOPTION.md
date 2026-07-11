@@ -11,7 +11,7 @@ If you are adopting the kit in an existing repo, you can start with a minimal se
 Goal: prevent documentation drift and broken references.
 - Add a documentation hygiene check to CI (fast, deterministic).
 - Make the job required on PRs.
-- In this kit repo, CI runs `.github/workflows/doc-hygiene.yml` (reference L0). Downstream repos: copy/adapt from `usage/CI_STARTER_WORKFLOWS.md`.
+- In this kit repo, CI runs `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, and `adr-required.yml` (reference L0–L1). Downstream repos: copy/adapt inline steps from `usage/CI_STARTER_WORKFLOWS.md` — no repository scripts.
 
 Why first: it is deterministic, fast, and enforces “single source of truth” behavior.
 
@@ -86,6 +86,7 @@ Cache dependencies (pip, npm, Maven, etc.) across CI runs to reduce feedback tim
   - Note: this is a temporary enforcement mode (human-review fallback). Governance stays normative; the target state is CI-backed enforcement.
 
 ## Related Documents
+- `usage/ENFORCEMENT_MATRIX.md`
 - `ci/DOC_GATES.md`
 - `ci/TEST_GATES.md`
 - `ci/ARCHITECTURE_GATES.md`

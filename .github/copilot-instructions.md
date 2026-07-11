@@ -74,11 +74,11 @@ Do not weaken or delete tests to make the run pass.
 
 See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
 
-For troubleshooting/performance/debug work, use `usage/DECISION_PROMPTS_DEBUGGING.md` and `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` (see `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`). When cause is unclear, run **Prompt 7** triage (max 3 pattern IDs) before Prompt 6 / fixes.
+For troubleshooting/performance/debug work, start at `usage/DEBUGGING_INDEX.md`, then prompts/catalog as needed. When cause is unclear, run **Prompt 7** triage (max 3 pattern IDs) before Prompt 6 / fixes.
 
 ## Method triage (non-debugging)
 
-When scope is unclear, triage methods before loading large corpora. See `architecture/TERMINOLOGY_GLOSSARY.md` (method triage, corpus budget). Entry points: `architecture/ARCHITECTURE_DECISION_PROMPT.md`, `usage/SECURITY_MINIMUM_ADOPTION.md`, `usage/AUDIT_PLAYBOOK.md`, `usage/ADOPTION_BUNDLES.md`, `usage/AEP_VALIDATION.md` + `usage/PROACTIVE_TRIGGER_MAP.md`.
+When scope is unclear, triage methods before loading large corpora. See `architecture/TERMINOLOGY_GLOSSARY.md` (method triage, corpus budget). Entry points: `architecture/ARCHITECTURE_DECISION_PROMPT.md`, `usage/SECURITY_MINIMUM_ADOPTION.md`, `usage/AUDIT_PLAYBOOK.md`, `usage/ADOPTION_BUNDLES.md`, `usage/AEP_VALIDATION.md` + `usage/PROACTIVE_TRIGGER_MAP.md`, `usage/ENFORCEMENT_MATRIX.md`.
 
 ## Documentation
 

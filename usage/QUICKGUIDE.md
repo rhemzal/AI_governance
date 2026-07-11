@@ -133,7 +133,7 @@ Deliverables:
 - Update `usage/FIX_PLAN.md` (top fixes ordered by severity)
 ```
 
-Complete the **Doc Hygiene Checklist** in `DEVELOPMENT.md` as part of Step 1 evidence.
+For audit Recipe G, import the `standard` bundle first so the Doc Hygiene Checklist (development guide) is available; complete it as part of Step 1 evidence.
 
 ### Recipe H — Debugging (Triage First)
 Use when troubleshooting, performance investigation, or test diagnosis — before the assistant jumps to a fix.

@@ -4,7 +4,24 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
-_(No entries yet.)_
+### Added
+- [Advisory-only] `usage/ENFORCEMENT_MATRIX.md` — maps CI gates to kit reference workflows vs adopter wiring.
+- [Advisory-only] `usage/DEBUGGING_INDEX.md` — curated debugging entry (15 patterns).
+- [Advisory-only] `usage/RELEASE_READINESS.md` — manifest `1.0` readiness checklist.
+- [Advisory-only] `adr/ADR_0005_Kit_CI_Dogfooding.md` — inline CI dogfood; no repository scripts.
+- [Advisory-only] Kit CI: `.github/workflows/aep-advisory.yml`, `adr-required.yml`; `doc-hygiene` extended (bundled cross-refs, D5 warning).
+
+### Changed
+- [Advisory-only] `README.md` — “I am…” role routing; enforcement matrix and debugging index links.
+- [Advisory-only] `DEVELOPMENT.md` — CI vs manual checklist table; local verification without scripts.
+- [Advisory-only] `usage/CI_STARTER_WORKFLOWS.md` — inline patterns only; kit workflow references.
+- [Advisory-only] `usage/PROACTIVE_TRIGGER_MAP.md` — automation hooks for new workflows.
+- [Advisory-only] `AGENTS.md` — enforcement matrix + debugging index in triage.
+- [Advisory-only] `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` — points to DEBUGGING_INDEX first.
+- [Advisory-only] `interface/INTERFACE_RULES_PROPOSAL.md` — explicit proposal-only status.
+- [Advisory-only] `usage/QUICKGUIDE.md` — audit hygiene note without minimal-bundle root cross-ref break.
+- [Advisory-only] `usage/ADOPTION_BUNDLES.md` — full paths for architecture prompt/template refs.
+- [Advisory-only] Governance audit (`usage/AUDIT_REPORT.md`) — 2026-07-11 re-run after enforcement roadmap.
 
 ## v0.2.0 — 2026-07-05
 

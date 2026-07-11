@@ -1,5 +1,5 @@
 # Kit-repo reference implementation for ci/DOC_GATES.md (L0 doc hygiene).
-# Adopters: copy/adapt from usage/CI_STARTER_WORKFLOWS.md — no Python required.
+# Adopters: copy/adapt inline steps from usage/CI_STARTER_WORKFLOWS.md — no repository scripts.
 name: doc-hygiene
 
 on:
@@ -27,6 +27,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install yq
+        run: |
+          set -euo pipefail
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
 
       - name: Required root meta files exist
         run: |
@@ -35,11 +43,9 @@ jobs:
             test -f "$f" || { echo "Missing required file: $f"; exit 1; }
           done
 
-      - name: Manifest explicit paths exist (yq)
+      - name: Manifest explicit paths exist
         run: |
           set -euo pipefail
-          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64
-          sudo chmod +x /usr/local/bin/yq
           check_paths() {
             local bundle="$1"
             yq -r ".bundles.${bundle}.paths[]? // empty" kit-manifest.yml | while IFS= read -r p; do
@@ -54,6 +60,77 @@ jobs:
           for bundle in minimal standard architecture research full; do
             check_paths "$bundle"
           done
+
+      - name: Bundled cross-refs (checklist item 3)
+        run: |
+          set -euo pipefail
+          MANIFEST=kit-manifest.yml
+          ALLOWLIST='README.md CONTRIBUTING.md'
+
+          bundle_paths() {
+            local bundle="$1"
+            case "$bundle" in
+              minimal)
+                yq -r '.bundles.minimal.paths[]' "$MANIFEST"
+                ;;
+              standard)
+                yq -r '.bundles.minimal.paths[], .bundles.standard.paths[]' "$MANIFEST"
+                ;;
+              full)
+                yq -r '.bundles.minimal.paths[], .bundles.standard.paths[], .bundles.architecture.paths[], .bundles.research.paths[], .bundles.full.paths[]' "$MANIFEST"
+                ;;
+            esac | sort -u
+          }
+
+          usage_files_for_bundle() {
+            local bundle="$1"
+            if [[ "$bundle" == minimal ]]; then
+              echo usage/QUICKGUIDE.md
+            else
+              find usage -maxdepth 1 -name '*.md' -type f | sort
+            fi
+          }
+
+          in_path_set() {
+            local ref="$1"
+            local path
+            while IFS= read -r path; do
+              [[ -z "$path" ]] && continue
+              if [[ "$path" == "$ref" ]]; then
+                return 0
+              fi
+              if [[ "$path" == */ ]] && [[ "$ref" == usage/* ]]; then
+                return 0
+              fi
+            done < <(bundle_paths "$2")
+            return 1
+          }
+
+          extract_root_refs() {
+            local file="$1"
+            {
+              grep -oE '\`[A-Za-z0-9_.-]+\.md\`' "$file" 2>/dev/null | tr -d '`' || true
+              grep -oE '\]\([A-Za-z0-9_.-]+\.md\)' "$file" 2>/dev/null | sed 's/](//;s/)$//' || true
+            } | grep -v '/' | sort -u
+          }
+
+          fail=0
+          for bundle in minimal standard full; do
+            while IFS= read -r ufile; do
+              [ -f "$ufile" ] || continue
+              while IFS= read -r ref; do
+                [ -z "$ref" ] && continue
+                if echo "$ALLOWLIST" | grep -qw "$ref"; then
+                  continue
+                fi
+                if ! in_path_set "$ref" "$bundle"; then
+                  echo "Bundled cross-ref FAIL ($bundle): $ufile references $ref (not in bundle path set)"
+                  fail=1
+                fi
+              done < <(extract_root_refs "$ufile")
+            done < <(usage_files_for_bundle "$bundle")
+          done
+          exit "$fail"
 
       - name: Provenance banners on import targets
         run: |
@@ -70,6 +147,20 @@ jobs:
             fi
           done
           exit "$fail"
+
+      - name: Anti-fragmentation warning (D5, PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.sha }}"
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            base=$(basename "$f")
+            if ! grep -q "$base" README.md architecture/README.md usage/DEBUGGING_INDEX.md 2>/dev/null; then
+              echo "::warning::New doc $f not linked from README.md, architecture/README.md, or usage/DEBUGGING_INDEX.md (ci/DOC_GATES.md D5)"
+            fi
+          done < <(git diff --name-only --diff-filter=A "$BASE" "$HEAD" | grep -E '^(usage|architecture)/.*\.md$' || true)
 
       - name: Markdown link check (hub docs)
         uses: lycheeverse/lychee-action@v2

@@ -4,7 +4,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 Date: 2026-07-05
 Context: Generated after full re-run of `usage/AUDIT_PLAYBOOK.md` (see `usage/AUDIT_REPORT.md`).
-**Implementation status (2026-07-05):** Fixes #1–#8 applied for kit-repo scope. Downstream adopters still wire gates in their own repos from `usage/CI_MINIMUM_ADOPTION.md` and `usage/CI_STARTER_WORKFLOWS.md`.
+**Implementation status (2026-07-11):** Enforcement roadmap applied — kit CI dogfood (`doc-hygiene`, `aep-advisory`, `adr-required`), `usage/ENFORCEMENT_MATRIX.md`, `usage/DEBUGGING_INDEX.md`, `usage/RELEASE_READINESS.md`, `adr/ADR_0005`. **No `scripts/` directory** (tool-agnostic; inline CI only). Prior fixes #1–#8 remain Done. See `usage/AUDIT_REPORT.md` 2026-07-11.
 
 ## Immediate Fixes (Required Before Next Release Tag)
 

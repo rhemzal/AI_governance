@@ -1,0 +1,38 @@
+# Kit-repo dogfood: ADR required when governance paths change.
+# Adopters: copy/adapt from usage/CI_STARTER_WORKFLOWS.md §4 — inline CI only, no repository scripts.
+name: adr-required
+
+on:
+  pull_request:
+    paths:
+      - 'constitution/**'
+      - 'ci/**'
+      - 'architecture/**'
+      - 'interface/**'
+      - 'adr/**'
+
+concurrency:
+  group: adr-required-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  adr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require ADR when governance paths change
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.sha }}"
+          CHANGED="$(git diff --name-only "$BASE" "$HEAD")"
+          if echo "$CHANGED" | grep -Eq '^(constitution/|ci/|architecture/|interface/|adr/)'; then
+            if ! echo "$CHANGED" | grep -Eq '^adr/ADR_[0-9]+_.*\.md$'; then
+              echo "Governance-impacting paths changed, but no adr/ADR_*.md file was added or updated."
+              exit 1
+            fi
+          fi

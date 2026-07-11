@@ -2,6 +2,8 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
+**Start at [usage/DEBUGGING_INDEX.md](DEBUGGING_INDEX.md)** unless the work is HIGH-risk (boundaries, contracts, security) — then use `constitution/AI_ENFORCEMENT.md` first. The full catalog below is reference depth, not the default entry point.
+
 ## Purpose
 
 Systematize **advisory** debugging and quality-improvement strategies for AI-assisted development.

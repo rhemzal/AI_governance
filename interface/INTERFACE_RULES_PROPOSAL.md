@@ -2,6 +2,8 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
+> **Status: proposal only (not normative).** Normative interface gates are in `ci/INTERFACE_GATES.md`. Promotion to constitution-level rules requires a separate ADR. See `usage/ENFORCEMENT_MATRIX.md`.
+
 ## Purpose
 This is a **project-agnostic**, English-only proposal of rules for any **Interface layer**, including:
 - Graphical UIs (GUI)
