@@ -59,6 +59,52 @@ For operational playbooks and checklists, see `usage/DEBUGGING_ACCELERATION_PLAY
 
 New patterns: use `usage/DEBUGGING_PATTERN_TEMPLATE.md`.
 
+When cause is unclear, run **Scientific method triage** (below) or `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 7 before listing patterns.
+
+---
+
+## Scientific method triage
+
+Use this section to **pick methods, not fixes** — before applying the full catalog or scientific checklists.
+
+Copy-paste triage: `usage/DECISION_PROMPTS_DEBUGGING.md` **Prompt 7**.
+
+### Pattern budget (anti-overload)
+
+| Tier | Patterns | Limit per issue |
+|------|----------|-----------------|
+| **Core** | `DBG-science-01` + `DBG-science-02` | Always when scientific path is active |
+| **Supporting** | One of `DBG-science-03` … `DBG-science-07` | Max **1** per AVR iteration |
+| **Domain** | e.g. `DBG-flake-01`, `DBG-media-*`, `DBG-contract-01` | Max **1** alongside supporting |
+| **Total** | All tiers combined | Max **3** pattern IDs (including core) |
+
+### Decision table (symptom → supporting method)
+
+| Signal | Primary supporting | Often skip instead |
+|--------|-------------------|-------------------|
+| Unclear cause, multiple hypotheses | `DBG-science-04` or `DBG-science-05` | Listing all catalog patterns |
+| Multiple factors (config, cache, flag) | `DBG-science-03` | Shotgun config changes |
+| Regression / “used to work” | `DBG-science-06` + `DBG-reduce-01` bisect | Random revert commits |
+| Suspect harness / CI / MCP / runner | `DBG-science-07` | Long product-code chase |
+| Intermittent failure | `DBG-flake-01` (+ `DBG-science-06` replication) | Immediate product rewrite |
+| Logs/traces available, few experiments left | `DBG-science-04` | `DBG-observe-01` without hypothesis |
+
+### Science path depth
+
+| Path | When | Steps |
+|------|------|-------|
+| **skip** | Clear stack trace, typo, proven cause | Domain pattern or direct fix only |
+| **lite** | Unclear cause, simple context | `DBG-science-01` → `DBG-science-02` → fix (no supporting) |
+| **full** | Unclear cause, multi-factor, regression, or first fix failed | Triage → core + **1** supporting → fix |
+
+### Anti-overload rules (for AI assistants)
+
+- Run triage **before** enumerating the full catalog.
+- Never list all 17+ patterns — output max **3** IDs with justification.
+- One AVR iteration = **one** supporting scientific pattern.
+- If core (`01`+`02`) is sufficient, do **not** add supporting.
+- State **methods NOT chosen** in one line each (prevents catalog dumps).
+
 ---
 
 ## Patterns
@@ -624,6 +670,7 @@ Non-reproducible test failures, order-dependent tests, timing-sensitive UI tests
 - Flake classification rationale (evidence from multiple runs).
 - Quarantine marker or issue link.
 - Plan: fix, stabilize environment, or remove quarantine.
+- **Replication follow-up:** when classification is uncertain, run clean-env or second-machine reproduction (`DBG-science-06` control runs) before broad code changes.
 
 #### Governance Alignment
 
@@ -698,6 +745,8 @@ Complex failures with large reproduction steps (multi-service, long scripts, ful
 - Before/after reproduction steps.
 - Minimal command or test case added.
 - List of removed irrelevant factors.
+
+**Regression bisect (extension):** when failure is a regression, use `git bisect` (or equivalent) on commits between last-good and first-bad. Pair with `DBG-science-06` control runs (known-good vs failing commit). Document bisect command and introducing commit in PR evidence.
 
 #### Governance Alignment
 
@@ -962,6 +1011,7 @@ Multi-factor environments where failure depends on an unknown subset of variable
 - One factor at a time can be disabled, mocked, or reverted in a test harness.
 - Goal is to falsify “factor A is necessary for the failure.”
 - Competing hypotheses map to different factors.
+- A numeric threshold may exist (timeout, buffer size) — use **continuous parameter sweep** on one variable before multi-factor ablation.
 
 #### Do NOT use when
 - Ablation would change production behavior without a harness.
@@ -1021,6 +1071,300 @@ DEBUGGING PATTERN EVIDENCE — DBG-science-03
 
 ---
 
+### Pattern 14: Differential diagnosis matrix
+
+| Field | Value |
+|-------|-------|
+| **Pattern ID** | `DBG-science-04` |
+| **Maturity** | `standard` |
+
+#### Problem fit
+Multiple competing hypotheses and existing observations (logs, traces, test output) — need structured elimination without implementing fixes.
+
+#### Use when
+- 2–3 hypotheses are plausible and some signals are already available.
+- Few experiments remain; matrix helps prioritize the highest-information test next.
+- Complements `DBG-science-01` (falsification) with parallel symptom–hypothesis mapping.
+
+#### Do NOT use when
+- No observations yet — gather minimal evidence first (`DBG-observe-01` with hypothesis).
+- Single obvious hypothesis — use lite science path (`01`+`02` only).
+- Matrix becomes a catalog dump — violates pattern budget.
+
+#### Pros
+- Reduces shotgun debugging; focuses next experiment.
+- Works well with existing telemetry before new code changes.
+- Clear PR artifact (matrix with eliminated rows).
+
+#### Cons
+- Upfront structuring time.
+- Wrong expected signals in matrix mislead elimination.
+- Can duplicate work if hypotheses are poorly stated.
+
+#### Failure modes
+- Matrix too large (more than 3 hypotheses).
+- Treating elimination as verified RCA.
+- Filling matrix post-hoc after fix (confirmation bias).
+
+#### Expected gain
+- **Speed:** faster choice of next falsification test.
+- **Quality:** auditable elimination trail.
+
+#### Implementation cost
+- **Setup:** low — table on paper or in PR comment.
+- **Maintenance:** none.
+
+#### PR evidence expectations
+- Matrix: hypothesis × expected signal × observed? (yes/no/unknown).
+- Rows eliminated and why.
+- Next recommended falsification test.
+
+#### Governance Alignment
+
+| Kit area | Relevant doc(s) | Alignment note |
+|----------|-----------------|----------------|
+| Terminology | `architecture/TERMINOLOGY_GLOSSARY.md` | differential diagnosis (debugging) |
+| Scientific core | `DBG-science-01` | Matrix feeds falsification loop |
+| Anti-overload | This section | Max 3 hypotheses in matrix |
+
+#### AI Prompt Snippet
+```
+Apply DBG-science-04: build a differential diagnosis matrix (max 3 hypotheses).
+Mark eliminated rows from observations. Propose ONE next falsification test.
+```
+
+#### Evidence Block (for PR)
+```text
+DEBUGGING PATTERN EVIDENCE — DBG-science-04
+- Matrix (H × expected signal × observed):
+- Eliminated hypotheses:
+- Surviving hypotheses:
+- Next falsification test:
+```
+
+---
+
+### Pattern 15: Discriminative experiment
+
+| Field | Value |
+|-------|-------|
+| **Pattern ID** | `DBG-science-05` |
+| **Maturity** | `standard` |
+
+#### Problem fit
+Several hypotheses remain plausible; sequential one-by-one falsification would take many AVR iterations.
+
+#### Use when
+- One experiment can produce **different outcomes** under H1 vs H2 vs H3.
+- Test cost is still cheaper than implementing multiple fixes.
+- Strong-inference style: maximize information per run.
+
+#### Do NOT use when
+- Hypotheses predict identical outcomes for any feasible test.
+- Experiment is really a product fix in disguise.
+- HIGH-risk change without STOP gates.
+
+#### Pros
+- Fewer AVR rounds than sequential falsification.
+- Forces precise, competing predictions.
+- Good pairing with `DBG-science-04` matrix.
+
+#### Cons
+- Harder to design than single-hypothesis tests.
+- Wrong discriminator eliminates all hypotheses incorrectly.
+- May need follow-up if outcomes are ambiguous.
+
+#### Failure modes
+- Discriminator correlates with all hypotheses (inconclusive).
+- Outcome interpreted to favor first guess (confirmation bias).
+- Over-engineered experiment vs simplest probe.
+
+#### Expected gain
+- **Speed:** 1 test instead of N sequential tests when design is good.
+- **Quality:** sharper hypothesis separation.
+
+#### Implementation cost
+- **Setup:** low–medium — design table H1/H2/H3 → predicted outcomes.
+- **Maintenance:** low.
+
+#### PR evidence expectations
+- Discriminator description and predicted outcome per hypothesis.
+- Actual outcome and which hypotheses eliminated.
+- Follow-up test if inconclusive.
+
+#### Governance Alignment
+
+| Kit area | Relevant doc(s) | Alignment note |
+|----------|-----------------|----------------|
+| Terminology | `architecture/TERMINOLOGY_GLOSSARY.md` | discriminative experiment |
+| Scientific core | `DBG-science-01` | One round of strong inference |
+| Pattern budget | Scientific method triage | Counts as supporting tier |
+
+#### AI Prompt Snippet
+```
+Apply DBG-science-05: design ONE discriminative experiment for H1/H2/H3.
+State predicted outcome per hypothesis before running. Do not implement fixes yet.
+```
+
+#### Evidence Block (for PR)
+```text
+DEBUGGING PATTERN EVIDENCE — DBG-science-05
+- Hypotheses:
+- Discriminator experiment:
+- Predicted outcomes (H1/H2/H3):
+- Actual outcome:
+- Eliminated:
+```
+
+---
+
+### Pattern 16: Control runs (positive/negative)
+
+| Field | Value |
+|-------|-------|
+| **Pattern ID** | `DBG-science-06` |
+| **Maturity** | `proven` |
+
+#### Problem fit
+Uncertainty whether the system is broadly broken vs a specific regression; need baseline comparison.
+
+#### Use when
+- Known-good case exists (last release, main branch, golden fixture).
+- “Used to work” regression suspected.
+- Replication needed: same repro on clean env / second CI job / fresh checkout.
+
+#### Do NOT use when
+- No valid positive control (never worked in this config).
+- Controls differ in more than one uncontrolled variable.
+- Production comparison without harness and approval.
+
+#### Pros
+- Separates environmental failure from code regression.
+- Cheap falsification: “not a product bug” if control also fails.
+- Supports flake vs real bug (`DBG-flake-01` follow-up).
+
+#### Cons
+- Finding a true positive control can be hard.
+- Control drift (stale baseline) misleads.
+- Extra CI time for replication runs.
+
+#### Failure modes
+- Apples-to-oranges comparison (different config/data).
+- Control passes for wrong reason (weaker assertion).
+- Skipping replication when flake is suspected.
+
+#### Expected gain
+- **Speed:** fast narrow to diff/regression vs environment.
+- **Quality:** strong evidence for bisect and PR narrative.
+
+#### Implementation cost
+- **Setup:** low — identify good/bad pair.
+- **Maintenance:** low — refresh baselines when contracts change.
+
+#### PR evidence expectations
+- Positive control command + outcome.
+- Negative (failing) command + outcome.
+- Replication run(s) if intermittent.
+- Diff or commit range if regression.
+
+#### Governance Alignment
+
+| Kit area | Relevant doc(s) | Alignment note |
+|----------|-----------------|----------------|
+| Reduce / bisect | `DBG-reduce-01` | Regression bisect extension |
+| Flake | `DBG-flake-01` | Replication before product changes |
+| Terminology | `architecture/TERMINOLOGY_GLOSSARY.md` | control run |
+
+#### AI Prompt Snippet
+```
+Apply DBG-science-06: run positive and negative control. If intermittent, replicate on clean env.
+Compare outcomes before product fixes.
+```
+
+#### Evidence Block (for PR)
+```text
+DEBUGGING PATTERN EVIDENCE — DBG-science-06
+- Positive control:
+- Negative control:
+- Replication runs:
+- Conclusion (regression | environment | inconclusive):
+```
+
+---
+
+### Pattern 17: Instrument sanity check
+
+| Field | Value |
+|-------|-------|
+| **Pattern ID** | `DBG-science-07` |
+| **Maturity** | `standard` |
+
+#### Problem fit
+Diagnostics disagree with reality; suspect test runner, MCP tool, mock, log pipeline, or CI image — not product code.
+
+#### Use when
+- Harness passes trivial smoke but fails on real scenario (or inverse).
+- MCP diagnostic or test tool recently changed.
+- Long product investigation with no signal — verify tooling first.
+
+#### Do NOT use when
+- Instrument is known good and recently verified.
+- Sanity check would take longer than obvious product signal.
+- Mutating production to test instrumentation.
+
+#### Pros
+- Avoids expensive wrong-layer fixes.
+- Fast smoke: known-good micro-case through same tool path.
+- Pairs with `DBG-mcp-01` (read-only diagnostics after sanity).
+
+#### Cons
+- Easy to over-use and delay real diagnosis.
+- Trivial smoke may not exercise broken path.
+- Extra setup for isolated harness verification.
+
+#### Failure modes
+- Sanity test too shallow (always passes).
+- Blaming CI forever while product bug persists.
+- Instrument “fixed” by weakening assertions.
+
+#### Expected gain
+- **Speed:** saves hours when harness is the fault.
+- **Quality:** correct layer ownership.
+
+#### Implementation cost
+- **Setup:** low — one minimal command through instrument.
+- **Maintenance:** low.
+
+#### PR evidence expectations
+- Instrument under test (runner, MCP, mock, CI job).
+- Sanity command + expected vs actual.
+- Product investigation resumed only after sanity passes (or instrument fix merged).
+
+#### Governance Alignment
+
+| Kit area | Relevant doc(s) | Alignment note |
+|----------|-----------------|----------------|
+| MCP | `DBG-mcp-01` | Sanity before broad MCP conclusions |
+| Test execution | `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md` | Repo-local verification path |
+| Pattern budget | Supporting tier | One per iteration |
+
+#### AI Prompt Snippet
+```
+Apply DBG-science-07: verify the diagnostic instrument with a trivial known-good case.
+If sanity fails, fix harness before product code.
+```
+
+#### Evidence Block (for PR)
+```text
+DEBUGGING PATTERN EVIDENCE — DBG-science-07
+- Instrument:
+- Sanity command:
+- Expected vs actual:
+- Proceed to product diagnosis: yes/no
+```
+
+---
+
 ## Pattern index (quick reference)
 
 | ID | Pattern | Primary gain |
@@ -1038,6 +1382,10 @@ DEBUGGING PATTERN EVIDENCE — DBG-science-03
 | `DBG-science-01` | Competing hypotheses + falsification loop | Disprove before implement |
 | `DBG-science-02` | Prediction-before-change | Catch false-green fixes |
 | `DBG-science-03` | Controlled ablation | Isolate necessary factors |
+| `DBG-science-04` | Differential diagnosis matrix | Structured hypothesis elimination |
+| `DBG-science-05` | Discriminative experiment | One test, multiple hypotheses |
+| `DBG-science-06` | Control runs | Baseline + replication |
+| `DBG-science-07` | Instrument sanity check | Verify harness before product chase |
 
 ---
 

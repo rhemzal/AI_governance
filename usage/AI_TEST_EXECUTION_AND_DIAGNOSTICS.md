@@ -89,6 +89,8 @@ When the cause is unclear, do not implement the first guess.
 
 Use `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 6 and the scientific-style section in `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`.
 
+When investigation depends on test runners, MCP, or CI harnesses, run an **instrument sanity check** (`DBG-science-07`) before long product-code changes.
+
 ## Do not hide failures
 
 The AI must not:

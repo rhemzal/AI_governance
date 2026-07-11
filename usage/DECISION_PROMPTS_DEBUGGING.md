@@ -15,6 +15,8 @@ This document is **advisory**. Normative rules remain in `constitution/` and `ci
 3. Point the assistant at `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` for pattern IDs and schemas.
 4. Require the **Evidence output** section in every response.
 
+**Recommended order for scientific debugging:** Prompt **7** (triage — pick methods) → Prompt **6** (execute falsification) → domain prompts (2–5) as needed.
+
 ---
 
 ## Prompt 1 — Strategy selection (pros/cons first)
@@ -37,7 +39,7 @@ Requirements:
    - Pros and cons
    - Do NOT use when (for this case)
    - Implementation cost (setup/maintenance)
-   - If cause is unclear, include `DBG-science-01` among candidates and prefer Prompt 6 before any fix
+   - If cause is unclear, include `DBG-science-01` among candidates and recommend **Prompt 7** before Prompt 6
 3. State your recommended option and why.
 4. Scope: smallest useful verification first (constitution/AI_ENFORCEMENT_DAILY.md).
 5. Assumptions: list what you are inferring about the system.
@@ -239,7 +241,7 @@ MINIMAL REPRO CASE
 Use when cause is unclear, the first fix failed, or the assistant tends to implement before diagnosing.
 
 ```
-Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md (DBG-science-01, DBG-science-02, DBG-science-03)
+Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md (DBG-science-01 through DBG-science-07)
 and usage/DEBUGGING_ACCELERATION_PLAYBOOK.md (Scientific-style debugging section).
 Terminology: architecture/TERMINOLOGY_GLOSSARY.md (working hypothesis, falsification test, prediction-before-change).
 
@@ -249,10 +251,11 @@ Issue:
 <PASTE SYMPTOM, FAILED FIX, OR TEST FAILURE>
 
 Requirements:
+0. If supporting technique not already chosen: run Prompt 7 first; apply max 1 supporting pattern (03–07) from triage.
 1. Risk preflight: LOW or HIGH (justify). If HIGH or unclear, STOP before implementation.
 2. List 2–3 competing working hypotheses (not RCA claims).
 3. For each hypothesis: propose the cheapest falsification test (probe, log check, temporary assert, feature toggle, ablation) — NOT a product fix.
-4. Optionally use controlled ablation (DBG-science-03) when multiple factors may be necessary.
+4. Apply supporting technique from triage when on full path: 04 matrix, 05 discriminative test, 03 ablation, 06 controls, or 07 instrument sanity.
 5. Do not implement a code fix until at least one hypothesis survives falsification.
 6. Before any fix: state prediction-before-change (DBG-science-02): if H holds, after X we will see Y.
 7. Scope: smallest useful verification first.
@@ -260,7 +263,8 @@ Requirements:
 9. Risks: confirmation bias, false green, high-risk triggers (boundaries, contracts, security).
 10. Verification steps: ordered, non-interactive commands where possible (AI_RULES §6.2).
 11. If prediction fails after fix: revert and reject hypothesis.
-12. Evidence output (mandatory):
+12. Pattern budget: max 3 pattern IDs total for this issue.
+13. Evidence output (mandatory):
 
 ### Evidence output
 ```text
@@ -285,6 +289,54 @@ HYPOTHESIS FALSIFICATION REPORT
 - Risks:
 - Verification steps:
 - Working diagnosis (not RCA unless verified):
+- STOP/confirm needed: yes/no
+```
+```
+
+---
+
+## Prompt 7 — Scientific method triage (pick methods, not fixes)
+
+Use when cause is unclear, the first fix failed, or you need to **choose** which debugging technique to apply — without dumping the full catalog.
+
+```
+Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md (Scientific method triage section; DBG-science-01 through DBG-science-07)
+and usage/DEBUGGING_ACCELERATION_PLAYBOOK.md (Science path depth: skip | lite | full).
+
+Task: Triage which scientific and domain debugging methods to use. Do NOT implement fixes in this step.
+
+Issue:
+<PASTE SYMPTOM, ERROR, OR CONTEXT>
+
+Requirements:
+1. Risk preflight: LOW or HIGH (justify). If HIGH or unclear, note STOP before implementation.
+2. Choose science path: skip | lite | full — with one-sentence justification.
+3. If skip: recommend at most 1 domain pattern OR direct fix path (no scientific stack).
+4. If lite or full: core is always DBG-science-01 + DBG-science-02 when scientific path is active.
+5. Pick at most ONE supporting pattern (03, 04, 05, 06, or 07) for full path; none for lite unless justified.
+6. Pick at most ONE optional domain pattern (e.g. DBG-flake-01, DBG-media-01) if needed.
+7. Pattern budget: max 3 pattern IDs total — confirm compliance.
+8. List methods NOT chosen (one line each: why not) — do not enumerate the full catalog.
+9. Scope: what will be verified first.
+10. Assumptions and risks.
+11. Next step: Prompt 6 if scientific path; else name domain prompt (2–5).
+12. Evidence output (mandatory):
+
+### Evidence output
+```text
+SCIENTIFIC METHOD TRIAGE
+- Symptom:
+- Risk: LOW|HIGH
+- Science path: skip|lite|full
+- Pattern IDs chosen (max 3):
+  - Core:
+  - Supporting:
+  - Domain:
+- Methods NOT chosen (brief):
+- Scope (smallest useful):
+- Assumptions:
+- Risks:
+- Next prompt/step:
 - STOP/confirm needed: yes/no
 ```
 ```

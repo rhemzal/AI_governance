@@ -87,6 +87,10 @@ Use this section to keep AI conversations precise.
 - **falsification test**: an experiment designed to **disprove** a working hypothesis (cheaper than implementing a fix); a surviving hypothesis may proceed to prediction-before-change.
 - **prediction-before-change**: an expected observable signal stated **before** editing code (e.g., “if H holds, after change X we will see Y”); mismatch after the change rejects H and triggers rollback.
 - **confirmation bias (debugging)**: interpreting ambiguous diagnostic results as support for the first guess; mitigated by competing hypotheses and falsification-first workflows (`usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`, `DBG-science-01`).
+- **differential diagnosis (debugging)**: eliminating competing working hypotheses in parallel using a symptom–hypothesis matrix of expected vs observed signals (`DBG-science-04`).
+- **discriminative experiment**: a single test designed to produce different outcomes under competing hypotheses, eliminating several at once (`DBG-science-05`).
+- **control run**: a known-good or known-bad baseline execution for comparison with the failing case (`DBG-science-06`).
+- **instrument sanity check**: verifying that test runners, MCP tools, mocks, or CI harnesses work on a trivial case before concluding product defects (`DBG-science-07`).
 - **RCA** (Root Cause Analysis): stronger claim than failure diagnosis. AI must not claim root cause unless supported by evidence. During AVR loops, prefer “working diagnosis” unless verified.
 - **repair attempt**: a minimal, rule-compliant change made to address a diagnosed failure, followed by rerunning checks.
 - **regression guard**: a test or gate whose primary job is to prevent reintroduction of a previously fixed defect or violated contract.

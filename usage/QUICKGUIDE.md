@@ -135,9 +135,10 @@ Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md and usage/DEBUGGING_ACCELERATION_P
 
 Before changing code:
 1. Risk preflight: LOW or HIGH.
-2. Propose top 2–3 debugging patterns with pros/cons and “do not use when”.
-3. Recommend one path with smallest useful verification scope.
-4. Include assumptions, risks, verification steps, and PR evidence output.
+2. If cause unclear: run Prompt 7 (triage) first, then Prompt 6 if scientific path applies.
+3. Propose top 2–3 debugging patterns with pros/cons and “do not use when”.
+4. Recommend one path with smallest useful verification scope.
+5. Include assumptions, risks, verification steps, and PR evidence output.
 
 Issue:
 <PASTE SYMPTOM OR FAILURE>
@@ -145,7 +146,7 @@ Issue:
 
 Specialized prompts (same file): long-running playback, MCP diagnostics, flaky test triage, minimal reproducible case.
 
-When cause is unclear or the first fix failed, use **Prompt 6** (hypothesis falsification; `DBG-science-01`) instead of jumping to another implementation guess.
+When cause is unclear or the first fix failed, use **Prompt 7** (triage) then **Prompt 6** (hypothesis falsification) — not another blind implementation guess.
 
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:

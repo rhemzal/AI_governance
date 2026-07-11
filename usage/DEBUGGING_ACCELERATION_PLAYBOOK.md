@@ -65,7 +65,17 @@ flowchart LR
 
 Use when the cause is **unclear** or the **first fix failed** — before implementing another guess.
 
-This section implements advisory patterns `DBG-science-01`, `DBG-science-02`, and `DBG-science-03` from the catalog. Terminology: `architecture/TERMINOLOGY_GLOSSARY.md` (working hypothesis, falsification test, prediction-before-change).
+Advisory patterns `DBG-science-01` … `DBG-science-07` and **Scientific method triage** live in `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`. Terminology: `architecture/TERMINOLOGY_GLOSSARY.md`.
+
+**Start with Prompt 7** (method triage) when unsure which technique to use; then **Prompt 6** (execution). Pattern budget: max **3** IDs per issue (see catalog).
+
+### Science path depth
+
+| Path | When | Flow |
+|------|------|------|
+| **skip** | Clear stack trace, typo, proven cause | Direct fix or domain pattern only |
+| **lite** | Unclear cause, simple context | `01` → `02` → fix (no supporting) |
+| **full** | Multi-factor, regression, first fix failed, or triage says full | Prompt 7 → core `01`+`02` + **1** supporting (`03`–`07`) → fix |
 
 ### When to use vs skip
 
@@ -73,41 +83,50 @@ This section implements advisory patterns `DBG-science-01`, `DBG-science-02`, an
 |-----------|-------------------|
 | Clear stack trace to single line | Skip — fix directly |
 | Obvious typo/syntax error | Skip |
-| Reproducible symptom, unknown cause | **Use** |
-| First fix merged but symptom persists | **Use** Prompt 6 |
+| Reproducible symptom, unknown cause | **Use** — Prompt 7 → lite or full |
+| First fix merged but symptom persists | **Use** Prompt 7 → full |
+| Unclear which method to apply | **Use** Prompt 7 only (no catalog dump) |
 | HIGH-risk boundary/contract change | Evidence-only until STOP gates pass |
+
+### Meta-heuristics (not separate patterns)
+
+- **Parsimony:** when evidence is equal, prefer the simpler hypothesis.
+- **Falsifiability gate:** if a hypothesis has no defined way to be disproven, reformulate or drop it.
+- **No post-hoc prediction:** predictions must be stated before the change (`DBG-science-02`).
 
 ### Checklist (copy-paste)
 
 ```text
 SCIENTIFIC_DEBUG_CHECKLIST
+0. [ ] Run Prompt 7 triage OR catalog decision table — pick science path: skip | lite | full
+0b. [ ] Pattern budget: max 3 IDs; max 1 supporting (03–07) this AVR iteration
 1. [ ] State symptom + smallest useful scope
 2. [ ] List 2–3 competing working hypotheses (not RCA claims)
-3. [ ] Per hypothesis: cheapest falsification test (probe, log, assert, toggle) — NOT a product fix
-4. [ ] Run falsification tests; record falsified vs survived
-5. [ ] If none survived: generate new hypotheses (do not implement first guess)
-6. [ ] Prediction-before-change: if H holds, after X we will see Y
-7. [ ] Minimal fix for surviving hypothesis only
-8. [ ] Verify prediction matched; if no → revert and return to step 2
-9. [ ] Capture pattern evidence blocks (DBG-science-01, DBG-science-02)
+3. [ ] Apply ONE supporting technique from triage (04/05/03/06/07) if full path — else skip to step 4
+4. [ ] Per hypothesis: cheapest falsification test — NOT a product fix
+5. [ ] Run falsification tests; record falsified vs survived
+6. [ ] If none survived: generate new hypotheses (do not implement first guess)
+7. [ ] Prediction-before-change: if H holds, after X we will see Y
+8. [ ] Minimal fix for surviving hypothesis only
+9. [ ] Verify prediction matched; if no → revert and return to step 2
+10. [ ] Capture pattern evidence blocks (DBG-science-01, DBG-science-02, + supporting if used)
 ```
 
 ### Flow
 
 ```mermaid
 flowchart TD
-  symptom[Symptom] --> hypotheses[Competing_hypotheses]
-  hypotheses --> falsify[Falsification_tests]
-  falsify --> survived{Hypothesis_survived?}
-  survived -->|no| hypotheses
-  survived -->|yes| predict[Prediction_before_change]
-  predict --> fix[Minimal_fix]
-  fix --> verify{Prediction_matched?}
-  verify -->|no| revert[Revert] --> hypotheses
-  verify -->|yes| done[Done_with_evidence]
+  symptom[Symptom] --> trivial{Trivial_or_proven?}
+  trivial -->|yes| skip[Skip_science_path]
+  trivial -->|no| triage[Prompt_7_or_triage_table]
+  triage --> core[Core_01_plus_02]
+  triage --> support[Pick_ONE_supporting_03_to_07]
+  core --> avr[AVR_plus_prediction]
+  support --> avr
+  avr --> done[Done_with_evidence]
 ```
 
-For copy-paste AI prompt, use **Prompt 6** in `usage/DECISION_PROMPTS_DEBUGGING.md`.
+For copy-paste AI prompts: **Prompt 7** (triage) → **Prompt 6** (execution) in `usage/DECISION_PROMPTS_DEBUGGING.md`.
 
 ---
 
@@ -245,14 +264,18 @@ MCP DIAGNOSTIC SETUP CHECKLIST
 
 | Scenario | Suggested pattern stack |
 |----------|-------------------------|
-| Unclear cause | DBG-science-01 → DBG-science-03 → DBG-science-02 → fix |
+| Unclear cause (triage first) | Prompt 7 → DBG-science-01 → DBG-science-02 → fix |
+| Unclear cause + many hypotheses | Prompt 7 → DBG-science-04 or 05 → 01 → 02 |
+| Multi-factor environment | Prompt 7 → DBG-science-03 → 01 → 02 |
+| Regression / used to work | DBG-science-06 → DBG-reduce-01 bisect → 01 → 02 |
+| Suspect harness / MCP / runner | DBG-science-07 → then domain pattern |
 | Flaky streaming test | DBG-reduce-01 → DBG-media-01 → DBG-flake-01 |
-| Flaky test (unknown cause) | DBG-science-01 → DBG-flake-01 |
-| Observability noise | DBG-science-01 → DBG-observe-01 (hypothesis-driven, not log archaeology) |
+| Flaky test (unknown cause) | Prompt 7 → DBG-science-01 → DBG-flake-01 (+ 06 replicate) |
+| Observability noise | DBG-science-04 → DBG-observe-01 (hypothesis-driven) |
 | External API regression | DBG-contract-01 → DBG-io-01 → DBG-snapshot-01 |
 | Retry storm | DBG-observe-01 → DBG-resilience-01 → DBG-contract-01 |
 | Agent cannot reproduce | DBG-reduce-01 → DBG-mcp-01 (read-only) → DBG-io-01 |
-| First fix failed | DBG-science-01 → DBG-science-02 (reject prior hypothesis) |
+| First fix failed | Prompt 7 full → DBG-science-01 → DBG-science-02 (reject prior H) |
 
 ---
 
