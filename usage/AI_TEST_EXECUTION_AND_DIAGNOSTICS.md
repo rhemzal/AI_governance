@@ -78,6 +78,17 @@ Evidence may be:
 
 Do not collect excessive artifacts when the first failure signal is already sufficient.
 
+## Hypothesis before repair
+
+When the cause is unclear, do not implement the first guess.
+
+1. Formulate 2–3 competing **working hypotheses** (`architecture/TERMINOLOGY_GLOSSARY.md`).
+2. Run the cheapest **falsification test** per hypothesis before editing product code (`DBG-science-01` in `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`).
+3. State **prediction-before-change** before any fix (`DBG-science-02`): if H holds, after X we will see Y.
+4. If the prediction fails after the change, revert and reject H.
+
+Use `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 6 and the scientific-style section in `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`.
+
 ## Do not hide failures
 
 The AI must not:
@@ -117,6 +128,8 @@ TEST DIAGNOSTICS REPORT
 
 ## Related Documents
 
+* `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
+* `usage/DECISION_PROMPTS_DEBUGGING.md`
 * `ci/TEST_GATES.md`
 * `ci/INTERFACE_GATES.md`
 * `interface/INTERFACE_RULES_PROPOSAL.md`

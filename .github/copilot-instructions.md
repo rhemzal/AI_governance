@@ -74,7 +74,7 @@ Do not weaken or delete tests to make the run pass.
 
 See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
 
-For troubleshooting/performance/debug work, use `usage/DECISION_PROMPTS_DEBUGGING.md` and `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` (see `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`).
+For troubleshooting/performance/debug work, use `usage/DECISION_PROMPTS_DEBUGGING.md` and `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` (see `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`). When cause is unclear, falsify hypotheses before fixing (`DBG-science-01`; Prompt 6).
 
 ## Documentation
 

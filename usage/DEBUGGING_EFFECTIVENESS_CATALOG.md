@@ -14,6 +14,7 @@ Help AI assistants proactively propose suitable debugging paths with explicit tr
 - This catalog does **not** mandate specific tools, frameworks, or test runners.
 - This catalog does **not** authorize weakening tests, deleting failures, or bypassing high-risk enforcement.
 - This catalog does **not** claim root cause analysis (RCA) without evidence — prefer **working diagnosis** during Autonomous Verification & Repair (AVR) loops.
+- Scientific-style patterns (`DBG-science-*`) are advisory debugging workflows; they do **not** replace normative test policy in `ci/TEST_GATES.md`.
 
 ## How to use the catalog (selection flow)
 
@@ -24,11 +25,21 @@ flowchart TD
   B -->|HIGH / boundary / contract| D[STOP: use AI_ENFORCEMENT.md + ADR if needed]
   D --> C
   C --> E[Rank top 2-3 patterns by pros/cons]
-  E --> F[Pick smallest-scope verification first]
+  E --> E2{Cause unclear?}
+  E2 -->|yes| E3[Formulate competing hypotheses DBG-science-01]
+  E2 -->|no| F[Pick smallest-scope verification first]
+  E3 --> E4[Design falsification tests per hypothesis]
+  E4 --> E5{Hypothesis survived?}
+  E5 -->|no| E
+  E5 -->|yes| E6[Prediction-before-change DBG-science-02]
+  E6 --> F
   F --> G[Run AVR loop with evidence]
   G --> H{Sufficient signal?}
   H -->|yes| I[Minimal fix + rerun]
   H -->|no| E
+  I --> I2{Prediction matched?}
+  I2 -->|no| E
+  I2 -->|yes| Done[Done with evidence]
 ```
 
 **Practical steps:**
@@ -37,6 +48,9 @@ flowchart TD
 2. Describe the symptom domain (test failure, flake, performance, integration boundary, long-running media, MCP tool, etc.).
 3. Scan **Problem fit** and **Use when / Do NOT use when** for each candidate pattern.
 4. Compare **Pros / Cons / Implementation cost** for the top 2–3 options.
+4a. If cause is unclear, formulate 2–3 **competing working hypotheses** (`DBG-science-01`); do not implement the first guess.
+4b. For each hypothesis, design the **cheapest falsification test** (probe, log check, temporary assert, feature off) — not a product fix.
+4c. Before any code change, state **prediction-before-change** (`DBG-science-02`): expected signal if the surviving hypothesis holds.
 5. Use copy-paste prompts from `usage/DECISION_PROMPTS_DEBUGGING.md` when working with an AI assistant.
 6. Execute the smallest useful scope; capture **PR evidence** per pattern.
 7. On verification failure, apply the AVR loop (`constitution/AI_ENFORCEMENT_DAILY.md`) before escalating.
@@ -670,7 +684,7 @@ Complex failures with large reproduction steps (multi-service, long scripts, ful
 #### Failure modes
 - “Minimal” case still depends on hidden global state.
 - Reduced case passes while full scenario fails (incomplete reduction).
-- Endless reduction without hypothesis.
+- Endless reduction without hypothesis (use `DBG-science-01` first).
 
 #### Expected gain
 - **Speed:** shorter AVR cycles after reduction.
@@ -741,7 +755,7 @@ Production-like or integrated failures where symptom is clear but internal path 
 - Risk of PII/secrets in logs.
 
 #### Failure modes
-- Log archaeology without hypothesis (slow).
+- Log archaeology without hypothesis (slow; pair with `DBG-science-01`).
 - Missing correlation → inconclusive traces.
 - Over-instrumentation in hot paths.
 
@@ -783,6 +797,230 @@ DEBUGGING PATTERN EVIDENCE — DBG-observe-01
 
 ---
 
+### Pattern 11: Competing hypotheses + falsification loop
+
+| Field | Value |
+|-------|-------|
+| **Pattern ID** | `DBG-science-01` |
+| **Maturity** | `standard` |
+
+#### Problem fit
+Unclear root cause with multiple plausible explanations; risk of implementing the first guess and discovering during implementation that it solves nothing.
+
+#### Use when
+- Symptom is reproducible but cause is unknown.
+- AI or human shows tendency to jump straight to code changes.
+- Several competing explanations exist (layer, config, timing, contract).
+
+#### Do NOT use when
+- Cause is already proven (e.g., clear stack trace to a single line).
+- Trivial syntax/typo with obvious fix.
+- HIGH-risk change without STOP gate and operator confirmation.
+
+#### Pros
+- Cheaper than blind fix-and-retry loops.
+- Reduces confirmation bias (`architecture/TERMINOLOGY_GLOSSARY.md`).
+- Produces evidence-backed working diagnosis before repair.
+
+#### Cons
+- Requires discipline; can slow obvious fixes.
+- Poorly formed hypotheses waste cycles.
+- Falsification tests can accidentally become fixes.
+
+#### Failure modes
+- Hypotheses too vague to falsify.
+- Tests designed to confirm rather than disprove.
+- Too many hypotheses at once; analysis paralysis.
+- Treating surviving hypothesis as verified RCA without evidence.
+
+#### Expected gain
+- **Speed:** faster overall when first-guess fixes would fail.
+- **Quality:** fewer false-green fixes and regression churn.
+
+#### Implementation cost
+- **Setup:** low — structured thinking + cheapest probe per hypothesis.
+- **Maintenance:** low — reusable habit in AVR loops.
+
+#### PR evidence expectations
+- List of 2–3 competing working hypotheses.
+- Falsification test per hypothesis and outcome (falsified / survived).
+- Explicit note if fix was deferred pending falsification.
+
+#### Governance Alignment
+
+| Kit area | Relevant doc(s) | Alignment note |
+|----------|-----------------|----------------|
+| Rules / enforcement | `constitution/AI_ENFORCEMENT_DAILY.md` | AVR loop; smallest scope |
+| Terminology | `architecture/TERMINOLOGY_GLOSSARY.md` | working hypothesis, falsification test, RCA vs working diagnosis |
+| Test execution | `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md` | Evidence before repair |
+
+#### AI Prompt Snippet
+```
+Apply DBG-science-01: list 2-3 competing working hypotheses.
+For each, propose the cheapest falsification test (not a product fix).
+Do not implement a fix until a hypothesis survives at least one falsification round.
+```
+
+#### Evidence Block (for PR)
+```text
+DEBUGGING PATTERN EVIDENCE — DBG-science-01
+- Competing hypotheses:
+- Falsification tests and outcomes:
+- Surviving hypothesis (if any):
+- Fix deferred: yes/no
+- Working diagnosis (not RCA unless verified):
+```
+
+---
+
+### Pattern 12: Prediction-before-change (pre-registered outcome)
+
+| Field | Value |
+|-------|-------|
+| **Pattern ID** | `DBG-science-02` |
+| **Maturity** | `standard` |
+
+#### Problem fit
+A working hypothesis has survived falsification; a code change is imminent; risk of false green (tests pass for the wrong reason).
+
+#### Use when
+- About to edit production or test code to address a diagnosed issue.
+- Expected observable signal can be stated in advance.
+- Surviving hypothesis from `DBG-science-01` needs verification via change.
+
+#### Do NOT use when
+- Change is documentation-only.
+- Change is an explicit throwaway spike on a discard branch.
+- Cause is unproven and falsification has not been attempted.
+
+#### Pros
+- Catches wrong fixes early; enables rollback.
+- Makes AI/human reasoning auditable in PRs.
+- Pairs naturally with AVR rerun steps.
+
+#### Cons
+- Extra step before edit; can feel bureaucratic for trivial fixes.
+- Predictions may be vague if signals are poorly chosen.
+- Requires honesty when prediction fails (revert, don't rationalize).
+
+#### Failure modes
+- Vague prediction (“should work”) that cannot fail.
+- Ignoring prediction mismatch because tests turned green.
+- Post-hoc rewriting of what was predicted.
+
+#### Expected gain
+- **Speed:** avoids long rework after wrong fixes.
+- **Quality:** higher confidence that fix addresses the actual cause.
+
+#### Implementation cost
+- **Setup:** low — one sentence before each edit.
+- **Maintenance:** low.
+
+#### PR evidence expectations
+- Pre-registered prediction: “If H, after X we will see Y.”
+- Actual outcome vs prediction.
+- Revert noted if prediction failed.
+
+#### Governance Alignment
+
+| Kit area | Relevant doc(s) | Alignment note |
+|----------|-----------------|----------------|
+| Test execution | `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md` | Evidence before repair |
+| Terminology | `architecture/TERMINOLOGY_GLOSSARY.md` | prediction-before-change |
+| Daily enforcement | `constitution/AI_ENFORCEMENT_DAILY.md` | Minimal compliant repair |
+
+#### AI Prompt Snippet
+```
+Apply DBG-science-02: before any code edit, state prediction-before-change.
+If actual outcome ≠ prediction, revert and reject the hypothesis.
+```
+
+#### Evidence Block (for PR)
+```text
+DEBUGGING PATTERN EVIDENCE — DBG-science-02
+- Hypothesis:
+- Prediction (before change):
+- Change made:
+- Actual outcome:
+- Prediction matched: yes/no
+- Action if no: revert / new hypothesis
+```
+
+---
+
+### Pattern 13: Controlled ablation (one-variable isolation)
+
+| Field | Value |
+|-------|-------|
+| **Pattern ID** | `DBG-science-03` |
+| **Maturity** | `proven` |
+
+#### Problem fit
+Multi-factor environments where failure depends on an unknown subset of variables (config, cache, adapter, parallelism, feature flags).
+
+#### Use when
+- One factor at a time can be disabled, mocked, or reverted in a test harness.
+- Goal is to falsify “factor A is necessary for the failure.”
+- Competing hypotheses map to different factors.
+
+#### Do NOT use when
+- Ablation would change production behavior without a harness.
+- Isolation requires architecture change without ADR.
+- Factors cannot be separated (tightly coupled monolith with no seams).
+
+#### Pros
+- Systematic causal narrowing.
+- Complements `DBG-science-01` with concrete experiments.
+- Often faster than full rewrites.
+
+#### Cons
+- Interaction effects may require multi-factor follow-up.
+- Ablation setup can be non-trivial.
+- May miss emergent bugs visible only when all factors are active.
+
+#### Failure modes
+- Ablation order biases conclusion (fix one symptom, hide another).
+- Disabling factor changes timing and masks race.
+- Confusing ablation (causal factor) with layer split (`DBG-media-01`, architectural layers).
+
+#### Expected gain
+- **Speed:** faster than shotgun fixes across all factors.
+- **Quality:** identifies necessary vs incidental factors.
+
+#### Implementation cost
+- **Setup:** low–medium — toggles, stubs, or config matrix.
+- **Maintenance:** low — document which ablations are safe in CI.
+
+#### PR evidence expectations
+- Ablation matrix: factor × on/off × outcome.
+- Which factors are necessary for reproduction.
+- Harness note (not production mutation).
+
+#### Governance Alignment
+
+| Kit area | Relevant doc(s) | Alignment note |
+|----------|-----------------|----------------|
+| Rules | `constitution/AI_RULES.md` §4 | Boundary-respecting isolation |
+| High-risk | `constitution/AI_ENFORCEMENT.md` | ADR if ablation needs new seams |
+| Catalog | `DBG-media-01` | Layers vs causal factors — different axes |
+
+#### AI Prompt Snippet
+```
+Apply DBG-science-03: propose one-variable ablations to falsify which factors are necessary for the failure.
+Use harness/toggles only; do not mutate production without gates.
+```
+
+#### Evidence Block (for PR)
+```text
+DEBUGGING PATTERN EVIDENCE — DBG-science-03
+- Factors tested:
+- Ablation matrix (factor / on-off / outcome):
+- Necessary factors for failure:
+- Harness vs production:
+```
+
+---
+
 ## Pattern index (quick reference)
 
 | ID | Pattern | Primary gain |
@@ -797,6 +1035,9 @@ DEBUGGING PATTERN EVIDENCE — DBG-observe-01
 | `DBG-flake-01` | Flakiness triage & quarantine | CI trust during flake investigation |
 | `DBG-reduce-01` | Minimal reproducible reduction | Smaller AVR scope |
 | `DBG-observe-01` | Observability-first pack | Runtime path evidence |
+| `DBG-science-01` | Competing hypotheses + falsification loop | Disprove before implement |
+| `DBG-science-02` | Prediction-before-change | Catch false-green fixes |
+| `DBG-science-03` | Controlled ablation | Isolate necessary factors |
 
 ---
 

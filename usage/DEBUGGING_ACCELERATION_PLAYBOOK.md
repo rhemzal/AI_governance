@@ -33,11 +33,12 @@ LOW-RISK DEBUGGING CHECKLIST
 1. [ ] State symptom + smallest useful scope
 2. [ ] Consult usage/DEBUGGING_EFFECTIVENESS_CATALOG.md — pick top 2–3 patterns (pros/cons)
 3. [ ] Use usage/DECISION_PROMPTS_DEBUGGING.md if working with an AI assistant
-4. [ ] Run smallest failing check (non-interactive, with timeout per AI_RULES §6.2)
-5. [ ] Capture minimal evidence (usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md)
-6. [ ] AVR loop: diagnose → minimal fix → rerun smallest scope
-7. [ ] If behavior changed: include ### DOC DELTA in PR
-8. [ ] End with ## COMPLIANCE (daily mode)
+4. [ ] If cause unclear: run SCIENTIFIC_DEBUG_CHECKLIST (DBG-science-01) before any fix
+5. [ ] Run smallest failing check (non-interactive, with timeout per AI_RULES §6.2)
+6. [ ] Capture minimal evidence (usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md)
+7. [ ] AVR loop: diagnose → prediction-before-change → minimal fix → rerun smallest scope
+8. [ ] If behavior changed: include ### DOC DELTA in PR
+9. [ ] End with ## COMPLIANCE (daily mode)
 ```
 
 ### Flow
@@ -57,6 +58,56 @@ flowchart LR
 - Working diagnosis (not RCA unless verified per `architecture/TERMINOLOGY_GLOSSARY.md`).
 - Commands run and rerun.
 - Pattern evidence block from catalog (or `usage/DEBUGGING_PATTERN_TEMPLATE.md`).
+
+---
+
+## Scientific-style debugging
+
+Use when the cause is **unclear** or the **first fix failed** — before implementing another guess.
+
+This section implements advisory patterns `DBG-science-01`, `DBG-science-02`, and `DBG-science-03` from the catalog. Terminology: `architecture/TERMINOLOGY_GLOSSARY.md` (working hypothesis, falsification test, prediction-before-change).
+
+### When to use vs skip
+
+| Situation | Scientific-style? |
+|-----------|-------------------|
+| Clear stack trace to single line | Skip — fix directly |
+| Obvious typo/syntax error | Skip |
+| Reproducible symptom, unknown cause | **Use** |
+| First fix merged but symptom persists | **Use** Prompt 6 |
+| HIGH-risk boundary/contract change | Evidence-only until STOP gates pass |
+
+### Checklist (copy-paste)
+
+```text
+SCIENTIFIC_DEBUG_CHECKLIST
+1. [ ] State symptom + smallest useful scope
+2. [ ] List 2–3 competing working hypotheses (not RCA claims)
+3. [ ] Per hypothesis: cheapest falsification test (probe, log, assert, toggle) — NOT a product fix
+4. [ ] Run falsification tests; record falsified vs survived
+5. [ ] If none survived: generate new hypotheses (do not implement first guess)
+6. [ ] Prediction-before-change: if H holds, after X we will see Y
+7. [ ] Minimal fix for surviving hypothesis only
+8. [ ] Verify prediction matched; if no → revert and return to step 2
+9. [ ] Capture pattern evidence blocks (DBG-science-01, DBG-science-02)
+```
+
+### Flow
+
+```mermaid
+flowchart TD
+  symptom[Symptom] --> hypotheses[Competing_hypotheses]
+  hypotheses --> falsify[Falsification_tests]
+  falsify --> survived{Hypothesis_survived?}
+  survived -->|no| hypotheses
+  survived -->|yes| predict[Prediction_before_change]
+  predict --> fix[Minimal_fix]
+  fix --> verify{Prediction_matched?}
+  verify -->|no| revert[Revert] --> hypotheses
+  verify -->|yes| done[Done_with_evidence]
+```
+
+For copy-paste AI prompt, use **Prompt 6** in `usage/DECISION_PROMPTS_DEBUGGING.md`.
 
 ---
 
@@ -194,10 +245,14 @@ MCP DIAGNOSTIC SETUP CHECKLIST
 
 | Scenario | Suggested pattern stack |
 |----------|-------------------------|
+| Unclear cause | DBG-science-01 → DBG-science-03 → DBG-science-02 → fix |
 | Flaky streaming test | DBG-reduce-01 → DBG-media-01 → DBG-flake-01 |
+| Flaky test (unknown cause) | DBG-science-01 → DBG-flake-01 |
+| Observability noise | DBG-science-01 → DBG-observe-01 (hypothesis-driven, not log archaeology) |
 | External API regression | DBG-contract-01 → DBG-io-01 → DBG-snapshot-01 |
 | Retry storm | DBG-observe-01 → DBG-resilience-01 → DBG-contract-01 |
 | Agent cannot reproduce | DBG-reduce-01 → DBG-mcp-01 (read-only) → DBG-io-01 |
+| First fix failed | DBG-science-01 → DBG-science-02 (reject prior hypothesis) |
 
 ---
 

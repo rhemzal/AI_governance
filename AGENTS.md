@@ -86,7 +86,7 @@ When testing:
 
 See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
 
-For troubleshooting/performance/debug work, compare strategies first: `usage/DECISION_PROMPTS_DEBUGGING.md` + `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` (playbook: `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`).
+For troubleshooting/performance/debug work, compare strategies first: `usage/DECISION_PROMPTS_DEBUGGING.md` + `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` (playbook: `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`). When cause is unclear, falsify hypotheses before fixing (`DBG-science-01`; Prompt 6).
 
 ## Verification
 

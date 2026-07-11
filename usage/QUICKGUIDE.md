@@ -145,6 +145,8 @@ Issue:
 
 Specialized prompts (same file): long-running playback, MCP diagnostics, flaky test triage, minimal reproducible case.
 
+When cause is unclear or the first fix failed, use **Prompt 6** (hypothesis falsification; `DBG-science-01`) instead of jumping to another implementation guess.
+
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:
 - change architecture boundaries/dependency rules

@@ -83,6 +83,10 @@ Use this section to keep AI conversations precise.
 - **TDF**: avoid as a canonical acronym in this kit — ambiguous (often confused with TDD/TFD) and not a standard term here. If a project uses **TDF** locally, it MUST define the expansion and meaning explicitly as **project-local**.
 - **failure detection**: recognizing that a check failed (test, lint, build, gate) — output observation, not root-cause analysis.
 - **failure diagnosis**: determining why a failure occurred (which layer, which contract, which assumption).
+- **working hypothesis**: a tentative, testable explanation that guides the next diagnostic step; weaker than verified root cause and typically one of several competing hypotheses during debugging.
+- **falsification test**: an experiment designed to **disprove** a working hypothesis (cheaper than implementing a fix); a surviving hypothesis may proceed to prediction-before-change.
+- **prediction-before-change**: an expected observable signal stated **before** editing code (e.g., “if H holds, after change X we will see Y”); mismatch after the change rejects H and triggers rollback.
+- **confirmation bias (debugging)**: interpreting ambiguous diagnostic results as support for the first guess; mitigated by competing hypotheses and falsification-first workflows (`usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`, `DBG-science-01`).
 - **RCA** (Root Cause Analysis): stronger claim than failure diagnosis. AI must not claim root cause unless supported by evidence. During AVR loops, prefer “working diagnosis” unless verified.
 - **repair attempt**: a minimal, rule-compliant change made to address a diagnosed failure, followed by rerunning checks.
 - **regression guard**: a test or gate whose primary job is to prevent reintroduction of a previously fixed defect or violated contract.

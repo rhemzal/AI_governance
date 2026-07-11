@@ -27,6 +27,7 @@ Use this map so agents do not guess which governance mode applies.
 | Event | Risk mode | Required checks / actions |
 | --- | --- | --- |
 | GUI / interface test failure | Medium → High | Use `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`; capture first failure signal; avoid full rerun until diagnosis. |
+| Ambiguous cause / first fix failed | Medium | Use `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 6 (`DBG-science-01`); falsify hypotheses before next fix. |
 
 ## Multi-prefix changes
 

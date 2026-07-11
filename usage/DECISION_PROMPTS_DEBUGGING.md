@@ -37,6 +37,7 @@ Requirements:
    - Pros and cons
    - Do NOT use when (for this case)
    - Implementation cost (setup/maintenance)
+   - If cause is unclear, include `DBG-science-01` among candidates and prefer Prompt 6 before any fix
 3. State your recommended option and why.
 4. Scope: smallest useful verification first (constitution/AI_ENFORCEMENT_DAILY.md).
 5. Assumptions: list what you are inferring about the system.
@@ -233,6 +234,63 @@ MINIMAL REPRO CASE
 
 ---
 
+## Prompt 6 — Hypothesis falsification (before any fix)
+
+Use when cause is unclear, the first fix failed, or the assistant tends to implement before diagnosing.
+
+```
+Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md (DBG-science-01, DBG-science-02, DBG-science-03)
+and usage/DEBUGGING_ACCELERATION_PLAYBOOK.md (Scientific-style debugging section).
+Terminology: architecture/TERMINOLOGY_GLOSSARY.md (working hypothesis, falsification test, prediction-before-change).
+
+Task: Debug using scientific-style hypothesis falsification. Do NOT implement the first guess without a falsification attempt.
+
+Issue:
+<PASTE SYMPTOM, FAILED FIX, OR TEST FAILURE>
+
+Requirements:
+1. Risk preflight: LOW or HIGH (justify). If HIGH or unclear, STOP before implementation.
+2. List 2–3 competing working hypotheses (not RCA claims).
+3. For each hypothesis: propose the cheapest falsification test (probe, log check, temporary assert, feature toggle, ablation) — NOT a product fix.
+4. Optionally use controlled ablation (DBG-science-03) when multiple factors may be necessary.
+5. Do not implement a code fix until at least one hypothesis survives falsification.
+6. Before any fix: state prediction-before-change (DBG-science-02): if H holds, after X we will see Y.
+7. Scope: smallest useful verification first.
+8. Assumptions: list what you are inferring about the system.
+9. Risks: confirmation bias, false green, high-risk triggers (boundaries, contracts, security).
+10. Verification steps: ordered, non-interactive commands where possible (AI_RULES §6.2).
+11. If prediction fails after fix: revert and reject hypothesis.
+12. Evidence output (mandatory):
+
+### Evidence output
+```text
+HYPOTHESIS FALSIFICATION REPORT
+- Symptom:
+- Risk: LOW|HIGH
+- Competing hypotheses:
+  H1:
+  H2:
+  H3:
+- Falsification tests and outcomes:
+  H1: test → falsified|survived
+  H2: test → falsified|survived
+  H3: test → falsified|survived
+- Surviving hypothesis (if any):
+- Prediction-before-change (before fix):
+- Fix applied (if any):
+- Actual outcome vs prediction:
+- Prediction matched: yes/no
+- Scope (smallest useful):
+- Assumptions:
+- Risks:
+- Verification steps:
+- Working diagnosis (not RCA unless verified):
+- STOP/confirm needed: yes/no
+```
+```
+
+---
+
 ## Related Documents
 
 - `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
@@ -240,6 +298,7 @@ MINIMAL REPRO CASE
 - `usage/DEBUGGING_PATTERN_TEMPLATE.md`
 - `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`
 - `usage/HOW_TO_USE_WITH_COPILOT.md`
+- `architecture/TERMINOLOGY_GLOSSARY.md`
 - `constitution/AI_ENFORCEMENT_DAILY.md`
 - `constitution/AI_ENFORCEMENT.md`
 - `ci/TEST_GATES.md`
