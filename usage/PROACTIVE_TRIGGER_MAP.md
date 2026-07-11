@@ -29,6 +29,8 @@ Use this map so agents do not guess which governance mode applies.
 | GUI / interface test failure | Medium → High | Use `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`; capture first failure signal; avoid full rerun until diagnosis. If cause unclear after evidence: **Prompt 7** then **Prompt 6** (`usage/DECISION_PROMPTS_DEBUGGING.md`). |
 | Ambiguous cause / first fix failed | Medium | Use `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 7 then Prompt 6 (`DBG-science-01`); falsify hypotheses before next fix. |
 | Unclear which debug method to use | Medium | `usage/DECISION_PROMPTS_DEBUGGING.md` **Prompt 7** (triage); pattern budget max 3 IDs. |
+| Architecture-impacting change / style selection | Medium → High | `architecture/ARCHITECTURE_DECISION_PROMPT.md` step A then B (RAG triage); consult `architecture/README.md` before loading `architecture/rag/`. |
+| Dependency / security scan failure | Medium → High | `usage/SECURITY_MINIMUM_ADOPTION.md` security finding triage (max 3 actions) before product-code changes. |
 
 ## Multi-prefix changes
 
@@ -53,4 +55,5 @@ Example: `constitution/AI_RULES.md` + `ci/TEST_GATES.md` → high-risk + adaptiv
 - `constitution/ADAPTIVE_GOVERNANCE.md`
 - `ci/DOC_GATES.md`
 - `usage/CI_MINIMUM_ADOPTION.md`
+- `usage/PROACTIVE_TRIGGER_MAP.md`
 - `AGENTS.md`

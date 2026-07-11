@@ -70,6 +70,18 @@ Recommended flow:
 
 This is advisory guidance — normative test policy remains in `ci/TEST_GATES.md`; high-risk stops remain in `constitution/AI_ENFORCEMENT.md`.
 
+## Method triage (non-debugging)
+
+When scope or method is unclear, apply **method triage** before loading large document corpora. Terms: `architecture/TERMINOLOGY_GLOSSARY.md` (method triage, corpus budget).
+
+| Area | Document | Corpus budget |
+| --- | --- | --- |
+| Architecture / RAG | `architecture/ARCHITECTURE_DECISION_PROMPT.md`, `architecture/README.md` | Max 2 RAG notes + 1 cross-cutting; matrix columns for selected styles only |
+| Security findings | `usage/SECURITY_MINIMUM_ADOPTION.md` | Max 3 actions per iteration (fix / waiver / defer) |
+| Governance audit | `usage/AUDIT_PLAYBOOK.md` | Pick scope first; scoped minimum findings (not always 10) |
+| Kit adoption | `usage/ADOPTION_BUNDLES.md` | 1 baseline bundle + max 1 optional |
+| AEP discovery | `usage/AEP_VALIDATION.md` | Max 5 consulted paths (LOW-risk); narrow via `usage/PROACTIVE_TRIGGER_MAP.md` |
+
 ## Daily Work
 Use:
 - `constitution/AI_ENFORCEMENT_DAILY.md`

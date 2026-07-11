@@ -38,7 +38,46 @@ When temporary exception is needed, record:
 
 Avoid permanent waivers without periodic review.
 
+## Security finding triage (AI-assisted)
+
+When dependency or code scans report findings, **triage before bulk upgrades**. Do not implement mass dependency bumps without classification. Corpus budget: max **3** actionable items per iteration; defer the rest to backlog with rationale.
+
+Copy-paste prompt:
+
+```
+Load usage/SECURITY_MINIMUM_ADOPTION.md (this section + waiver guidance).
+
+Task: Triage security scan findings. Do NOT implement mass upgrades in this step.
+
+Findings:
+<PASTE FINDING LIST — ID, severity, package/path, summary>
+
+Requirements:
+1. Risk preflight: LOW or HIGH per finding (justify). HIGH → note STOP before production changes without review.
+2. Classify each finding: fix | waiver | defer | false_positive — with evidence.
+3. Action budget: select max 3 items to act on this iteration; backlog the rest with one-line reason.
+4. For waiver: require owner, expiration, compensating controls (see Waiver guidance above).
+5. Do not weaken security gates or delete findings to make scans green.
+6. Evidence output (mandatory):
+
+### Evidence output
+```text
+SECURITY FINDING TRIAGE
+- Scan source:
+- Total findings:
+- Actions this iteration (max 3):
+  1) <ID> — severity — action — rationale
+  2) ...
+- Backlog (deferred):
+- Waivers proposed (owner, expiration):
+- False positives:
+- Product code change warranted: yes/no (justify)
+- HIGH risk / STOP: yes/no
+```
+```
+
 ## Related Documents
 - `usage/CI_MINIMUM_ADOPTION.md`
 - `constitution/AI_RULES.md`
 - `constitution/AI_ENFORCEMENT.md`
+- `architecture/TERMINOLOGY_GLOSSARY.md`

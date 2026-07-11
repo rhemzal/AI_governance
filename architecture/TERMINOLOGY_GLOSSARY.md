@@ -91,6 +91,12 @@ Use this section to keep AI conversations precise.
 - **discriminative experiment**: a single test designed to produce different outcomes under competing hypotheses, eliminating several at once (`DBG-science-05`).
 - **control run**: a known-good or known-bad baseline execution for comparison with the failing case (`DBG-science-06`).
 - **instrument sanity check**: verifying that test runners, MCP tools, mocks, or CI harnesses work on a trivial case before concluding product defects (`DBG-science-07`).
+
+### AI-assisted method triage (cross-cutting)
+- **method triage**: selecting methods or documents **before** expanding a large corpus; pick methods, not solutions. Reference implementation: debugging Prompt 7 in `usage/DECISION_PROMPTS_DEBUGGING.md`.
+- **corpus budget** (alias **pattern budget**): maximum number of docs, patterns, or actions per iteration (typical: 2–3 for methods/patterns; 1 baseline bundle + max 1 optional for adoption). Prevents catalog dumps and parallel unfocused work.
+- **scope triage**: narrowing task scope (audit scope, bundle scope, discovery scope) before loading full playbooks or governance trees.
+
 - **RCA** (Root Cause Analysis): stronger claim than failure diagnosis. AI must not claim root cause unless supported by evidence. During AVR loops, prefer “working diagnosis” unless verified.
 - **repair attempt**: a minimal, rule-compliant change made to address a diagnosed failure, followed by rerunning checks.
 - **regression guard**: a test or gate whose primary job is to prevent reintroduction of a previously fixed defect or violated contract.

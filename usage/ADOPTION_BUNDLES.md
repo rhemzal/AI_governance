@@ -67,6 +67,29 @@ Use only when the target repo adopts the kit as its **governance baseline**:
 
 **Warning:** This is the largest bundle. If the goal is “see if the kit helps,” start with **minimal** or **standard** instead.
 
+## Bundle triage (anti-overload)
+
+Before import or bundle expansion, run **bundle triage** — do not recommend `full` for a trial without explicit governance-baseline justification.
+
+**Corpus budget:**
+- **1 baseline** bundle: `minimal` or `standard` (pick one with rationale).
+- **Max 1 optional** add-on: `architecture` or `research` (not both unless HIGH-risk need documented).
+- **`full`** only when the repo will treat this kit as its **governance baseline** (not “try it out”).
+
+Output template:
+
+```text
+ADOPTION BUNDLE TRIAGE
+- Repo context (one line):
+- Baseline bundle:
+- Optional add-on (max 1):
+- Deferred bundles (why):
+- full justified: yes/no
+- Next step (Recipe D/E):
+```
+
+See `usage/QUICKGUIDE.md` Recipes D and E.
+
 ## Common mistakes
 
 | Mistake | Better approach |

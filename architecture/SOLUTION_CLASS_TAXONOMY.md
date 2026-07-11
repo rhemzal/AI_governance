@@ -10,6 +10,8 @@ This document is the **central coverage map** for the AI_governance kit. It answ
 
 This is an **entry point for teams** evaluating whether the kit applies to their system.
 
+**Anti-overload:** This taxonomy is a **coverage map**, not a checklist to scan. After identifying the primary axis in `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` §1, look up the **relevant row(s)** only — do not enumerate all solution classes or load every linked RAG note.
+
 ## Coverage Level Legend
 | Level | Meaning |
 |---|---|

@@ -44,15 +44,18 @@ Add:
 ### Recipe D — Adoption Assessment (Existing Repo; Kit Imported)
 Use this when the kit is already present in the repo and you want an AI to recommend what to adopt (and in what order) without blindly copying everything.
 
+**Scope:** Use `usage/PROACTIVE_TRIGGER_MAP.md` to narrow discovery — if only `minimal` is imported, do not audit the full kit tree; assess what is present and what to add next per `usage/ADOPTION_BUNDLES.md`.
+
 Paste this prompt:
 
 ```
-Load `constitution/AI_RULES.md`.
+Load `constitution/AI_RULES.md` and `usage/PROACTIVE_TRIGGER_MAP.md`.
 This task is assessment-only: do not change code/docs; do not propose diffs unless I ask.
 
 Context:
 - This is an existing repository adopting the AI_governance kit.
 - The kit is already available in this repo (folders like `constitution/`, `usage/`, `adr/`).
+- Identify which bundles appear imported (minimal only vs standard vs more) before scoping assessment.
 
 Assess the current repo state and recommend an adoption order:
 1) **Findability**: where are the governance docs, ADRs, CI definitions, and notes (`notes/`)?
@@ -63,6 +66,7 @@ Assess the current repo state and recommend an adoption order:
 
 Output:
 - A short assessment (bullets).
+- ADOPTION BUNDLE TRIAGE (if expansion needed): 1 baseline + max 1 optional per usage/ADOPTION_BUNDLES.md.
 - A staged adoption recommendation in order (L0 → L3), with prerequisites for each stage:
   - L0: doc hygiene (fast, deterministic)
   - L1: deterministic tests
@@ -85,38 +89,44 @@ Context:
 - Assume the kit is not yet imported unless you see it in the repo.
 
 1) Recommend an import approach (Copy vs Submodule vs Fork) based on practical constraints (team workflow, desired update cadence, willingness to customize).
-2) Read `kit-manifest.yml` from the kit repo and recommend a bundle (`minimal`, `standard`, `architecture`, `research`, or `full`) — do not guess folder lists from README alone.
-3) After import, instruct me to run Recipe D to produce a staged adoption plan.
+2) Read `kit-manifest.yml` and `usage/ADOPTION_BUNDLES.md` — run bundle triage: 1 baseline (`minimal` or `standard`) + max 1 optional (`architecture` or `research`). Do NOT recommend `full` for a trial without explicit governance-baseline justification.
+3) Output ADOPTION BUNDLE TRIAGE block (see usage/ADOPTION_BUNDLES.md).
+4) After import, instruct me to run Recipe D to produce a staged adoption plan.
 
 Output:
 - Recommended import approach + why.
-- Recommended `kit-manifest.yml` bundle(s) + why.
+- ADOPTION BUNDLE TRIAGE (baseline, optional, deferred, full justified yes/no).
 - Next steps checklist (human-doable).
 ```
 
 ### Recipe F — Architecture Decision Precheck (Before Style / ADR)
 Use before picking hexagonal vs layered vs event-driven vs hybrid, or before architecture-impacting implementation.
 
-Paste the prompt from:
-- `architecture/ARCHITECTURE_DECISION_PROMPT.md`
-
-Fill in the context block, then require the `ARCHITECTURE DECISION PRECHECK` output. If `ADR required: yes`, stop and use `adr/ADR_TEMPLATE.md` before code changes.
+1. Paste the prompt from `architecture/ARCHITECTURE_DECISION_PROMPT.md` (step A precheck, then step B RAG triage).
+2. Require `ARCHITECTURE DECISION PRECHECK` and `ARCHITECTURE RAG TRIAGE` output blocks.
+3. If `ADR required: yes`, stop and use `adr/ADR_TEMPLATE.md` before code changes — do not load `architecture/rag/` beyond the triaged notes.
 
 ### Recipe G — Governance Audit (Kit or Imported Repo)
 Use quarterly, before a release tag, or after `[Import bundle change]` / governance-impacting edits.
 
-Paste this prompt:
+Paste this prompt (or use AI-Assisted Audit Prompt in `usage/AUDIT_PLAYBOOK.md`):
 
 ```
 Role: Strict governance reviewer.
-Load `usage/AUDIT_PLAYBOOK.md` and follow Steps 1–5.
+Load `usage/AUDIT_PLAYBOOK.md`.
 
-Goal: Find contradictions, duplication, unenforceable rules, missing theory support, and drift/bypass scenarios.
+Step 0 — Scope triage (mandatory before Steps 1–5):
+- Pick scope: post_import | prefix | release | quarterly
+- If post_import: after kit import. If prefix: single path change. If release/quarterly: full audit.
+- Load only the mandatory input subset for that scope (see Audit scope triage table).
+
+Goal: Find contradictions, duplication, unenforceable rules, missing theory support (within scope).
 
 Constraints:
 - Propose minimal diffs; prefer consolidating into existing docs.
 - Use the Findings Format from the playbook (ID, Severity, Category, Evidence, Impact, Fix proposal, Verification).
-- Output at least 10 findings (incl. 3 high-severity) and 3 drift scenarios.
+- Meet minimum findings for scope (5 for post_import/prefix; 10 incl. 3 high for release/quarterly).
+- Drift scenarios: 1 for scoped; 3 for release/quarterly.
 
 Deliverables:
 - Update or create `usage/AUDIT_REPORT.md`

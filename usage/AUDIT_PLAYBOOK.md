@@ -12,10 +12,25 @@ This playbook helps you **audit this governance kit** (or a repo that imports it
 This document is **advisory**. Normative rules live in `constitution/`.
 
 ## What “Good Audit” Means
-A good audit produces:
+A good audit produces findings proportional to **audit scope** (see below). For **release** or **quarterly** full audits:
 - at least 10 findings (incl. 3 high-severity)
 - at least 5 specific fix proposals (exact docs/sections to change)
 - at least 3 “bypass” scenarios (how teams could drift while appearing compliant)
+
+For scoped audits (post_import, prefix), see minimum findings in **Audit scope triage**.
+
+## Audit scope triage
+
+Pick scope **before** loading all mandatory inputs or running all steps. Do not default to Steps 1–5 for every task.
+
+| Scope | When | Steps | Mandatory inputs (subset) | Min findings |
+| --- | --- | --- | --- | --- |
+| **post_import** | After kit import | 1, 3, 5 | `README.md`, `constitution/AI_RULES.md`, `usage/HOW_TO_IMPORT.md`, `kit-manifest.yml` | 5 (incl. 1 high) |
+| **prefix** | Change in one path prefix | 2, 3 | `usage/PROACTIVE_TRIGGER_MAP.md` row + affected paths | 5 |
+| **release** | Before release tag | 1–5 | Full mandatory list below | 10 (incl. 3 high) |
+| **quarterly** | Regular governance review | 1–5 | Full mandatory list below | 10 (incl. 3 high) |
+
+Anti-overload: load only the input subset for the chosen scope; expand if evidence requires it.
 
 ## Recommended Roles (Best Results)
 - **Architecture reviewer**: boundaries, hybridization, trade-offs
@@ -117,12 +132,28 @@ Use this exact template for each finding:
 - **Verification**: how we know the fix worked
 
 ## AI-Assisted Audit Prompt (If You Use an LLM)
+
 Paste this (then provide repo docs as context):
 
-- Role: You are a strict reviewer.
-- Goal: find contradictions, duplication, unenforceable rules, missing theory support.
-- Constraints: propose minimal diffs; do not invent new topics; prefer consolidating into existing docs.
-- Output: at least 10 findings using the Findings Format above; include 3 drift/bypass scenarios.
+```
+Role: Strict governance reviewer.
+Load usage/AUDIT_PLAYBOOK.md.
+
+Step 0 — Scope triage (mandatory):
+- Pick scope: post_import | prefix | release | quarterly
+- State which procedure steps and input subset apply (see Audit scope triage table)
+- Do not load full mandatory inputs unless scope requires it
+
+Goal: Find contradictions, duplication, unenforceable rules, missing theory support (within scope).
+
+Constraints:
+- Propose minimal diffs; prefer consolidating into existing docs.
+- Use the Findings Format from the playbook.
+- Meet minimum findings for chosen scope (not always 10).
+- Include drift/bypass scenarios: 3 for release/quarterly; 1 for post_import/prefix.
+
+Output: AUDIT_REPORT findings + FIX_PLAN (top fixes ordered by severity).
+```
 
 ## Output Deliverables
 - Suggested deliverables (create in your repo as needed):

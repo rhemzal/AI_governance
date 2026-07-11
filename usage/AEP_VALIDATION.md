@@ -15,6 +15,10 @@ It aligns with:
 ## Required fields for `READY`
 1. `Objective`: observable outcome (1–2 sentences).
 2. `Discovery log`: consulted files/rules/ADRs and assumptions.
+   - **Narrowing:** state which `usage/PROACTIVE_TRIGGER_MAP.md` path prefix or event triggered scope.
+   - **Corpus budget (LOW-risk):** max **5** consulted paths in discovery log; expand only with reason per additional path.
+   - **HIGH-risk:** no path count limit, but justify each consulted document.
+   - Do not list entire `AGENTS.md` Required context by default — consult trigger map first, then expand.
 3. `Risk`: `LOW | HIGH` with justification.
 4. `Steps`: ordered, concrete steps. Each step must include:
    - at least one explicit file path
@@ -45,3 +49,4 @@ Mark plan invalid (fail) if any apply:
 - `constitution/AI_ENFORCEMENT.md`
 - `governance/LOCAL_OVERLAY_TEMPLATE.md`
 - `usage/HOW_TO_USE_WITH_COPILOT.md`
+- `usage/PROACTIVE_TRIGGER_MAP.md`

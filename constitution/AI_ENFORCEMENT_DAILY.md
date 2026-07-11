@@ -12,6 +12,7 @@ Do not expand scope without confirmation.
 
 ## Daily Checklist
 - AEP: If multi-file change, is the Autonomous Execution Plan declared READY before edits?
+  - **Discovery:** consult `usage/PROACTIVE_TRIGGER_MAP.md` before broad doc loads (`usage/AEP_VALIDATION.md`).
 - Architecture: Which layer is this change in?
 - Boundaries: Any inward-dependency violation?
 - Overlay: Is there a local governance overlay, and was it considered?
@@ -33,8 +34,11 @@ Do not expand scope without confirmation.
 - Decision: PROCEED / STOP
 
 ## Related Documents
+
 - `constitution/AI_RULES.md`
 - `constitution/AI_ENFORCEMENT.md`
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`
+- `usage/AEP_VALIDATION.md`
+- `usage/PROACTIVE_TRIGGER_MAP.md`
 - `ci/TEST_GATES.md`
 - `ci/ARCHITECTURE_GATES.md`
