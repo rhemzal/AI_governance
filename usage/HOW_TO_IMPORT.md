@@ -89,6 +89,17 @@ See `VERSIONING.md` for version series (`0.x` vs `1.0+`) and changelog label mea
 - Keep a policy for upstream cherry-picks (optional but recommended).
  - If you relicense or materially rewrite the kit, update the provenance banner accordingly.
 
+## Post-Import Enforcement Setup (`standard` bundle)
+
+After copying `standard` (or `full`), complete within one PR:
+
+1. Copy `governance/LOCAL_OVERLAY_TEMPLATE.md` → `governance/LOCAL_OVERLAY.md` and declare **enforcement maturity** (`L0` minimum; see `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`).
+2. Copy `.github/pull_request_template.md` (or merge governance checks into your existing template).
+3. Copy CI starter §1 from `usage/CI_STARTER_WORKFLOWS.md` → `.github/workflows/doc-hygiene.yml` (adapt paths).
+4. Record import ADR: git tag and/or SHA, `kit-manifest.yml` `version`, bundle name, declared maturity level.
+
+See `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` for Required vs Advisory vs Deferred per level.
+
 ## Post-Import Sanity Checklist (Fast)
 After importing, verify these within one PR:
 - README links to daily enforcement and ADR template.
@@ -184,7 +195,8 @@ Enforcement is style-agnostic and expressed as boundary rules (core vs boundary 
 - `usage/ADOPTION_BUNDLES.md`
 - `VERSIONING.md`
 - `README.md`
-- `usage/CI_MINIMUM_ADOPTION.md`
+- `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`
+- `usage/GOVERNANCE_WAIVERS.md`
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`
 - `usage/HOW_TO_USE_WITH_COPILOT.md`
 - `adr/ADR_TEMPLATE.md`

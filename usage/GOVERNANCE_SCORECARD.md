@@ -50,5 +50,6 @@ Use it as advisory reporting unless your local policy makes specific metrics man
 
 ## Related Documents
 - `usage/AUDIT_PLAYBOOK.md`
+- `usage/GOVERNANCE_WAIVERS.md`
 - `usage/CI_MINIMUM_ADOPTION.md`
 - `constitution/AI_ENFORCEMENT.md`

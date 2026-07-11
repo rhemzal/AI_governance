@@ -148,19 +148,22 @@ jobs:
           done
           exit "$fail"
 
-      - name: Anti-fragmentation warning (D5, PR only)
+      - name: Anti-fragmentation (D5, PR only)
         if: github.event_name == 'pull_request'
         run: |
           set -euo pipefail
+          fail=0
           BASE="${{ github.event.pull_request.base.sha }}"
           HEAD="${{ github.sha }}"
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             base=$(basename "$f")
             if ! grep -q "$base" README.md architecture/README.md usage/DEBUGGING_INDEX.md 2>/dev/null; then
-              echo "::warning::New doc $f not linked from README.md, architecture/README.md, or usage/DEBUGGING_INDEX.md (ci/DOC_GATES.md D5)"
+              echo "New doc $f not linked from README.md, architecture/README.md, or usage/DEBUGGING_INDEX.md (ci/DOC_GATES.md D5)"
+              fail=1
             fi
           done < <(git diff --name-only --diff-filter=A "$BASE" "$HEAD" | grep -E '^(usage|architecture)/.*\.md$' || true)
+          exit "$fail"
 
       - name: Markdown link check (hub docs)
         uses: lycheeverse/lychee-action@v2

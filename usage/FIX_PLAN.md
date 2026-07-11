@@ -4,7 +4,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 Date: 2026-07-05
 Context: Generated after full re-run of `usage/AUDIT_PLAYBOOK.md` (see `usage/AUDIT_REPORT.md`).
-**Implementation status (2026-07-11):** Enforcement roadmap applied — kit CI dogfood (`doc-hygiene`, `aep-advisory`, `adr-required`), `usage/ENFORCEMENT_MATRIX.md`, `usage/DEBUGGING_INDEX.md`, `usage/RELEASE_READINESS.md`, `adr/ADR_0005`. **No `scripts/` directory** (tool-agnostic; inline CI only). Prior fixes #1–#8 remain Done. See `usage/AUDIT_REPORT.md` 2026-07-11.
+**Implementation status (2026-07-11):** Deep enforcement phase complete — `ADOPTION_ENFORCEMENT_CONTRACT`, `GOVERNANCE_WAIVERS`, `BOUNDARY_GATE_RECIPES`, ADR-0006, extended kit CI (doc-delta, waiver advisory, AEP field checks, D5 error). Prior roadmap + ADR-0005 remain Done. See `usage/AUDIT_REPORT.md` and `usage/RELEASE_READINESS.md`.
 
 ## Immediate Fixes (Required Before Next Release Tag)
 

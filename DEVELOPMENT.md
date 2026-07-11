@@ -21,9 +21,9 @@ See `ci/DOC_GATES.md` for gate principles, `usage/ENFORCEMENT_MATRIX.md` for wha
 | 5. Terminology | — | Review |
 | 6. Related Documents | — | Review |
 | 7. Import bundle change | — | Review + `CHANGELOG.md` |
-| D5 anti-fragmentation | Warning (PR, new `usage/` / `architecture/` docs) | Hub link in PR |
+| D5 anti-fragmentation | Error (PR, new `usage/` / `architecture/` docs) | — |
 
-**Other kit workflows:** `aep-advisory.yml` (multi-file PR AEP tokens), `adr-required.yml` (governance path changes require ADR).
+**Other kit workflows:** `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml`.
 
 ### Local verification (tool-agnostic)
 
@@ -127,6 +127,10 @@ For detailed testing guidance, architecture gates, and enforcement principles, s
 - `.github/workflows/doc-hygiene.yml`
 - `.github/workflows/aep-advisory.yml`
 - `.github/workflows/adr-required.yml`
+- `.github/workflows/doc-delta-advisory.yml`
+- `.github/workflows/governance-waiver-advisory.yml`
+- `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`
+- `usage/GOVERNANCE_WAIVERS.md`
 - `usage/CI_STARTER_WORKFLOWS.md`
 - `usage/ENFORCEMENT_MATRIX.md`
 - `usage/PROACTIVE_TRIGGER_MAP.md`

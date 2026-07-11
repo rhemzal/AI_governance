@@ -5,23 +5,24 @@ This project follows a lightweight changelog intended for governance-kit consume
 ## Unreleased
 
 ### Added
-- [Advisory-only] `usage/ENFORCEMENT_MATRIX.md` — maps CI gates to kit reference workflows vs adopter wiring.
-- [Advisory-only] `usage/DEBUGGING_INDEX.md` — curated debugging entry (15 patterns).
-- [Advisory-only] `usage/RELEASE_READINESS.md` — manifest `1.0` readiness checklist.
-- [Advisory-only] `adr/ADR_0005_Kit_CI_Dogfooding.md` — inline CI dogfood; no repository scripts.
-- [Advisory-only] Kit CI: `.github/workflows/aep-advisory.yml`, `adr-required.yml`; `doc-hygiene` extended (bundled cross-refs, D5 warning).
+- [Advisory-only] `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` — Required/Advisory/Deferred per bundle and L0–L3.
+- [Advisory-only] `usage/GOVERNANCE_WAIVERS.md` — auditable gate exceptions.
+- [Advisory-only] `usage/BOUNDARY_GATE_RECIPES.md` — Python/TS/Go/JVM inline CI patterns.
+- [Advisory-only] `adr/ADR_0006_Adopter_Enforcement_Contract.md`.
+- [Advisory-only] Kit CI: `doc-delta-advisory.yml`, `governance-waiver-advisory.yml`.
 
 ### Changed
-- [Advisory-only] `README.md` — “I am…” role routing; enforcement matrix and debugging index links.
-- [Advisory-only] `DEVELOPMENT.md` — CI vs manual checklist table; local verification without scripts.
-- [Advisory-only] `usage/CI_STARTER_WORKFLOWS.md` — inline patterns only; kit workflow references.
-- [Advisory-only] `usage/PROACTIVE_TRIGGER_MAP.md` — automation hooks for new workflows.
-- [Advisory-only] `AGENTS.md` — enforcement matrix + debugging index in triage.
-- [Advisory-only] `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` — points to DEBUGGING_INDEX first.
-- [Advisory-only] `interface/INTERFACE_RULES_PROPOSAL.md` — explicit proposal-only status.
-- [Advisory-only] `usage/QUICKGUIDE.md` — audit hygiene note without minimal-bundle root cross-ref break.
-- [Advisory-only] `usage/ADOPTION_BUNDLES.md` — full paths for architecture prompt/template refs.
-- [Advisory-only] Governance audit (`usage/AUDIT_REPORT.md`) — 2026-07-11 re-run after enforcement roadmap.
+- [Advisory-only] `governance/LOCAL_OVERLAY_TEMPLATE.md` — enforcement maturity, required gates, waiver registry.
+- [Advisory-only] `usage/HOW_TO_IMPORT.md` — post-import enforcement setup.
+- [Advisory-only] `usage/ENFORCEMENT_MATRIX.md` — adopter default column; phase-2 gates.
+- [Advisory-only] `.github/workflows/aep-advisory.yml` — READY field grep (Objective, Steps, test ref).
+- [Advisory-only] `.github/workflows/doc-hygiene.yml` — D5 anti-fragmentation now fails (not warning).
+- [Advisory-only] `usage/CI_STARTER_WORKFLOWS.md` — §3 stack examples, §6 waiver, §7 DOC DELTA.
+- [Advisory-only] `ci/DOC_GATES.md` D2 — optional automation pattern.
+- [Advisory-only] `usage/AEP_VALIDATION.md` — CI contract aligned with starter checks.
+- [Advisory-only] `.github/pull_request_template.md` — governance waiver block.
+- [Advisory-only] `usage/RELEASE_READINESS.md`, `usage/AUDIT_REPORT.md` — deep enforcement phase.
+- [Advisory-only] Prior roadmap items (`ENFORCEMENT_MATRIX`, `DEBUGGING_INDEX`, ADR-0005, kit CI dogfood) — see prior Unreleased if not yet released.
 
 ## v0.2.0 — 2026-07-05
 

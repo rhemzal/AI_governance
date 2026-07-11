@@ -11,7 +11,7 @@ Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes li
 ## I am…
 
 - **Kit maintainer** — [DEVELOPMENT.md](DEVELOPMENT.md), [Audit playbook](usage/AUDIT_PLAYBOOK.md), kit CI workflows (`.github/workflows/`), [Release readiness](usage/RELEASE_READINESS.md)
-- **Adopter** — [Adoption bundles](usage/ADOPTION_BUNDLES.md), [How to import](usage/HOW_TO_IMPORT.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes D/E
+- **Adopter** — [Adoption bundles](usage/ADOPTION_BUNDLES.md), [Enforcement contract](usage/ADOPTION_ENFORCEMENT_CONTRACT.md), [How to import](usage/HOW_TO_IMPORT.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes D/E
 - **AI agent** — [AGENTS.md](AGENTS.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes A/B, [Enforcement matrix](usage/ENFORCEMENT_MATRIX.md)
 
 ## Choose your path (evaluate / import / extend)
@@ -88,6 +88,9 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Debugging decision prompts: [usage/DECISION_PROMPTS_DEBUGGING.md](usage/DECISION_PROMPTS_DEBUGGING.md)
 - Progressive CI adoption: [usage/CI_MINIMUM_ADOPTION.md](usage/CI_MINIMUM_ADOPTION.md)
 - Enforcement matrix (what CI automates): [usage/ENFORCEMENT_MATRIX.md](usage/ENFORCEMENT_MATRIX.md)
+- Adoption enforcement contract: [usage/ADOPTION_ENFORCEMENT_CONTRACT.md](usage/ADOPTION_ENFORCEMENT_CONTRACT.md)
+- Governance waivers: [usage/GOVERNANCE_WAIVERS.md](usage/GOVERNANCE_WAIVERS.md)
+- Boundary gate recipes: [usage/BOUNDARY_GATE_RECIPES.md](usage/BOUNDARY_GATE_RECIPES.md)
 - CI starter workflows (reference): [usage/CI_STARTER_WORKFLOWS.md](usage/CI_STARTER_WORKFLOWS.md) (kit repo: `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`)
 - AEP validation spec: [usage/AEP_VALIDATION.md](usage/AEP_VALIDATION.md)
 - Security minimum adoption: [usage/SECURITY_MINIMUM_ADOPTION.md](usage/SECURITY_MINIMUM_ADOPTION.md)

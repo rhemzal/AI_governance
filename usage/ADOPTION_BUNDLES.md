@@ -39,6 +39,8 @@ Everything in **minimal**, plus:
 
 **This is the recommended default** for repos where AI agents do regular multi-file work.
 
+**Enforcement defaults:** see `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` (L0–L3 Required / Advisory / Deferred per level).
+
 ### architecture — architecture decisions
 
 Add when you need decision support, not just enforcement:
@@ -107,6 +109,7 @@ See `usage/QUICKGUIDE.md` Recipes D and E.
 
 ## Related Documents
 
+- `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`
 - `kit-manifest.yml`
 - `usage/HOW_TO_IMPORT.md`
 - `usage/QUICKGUIDE.md`

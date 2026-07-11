@@ -95,7 +95,7 @@ When scope or method is unclear, run **method triage** before loading large corp
 - **Architecture / RAG:** `architecture/ARCHITECTURE_DECISION_PROMPT.md` — precheck then max 2 RAG notes + 1 cross-cutting (`architecture/README.md`).
 - **Security findings:** `usage/SECURITY_MINIMUM_ADOPTION.md` — triage before bulk upgrades (max 3 actions per iteration).
 - **Governance audit:** `usage/AUDIT_PLAYBOOK.md` — pick audit scope before Steps 1–5.
-- **Kit adoption:** `usage/ADOPTION_BUNDLES.md` — 1 baseline bundle + max 1 optional.
+- **Kit adoption:** `usage/ADOPTION_BUNDLES.md` — 1 baseline bundle + max 1 optional; defaults in `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`.
 - **AEP discovery:** `usage/AEP_VALIDATION.md` — use `usage/PROACTIVE_TRIGGER_MAP.md` to narrow consulted paths.
 - **Enforcement status:** `usage/ENFORCEMENT_MATRIX.md` — what kit CI automates vs adopter wiring.
 

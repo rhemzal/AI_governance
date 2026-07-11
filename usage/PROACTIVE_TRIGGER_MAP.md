@@ -42,10 +42,14 @@ Example: `constitution/AI_RULES.md` + `ci/TEST_GATES.md` → high-risk + adaptiv
 
 | Check | Command / doc |
 | --- | --- |
-| Doc hygiene (links, provenance, manifest, bundled cross-refs, D5 warning) | Kit repo: `.github/workflows/doc-hygiene.yml`; manual: `DEVELOPMENT.md` checklist |
-| AEP for multi-file PRs | Kit repo: `.github/workflows/aep-advisory.yml`; spec: `usage/AEP_VALIDATION.md`; starter: `usage/CI_STARTER_WORKFLOWS.md` §5 |
-| ADR on governance paths | Kit repo: `.github/workflows/adr-required.yml` (required); starter: `usage/CI_STARTER_WORKFLOWS.md` §4 |
-| Enforcement map (automated vs manual) | `usage/ENFORCEMENT_MATRIX.md` |
+| Doc hygiene (links, provenance, manifest, bundled cross-refs, D5 error) | Kit repo: `.github/workflows/doc-hygiene.yml`; manual: `DEVELOPMENT.md` |
+| DOC DELTA on behavior-changing PRs | Kit repo: `.github/workflows/doc-delta-advisory.yml`; starter §7 |
+| AEP for multi-file PRs | Kit repo: `.github/workflows/aep-advisory.yml`; spec: `usage/AEP_VALIDATION.md` |
+| ADR on governance paths | Kit repo: `.github/workflows/adr-required.yml` |
+| Governance waiver (label + PR body) | Kit repo: `.github/workflows/governance-waiver-advisory.yml`; `usage/GOVERNANCE_WAIVERS.md` |
+| Adopter enforcement defaults | `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` |
+| Boundary stack recipes | `usage/BOUNDARY_GATE_RECIPES.md` |
+| Enforcement map | `usage/ENFORCEMENT_MATRIX.md` |
 | Doc gates (principles) | `ci/DOC_GATES.md` |
 | Boundary integrity (downstream) | `usage/CI_STARTER_WORKFLOWS.md` §3; `ci/ARCHITECTURE_GATES.md` |
 | AVR on verification failure | `constitution/AI_ENFORCEMENT_DAILY.md` |

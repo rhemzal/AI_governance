@@ -1,0 +1,27 @@
+# Kit-repo dogfood: waiver block advisory when governance-waiver label is set.
+# Adopters: copy/adapt from usage/CI_STARTER_WORKFLOWS.md §6 — inline CI only.
+name: governance-waiver-advisory
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, labeled]
+
+jobs:
+  waiver:
+    if: contains(github.event.pull_request.labels.*.name, 'governance-waiver')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require waiver block in PR body
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          if ! printf '%s' "$PR_BODY" | grep -qi 'Governance waiver'; then
+            echo "::warning::PR has governance-waiver label but no Governance waiver section (see usage/GOVERNANCE_WAIVERS.md)"
+          fi
+          for field in 'Gate ID' Owner Expiration 'Compensating control'; do
+            if ! printf '%s' "$PR_BODY" | grep -qi "$field"; then
+              echo "::warning::Waiver block missing field: $field"
+            fi
+          done

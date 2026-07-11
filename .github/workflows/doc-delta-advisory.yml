@@ -1,0 +1,40 @@
+# Kit-repo dogfood: DOC DELTA advisory for non-doc-only PRs.
+# Adopters: copy/adapt from usage/CI_STARTER_WORKFLOWS.md §7 — inline CI only.
+name: doc-delta-advisory
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+concurrency:
+  group: doc-delta-advisory-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  doc-delta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Warn when code paths change without DOC DELTA
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.sha }}"
+          CHANGED="$(git diff --name-only "$BASE" "$HEAD")"
+          # Doc-only prefixes (adapt for your repo)
+          NON_DOC="$(echo "$CHANGED" | grep -Ev '^(.*\.md$|docs/|usage/|adr/|\.github/workflows/|governance/)' || true)"
+          if [ -z "$NON_DOC" ]; then
+            echo "Doc-only or governance-workflow change; DOC DELTA not required."
+            exit 0
+          fi
+          if printf '%s' "$PR_BODY" | grep -qiE 'DOC DELTA|### DOC DELTA'; then
+            echo "DOC DELTA present."
+            exit 0
+          fi
+          echo "::warning::Non-doc paths changed without DOC DELTA block (ci/DOC_GATES.md D2; see usage/GOVERNANCE_WAIVERS.md if deferred)"

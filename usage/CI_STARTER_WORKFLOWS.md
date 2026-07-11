@@ -6,7 +6,7 @@ This guide provides **ready-to-copy GitHub Actions starter examples** for the ga
 
 These are **reference implementations**, not mandatory stack-specific prescriptions. Adapt tooling, commands, and paths to your repository.
 
-**Kit repo living reference:** `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml` (inline shell + `yq` + `lychee` — **no repository scripts**).
+**Kit repo living reference:** `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml` (inline shell + `yq` + `lychee` — **no repository scripts**).
 
 Adopters copy **`run:` blocks** from these workflows or the starters below into their CI vendor. Do not rely on a shared script directory in the kit.
 
@@ -114,6 +114,42 @@ jobs:
           exit 0
 ```
 
+Full stack-specific inline examples: `usage/BOUNDARY_GATE_RECIPES.md` and below.
+
+### 3a) Python — forbidden import grep (inline)
+
+```yaml
+      - name: Python boundary grep (example)
+        run: |
+          set -euo pipefail
+          # Adapt: core must not import infrastructure
+          if grep -rE '^(from|import) (infra|adapters)\.' src/myapp/domain/ 2>/dev/null; then
+            echo "Domain layer imports infrastructure"
+            exit 1
+          fi
+```
+
+### 3b) TypeScript — dependency-cruiser (inline invoke)
+
+```yaml
+      - name: TS boundary (dependency-cruiser)
+        run: |
+          set -euo pipefail
+          npx --yes dependency-cruiser@16 --config .dependency-cruiser.cjs src
+```
+
+### 3c) Go — forbidden import path (inline)
+
+```yaml
+      - name: Go boundary grep (example)
+        run: |
+          set -euo pipefail
+          if grep -r '"my/module/internal/infra"' ./pkg/domain/ 2>/dev/null; then
+            echo "Domain imports infra path"
+            exit 1
+          fi
+```
+
 ## 4) ADR-required check for architecture-impacting paths
 
 ```yaml
@@ -178,7 +214,80 @@ jobs:
                 exit 1
               fi
             done
+            fail=0
+            for field in Objective Steps; do
+              if ! printf '%s' "$PR_BODY" | grep -qi "$field"; then
+                echo "::error::AEP READY missing required field: $field"
+                fail=1
+              fi
+            done
+            if ! printf '%s' "$PR_BODY" | grep -qiE 'test command|Test execution|make test|pytest|npm test'; then
+              echo "::error::AEP READY missing explicit test execution reference"
+              fail=1
+            fi
+            exit "$fail"
           fi
+```
+
+## 6) Governance waiver label advisory
+
+When a PR uses label `governance-waiver`, require the waiver block in the PR body (`usage/GOVERNANCE_WAIVERS.md`). Kit repo reference: `.github/workflows/governance-waiver-advisory.yml`.
+
+```yaml
+name: governance-waiver-advisory
+on:
+  pull_request:
+    types: [opened, edited, synchronize, labeled]
+jobs:
+  waiver:
+    if: contains(github.event.pull_request.labels.*.name, 'governance-waiver')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require waiver block in PR body
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          if ! printf '%s' "$PR_BODY" | grep -qi 'Governance waiver'; then
+            echo "::warning::PR has governance-waiver label but no Governance waiver section (see usage/GOVERNANCE_WAIVERS.md)"
+          fi
+          for field in 'Gate ID' Owner Expiration 'Compensating control'; do
+            if ! printf '%s' "$PR_BODY" | grep -qi "$field"; then
+              echo "::warning::Waiver block missing field: $field"
+            fi
+          done
+```
+
+## 7) DOC DELTA advisory (behavior-changing PRs)
+
+Warn when non-documentation paths change without a `DOC DELTA` block in the PR body. L2+ adopters may promote to `exit 1` via overlay. Kit repo: `.github/workflows/doc-delta-advisory.yml`.
+
+```yaml
+name: doc-delta-advisory
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+jobs:
+  doc-delta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Warn when code paths change without DOC DELTA
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.sha }}"
+          CHANGED="$(git diff --name-only "$BASE" "$HEAD")"
+          NON_DOC="$(echo "$CHANGED" | grep -Ev '^(.*\.md$|docs/|usage/|adr/)' || true)"
+          if [ -z "$NON_DOC" ]; then exit 0; fi
+          if printf '%s' "$PR_BODY" | grep -qiE 'DOC DELTA|### DOC DELTA'; then exit 0; fi
+          echo "::warning::Non-doc paths changed without DOC DELTA (ci/DOC_GATES.md D2)"
 ```
 
 ## Notes for adopters
@@ -195,7 +304,10 @@ jobs:
 - `.github/workflows/aep-advisory.yml` (kit repo reference)
 - `.github/workflows/adr-required.yml` (kit repo reference)
 - `usage/CI_MINIMUM_ADOPTION.md`
-- `usage/ENFORCEMENT_MATRIX.md`
+- `usage/GOVERNANCE_WAIVERS.md`
+- `usage/BOUNDARY_GATE_RECIPES.md`
+- `.github/workflows/doc-delta-advisory.yml`
+- `.github/workflows/governance-waiver-advisory.yml`
 - `usage/AEP_VALIDATION.md`
 - `ci/DOC_GATES.md`
 - `ci/TEST_GATES.md`

@@ -43,7 +43,14 @@ Mark plan invalid (fail) if any apply:
 ## Suggested CI/Lint Output Contract
 - Output: `PASS` or `FAIL`
 - On failure: report field-level reasons (e.g., `missing test command`, `step 3 missing file path`)
-- Keep this validator advisory until integrated as a required check in local policy
+- Keep full semantic validation advisory until integrated as required in local overlay
+
+**Kit / starter CI checks when `AEP Status: READY` (inline grep on PR body):**
+- Fail on vague tokens: `TBD`, `TODO`, `as needed`, `etc.`
+- Fail if missing case-insensitive: `Objective`, `Steps`
+- Fail if no test execution reference (e.g. `test command`, `make test`, `pytest`)
+
+Remaining READY requirements (file paths per step, blocking questions empty) stay **human or agent review**.
 
 ## Related Documents
 - `constitution/AI_ENFORCEMENT.md`

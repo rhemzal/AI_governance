@@ -44,4 +44,16 @@ jobs:
                 exit 1
               fi
             done
+            fail=0
+            for field in Objective Steps; do
+              if ! printf '%s' "$PR_BODY" | grep -qi "$field"; then
+                echo "::error::AEP READY missing required field: $field"
+                fail=1
+              fi
+            done
+            if ! printf '%s' "$PR_BODY" | grep -qiE 'test command|Test execution|make test|pytest|npm test'; then
+              echo "::error::AEP READY missing explicit test execution reference"
+              fail=1
+            fi
+            exit "$fail"
           fi

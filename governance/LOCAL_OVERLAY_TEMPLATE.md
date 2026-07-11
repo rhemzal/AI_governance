@@ -90,14 +90,46 @@ Example “unblock menu” options:
 - National language is allowed in local notes areas (e.g., `notes/local/**`).
 - Canonical governance documents remain English-first.
 
-### Test Execution Path (Example)
-This is a recommended addition to make test execution explicit and discoverable.
+## Verification
+- What checks prove compliance (CI gates, tests, audits)
 
-- **Test Command**: `[Specify your canonical test command here]`
+## Enforcement maturity (declare after import)
+
+Record the active CI maturity level for this repository. Defaults per bundle: `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`.
+
+- **Level**: `L0` | `L1` | `L2` | `L3`
+- **Declared**: `YYYY-MM-DD`
+- **Next review**: `YYYY-MM-DD`
+- **Bundle baseline**: `minimal` | `standard` (+ optional: `architecture` | `research`)
+
+### Required gates (check when active at this level)
+
+Copy the row for your level from `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` and mark CI job or review habit when wired:
+
+```markdown
+- [ ] L0 doc hygiene (D3, manifest, provenance, bundled cross-refs)
+- [ ] L1 deterministic tests (T1) — job: ___
+- [ ] L1 canonical test command documented below
+- [ ] L2 DOC DELTA on behavior-changing PRs
+- [ ] L2 boundary integrity (A1) when tooling exists — job: ___
+- [ ] L3 ADR on governance paths — job: ___
+```
+
+### Canonical test command (required from L1)
+
+- **Command**: `[Specify your canonical test command here]`
   - Example: `make test` or `.venv/bin/python -m pytest` or `docker compose run --rm test`
 - **Do not assume global pytest**: Always use repo-local virtual environment or make/docker workflow.
 - **Preferred order**: make targets → repo-local venv → docker fallback
-- **Reference**: See `usage/HOW_TO_USE_WITH_COPILOT.md` for detailed test execution guidance.
+- **Reference**: See `usage/HOW_TO_USE_WITH_COPILOT.md` and `DEVELOPMENT.md`.
+
+### Waiver registry
+
+Temporary gate exceptions must follow `usage/GOVERNANCE_WAIVERS.md`. Track open waivers here:
+
+| Gate ID | Owner | Expiration | PR/issue | Compensating control | Status |
+| --- | --- | --- | --- | --- | --- |
+| | | | | | open / closed |
 
 ### Filesystem Write Boundary (Repo-Local Writes Only)
 - AI MUST treat the repository working tree as the default writable boundary.
@@ -115,9 +147,6 @@ Only use overrides when unavoidable.
   - Replacement text
   - Rationale
   - Risk accepted / mitigation
-
-## Verification
-- What checks prove compliance (CI gates, tests, audits)
 
 ## Change Control
 - Changes to this overlay require an ADR (recommended) when they affect boundaries/contracts or enforcement.
@@ -141,6 +170,8 @@ If HIGH/unclear: STOP and ask for confirmation."
 - Mixing normative requirements into advisory notes.
 
 ## Related Documents
+- `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`
+- `usage/GOVERNANCE_WAIVERS.md`
 - `usage/HOW_TO_IMPORT.md`
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`
 - `constitution/AI_RULES.md`
