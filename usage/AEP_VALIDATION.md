@@ -24,10 +24,12 @@ It aligns with:
    - at least one explicit file path
    - action verb (e.g., add/update/remove)
    - reason
-5. `Test execution step`: explicit repo-local command (no placeholders).
+5. `Verification step`: explicit repo-local command (no placeholders):
+   - **Product code change:** test command (e.g. `make test`)
+   - **Doc-only / no test suite:** doc or CI verify command (e.g. `make doc-hygiene`, manual checklist from `DEVELOPMENT.md`, or `echo doc review complete` with named checklist items in the AEP)
 6. `Doc update step`: required when behavior changes (`DOC DELTA` compatibility).
 7. `Blocking questions`: 0–3; READY requires zero blocking questions.
-8. `Exit criteria`: tests green, docs aligned, compliance output.
+8. `Exit criteria`: verification green, docs aligned, compliance output.
 9. `AEP Status`: `READY` or `BLOCKED`.
 
 ## Fail conditions for `READY`
@@ -35,7 +37,7 @@ Mark plan invalid (fail) if any apply:
 - missing any required field above
 - any step contains `TBD`, `TODO`, `later`, `as needed`, `etc.`, or similarly vague placeholders
 - any step lacks explicit file paths
-- missing explicit test command
+- missing explicit verification command (test **or** doc/CI verify when no suite exists)
 - steps require operator input while status is `READY`
 - blocking questions are present while status is `READY`
 - status is `READY` but unresolved dependencies are present

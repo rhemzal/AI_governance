@@ -32,8 +32,11 @@ bundles:
       - AGENTS.md
       - .github/copilot-instructions.md
       - constitution/AI_RULES.md
+      - constitution/AI_ENFORCEMENT.md
       - constitution/AI_ENFORCEMENT_DAILY.md
+      - constitution/ADAPTIVE_GOVERNANCE.md
       - usage/QUICKGUIDE.md
+      - usage/AEP_VALIDATION.md
       - adr/ADR_TEMPLATE.md
 
   standard:

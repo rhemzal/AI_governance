@@ -5,13 +5,16 @@ _Provenance: This document originates from the AI_governance kit (https://github
 This kit provides CI gates as **principles** (not tool-specific implementations).
 If you are adopting the kit in an existing repo, you can start with a minimal set of checks that produces immediate governance value.
 
+**Terminology:** **CI Maturity (CM0–CM3)** here is not the same as **Governance Level (G0–G4)** in `constitution/ADAPTIVE_GOVERNANCE.md`. See `architecture/TERMINOLOGY_GLOSSARY.md`.
+
 ## Minimum Viable CI (Recommended Order)
 
 ### Step 1 — Doc Hygiene Gate (Fast)
 Goal: prevent documentation drift and broken references.
 - Add a documentation hygiene check to CI (fast, deterministic).
-- Make the job required on PRs.
-- In this kit repo, CI runs `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, and `adr-required.yml` (reference L0–L1). Downstream repos: copy/adapt inline steps from `usage/CI_STARTER_WORKFLOWS.md` — no repository scripts.
+- Make the job required on PRs when you declare **CM0** in your overlay.
+- **This kit repo (maintainer dogfood):** CI runs `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, and `governance-waiver-advisory.yml` — stricter than default adopter **CM0** (see `usage/ENFORCEMENT_MATRIX.md` → Kit repo vs adopter).
+- **Downstream adopters:** copy/adapt inline steps from `usage/CI_STARTER_WORKFLOWS.md` — no repository scripts.
 
 Why first: it is deterministic, fast, and enforces “single source of truth” behavior.
 
@@ -37,24 +40,27 @@ The goal is not “CI on at any cost”. The goal is **automation-aligned enforc
 
 If you wire automated CI jobs for gates you cannot satisfy yet (e.g., no tests exist, no boundary tooling exists), you will get constant failing checks and adoption will stall.
 
-Use staged maturity. Keep automation running, but keep early checks **informational / non-required** until prerequisites exist.
+Use staged **CI Maturity (CM)**. Keep automation running, but keep early checks **informational / non-required** until prerequisites exist.
 
-### CI Maturity Levels (Suggested)
-- **L0: Doc hygiene (required)**  
+### CI Maturity Levels (CM0–CM3)
+
+- **CM0: Doc hygiene (required when `standard` bundle adopted)**  
   - Checks: documentation hygiene (broken references, drift, duplication signals)  
   - Prerequisites: none (should be passable immediately)
 
-- **L1: Deterministic tests (required once tests exist)**  
+- **CM1: Deterministic tests (required once tests exist)**  
   - Checks: `ci/TEST_GATES.md` Gate T1 expectations  
   - Prerequisites: at least one deterministic test suite exists and can run headlessly with timeouts
 
-- **L2: Boundary integrity (required once enforceable)**  
-  - Checks: `ci/ARCHITECTURE_GATES.md` Gate A1  
+- **CM2: Boundary integrity (required once enforceable)**  
+  - Checks: `ci/ARCHITECTURE_GATES.md` Gate A1; DOC DELTA (D2) on behavior-changing PRs  
   - Prerequisites: a tooling mechanism exists (static analysis / import allow/deny / dependency graph) and boundary terms are agreed
 
-- **L3: Risk signals (required when stable)**  
-  - Checks: coverage as a risk signal (T2), flakiness budget (T4), “ADR required” checks for boundary changes (A3)  
+- **CM3: Risk signals (required when stable)**  
+  - Checks: coverage as a risk signal (T2), flakiness budget (T4), ADR required on governance paths (A3)  
   - Prerequisites: stable test execution history; agreed ownership for waivers and quarantine policies
+
+Declare your active CM level in `governance/LOCAL_OVERLAY.md`. Defaults per bundle: `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`.
 
 ## CI Execution Hygiene (Recommended)
 
@@ -87,6 +93,8 @@ Cache dependencies (pip, npm, Maven, etc.) across CI runs to reduce feedback tim
 
 ## Related Documents
 - `usage/ENFORCEMENT_MATRIX.md`
+- `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`
+- `architecture/TERMINOLOGY_GLOSSARY.md`
 - `ci/DOC_GATES.md`
 - `ci/TEST_GATES.md`
 - `ci/ARCHITECTURE_GATES.md`

@@ -4,7 +4,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Documentation Hygiene (Kit Repo)
 
-This kit repo ships **reference L0–L1 workflows** under `.github/workflows/` (inline shell + `yq` + `lychee` — **no repository scripts**). Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
+This kit repo ships **reference CM0–CM1 workflows** under `.github/workflows/` (inline shell + `yq` + `lychee` — **no repository scripts**). Maintainers run stricter dogfood than default adopter CM0 — see `usage/ENFORCEMENT_MATRIX.md`. Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
 
 Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** below (or rely on CI when it covers the same checks). Paste results into the PR or `usage/AI_RUN_EVIDENCE.md` when running manually.
 

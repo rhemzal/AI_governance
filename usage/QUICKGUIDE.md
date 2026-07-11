@@ -67,11 +67,11 @@ Assess the current repo state and recommend an adoption order:
 Output:
 - A short assessment (bullets).
 - ADOPTION BUNDLE TRIAGE (if expansion needed): 1 baseline + max 1 optional per usage/ADOPTION_BUNDLES.md.
-- A staged adoption recommendation in order (L0 → L3), with prerequisites for each stage:
-  - L0: doc hygiene (fast, deterministic)
-  - L1: deterministic tests
-  - L2: boundary integrity
-  - L3: risk signals (coverage/flakiness budget/ADR-required checks)
+- A staged adoption recommendation in order (CM0 → CM3), with prerequisites for each stage:
+  - CM0: doc hygiene (fast, deterministic)
+  - CM1: deterministic tests
+  - CM2: boundary integrity + DOC DELTA
+  - CM3: risk signals (coverage/flakiness budget/ADR-required checks)
 - What to defer (and why).
 - List any missing information you could not infer (max 3 questions).
 ```
@@ -109,6 +109,8 @@ Use before picking hexagonal vs layered vs event-driven vs hybrid, or before arc
 ### Recipe G — Governance Audit (Kit or Imported Repo)
 Use quarterly, before a release tag, or after `[Import bundle change]` / governance-impacting edits.
 
+For **release** or **quarterly** scope on this kit repo, run **Full audit waves** (0–8) in `usage/AUDIT_PLAYBOOK.md`; track status in `usage/AUDIT_REPORT.md` and backlog in `usage/FIX_PLAN.md`.
+
 Paste this prompt (or use AI-Assisted Audit Prompt in `usage/AUDIT_PLAYBOOK.md`):
 
 ```
@@ -129,8 +131,8 @@ Constraints:
 - Drift scenarios: 1 for scoped; 3 for release/quarterly.
 
 Deliverables:
-- Update or create `usage/AUDIT_REPORT.md`
-- Update `usage/FIX_PLAN.md` (top fixes ordered by severity)
+- Update or create `usage/AUDIT_REPORT.md` (include wave status table for release/quarterly)
+- Update `usage/FIX_PLAN.md` (wave backlog + fixes ordered by severity)
 ```
 
 For audit Recipe G, import the `standard` bundle first so the Doc Hygiene Checklist (development guide) is available; complete it as part of Step 1 evidence.

@@ -3,11 +3,15 @@
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
 This file is a concise projection for GitHub Copilot.
-It is not a separate source of truth.
+It is not a separate source of truth. For full method triage and bundle rules, see `AGENTS.md`.
+
+## Import scope (bundle-aware)
+
+Only consult paths that exist in your imported bundle (`kit-manifest.yml`). If missing, skip — do not invent content. See `AGENTS.md` → Import scope.
 
 ## Quick rules
 
-- For multi-file or cross-cutting changes, produce AEP first (`usage/AEP_VALIDATION.md`).
+- For multi-file or cross-cutting changes, produce AEP first (`usage/AEP_VALIDATION.md` when present).
 - If verification fails, use the AVR loop before asking the operator.
 - For behavior changes, include DOC DELTA.
 - For high-risk changes, use the full `## COMPLIANCE REPORT` from `constitution/AI_ENFORCEMENT.md`.
@@ -19,9 +23,10 @@ It is not a separate source of truth.
 - Core rules: `constitution/AI_RULES.md`
 - Daily work: `constitution/AI_ENFORCEMENT_DAILY.md`
 - High-risk work: `constitution/AI_ENFORCEMENT.md`
-- Adaptive governance: `constitution/ADAPTIVE_GOVERNANCE.md`
-- Terminology: `architecture/TERMINOLOGY_GLOSSARY.md`
-- Architecture decisions: `architecture/README.md` (then framework / prompt as needed)
+- Adaptive governance (G0–G4): `constitution/ADAPTIVE_GOVERNANCE.md`
+- AEP spec: `usage/AEP_VALIDATION.md`
+- Terminology (G vs CM): `architecture/TERMINOLOGY_GLOSSARY.md` *(when imported)*
+- Architecture decisions: `architecture/README.md` *(when imported)*
 
 ## How to work
 
@@ -72,13 +77,13 @@ When tests fail, do not default to long log archaeology.
 Use the smallest useful scope, stop on first critical signal, capture minimal evidence, apply AVR loop, and rerun.
 Do not weaken or delete tests to make the run pass.
 
-See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
+See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md` when present.
 
-For troubleshooting/performance/debug work, start at `usage/DEBUGGING_INDEX.md`, then prompts/catalog as needed. When cause is unclear, run **Prompt 7** triage (max 3 pattern IDs) before Prompt 6 / fixes.
+For troubleshooting/performance/debug work, start at `usage/DEBUGGING_INDEX.md` when present, then prompts/catalog as needed. When cause is unclear, run **Prompt 7** triage (max 3 pattern IDs) before Prompt 6 / fixes.
 
 ## Method triage (non-debugging)
 
-When scope is unclear, triage methods before loading large corpora. See `architecture/TERMINOLOGY_GLOSSARY.md` (method triage, corpus budget). Entry points: `architecture/ARCHITECTURE_DECISION_PROMPT.md`, `usage/SECURITY_MINIMUM_ADOPTION.md`, `usage/AUDIT_PLAYBOOK.md`, `usage/ADOPTION_BUNDLES.md`, `usage/AEP_VALIDATION.md` + `usage/PROACTIVE_TRIGGER_MAP.md`, `usage/ENFORCEMENT_MATRIX.md`.
+When scope is unclear, triage methods before loading large corpora. Full corpus budget and entry points: **`AGENTS.md` → Method triage** (skip paths not in your bundle).
 
 ## Documentation
 
@@ -95,6 +100,7 @@ For low-risk work, end with:
 ## COMPLIANCE
 - AEP: OK / NOT-REQUIRED / BLOCKED
 - Architecture: OK / ISSUE
+- Overlay: OK / NOT-APPLICABLE / UNKNOWN
 - Tests: OK / MISSING
 - Docs: OK / UPDATE
 - Scope: OK / EXPANDED
@@ -106,5 +112,5 @@ For high-risk work, use the full `## COMPLIANCE REPORT` from `constitution/AI_EN
 ## Related
 
 - `AGENTS.md`
-- `usage/HOW_TO_USE_WITH_COPILOT.md`
+- `usage/HOW_TO_USE_WITH_COPILOT.md` *(when imported)*
 - `usage/AEP_VALIDATION.md`

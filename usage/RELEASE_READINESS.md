@@ -10,11 +10,11 @@ Checklist for promoting `kit-manifest.yml` from experimental `0.x` to stable ado
 - [x] **Adopter contract (phase 2)** — `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`, `GOVERNANCE_WAIVERS.md`, `BOUNDARY_GATE_RECIPES.md` ([ADR-0006](adr/ADR_0006_Adopter_Enforcement_Contract.md))
 - [x] **Extended CI dogfood** — `doc-delta-advisory`, `governance-waiver-advisory`; enhanced AEP field checks; D5 **error** mode in `doc-hygiene`
 - [x] **No shipped repository scripts** — inline CI only
-- [ ] **Audit clean** — no open **High** findings in `usage/AUDIT_REPORT.md` after full playbook re-run
-- [ ] **Bundle stability** — bundle paths stable one tagged release cycle
+- [x] **Audit clean** — no open **High** findings in `usage/AUDIT_REPORT.md` after full playbook re-run (Waves 1–7, 2026-07-11)
+- [ ] **Bundle stability** — bundle paths stable one tagged release cycle (`v0.3.0` tag pending)
 - [x] **Enforcement matrix** — includes adopter default column and phase-2 gates
 - [x] **Navigation** — README routing; debugging index; enforcement contract linked for adopters
-- [ ] **CHANGELOG + tag** — release section cut; git tag aligned with `VERSIONING.md`
+- [ ] **CHANGELOG + tag** — release section cut in `CHANGELOG.md` v0.3.0; git tag `v0.3.0` aligned with `VERSIONING.md` (section cut **done**; tag pending)
 
 ## Release cut steps
 

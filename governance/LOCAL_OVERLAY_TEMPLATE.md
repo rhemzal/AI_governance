@@ -26,7 +26,7 @@ Before executing edits, the AI MUST produce an AEP:
 3. **Risk**: `LOW | HIGH` + justification (per existing risk preflight)
 4. **Steps** (ordered, concrete):
    - Each step: `file path` + `action` + `reason`
-   - Must include a test execution step (repo-local command)
+   - Must include a **verification step** (repo-local test command **or** doc/CI verify command when no test suite exists — see `usage/AEP_VALIDATION.md`)
    - Must include a doc update step if behavior changes (DOC DELTA)
 5. **Blocking questions**: 0–3 max. If any → STOP. If none → declare READY.
 6. **Exit criteria**: tests green, docs updated, compliance report
@@ -36,7 +36,7 @@ Before executing edits, the AI MUST produce an AEP:
 - No "TBD" or placeholder steps in READY plans
 - No steps requiring operator input in READY plans
 - All files in steps must be within declared scope (Section 4 consistency)
-- Test execution step is mandatory
+- Test execution step is mandatory **when a test suite exists**; otherwise use explicit doc/CI verification command
 - If scope expands during execution → STOP, update AEP, re-declare
 
 **On failure during execution**:
@@ -95,27 +95,27 @@ Example “unblock menu” options:
 
 ## Enforcement maturity (declare after import)
 
-Record the active CI maturity level for this repository. Defaults per bundle: `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`.
+Record the active **CI Maturity (CM)** level for this repository. Defaults per bundle: `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`. **Governance Level (G)** is assessed per task — see `constitution/ADAPTIVE_GOVERNANCE.md`.
 
-- **Level**: `L0` | `L1` | `L2` | `L3`
+- **CM level**: `CM0` | `CM1` | `CM2` | `CM3`
 - **Declared**: `YYYY-MM-DD`
 - **Next review**: `YYYY-MM-DD`
 - **Bundle baseline**: `minimal` | `standard` (+ optional: `architecture` | `research`)
 
-### Required gates (check when active at this level)
+### Required gates (check when active at this CM level)
 
-Copy the row for your level from `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` and mark CI job or review habit when wired:
+Copy the row for your CM level from `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` and mark CI job or review habit when wired:
 
 ```markdown
-- [ ] L0 doc hygiene (D3, manifest, provenance, bundled cross-refs)
-- [ ] L1 deterministic tests (T1) — job: ___
-- [ ] L1 canonical test command documented below
-- [ ] L2 DOC DELTA on behavior-changing PRs
-- [ ] L2 boundary integrity (A1) when tooling exists — job: ___
-- [ ] L3 ADR on governance paths — job: ___
+- [ ] CM0 doc hygiene (D3, manifest, provenance, bundled cross-refs)
+- [ ] CM1 deterministic tests (T1) — job: ___
+- [ ] CM1 canonical test command documented below
+- [ ] CM2 DOC DELTA on behavior-changing PRs
+- [ ] CM2 boundary integrity (A1) when tooling exists — job: ___
+- [ ] CM3 ADR on governance paths — job: ___
 ```
 
-### Canonical test command (required from L1)
+### Canonical test command (required from CM1)
 
 - **Command**: `[Specify your canonical test command here]`
   - Example: `make test` or `.venv/bin/python -m pytest` or `docker compose run --rm test`

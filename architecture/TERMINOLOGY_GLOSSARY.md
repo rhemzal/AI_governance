@@ -41,8 +41,25 @@ These map cleanly to multiple architecture styles:
 - **Consistency model**: the guarantees about visibility/order of updates (strong vs eventual).
 
 ## Governance & Enforcement Terms (AI Workflow)
+- **Governance Level (G0–G4)**: project maturity and risk band from `constitution/ADAPTIVE_GOVERNANCE.md`. Answers “how much process does this **project** need?” G0 = exploration/scratch; G1 = solo prototype; G2 = serious solo/multi-agent (default target); G3 = shared/released; G4 = production/regulated.
+- **CI Maturity (CM0–CM3)**: staged **automation adoption** for repos that imported the kit. Answers “which **CI/review gates** are wired now?” CM0 = doc hygiene; CM1 = deterministic tests; CM2 = boundary + DOC DELTA; CM3 = risk signals (ADR on governance paths, coverage/flakiness). Declared in `governance/LOCAL_OVERLAY.md`. Defaults per `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`.
+- **Do not use bare `L0`–`L3`** in normative text — always write **G** or **CM** (or spell out “Governance Level” / “CI Maturity”). Legacy `L0`–`L3` in older docs means **CM** unless explicitly labeled otherwise.
 - **Human-review fallback (enforcement)**: temporary enforcement mode when CI gates are not wired yet; compliance is checked via PR checklist/review.
 - **Automation-first enforcement**: enforcement is implemented as deterministic checks (CI gates/scripts) and the PR provides evidence (e.g., `DOC DELTA`) rather than relying on informal manual process.
+
+### Governance Level × CI Maturity (orientation map)
+
+This map is **advisory** — your overlay records the actual **CM** level. See `usage/ENFORCEMENT_MATRIX.md` for gate-by-gate detail.
+
+| Governance Level | Typical CI Maturity when kit is adopted | Notes |
+| --- | --- | --- |
+| **G0** exploration | None or human-review only | Cloud CI not required; kit import optional |
+| **G1** solo prototype | CM0 optional | Cheap doc hygiene when `standard` bundle imported |
+| **G2** serious solo / multi-agent | CM0 → CM1 | Default target; CM0 link/provenance checks are low-cost |
+| **G3** shared / released | CM2 → CM3 | Boundary, DOC DELTA, ADR on governance paths |
+| **G4** production / regulated | CM3+ | Full risk signals; waivers audited |
+
+**Common confusion:** G2 says “avoid excessive documentation gates” — that means avoid **heavy** gates (coverage blocks, enterprise PR bureaucracy). **CM0** doc hygiene (link check, manifest paths) is still appropriate at G2 when the kit is imported.
 
 ## Delivery & Operations Terms
 - **SLO/SLA**: service-level objective/agreement; what “good” means operationally.

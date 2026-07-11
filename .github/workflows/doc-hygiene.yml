@@ -1,4 +1,4 @@
-# Kit-repo reference implementation for ci/DOC_GATES.md (L0 doc hygiene).
+# Kit-repo reference implementation for ci/DOC_GATES.md (CM0 doc hygiene; maintainer dogfood).
 # Adopters: copy/adapt inline steps from usage/CI_STARTER_WORKFLOWS.md — no repository scripts.
 name: doc-hygiene
 

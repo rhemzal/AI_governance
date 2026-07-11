@@ -10,8 +10,8 @@ Adopters copy **inline `run:` blocks** into CI (see `usage/CI_STARTER_WORKFLOWS.
 
 | Maturity | Boundary A1 |
 | --- | --- |
-| L0–L1 | **Deferred** |
-| L2+ | **Required when tooling exists** |
+| CM0–CM1 | **Deferred** |
+| CM2+ | **Required when tooling exists** |
 
 If tooling is not ready, use `usage/GOVERNANCE_WAIVERS.md` — do not silently skip.
 
@@ -71,7 +71,7 @@ if grep -r '"example.com/myapp/internal/infra"' ./pkg/domain/ 2>/dev/null; then
 fi
 ```
 
-**Stronger:** architectural tests in Go test files (run via L1 test job, not a kit script).
+**Stronger:** architectural tests in Go test files (run via CM1 test job, not a kit script).
 
 ---
 
@@ -86,7 +86,7 @@ See `ci/TEST_GATES.md` — boundary validation is often expressed as architectur
 
 ---
 
-## Wiring checklist (L2)
+## Wiring checklist (CM2)
 
 1. Agree layer names in ADR or overlay
 2. Pick one mechanism from this doc

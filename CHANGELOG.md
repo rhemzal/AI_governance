@@ -4,32 +4,37 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+_(No entries yet.)_
+
+## v0.3.0 — 2026-07-11
+
+Full consistency audit (Waves 0–8). Terminology and gate-timing alignment; minimal bundle expansion; audit closure.
+
 ### Added
-- [Advisory-only] `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` — Required/Advisory/Deferred per bundle and L0–L3.
-- [Advisory-only] `usage/GOVERNANCE_WAIVERS.md` — auditable gate exceptions.
-- [Advisory-only] `usage/BOUNDARY_GATE_RECIPES.md` — Python/TS/Go/JVM inline CI patterns.
-- [Advisory-only] `adr/ADR_0006_Adopter_Enforcement_Contract.md`.
+- [Governance-impacting] `adr/ADR_0007_Governance_Level_vs_CI_Maturity.md` — G0–G4 vs CM0–CM3 disambiguation.
+- [Advisory-only] `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`, `usage/GOVERNANCE_WAIVERS.md`, `usage/BOUNDARY_GATE_RECIPES.md`, `adr/ADR_0006_Adopter_Enforcement_Contract.md` (shipped post-v0.2.0; recorded here).
 - [Advisory-only] Kit CI: `doc-delta-advisory.yml`, `governance-waiver-advisory.yml`.
+- [Advisory-only] `usage/AUDIT_PLAYBOOK.md` — Full audit waves (0–8) procedure.
 
 ### Changed
-- [Advisory-only] `governance/LOCAL_OVERLAY_TEMPLATE.md` — enforcement maturity, required gates, waiver registry.
-- [Advisory-only] `usage/HOW_TO_IMPORT.md` — post-import enforcement setup.
-- [Advisory-only] `usage/ENFORCEMENT_MATRIX.md` — adopter default column; phase-2 gates.
-- [Advisory-only] `.github/workflows/aep-advisory.yml` — READY field grep (Objective, Steps, test ref).
-- [Advisory-only] `.github/workflows/doc-hygiene.yml` — D5 anti-fragmentation now fails (not warning).
-- [Advisory-only] `usage/CI_STARTER_WORKFLOWS.md` — §3 stack examples, §6 waiver, §7 DOC DELTA.
-- [Advisory-only] `ci/DOC_GATES.md` D2 — optional automation pattern.
-- [Advisory-only] `usage/AEP_VALIDATION.md` — CI contract aligned with starter checks.
-- [Advisory-only] `.github/pull_request_template.md` — governance waiver block.
-- [Advisory-only] `usage/RELEASE_READINESS.md`, `usage/AUDIT_REPORT.md` — deep enforcement phase.
-- [Advisory-only] Prior roadmap items (`ENFORCEMENT_MATRIX`, `DEBUGGING_INDEX`, ADR-0005, kit CI dogfood) — see prior Unreleased if not yet released.
+- [Import bundle change] `kit-manifest.yml` — `minimal` bundle adds `constitution/AI_ENFORCEMENT.md`, `ADAPTIVE_GOVERNANCE.md`, `usage/AEP_VALIDATION.md`.
+- [Governance-impacting] `architecture/TERMINOLOGY_GLOSSARY.md` — Governance Level (G) and CI Maturity (CM) terms + orientation map.
+- [Governance-impacting] `constitution/ADAPTIVE_GOVERNANCE.md` — Governance Level G0–G4 labels; GOVERNANCE FIT CHECK includes CM hint.
+- [Advisory-only] `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`, `usage/CI_MINIMUM_ADOPTION.md`, `governance/LOCAL_OVERLAY_TEMPLATE.md` — CM0–CM3 (replaces bare L0–L3).
+- [Advisory-only] `usage/ENFORCEMENT_MATRIX.md` — canonical gate × CM × G table; kit maintainer dogfood exceptions.
+- [Governance-impacting] `ci/DOC_GATES.md`, `ci/TEST_GATES.md`, `ci/ARCHITECTURE_GATES.md` — G and CM columns; link to matrix.
+- [Advisory-only] `AGENTS.md`, `.github/copilot-instructions.md` — bundle-aware import scope; COMPLIANCE Overlay line; CM/G terminology.
+- [Advisory-only] `usage/AEP_VALIDATION.md` — doc-only / no-test-suite verification escape.
+- [Advisory-only] `usage/AUDIT_REPORT.md`, `usage/FIX_PLAN.md` — wave audit closed (PASS).
+- [Advisory-only] `README.md`, `usage/HOW_TO_IMPORT.md`, `usage/ADOPTION_BUNDLES.md` — CM labels in adoption guidance.
+- [Advisory-only] Prior v0.2.0 post-release items: enforcement matrix phase 2, `aep-advisory` field grep, D5 error in `doc-hygiene`, PR waiver block, `RELEASE_READINESS.md`.
 
 ## v0.2.0 — 2026-07-05
 
 ### Added
 - [Import bundle change] `kit-manifest.yml` — machine-readable adoption bundles (`minimal`, `standard`, `architecture`, `research`, `full`); manifest schema `0.2`.
 - [Import bundle change] `kit-manifest.yml` — `standard` bundle includes `kit-manifest.yml`, `VERSIONING.md`, `DEVELOPMENT.md`, `CHANGELOG.md`.
-- [Advisory-only] `.github/workflows/doc-hygiene.yml` — kit-repo L0 doc hygiene (shell + `yq` + `lychee`; no Python scripts).
+- [Advisory-only] `.github/workflows/doc-hygiene.yml` — kit-repo CM0 doc hygiene (shell + `yq` + `lychee`; no Python scripts).
 - [Advisory-only] `usage/ADOPTION_BUNDLES.md` — human guide for bundle selection.
 - [Advisory-only] `usage/PROACTIVE_TRIGGER_MAP.md` — path-prefix trigger map for multi-agent checks.
 - [Advisory-only] `VERSIONING.md` — kit versioning and upgrade policy for importers; current release mapping table.

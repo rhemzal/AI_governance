@@ -32,6 +32,62 @@ Pick scope **before** loading all mandatory inputs or running all steps. Do not 
 
 Anti-overload: load only the input subset for the chosen scope; expand if evidence requires it.
 
+## Full audit waves (release / quarterly)
+
+For a **complete kit audit**, run waves in order. Each wave is one PR theme (or one focused session). Do not start Wave 8 until Waves 1–7 have findings recorded in `usage/AUDIT_REPORT.md`.
+
+**Tracking:** `usage/FIX_PLAN.md` (wave backlog + PR themes) · `usage/AUDIT_REPORT.md` (findings + wave status).
+
+| Wave | Focus | Playbook steps | Primary inputs | Exit criteria |
+| --- | --- | --- | --- | --- |
+| **0** | Baseline & scavenger | 1 | `README.md`, hub indexes, `kit-manifest.yml` | Scavenger table complete; wave status table opened in `AUDIT_REPORT.md` |
+| **1** | Level taxonomy (G vs CM) | 2 | `ADAPTIVE_GOVERNANCE.md`, `CI_MINIMUM_ADOPTION.md`, `ADOPTION_ENFORCEMENT_CONTRACT.md`, `TERMINOLOGY_GLOSSARY.md` | Two named scales documented; no bare `L0`–`L3` in normative paths without qualifier |
+| **2** | Gate × maturity alignment | 2, 3 | `ci/*_GATES.md`, `ENFORCEMENT_MATRIX.md`, `ADOPTION_ENFORCEMENT_CONTRACT.md` | Single mapping table: gate ID → CM level → adopter default; `ci/` level numbers cross-reference G or CM explicitly |
+| **3** | Bundle & import graph | 2, 3 | `kit-manifest.yml`, `ADOPTION_BUNDLES.md`, `AGENTS.md`, `.github/copilot-instructions.md`, `doc-hygiene.yml` | Every path referenced from a bundle entry file exists in that bundle (or marked upstream-only) |
+| **4** | Agent projections parity | 2 | `AGENTS.md`, `.github/copilot-instructions.md`, `AI_ENFORCEMENT_DAILY.md` | Quick rules + COMPLIANCE footer aligned; bundle-aware “skip if not imported” where needed |
+| **5** | Enforceability & dogfooding | 3, 5 | Kit workflows (`.github/workflows/`), `RELEASE_READINESS.md`, `LOCAL_OVERLAY_TEMPLATE.md` | Kit-only CI exceptions documented; red-team scenarios updated |
+| **6** | Theory & architecture corpus | 4 | `architecture/README.md`, framework, style matrix, taxonomy, selected `architecture/rag/` | Theory-bridge gaps listed or closed; taxonomy coverage notes current |
+| **7** | Red-team retest | 5 | Prior findings + bypass table in `AUDIT_REPORT.md` | ≥3 drift scenarios with status; no open **High** findings |
+| **8** | Release closure | 1–5 (light) | `RELEASE_READINESS.md`, `CHANGELOG.md`, `VERSIONING.md` | Audit clean; changelog section cut; mapping table updated |
+
+### Wave timeboxes (suggested)
+
+| Wave | Maintainer session | Reviewer pass |
+| --- | --- | --- |
+| 0 | 30 min | — |
+| 1–2 | 60–90 min each | 30 min |
+| 3–4 | 45–60 min each | 20 min |
+| 5 | 60 min | 30 min |
+| 6 | 90 min (corpus budget: max 3 RAG notes + framework) | 30 min |
+| 7 | 45 min | 20 min |
+| 8 | 30 min | sign-off |
+
+### Wave dependencies
+
+```text
+0 → 1 → 2 → 3 → 4
+         ↘     ↓
+           5 ← ┘
+           ↓
+           6 → 7 → 8
+```
+
+- **Wave 1 blocks Wave 2:** gate “level” columns cannot be reconciled until G vs CM naming exists.
+- **Wave 3 can parallel Wave 2** only for non-overlapping files; prefer sequential to avoid merge conflicts.
+- **Wave 8** requires `RELEASE_READINESS.md` precondition “Audit clean”.
+
+### Minimum findings per wave (release scope)
+
+| Wave | Min new/updated findings |
+| --- | --- |
+| 0 | 0 (baseline only) |
+| 1 | 2 (incl. 1 High) |
+| 2 | 2 (incl. 1 High) |
+| 3 | 1 (incl. 1 High) |
+| 4–6 | 1 each |
+| 7 | 3 bypass scenarios (retest) |
+| **Total** | ≥10 incl. ≥3 High (playbook release minimum) |
+
 ## Recommended Roles (Best Results)
 - **Architecture reviewer**: boundaries, hybridization, trade-offs
 - **Test/quality reviewer**: determinism, CI gates, evidence quality
@@ -157,6 +213,7 @@ Output: AUDIT_REPORT findings + FIX_PLAN (top fixes ordered by severity).
 
 ## Output Deliverables
 - Suggested deliverables (create in your repo as needed):
-  - AUDIT_REPORT.md (findings list)
-  - FIX_PLAN.md (top 5 fixes, ordered by severity)
+  - AUDIT_REPORT.md (findings list + wave status table)
+  - FIX_PLAN.md (wave backlog + top fixes ordered by severity)
+- For **release/quarterly** scope, use **Full audit waves** above (Waves 0–8).
 - One PR per fix theme (keep diffs small)

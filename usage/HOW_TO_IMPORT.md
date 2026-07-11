@@ -93,7 +93,7 @@ See `VERSIONING.md` for version series (`0.x` vs `1.0+`) and changelog label mea
 
 After copying `standard` (or `full`), complete within one PR:
 
-1. Copy `governance/LOCAL_OVERLAY_TEMPLATE.md` → `governance/LOCAL_OVERLAY.md` and declare **enforcement maturity** (`L0` minimum; see `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`).
+1. Copy `governance/LOCAL_OVERLAY_TEMPLATE.md` → `governance/LOCAL_OVERLAY.md` and declare **CI Maturity CM0** minimum (see `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`).
 2. Copy `.github/pull_request_template.md` (or merge governance checks into your existing template).
 3. Copy CI starter §1 from `usage/CI_STARTER_WORKFLOWS.md` → `.github/workflows/doc-hygiene.yml` (adapt paths).
 4. Record import ADR: git tag and/or SHA, `kit-manifest.yml` `version`, bundle name, declared maturity level.
@@ -135,7 +135,7 @@ Copy is the right choice when you want a proven baseline and your main work is e
    - keep `ci/*_GATES.md` as principles, and implement them in your CI/tooling, or
    - keep them as human-review gates (temporary fallback) until CI exists.
 4. Adopt CI progressively to avoid noisy failures in early projects:
-   - start with `usage/CI_MINIMUM_ADOPTION.md` (L0 doc hygiene → L1 tests → L2 boundary integrity → L3 risk signals)
+   - start with `usage/CI_MINIMUM_ADOPTION.md` (CM0 doc hygiene → CM1 tests → CM2 boundary + DOC DELTA → CM3 risk signals)
 5. Enable a low-friction parking-lot for work-in-progress notes:
    - use `notes/committed/` for shared notes
    - use `notes/local/` for personal notes (intentionally ignored by `.gitignore`)

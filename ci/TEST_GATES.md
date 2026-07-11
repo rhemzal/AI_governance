@@ -5,14 +5,15 @@ _Provenance: This document originates from the AI_governance kit (https://github
 ## Purpose
 These gates enforce “no untested behavior” and prevent regressions.
 
-See `constitution/ADAPTIVE_GOVERNANCE.md` for guidance on which level each gate is appropriate for.
+See `constitution/ADAPTIVE_GOVERNANCE.md` (Governance Level G) and `usage/ENFORCEMENT_MATRIX.md` (CI Maturity CM) for gate timing. Do not use bare `L0`–`L3`.
 
 ## Gate: T1 — Deterministic, Headless Tests
 
-- **Recommended from level:** 1
-- **Mandatory from level:** 2
+- **Recommended from Governance Level (G):** G1
+- **Mandatory from Governance Level (G):** G2
+- **Adopter CI Maturity (CM):** Required CM1 — see `usage/ENFORCEMENT_MATRIX.md`
 - **Risk mitigated:** Non-deterministic test results that mask real failures; tests that require human input and cannot run in CI.
-- **Local alternative:** Run tests locally with `make test` or equivalent. At Level 0–1, local execution is sufficient; no CI required.
+- **Local alternative:** Run tests locally with `make test` or equivalent. At G0–G1, local execution is sufficient; no CI required.
 - **Cost:** Very low. Deterministic, headless tests are the baseline expectation for any test that will be rerun.
 - **Failure action:** Fail the pipeline. Non-deterministic or interactive tests MUST be fixed or quarantined before merge.
 
@@ -23,12 +24,13 @@ Fail if:
 
 ## Gate: T2 — Coverage as a Risk Signal (Not Vanity)
 
-- **Recommended from level:** 2
-- **Mandatory from level:** 3
+- **Recommended from Governance Level (G):** G2
+- **Mandatory from Governance Level (G):** G3
+- **Adopter CI Maturity (CM):** Advisory CM3 — see `usage/ENFORCEMENT_MATRIX.md`
 - **Risk mitigated:** Critical logic paths with no test coverage; regressions in untested code going undetected.
-- **Local alternative:** At Level 0–1, coverage is not required. At Level 2, a developer or AI agent review of uncovered critical paths is sufficient.
+- **Local alternative:** At G0–G1, coverage is not required. At G2, a developer or AI agent review of uncovered critical paths is sufficient.
 - **Cost:** Low to medium. Coverage tooling is cheap to run. Coverage thresholds that block iteration are expensive; use them carefully.
-- **Failure action:** At Level 3+, fail the pipeline if coverage falls below the declared threshold for critical packages. At Level 2, require a waiver comment if coverage is not tracked.
+- **Failure action:** At G3+, fail the pipeline if coverage falls below the declared threshold for critical packages. At G2, require a waiver comment if coverage is not tracked.
 
 Require one of:
 - minimum coverage threshold per critical package
@@ -36,12 +38,13 @@ Require one of:
 
 ## Gate: T3 — Layered Testing Expectations
 
-- **Recommended from level:** 2
-- **Mandatory from level:** 3
+- **Recommended from Governance Level (G):** G2
+- **Mandatory from Governance Level (G):** G3
+- **Adopter CI Maturity (CM):** Deferred CM2+ — see `usage/ENFORCEMENT_MATRIX.md`
 - **Risk mitigated:** Core logic tested only through integration tests (slow, fragile); boundary contracts tested without isolation (coupling).
-- **Local alternative:** At Level 1, ensure core logic has at least one fast unit test. Integration tests can be deferred.
+- **Local alternative:** At G1, ensure core logic has at least one fast unit test. Integration tests can be deferred.
 - **Cost:** Low. Layered testing is a design principle, not a tooling cost. The cost is in discipline, not infrastructure.
-- **Failure action:** At Level 3+, block merge if core logic has no unit tests. Require a stated testing layer justification.
+- **Failure action:** At G3+, block merge if core logic has no unit tests. Require a stated testing layer justification.
 
 - Core (domain/use-cases): fast unit/behavior tests, no I/O
 - Boundary contracts (ports/interfaces): mocked or faked in core tests
@@ -49,12 +52,13 @@ Require one of:
 
 ## Gate: T4 — Flakiness Budget
 
-- **Recommended from level:** 2
-- **Mandatory from level:** 3
+- **Recommended from Governance Level (G):** G2
+- **Mandatory from Governance Level (G):** G3
+- **Adopter CI Maturity (CM):** Advisory CM3 — see `usage/ENFORCEMENT_MATRIX.md`
 - **Risk mitigated:** Flaky tests that erode trust in the test suite; persistent flakiness masking real failures.
-- **Local alternative:** At Level 1, note flaky tests in `notes/` and rerun manually when suspected. At Level 2, quarantine flaky tests rather than deleting them.
+- **Local alternative:** At G1, note flaky tests in `notes/` and rerun manually when suspected. At G2, quarantine flaky tests rather than deleting them.
 - **Cost:** Low to medium. Flakiness tracking requires a policy and minimal tooling. The cost of not tracking is higher over time.
-- **Failure action:** At Level 3+, fail builds after N flakes in a window. Require a fix or quarantine policy before merge.
+- **Failure action:** At G3+, fail builds after N flakes in a window. Require a fix or quarantine policy before merge.
 
 If tests are flaky:
 - fail builds after N flakes in a window
@@ -144,6 +148,8 @@ These techniques are **optional** and should be considered based on risk profile
 ## Related Documents
 - `constitution/AI_RULES.md` and `constitution/AI_ENFORCEMENT.md`
 - `constitution/ADAPTIVE_GOVERNANCE.md`
+- `usage/ENFORCEMENT_MATRIX.md`
+- `architecture/TERMINOLOGY_GLOSSARY.md`
 - `ci/ARCHITECTURE_GATES.md`
 - `ci/INTERFACE_GATES.md`
 - `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`

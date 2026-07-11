@@ -23,7 +23,8 @@ This is the human companion to `kit-manifest.yml`. Use the manifest for automati
 Smallest useful set for “try it this week”:
 
 - Agent projections (`AGENTS.md`, `.github/copilot-instructions.md`)
-- Core rules and daily enforcement
+- Core rules, high-risk enforcement, adaptive governance (G0–G4), and daily enforcement
+- AEP validation spec (`usage/AEP_VALIDATION.md`)
 - Quick recipes (`usage/QUICKGUIDE.md`)
 - ADR template
 
@@ -39,7 +40,7 @@ Everything in **minimal**, plus:
 
 **This is the recommended default** for repos where AI agents do regular multi-file work.
 
-**Enforcement defaults:** see `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` (L0–L3 Required / Advisory / Deferred per level).
+**Enforcement defaults:** see `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` (CM0–CM3 Required / Advisory / Deferred per level).
 
 ### architecture — architecture decisions
 

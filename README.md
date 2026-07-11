@@ -4,9 +4,7 @@ This repository is a reusable, project-agnostic governance kit for **AI-assisted
 
 Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes live in `architecture/rag/`.
 
-**Version note:** Latest release: `v0.2.0` (manifest `0.2`). If you import from `main` ahead of the tag, read `CHANGELOG.md` **Unreleased** and `VERSIONING.md` (release mapping).
-
-## Choose your path
+**Version note:** Latest release: `v0.3.0` (manifest `0.2`). If you import from `main` ahead of the tag, read `CHANGELOG.md` **Unreleased** and `VERSIONING.md` (release mapping).
 
 ## I am…
 
@@ -47,11 +45,12 @@ Context:
 
 1) Summarize what this kit provides (rules, enforcement, workflows) and what it does NOT provide.
 2) Assess what parts are applicable to my repo right now and what to defer.
-3) Recommend a staged adoption order (L0 → L3):
-   - L0: doc hygiene + daily enforcement prompt
-   - L1: deterministic tests
-   - L2: boundary integrity
-   - L3: risk signals (coverage/flakiness budget/ADR-required checks)
+3) Recommend a staged adoption order (CI Maturity CM0 → CM3):
+   - CM0: doc hygiene + daily enforcement prompt
+   - CM1: deterministic tests
+   - CM2: boundary integrity + DOC DELTA
+   - CM3: risk signals (coverage/flakiness budget/ADR-required checks)
+   Also note typical Governance Level (G2) for serious solo AI-assisted work — see ADAPTIVE_GOVERNANCE.
 4) Recommend an import approach (Copy vs Submodule vs Fork) and the minimal set of folders to import first.
 
 Output:

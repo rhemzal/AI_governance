@@ -261,7 +261,7 @@ jobs:
 
 ## 7) DOC DELTA advisory (behavior-changing PRs)
 
-Warn when non-documentation paths change without a `DOC DELTA` block in the PR body. L2+ adopters may promote to `exit 1` via overlay. Kit repo: `.github/workflows/doc-delta-advisory.yml`.
+Warn when non-documentation paths change without a `DOC DELTA` block in the PR body. CM2+ adopters may promote to `exit 1` via overlay. Kit repo: `.github/workflows/doc-delta-advisory.yml`.
 
 ```yaml
 name: doc-delta-advisory

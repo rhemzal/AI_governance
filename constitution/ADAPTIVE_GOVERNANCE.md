@@ -13,7 +13,9 @@ This document defines a proportional governance framework that explicitly suppor
 - fast iteration, rapid experimentation, and short feedback loops
 - lightweight but effective verification
 
-It provides governance levels that scale with project maturity, risk, and deployment criticality — rather than applying a fixed enterprise model to every project.
+It provides **Governance Levels (G0–G4)** that scale with project maturity, risk, and deployment criticality — rather than applying a fixed enterprise model to every project.
+
+> **Terminology:** **Governance Level (G)** is not the same as **CI Maturity (CM0–CM3)** used in adoption/CI docs. See `architecture/TERMINOLOGY_GLOSSARY.md` (Governance Level × CI Maturity map).
 
 ---
 
@@ -55,9 +57,9 @@ Factors that decrease the appropriate governance level:
 
 ---
 
-## 4. Governance Levels
+## 4. Governance Levels (G0–G4)
 
-### Level 0 — Exploration / Scratch / Throwaway PoC
+### Governance Level G0 — Exploration / Scratch / Throwaway PoC
 
 **Use when:**
 - Code is experimental, exploratory, or a throwaway proof of concept.
@@ -78,7 +80,7 @@ Factors that decrease the appropriate governance level:
 
 ---
 
-### Level 1 — Solo Prototype
+### Governance Level G1 — Solo Prototype
 
 **Use when:**
 - One developer.
@@ -100,7 +102,7 @@ Factors that decrease the appropriate governance level:
 
 ---
 
-### Level 2 — Serious Solo / Multi-Agent Project
+### Governance Level G2 — Serious Solo / Multi-Agent Project
 
 **Use when:**
 - One human developer.
@@ -123,11 +125,11 @@ Factors that decrease the appropriate governance level:
 - Excessive documentation gates.
 - Coverage thresholds that block iteration.
 
-> **Level 2 is the default target for serious AI-assisted solo projects.**
+> **G2 is the default target for serious AI-assisted solo projects.**
 
 ---
 
-### Level 3 — Shared / Released Project
+### Governance Level G3 — Shared / Released Project
 
 **Use when:**
 - Multiple humans contribute.
@@ -145,7 +147,7 @@ Factors that decrease the appropriate governance level:
 
 ---
 
-### Level 4 — Production / Safety / Regulated
+### Governance Level G4 — Production / Safety / Regulated
 
 **Use when:**
 - Failures can cause outages, data loss, security incidents, customer harm, or compliance violations.
@@ -162,7 +164,7 @@ Factors that decrease the appropriate governance level:
 
 > **Level 4 is not the default. It must be justified by concrete, documented risk.**
 
-Applying Level 4 governance to a Level 0–2 project is an overengineering error.
+Applying G4 governance to a G0–G2 project is an overengineering error.
 
 ---
 
@@ -170,10 +172,10 @@ Applying Level 4 governance to a Level 0–2 project is an overengineering error
 
 When an AI coding agent operates in this repository or any repository using this governance kit, it MUST:
 
-1. **Identify the project's governance level** before recommending or adding any CI/CD, documentation process, or enforcement mechanism.
+1. **Identify the project's Governance Level (G0–G4)** before recommending or adding any CI/CD, documentation process, or enforcement mechanism.
 2. **Apply the GOVERNANCE FIT CHECK** (see Section 7) before proposing gates, pipelines, ADRs, or process requirements.
 3. **Default to the lowest sufficient level.** If the project stage is ambiguous, the AI MUST ask rather than assume a high level.
-4. **Flag overengineering.** If asked to add enterprise-grade CI/CD to a Level 0–2 project without justification, the AI MUST flag this as a governance mismatch.
+4. **Flag overengineering.** If asked to add enterprise-grade CI/CD to a G0–G2 project without justification, the AI MUST flag this as a governance mismatch.
 5. **Prefer local verification** over cloud CI when local verification provides equivalent risk reduction.
 6. **Prefer reversible, incremental additions** over comprehensive upfront infrastructure.
 
@@ -196,12 +198,12 @@ See `research/RESEARCH_ENGINEERING_PLAYBOOKS.md` and `research/PLAYBOOK_ADAPTATI
 Additional rules:
 
 - Do not add required reviewers, branch protection, or PR policies to solo projects.
-- Do not require coverage thresholds at Level 0–1.
+- Do not require coverage thresholds at G0–G1.
 - Do not require ADRs for implementation decisions that can be reversed in minutes.
 - Do not add release automation before there are releases.
 - Do not add deployment pipelines before there are deployments.
 - Do not add monitoring and observability before the system is running in production.
-- Do not require changelog entries or release notes at Level 0–1.
+- Do not require changelog entries or release notes at G0–G1.
 - Do not require structured commit messages (e.g., Conventional Commits) unless a tool that depends on them is already in use.
 - Do not propose more than two new process requirements in a single change.
 
@@ -216,7 +218,8 @@ Every AI response that proposes, recommends, or adds CI/CD, enforcement mechanis
 ```
 GOVERNANCE FIT CHECK
 - Project stage: exploration / solo prototype / serious solo / shared / production
-- Recommended enforcement level: 0 / 1 / 2 / 3 / 4
+- Recommended Governance Level (G): G0 / G1 / G2 / G3 / G4
+- Suggested CI Maturity (CM) if kit adopted: CM0 / CM1 / CM2 / CM3 / not yet
 - CI/CD needed now: yes / no / partial
 - Reason:
 - What to defer:

@@ -25,7 +25,8 @@ Record **all three** in your import ADR when they differ (common on `main` betwe
 | --- | --- | --- | --- |
 | `v1.0.0` (2025-12-31) | *(no manifest file)* | Pre-bundle baseline | Public-ready kit without `kit-manifest.yml` bundles. |
 | `v0.2.0` (2026-07-05) | `0.2` | Experimental (`0.x`) | Bundles, meta docs in `standard`, doc-hygiene CI reference, audit 2026-07-05. |
-| `main` (ahead of `v0.2.0`) | `0.2` | Experimental (`0.x`) | See `CHANGELOG.md` **Unreleased** for deltas after `v0.2.0`. |
+| `v0.3.0` (2026-07-11) | `0.2` | Experimental (`0.x`) | G vs CM taxonomy (ADR-0007); gate × CM × G matrix; minimal bundle expansion; full audit waves closed. |
+| `main` (ahead of `v0.3.0`) | `0.2` | Experimental (`0.x`) | See `CHANGELOG.md` **Unreleased** for deltas after `v0.3.0`. |
 
 **Rule:** Pin imports by **git tag and/or commit SHA**. Read `kit-manifest.yml` `version` from the **same** commit you copy or submodule-pin. Do not mix a release tag with a manifest from a newer branch.
 

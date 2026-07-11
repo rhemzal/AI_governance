@@ -10,7 +10,7 @@ Waivers are **not** silent rule bypass. They are recorded exceptions with owner,
 
 | Situation | Example | Prefer instead |
 | --- | --- | --- |
-| Prerequisite missing | No test suite yet at L1 | Stay at L0; defer gate |
+| Prerequisite missing | No test suite yet at CM1 | Stay at CM0; defer gate |
 | Tooling not ready | Boundary lint not configured | Informational CI + waiver with fix date |
 | Emergency fix | Production hotfix | Short expiration + follow-up PR |
 | False positive | CI bug | Fix CI or narrow scope |
