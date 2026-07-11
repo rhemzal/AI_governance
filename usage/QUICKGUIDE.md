@@ -125,6 +125,26 @@ Deliverables:
 
 Complete the **Doc Hygiene Checklist** in `DEVELOPMENT.md` as part of Step 1 evidence.
 
+### Recipe H — Debugging Strategy Selection (Pros/Cons First)
+Use when troubleshooting, performance investigation, or test diagnosis — before the assistant jumps to a fix.
+
+Paste this prompt (or start from `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 1):
+
+```
+Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md and usage/DEBUGGING_ACCELERATION_PLAYBOOK.md.
+
+Before changing code:
+1. Risk preflight: LOW or HIGH.
+2. Propose top 2–3 debugging patterns with pros/cons and “do not use when”.
+3. Recommend one path with smallest useful verification scope.
+4. Include assumptions, risks, verification steps, and PR evidence output.
+
+Issue:
+<PASTE SYMPTOM OR FAILURE>
+```
+
+Specialized prompts (same file): long-running playback, MCP diagnostics, flaky test triage, minimal reproducible case.
+
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:
 - change architecture boundaries/dependency rules
@@ -156,6 +176,9 @@ When ready, implement these gates in your CI tool:
 5. `adr/ADR_TEMPLATE.md`
 
 ## Related Documents
+- `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
+- `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`
+- `usage/DECISION_PROMPTS_DEBUGGING.md`
 - `usage/AUDIT_PLAYBOOK.md`
 - `architecture/ARCHITECTURE_DECISION_PROMPT.md`
 - `README.md`

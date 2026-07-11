@@ -59,6 +59,16 @@ Do not paste full governance documents, architecture theory, or enterprise proce
 
 See `research/PLAYBOOK_ADAPTATION_GUIDE.md` (Section 1.1 and Agent Instructions) for adaptation rationale.
 
+## Debugging Strategy Comparisons (Advisory)
+For troubleshooting, performance work, or test diagnosis, ask the assistant to compare options **before** implementing fixes.
+
+Recommended flow:
+1. Paste a prompt from `usage/DECISION_PROMPTS_DEBUGGING.md` (strategy selection, playback, MCP, flakes, minimal repro).
+2. Require top 2–3 patterns with pros/cons from `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`.
+3. Follow LOW vs HIGH paths in `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`.
+
+This is advisory guidance — normative test policy remains in `ci/TEST_GATES.md`; high-risk stops remain in `constitution/AI_ENFORCEMENT.md`.
+
 ## Daily Work
 Use:
 - `constitution/AI_ENFORCEMENT_DAILY.md`
@@ -131,6 +141,9 @@ When a PR changes behavior, paste this block into the PR description.
   - Links valid: yes/no
 
 ## Related Documents
+- `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
+- `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`
+- `usage/DECISION_PROMPTS_DEBUGGING.md`
 - `constitution/AI_RULES.md`
 - `constitution/AI_ENFORCEMENT_DAILY.md`
 - `constitution/AI_ENFORCEMENT.md`
