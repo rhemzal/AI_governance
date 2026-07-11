@@ -31,9 +31,9 @@ Use when the risk preflight is **LOW**: no boundary/contract, security, CI gate,
 ```text
 LOW-RISK DEBUGGING CHECKLIST
 1. [ ] State symptom + smallest useful scope
-2. [ ] Consult usage/DEBUGGING_EFFECTIVENESS_CATALOG.md — pick top 2–3 patterns (pros/cons)
-3. [ ] Use usage/DECISION_PROMPTS_DEBUGGING.md if working with an AI assistant
-4. [ ] If cause unclear: run SCIENTIFIC_DEBUG_CHECKLIST (DBG-science-01) before any fix
+2. [ ] If cause unclear or first fix failed: usage/DECISION_PROMPTS_DEBUGGING.md Prompt 7 (triage) — max 3 pattern IDs; do not dump full catalog
+3. [ ] If cause proven or trivial (stack trace, typo): one domain pattern from triage or catalog decision table — else Prompt 7 first
+4. [ ] Use usage/DECISION_PROMPTS_DEBUGGING.md Prompt 6 when scientific path applies (see SCIENTIFIC_DEBUG_CHECKLIST)
 5. [ ] Run smallest failing check (non-interactive, with timeout per AI_RULES §6.2)
 6. [ ] Capture minimal evidence (usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md)
 7. [ ] AVR loop: diagnose → prediction-before-change → minimal fix → rerun smallest scope
@@ -46,8 +46,11 @@ LOW-RISK DEBUGGING CHECKLIST
 ```mermaid
 flowchart LR
   S[Symptom] --> R[Risk: LOW]
-  R --> P[Pick 2-3 patterns]
-  P --> V[Smallest verify scope]
+  R --> C{Cause_clear?}
+  C -->|no| T[Prompt_7_triage]
+  C -->|yes| D[One_domain_pattern]
+  T --> V[Smallest verify scope]
+  D --> V
   V --> E[Evidence]
   E --> F[Minimal fix]
   F --> V

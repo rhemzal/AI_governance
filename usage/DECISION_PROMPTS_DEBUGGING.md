@@ -12,19 +12,20 @@ This document is **advisory**. Normative rules remain in `constitution/` and `ci
 
 1. Paste the relevant prompt below at the start of a troubleshooting task.
 2. Add `constitution/AI_ENFORCEMENT_DAILY.md` for LOW-risk work or `constitution/AI_ENFORCEMENT.md` for HIGH-risk work.
-3. Point the assistant at `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` for pattern IDs and schemas.
+3. Use `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` for pattern IDs — load the **Scientific method triage** section first; expand to full catalog only when triage requires it (anti-overload: max **3** IDs per issue).
 4. Require the **Evidence output** section in every response.
 
-**Recommended order for scientific debugging:** Prompt **7** (triage — pick methods) → Prompt **6** (execute falsification) → domain prompts (2–5) as needed.
+**Recommended order:** unclear cause → Prompt **7** (triage) → Prompt **6** (falsification) → domain prompts **2–5** as needed. Prompt **1** only for explicit strategy comparison when cause is proven or after Prompt 7.
 
 ---
 
-## Prompt 1 — Strategy selection (pros/cons first)
+## Prompt 1 — Strategy selection (pros/cons among known options)
 
-Use when you know the symptom but not the best debugging approach.
+Use when the operator wants explicit pros/cons comparison among debugging approaches — **not** as the first step when cause is unclear (use **Prompt 7** first).
 
 ```
-Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md and usage/DEBUGGING_ACCELERATION_PLAYBOOK.md.
+Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md (Scientific method triage section; expand to specific pattern entries only as needed)
+and usage/DEBUGGING_ACCELERATION_PLAYBOOK.md.
 
 Task: Propose debugging strategy options for the issue below.
 
@@ -33,19 +34,19 @@ Issue:
 
 Requirements:
 1. Risk preflight: LOW or HIGH (justify). If HIGH or unclear, STOP before implementation.
-2. Recommend the top 2–3 patterns from the catalog with:
+2. If cause is unclear: STOP — run **Prompt 7** first; do not list catalog patterns in this step.
+3. When cause is proven or Prompt 7 already narrowed candidates, recommend the top 2–3 patterns with:
    - Pattern ID and name
    - Problem fit (why it applies here)
    - Pros and cons
    - Do NOT use when (for this case)
    - Implementation cost (setup/maintenance)
-   - If cause is unclear, include `DBG-science-01` among candidates and recommend **Prompt 7** before Prompt 6
-3. State your recommended option and why.
-4. Scope: smallest useful verification first (constitution/AI_ENFORCEMENT_DAILY.md).
-5. Assumptions: list what you are inferring about the system.
-6. Risks: false positives, blind spots, high-risk triggers (boundaries, contracts, security).
-7. Verification steps: ordered, non-interactive commands where possible (AI_RULES §6.2).
-8. Evidence output (mandatory):
+4. State your recommended option and why.
+5. Scope: smallest useful verification first (constitution/AI_ENFORCEMENT_DAILY.md).
+6. Assumptions: list what you are inferring about the system.
+7. Risks: false positives, blind spots, high-risk triggers (boundaries, contracts, security).
+8. Verification steps: ordered, non-interactive commands where possible (AI_RULES §6.2).
+9. Evidence output (mandatory):
 
 ### Evidence output
 ```text
@@ -88,8 +89,9 @@ Requirements:
 5. Assumptions: clock, codec, network, CDN, device dependencies.
 6. Risks: acceleration false confidence; over-mocking; asset/license issues.
 7. Verification steps: per-layer commands; one real-time check if timing-critical.
-8. If HIGH risk (contract/API/error model): STOP and flag ADR need.
-9. Evidence output (mandatory):
+8. If failing layer remains unknown after isolation: STOP and run **Prompt 7** before further fixes.
+9. If HIGH risk (contract/API/error model): STOP and flag ADR need.
+10. Evidence output (mandatory):
 
 ### Evidence output
 ```text
@@ -131,7 +133,8 @@ Requirements:
 6. Assumptions: existing MCP server capabilities and auth model.
 7. Risks: data leak, accidental mutation, wrong boundary abstraction.
 8. Verification steps: sample tool invocations (redacted output).
-9. Evidence output (mandatory):
+9. If integration boundary or root cause remains unclear: STOP and run **Prompt 7** before further fixes.
+10. Evidence output (mandatory):
 
 ### Evidence output
 ```text
@@ -216,7 +219,8 @@ Requirements:
 6. Assumptions: what environment state is still required.
 7. Risks: oversimplification; hidden global state; wasted time if signal already minimal.
 8. Verification steps: run minimal case before and after each reduction step.
-9. Evidence output (mandatory):
+9. If cause remains unclear after minimal repro: STOP and run **Prompt 7** before product fixes.
+10. Evidence output (mandatory):
 
 ### Evidence output
 ```text

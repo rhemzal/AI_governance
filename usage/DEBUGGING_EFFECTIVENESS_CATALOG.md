@@ -21,24 +21,23 @@ Help AI assistants proactively propose suitable debugging paths with explicit tr
 ```mermaid
 flowchart TD
   A[Symptom observed] --> B{Risk preflight}
-  B -->|LOW| C[Filter patterns by problem fit]
+  B -->|LOW| C{Cause clear?}
   B -->|HIGH / boundary / contract| D[STOP: use AI_ENFORCEMENT.md + ADR if needed]
   D --> C
-  C --> E[Rank top 2-3 patterns by pros/cons]
-  E --> E2{Cause unclear?}
-  E2 -->|yes| E3[Formulate competing hypotheses DBG-science-01]
+  C -->|no| T[Prompt 7 triage max 3 IDs]
+  C -->|yes| E[One domain pattern from decision table]
+  T --> E2{Scientific path?}
+  E2 -->|yes| E3[Prompt 6: DBG-science-01 falsification]
   E2 -->|no| F[Pick smallest-scope verification first]
-  E3 --> E4[Design falsification tests per hypothesis]
-  E4 --> E5{Hypothesis survived?}
-  E5 -->|no| E
-  E5 -->|yes| E6[Prediction-before-change DBG-science-02]
-  E6 --> F
+  E3 --> E4[Prediction-before-change DBG-science-02]
+  E4 --> F
+  E --> F
   F --> G[Run AVR loop with evidence]
   G --> H{Sufficient signal?}
   H -->|yes| I[Minimal fix + rerun]
-  H -->|no| E
+  H -->|no| T
   I --> I2{Prediction matched?}
-  I2 -->|no| E
+  I2 -->|no| T
   I2 -->|yes| Done[Done with evidence]
 ```
 
@@ -46,14 +45,12 @@ flowchart TD
 
 1. Classify risk (daily vs high-risk mode per `constitution/AI_ENFORCEMENT_DAILY.md` / `constitution/AI_ENFORCEMENT.md`).
 2. Describe the symptom domain (test failure, flake, performance, integration boundary, long-running media, MCP tool, etc.).
-3. Scan **Problem fit** and **Use when / Do NOT use when** for each candidate pattern.
-4. Compare **Pros / Cons / Implementation cost** for the top 2–3 options.
-4a. If cause is unclear, formulate 2–3 **competing working hypotheses** (`DBG-science-01`); do not implement the first guess.
-4b. For each hypothesis, design the **cheapest falsification test** (probe, log check, temporary assert, feature off) — not a product fix.
-4c. Before any code change, state **prediction-before-change** (`DBG-science-02`): expected signal if the surviving hypothesis holds.
-5. Use copy-paste prompts from `usage/DECISION_PROMPTS_DEBUGGING.md` when working with an AI assistant.
-6. Execute the smallest useful scope; capture **PR evidence** per pattern.
-7. On verification failure, apply the AVR loop (`constitution/AI_ENFORCEMENT_DAILY.md`) before escalating.
+3. If cause is unclear or the first fix failed: run **Scientific method triage** (below) or `usage/DECISION_PROMPTS_DEBUGGING.md` **Prompt 7** — max **3** pattern IDs; do not scan the full catalog.
+4. If cause is proven or trivial: pick **one** domain pattern from the triage decision table.
+5. When scientific path applies: formulate competing hypotheses (`DBG-science-01`), falsify before fixing, then **prediction-before-change** (`DBG-science-02`).
+6. Use copy-paste prompts from `usage/DECISION_PROMPTS_DEBUGGING.md` when working with an AI assistant.
+7. Execute the smallest useful scope; capture **PR evidence** per pattern.
+8. On verification failure, apply the AVR loop (`constitution/AI_ENFORCEMENT_DAILY.md`) before escalating.
 
 For operational playbooks and checklists, see `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`.
 

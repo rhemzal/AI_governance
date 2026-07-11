@@ -60,12 +60,13 @@ Do not paste full governance documents, architecture theory, or enterprise proce
 See `research/PLAYBOOK_ADAPTATION_GUIDE.md` (Section 1.1 and Agent Instructions) for adaptation rationale.
 
 ## Debugging Strategy Comparisons (Advisory)
-For troubleshooting, performance work, or test diagnosis, ask the assistant to compare options **before** implementing fixes.
+For troubleshooting, performance work, or test diagnosis, ask the assistant to pick methods **before** implementing fixes. Do not load the full debugging catalog unless triage says so (pattern budget: max **3** IDs — see `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md` anti-overload rules).
 
 Recommended flow:
-1. Paste a prompt from `usage/DECISION_PROMPTS_DEBUGGING.md` (strategy selection, playback, MCP, flakes, minimal repro).
-2. Require top 2–3 patterns with pros/cons from `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`.
-3. Follow LOW vs HIGH paths in `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`.
+1. **Unclear cause or first fix failed:** `usage/DECISION_PROMPTS_DEBUGGING.md` **Prompt 7** (method triage) → **Prompt 6** (falsification) if scientific path applies.
+2. **Known domain** (playback, MCP, flakes, heavy repro): domain prompt **2–5** from the same file.
+3. **Explicit strategy comparison** among options (operator request): **Prompt 1** — only after Prompt 7 when cause was unclear, or when cause is already proven.
+4. Follow LOW vs HIGH paths in `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`.
 
 This is advisory guidance — normative test policy remains in `ci/TEST_GATES.md`; high-risk stops remain in `constitution/AI_ENFORCEMENT.md`.
 

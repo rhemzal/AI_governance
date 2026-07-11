@@ -125,18 +125,23 @@ Deliverables:
 
 Complete the **Doc Hygiene Checklist** in `DEVELOPMENT.md` as part of Step 1 evidence.
 
-### Recipe H — Debugging Strategy Selection (Pros/Cons First)
+### Recipe H — Debugging (Triage First)
 Use when troubleshooting, performance investigation, or test diagnosis — before the assistant jumps to a fix.
 
-Paste this prompt (or start from `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 1):
+**Default (unclear cause or first fix failed):** paste **Prompt 7** from `usage/DECISION_PROMPTS_DEBUGGING.md`, then **Prompt 6** if the scientific path applies.
+
+**Known domain:** use domain prompts **2–5** (playback, MCP, flakes, minimal repro) from the same file.
+
+**Explicit strategy comparison** (operator wants pros/cons among options): use **Prompt 1** only when cause is already proven, or after Prompt 7 narrowed candidates.
 
 ```
-Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md and usage/DEBUGGING_ACCELERATION_PLAYBOOK.md.
+Load usage/DEBUGGING_EFFECTIVENESS_CATALOG.md (Scientific method triage section only)
+and usage/DEBUGGING_ACCELERATION_PLAYBOOK.md.
 
 Before changing code:
 1. Risk preflight: LOW or HIGH.
-2. If cause unclear: run Prompt 7 (triage) first, then Prompt 6 if scientific path applies.
-3. Propose top 2–3 debugging patterns with pros/cons and “do not use when”.
+2. Run Prompt 7 (method triage) — max 3 pattern IDs; do not dump the full catalog.
+3. If scientific path: Prompt 6 (falsification) before any product fix.
 4. Recommend one path with smallest useful verification scope.
 5. Include assumptions, risks, verification steps, and PR evidence output.
 
@@ -144,9 +149,7 @@ Issue:
 <PASTE SYMPTOM OR FAILURE>
 ```
 
-Specialized prompts (same file): long-running playback, MCP diagnostics, flaky test triage, minimal reproducible case.
-
-When cause is unclear or the first fix failed, use **Prompt 7** (triage) then **Prompt 6** (hypothesis falsification) — not another blind implementation guess.
+When cause is unclear or the first fix failed, use **Prompt 7** (triage) then **Prompt 6** (hypothesis falsification) — not another blind implementation guess or catalog-wide pattern listing.
 
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:
