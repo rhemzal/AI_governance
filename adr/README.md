@@ -15,6 +15,12 @@ This folder contains Architecture Decision Records (ADRs) that define and evolve
 - [ADR_0003_RAG_Is_Advisory_Not_Normative.md](ADR_0003_RAG_Is_Advisory_Not_Normative.md)
 - [ADR_0004_Tooling_Is_Experimental.md](ADR_0004_Tooling_Is_Experimental.md)
 
+- [ADR_0005_Kit_CI_Dogfooding.md](ADR_0005_Kit_CI_Dogfooding.md)
+- [ADR_0006_Adopter_Enforcement_Contract.md](ADR_0006_Adopter_Enforcement_Contract.md)
+- [ADR_0007_Governance_Level_vs_CI_Maturity.md](ADR_0007_Governance_Level_vs_CI_Maturity.md)
+- [ADR_0008_Bounded_Agent_Execution.md](ADR_0008_Bounded_Agent_Execution.md) — proposed
+- [ADR_0009_Structured_AEP_Validation.md](ADR_0009_Structured_AEP_Validation.md) — proposed
+
 ## Status Convention (Recommended)
 Use one of:
 - Proposed

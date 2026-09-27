@@ -63,9 +63,11 @@ Fail if:
 - **Cost:** Low if the generation process is already defined. The cost is in discipline, not tooling.
 - **Failure action:** At G3+, block merge if generated documentation was manually edited without updating the source or generator.
 
-If any documentation is declared as generated (by tooling or AI-assisted generation), require:
+If documentation is mechanically generated from a maintained source or generator, require:
 - a clear source-of-truth reference
 - a repeatable regeneration process (documented in PR or in the repo)
+
+AI-assisted authored prose is maintained and reviewed as source documentation; AI involvement alone does not make it a generated artifact (`constitution/AI_ENFORCEMENT.md` §6).
 
 ## Gate: D5 — Anti-Fragmentation
 
@@ -88,4 +90,3 @@ Fail (or warn, then fail) if:
 - `architecture/TERMINOLOGY_GLOSSARY.md`
 - `usage/HOW_TO_USE_WITH_COPILOT.md`
 - `adr/ADR_TEMPLATE.md`
-

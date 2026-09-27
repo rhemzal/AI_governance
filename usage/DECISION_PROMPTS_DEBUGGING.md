@@ -33,7 +33,7 @@ Issue:
 <PASTE SYMPTOM, ERROR, OR TEST FAILURE>
 
 Requirements:
-1. Risk preflight: LOW or HIGH (justify). If HIGH or unclear, STOP before implementation.
+1. Risk preflight: LOW or HIGH (justify). If HIGH, apply full verification and check the existing mandate; stop only the action needing new authority or a blocking decision.
 2. If cause is unclear: STOP — run **Prompt 7** first; do not list catalog patterns in this step.
 3. When cause is proven or Prompt 7 already narrowed candidates, recommend the top 2–3 patterns with:
    - Pattern ID and name
@@ -90,7 +90,7 @@ Requirements:
 6. Risks: acceleration false confidence; over-mocking; asset/license issues.
 7. Verification steps: per-layer commands; one real-time check if timing-critical.
 8. If failing layer remains unknown after isolation: STOP and run **Prompt 7** before further fixes.
-9. If HIGH risk (contract/API/error model): STOP and flag ADR need.
+9. If HIGH risk (contract/API/error model): consider ADR, verify authority, and continue authorized preparation.
 10. Evidence output (mandatory):
 
 ### Evidence output
@@ -127,7 +127,7 @@ Issue:
 Requirements:
 1. Treat MCP as integration-boundary adapter — not unconstrained shell access.
 2. Default to read-only diagnostic tools; separate mutating tools explicitly.
-3. Mutating actions: HIGH risk → STOP and request confirmation before implementation.
+3. Mutating actions: HIGH risk; distinguish preparing the tool from executing it. Confirm authorization for the actual target/effect before execution.
 4. Security/data exposure: no secrets, PII, or full production dumps; redaction plan.
 5. Scope: minimal tool surface to answer the diagnostic question.
 6. Assumptions: existing MCP server capabilities and auth model.
@@ -256,7 +256,7 @@ Issue:
 
 Requirements:
 0. If supporting technique not already chosen: run Prompt 7 first; apply max 1 supporting pattern (03–07) from triage.
-1. Risk preflight: LOW or HIGH (justify). If HIGH or unclear, STOP before implementation.
+1. Risk preflight: LOW or HIGH (justify). If HIGH, apply full verification and check the existing mandate; stop only the action needing new authority or a blocking decision.
 2. List 2–3 competing working hypotheses (not RCA claims).
 3. For each hypothesis: propose the cheapest falsification test (probe, log check, temporary assert, feature toggle, ablation) — NOT a product fix.
 4. Apply supporting technique from triage when on full path: 04 matrix, 05 discriminative test, 03 ablation, 06 controls, or 07 instrument sanity.
@@ -313,7 +313,7 @@ Issue:
 <PASTE SYMPTOM, ERROR, OR CONTEXT>
 
 Requirements:
-1. Risk preflight: LOW or HIGH (justify). If HIGH or unclear, note STOP before implementation.
+1. Risk preflight: LOW or HIGH (justify). If HIGH, check the mandate and required verification; identify any unauthorized action or blocking ambiguity.
 2. Choose science path: skip | lite | full — with one-sentence justification.
 3. If skip: recommend at most 1 domain pattern OR direct fix path (no scientific stack).
 4. If lite or full: core is always DBG-science-01 + DBG-science-02 when scientific path is active.

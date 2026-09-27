@@ -28,6 +28,10 @@ Provide a structured way to optimize AI-assisted workflows without turning tooli
 - Failures observed:
 - Recommendation:
 
+## Policy and harness re-evaluation
+
+Evaluate the model, tools, instructions, and execution environment together. Use the matched-task protocol in `tooling/BENCHMARK_SCENARIOS.md` B5–B8 when changing autonomy, repair, or evidence rules. Keep stable constraints separate from model-specific scaffolding; reassess the latter after model/tool changes. Quality and authority boundaries remain acceptance conditions; lower token use alone is not sufficient.
+
 ## Related Documents
 - `adr/ADR_0004_Tooling_Is_Experimental.md`
 - `tooling/BENCHMARK_SCENARIOS.md`

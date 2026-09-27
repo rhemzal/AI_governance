@@ -48,7 +48,7 @@ jobs:
           set -euo pipefail
           check_paths() {
             local bundle="$1"
-            yq -r ".bundles.${bundle}.paths[]? // empty" kit-manifest.yml | while IFS= read -r p; do
+            yq -r ".bundles.${bundle}.paths[]" kit-manifest.yml | while IFS= read -r p; do
               [ -z "$p" ] && continue
               if [[ "$p" == */ ]]; then
                 test -d "${p%/}" || { echo "Missing directory ($bundle): $p"; exit 1; }
@@ -99,19 +99,32 @@ jobs:
               if [[ "$path" == "$ref" ]]; then
                 return 0
               fi
-              if [[ "$path" == */ ]] && [[ "$ref" == usage/* ]]; then
+              if [[ "$path" == */ ]] && [[ "$ref" == "$path"* ]]; then
                 return 0
               fi
             done < <(bundle_paths "$2")
             return 1
           }
 
-          extract_root_refs() {
+          extract_bundle_refs() {
             local file="$1"
+            local ref
             {
-              grep -oE '\`[A-Za-z0-9_.-]+\.md\`' "$file" 2>/dev/null | tr -d '`' || true
-              grep -oE '\]\([A-Za-z0-9_.-]+\.md\)' "$file" 2>/dev/null | sed 's/](//;s/)$//' || true
-            } | grep -v '/' | sort -u
+              # Code spans name root files, but may also contain illustrative filenames.
+              # Only actual root files establish an import dependency; review other prose manually.
+              while IFS= read -r ref; do
+                if grep -Fq -- "\`$ref\`" "$file"; then
+                  printf '%s\n' "$ref"
+                fi
+              done < <(find . -maxdepth 1 -type f -name '*.md' -printf '%f\n')
+              # Bare/parent Markdown links are relative to the source, not the repository root.
+              # Remove inline code examples before extracting links.
+              { sed -E 's/`[^`]*`//g' "$file" | grep -oE '\]\((\.\./)?[A-Za-z0-9_.-]+\.md(#[A-Za-z0-9_-]+)?\)' || true; } |
+                sed -E 's/^\]\(//;s/\)$//;s/#.*$//' |
+                while IFS= read -r ref; do
+                  realpath -m --relative-to=. -- "$(dirname "$file")/$ref"
+                done
+            } | sort -u
           }
 
           fail=0
@@ -120,14 +133,14 @@ jobs:
               [ -f "$ufile" ] || continue
               while IFS= read -r ref; do
                 [ -z "$ref" ] && continue
-                if echo "$ALLOWLIST" | grep -qw "$ref"; then
+                if [[ " $ALLOWLIST " == *" $ref "* ]]; then
                   continue
                 fi
-                if ! in_path_set "$ref" "$bundle"; then
-                  echo "Bundled cross-ref FAIL ($bundle): $ufile references $ref (not in bundle path set)"
+                if [[ ! -f "$ref" ]] || ! in_path_set "$ref" "$bundle"; then
+                  echo "Bundled cross-ref FAIL ($bundle): $ufile references $ref (missing or not in bundle path set)"
                   fail=1
                 fi
-              done < <(extract_root_refs "$ufile")
+              done < <(extract_bundle_refs "$ufile")
             done < <(usage_files_for_bundle "$bundle")
           done
           exit "$fail"
@@ -168,6 +181,7 @@ jobs:
       - name: Markdown link check (hub docs)
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --exclude-mail './README.md' './usage/HOW_TO_IMPORT.md' './usage/ADOPTION_BUNDLES.md' './architecture/README.md'
+          lycheeVersion: v0.24.2
+          args: --no-progress --include-mail=false './README.md' './usage/HOW_TO_IMPORT.md' './usage/ADOPTION_BUNDLES.md' './architecture/README.md'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

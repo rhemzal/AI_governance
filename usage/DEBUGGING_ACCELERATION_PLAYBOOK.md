@@ -148,10 +148,10 @@ Use when any **high-risk** trigger applies (`constitution/AI_ENFORCEMENT.md`):
 
 | Gate | Action |
 |------|--------|
-| **G1 — Risk unknown** | Run risk preflight (`usage/HOW_TO_USE_WITH_COPILOT.md`). If HIGH or unclear → **STOP** and confirm with operator. |
-| **G2 — Contract/boundary** | **STOP** for code changes until ADR considered (`adr/ADR_TEMPLATE.md`). Use DBG-contract-01 probes to gather evidence only. |
-| **G3 — Error model** | **STOP** before changing failure semantics. Fault injection (DBG-resilience-01) is for tests/harness — not silent production behavior changes. |
-| **G4 — MCP mutating** | **STOP** before adding/changing mutating MCP tools. Read-only diagnostics first (DBG-mcp-01). |
+| **G1 — Risk unknown** | Run risk preflight (`usage/HOW_TO_USE_WITH_COPILOT.md`). If HIGH, check the existing mandate and verification needs. **STOP** only the action with missing authority or a blocking ambiguity. |
+| **G2 — Contract/boundary** | Consider ADR (`adr/ADR_TEMPLATE.md`) before authorized code changes; preparation does not authorize production effects. Use DBG-contract-01 probes to gather evidence only. |
+| **G3 — Error model** | Check the mandate and acceptance criteria before changing failure semantics; obtain approval if outside them. Fault injection (DBG-resilience-01) is for tests/harness — not silent production behavior changes. |
+| **G4 — MCP mutating** | Separate authorized implementation from invoking mutating MCP tools; require authority for the target and effect. Read-only diagnostics first (DBG-mcp-01). |
 | **G5 — Test policy** | **STOP** before delete/weaken/quarantine without policy (`ci/TEST_GATES.md`). |
 
 ### High-risk checklist (copy-paste)
@@ -241,7 +241,7 @@ MCP DIAGNOSTIC SETUP CHECKLIST
 3. [ ] Add/read-only diagnostic tools only (DBG-mcp-01)
 4. [ ] Scope resources narrowly (no wildcard production URIs)
 5. [ ] Redact/sample outputs in docs and PR evidence
-6. [ ] Mutating tool needed? → HIGH risk → STOP + confirm + ADR if interface change
+6. [ ] Mutating tool needed? → HIGH risk → check target/effect authority + ADR if interface change
 7. [ ] Verification: invoke diagnostic tool, capture redacted output
 8. [ ] Link error model / contract docs if failure semantics change
 ```

@@ -77,7 +77,7 @@ Prefer a small working step over a broad unfinished design.
 AI adaptation:
 
 - Agents should avoid scope expansion.
-- If scope grows, the agent must stop and report it.
+- If supporting scope grows within the mandate, update the plan; stop the affected action before a new objective or unauthorized effect (`constitution/AI_ENFORCEMENT.md` §1.2).
 
 ### 1.4 Constraints Belong in Environment / Tests / CI Where Practical
 

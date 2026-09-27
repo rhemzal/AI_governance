@@ -127,7 +127,7 @@ Goal: Find contradictions, duplication, unenforceable rules, missing theory supp
 Constraints:
 - Propose minimal diffs; prefer consolidating into existing docs.
 - Use the Findings Format from the playbook (ID, Severity, Category, Evidence, Impact, Fix proposal, Verification).
-- Meet minimum findings for scope (5 for post_import/prefix; 10 incl. 3 high for release/quarterly).
+- Record scope coverage, evidence, and limitations; findings and their severity have no quota. Zero findings is valid when substantiated.
 - Drift scenarios: 1 for scoped; 3 for release/quarterly.
 
 Deliverables:

@@ -12,23 +12,20 @@ This playbook helps you **audit this governance kit** (or a repo that imports it
 This document is **advisory**. Normative rules live in `constitution/`.
 
 ## What “Good Audit” Means
-A good audit produces findings proportional to **audit scope** (see below). For **release** or **quarterly** full audits:
-- at least 10 findings (incl. 3 high-severity)
-- at least 5 specific fix proposals (exact docs/sections to change)
-- at least 3 “bypass” scenarios (how teams could drift while appearing compliant)
+A good audit records which areas were examined, the evidence used, limitations, and any reproducible findings. Findings and severity are outcomes of the audit, not quotas. Zero findings is valid when supported by documented coverage; never invent or inflate findings to satisfy a target.
 
-For scoped audits (post_import, prefix), see minimum findings in **Audit scope triage**.
+For release/quarterly audits, exercise at least three distinct drift/bypass scenarios and record whether each is prevented, detected, or remains unresolved. This is a coverage requirement, not a requirement to discover three defects.
 
 ## Audit scope triage
 
 Pick scope **before** loading all mandatory inputs or running all steps. Do not default to Steps 1–5 for every task.
 
-| Scope | When | Steps | Mandatory inputs (subset) | Min findings |
+| Scope | When | Steps | Mandatory inputs (subset) | Required coverage |
 | --- | --- | --- | --- | --- |
-| **post_import** | After kit import | 1, 3, 5 | `README.md`, `constitution/AI_RULES.md`, `usage/HOW_TO_IMPORT.md`, `kit-manifest.yml` | 5 (incl. 1 high) |
-| **prefix** | Change in one path prefix | 2, 3 | `usage/PROACTIVE_TRIGGER_MAP.md` row + affected paths | 5 |
-| **release** | Before release tag | 1–5 | Full mandatory list below | 10 (incl. 3 high) |
-| **quarterly** | Regular governance review | 1–5 | Full mandatory list below | 10 (incl. 3 high) |
+| **post_import** | After kit import | 1, 3, 5 | `README.md`, `constitution/AI_RULES.md`, `usage/HOW_TO_IMPORT.md`, `kit-manifest.yml` | Import completeness, applicability, enforcement |
+| **prefix** | Change in one path prefix | 2, 3 | `usage/PROACTIVE_TRIGGER_MAP.md` row + affected paths | Changed rules, projections, enforcement |
+| **release** | Before release tag | 1–5 | Full mandatory list below | All audit areas and three drift scenarios |
+| **quarterly** | Regular governance review | 1–5 | Full mandatory list below | All audit areas and three drift scenarios |
 
 Anti-overload: load only the input subset for the chosen scope; expand if evidence requires it.
 
@@ -76,17 +73,9 @@ For a **complete kit audit**, run waves in order. Each wave is one PR theme (or 
 - **Wave 3 can parallel Wave 2** only for non-overlapping files; prefer sequential to avoid merge conflicts.
 - **Wave 8** requires `RELEASE_READINESS.md` precondition “Audit clean”.
 
-### Minimum findings per wave (release scope)
+### Coverage per wave
 
-| Wave | Min new/updated findings |
-| --- | --- |
-| 0 | 0 (baseline only) |
-| 1 | 2 (incl. 1 High) |
-| 2 | 2 (incl. 1 High) |
-| 3 | 1 (incl. 1 High) |
-| 4–6 | 1 each |
-| 7 | 3 bypass scenarios (retest) |
-| **Total** | ≥10 incl. ≥3 High (playbook release minimum) |
+For each wave, record examined paths, checks/scenarios, evidence, limitations, and findings (including “none found”). Severity follows impact and evidence. Do not set a minimum number or severity of findings per wave. Unexamined areas must be marked as such; a scoped audit does not establish release readiness.
 
 ## Recommended Roles (Best Results)
 - **Architecture reviewer**: boundaries, hybridization, trade-offs
@@ -205,7 +194,7 @@ Goal: Find contradictions, duplication, unenforceable rules, missing theory supp
 Constraints:
 - Propose minimal diffs; prefer consolidating into existing docs.
 - Use the Findings Format from the playbook.
-- Meet minimum findings for chosen scope (not always 10).
+- Record coverage and evidence for the chosen scope; report only substantiated findings. Zero findings is allowed.
 - Include drift/bypass scenarios: 3 for release/quarterly; 1 for post_import/prefix.
 
 Output: AUDIT_REPORT findings + FIX_PLAN (top fixes ordered by severity).

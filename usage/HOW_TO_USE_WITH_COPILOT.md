@@ -78,7 +78,7 @@ When scope or method is unclear, apply **method triage** before loading large do
 | --- | --- | --- |
 | Architecture / RAG | `architecture/ARCHITECTURE_DECISION_PROMPT.md`, `architecture/README.md` | Max 2 RAG notes + 1 cross-cutting; matrix columns for selected styles only |
 | Security findings | `usage/SECURITY_MINIMUM_ADOPTION.md` | Max 3 actions per iteration (fix / waiver / defer) |
-| Governance audit | `usage/AUDIT_PLAYBOOK.md` | Pick scope first; scoped minimum findings (not always 10) |
+| Governance audit | `usage/AUDIT_PLAYBOOK.md` | Pick scope first; record coverage/evidence without a findings quota |
 | Kit adoption | `usage/ADOPTION_BUNDLES.md` | 1 baseline bundle + max 1 optional |
 | AEP discovery | `usage/AEP_VALIDATION.md` | Max 5 consulted paths (LOW-risk); narrow via `usage/PROACTIVE_TRIGGER_MAP.md` |
 
@@ -104,7 +104,7 @@ Use this at the start of a task to force a consistent LOW vs HIGH risk classific
 - Confirm whether any boundary contract/interface, adapter/integration, architecture decision, security behavior, CI/gates, or canonical governance docs are affected
 Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
 If LOW: proceed to execution.
-If HIGH/unclear: STOP and ask for confirmation."
+If HIGH: use proportionate verification and check the existing mandate. Continue authorized preparation; ask only before an unauthorized effect or when a genuinely blocking ambiguity remains."
 
 ## Expected Outputs From the AI
 - explicit scope

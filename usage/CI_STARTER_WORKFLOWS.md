@@ -6,9 +6,9 @@ This guide provides **ready-to-copy GitHub Actions starter examples** for the ga
 
 These are **reference implementations**, not mandatory stack-specific prescriptions. Adapt tooling, commands, and paths to your repository.
 
-**Kit repo living reference:** `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml` (inline shell + `yq` + `lychee` — **no repository scripts**).
+**Kit repo living reference:** `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml` (inline shell + `yq` + `lychee`; AEP adds a Python standard-library reference validator).
 
-Adopters copy **`run:` blocks** from these workflows or the starters below into their CI vendor. Do not rely on a shared script directory in the kit.
+Adopters copy **`run:` blocks** from these workflows or the starters below into their CI vendor. The AEP exception in §5 also requires its version-matched reference validator; other starters remain inline.
 
 ## 1) Documentation hygiene gate (starter)
 
@@ -61,8 +61,8 @@ Gate intent: `ci/DOC_GATES.md` (D1–D3, D5 warning). Manual checklist: `DEVELOP
 For repos that ship `kit-manifest.yml` and `usage/` docs, add a step that:
 
 1. Resolves `minimal`, `standard`, and `full` bundle path sets via `yq` (including `extends` / `composes` unions).
-2. Scans bundled `usage/*.md` for root-level `` `FILE.md` `` / `](FILE.md)` references.
-3. Fails when a referenced root `.md` is not in the bundle path set (allowlist target-repo hubs: `README.md`, `CONTRIBUTING.md`).
+2. Scans bundled `usage/*.md` for backticked filenames that exist at the repository root, plus bare/parent Markdown links resolved relative to the source. Inline code examples are excluded from link extraction; other shorthand references still need manual review.
+3. Fails when a referenced file is missing or not in the bundle path set (allowlist target-repo hubs: root `README.md`, `CONTRIBUTING.md`). Directory entries cover only their own descendants.
 
 Copy the complete inline implementation from `.github/workflows/doc-hygiene.yml` (`Bundled cross-refs` step) — do not add a repository script.
 
@@ -175,59 +175,25 @@ jobs:
           fi
 ```
 
-## 5) AEP READY advisory check (multi-file PRs)
+## 5) AEP declaration validation
 
-Use when agents or humans post AEP blocks in PR descriptions. Advisory until required by local policy (`usage/AEP_VALIDATION.md`).
+Applicability is based on risk, dependent non-trivial steps, handoff, and concurrency (`usage/AEP_VALIDATION.md`). File count is only an advisory prompt to review applicability. Missing declarations warn; an explicitly declared plan must satisfy the structured format, even in a one-file PR.
+
+Copy `.github/workflows/aep-advisory.yml` and `ci/validate_aep.py` from the **same pinned kit revision**. Copy `ci/tests/` as well if retaining the reference workflow's regression-test step. The standard bundle includes `ci/`; minimal adopters can read/copy these files from the upstream kit. No external Python packages are needed.
+
+The validation step is:
 
 ```yaml
-name: aep-advisory
-on:
-  pull_request:
-    types: [opened, edited, synchronize]
-jobs:
-  aep:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-      - name: Count changed files
-        id: diff
-        run: |
-          set -euo pipefail
-          BASE="${{ github.event.pull_request.base.sha }}"
-          HEAD="${{ github.sha }}"
-          COUNT="$(git diff --name-only "$BASE" "$HEAD" | wc -l | tr -d ' ')"
-          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
-      - name: Warn when multi-file PR lacks AEP READY markers
-        if: steps.diff.outputs.count >= 2
-        env:
-          PR_BODY: ${{ github.event.pull_request.body }}
-        run: |
-          set -euo pipefail
-          if ! printf '%s' "$PR_BODY" | grep -q 'AEP Status'; then
-            echo "::warning::Multi-file PR without AEP Status field (see usage/AEP_VALIDATION.md)"
-          fi
-          if printf '%s' "$PR_BODY" | grep -q 'AEP Status: READY'; then
-            for token in TBD TODO 'as needed' etc.; do
-              if printf '%s' "$PR_BODY" | grep -qi "$token"; then
-                echo "::error::AEP READY contains vague placeholder: $token"
-                exit 1
-              fi
-            done
-            fail=0
-            for field in Objective Steps; do
-              if ! printf '%s' "$PR_BODY" | grep -qi "$field"; then
-                echo "::error::AEP READY missing required field: $field"
-                fail=1
-              fi
-            done
-            if ! printf '%s' "$PR_BODY" | grep -qiE 'test command|Test execution|make test|pytest|npm test'; then
-              echo "::error::AEP READY missing explicit test execution reference"
-              fail=1
-            fi
-            exit "$fail"
-          fi
+- name: Validate AEP declaration
+  env:
+    PR_BODY: ${{ github.event.pull_request.body }}
+    CHANGED_FILES: ${{ steps.diff.outputs.count }}
+  run: python3 ci/validate_aep.py --changed-files "$CHANGED_FILES"
 ```
+
+Use a read-only `contents` token and non-persistent checkout credentials, as in the reference workflow. Keep PR text in an environment variable; do not interpolate it into shell source or execute commands from the declaration. The reference workflow runs on pull_request events, not privileged pull_request_target.
+
+The checker validates declared data, not authority, feasibility, completion, or correctness. Review those separately. Migrate legacy `AEP Status` plans using the structured example in `usage/AEP_VALIDATION.md`; the old whole-body grep is no longer the reference.
 
 ## 6) Governance waiver label advisory
 

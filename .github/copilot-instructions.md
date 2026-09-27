@@ -11,11 +11,12 @@ Only consult paths that exist in your imported bundle (`kit-manifest.yml`). If m
 
 ## Quick rules
 
-- For multi-file or cross-cutting changes, produce AEP first (`usage/AEP_VALIDATION.md` when present).
-- If verification fails, use the AVR loop before asking the operator.
+- Produce an Autonomous Execution Plan (AEP) for HIGH-risk work, dependent non-trivial steps, handoff, or concurrency (`usage/AEP_VALIDATION.md` when present).
+- If verification fails, use the Autonomous Verification & Repair (AVR) loop within the declared repair budget before asking the operator.
 - For behavior changes, include DOC DELTA.
 - For high-risk changes, use the full `## COMPLIANCE REPORT` from `constitution/AI_ENFORCEMENT.md`.
-- High-risk = architecture boundaries, public contracts, CI gates, interface behavior, security, error model.
+- High-risk = architecture boundaries, public contracts, CI gates, interface behavior, security, error model. This sets verification depth; existing authorization still applies.
+- Follow the task mandate and action authority in `constitution/AI_ENFORCEMENT.md` §§1.2–1.4; bind results to revisions and report unmet acceptance criteria.
 - Use non-interactive commands and wall-clock timeouts (`constitution/AI_RULES.md` §6.2).
 
 ## Read first
@@ -57,11 +58,12 @@ High-risk work must include a full compliance report, ADR consideration, explici
 
 ## AEP and verification
 
-For multi-file or cross-cutting changes:
-- produce AEP first
-- declare READY or BLOCKED
-- include explicit file paths
-- include explicit verification command
+For HIGH-risk work, dependent non-trivial steps, handoff, or concurrency:
+- produce AEP first; declare READY or BLOCKED
+- include known paths, verification, acceptance criteria, and a repair budget
+- refine the plan as discovery supplies evidence, within the mandate
+
+Routine reversible work may use a concise scope and verification statement. File count alone does not determine risk.
 
 Verification must use repo-local commands. Do not assume global test runners.
 
@@ -69,7 +71,7 @@ Verification must use repo-local commands. Do not assume global test runners.
 
 If verification fails:
 - use AVR loop: detect → diagnose → minimal compliant repair → rerun → report
-- do not ask for help unless blocked
+- do not ask for help unless blocked or the repair budget is exhausted
 
 ## Testing diagnostics
 

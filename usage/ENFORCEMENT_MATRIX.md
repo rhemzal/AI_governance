@@ -18,7 +18,7 @@ This matrix is the **single source of truth** for gate timing across **CI Maturi
 | **Adopter default** | Typical `standard` bundle expectation (overlay may override) |
 | **Manual / review** | Human or PR checklist until prerequisites exist |
 
-**Tooling note:** No repository scripts. Inline CI steps only (`usage/CI_STARTER_WORKFLOWS.md`).
+**Tooling note:** Most gates use inline CI steps. AEP uses the standard-library reference validator `ci/validate_aep.py` with regression tests (ADR-0009); see `usage/CI_STARTER_WORKFLOWS.md`. This does not introduce an agent runtime.
 
 ## Canonical gate × CM × G table
 
@@ -40,23 +40,23 @@ This matrix is the **single source of truth** for gate timing across **CI Maturi
 | Manifest paths exist | Required CM0 | — | `doc-hygiene` | Yes | Required CM0 (`standard`) |
 | Bundled cross-refs | Required CM0 | — | `doc-hygiene` | Yes | Required CM0 (`standard`) |
 | Provenance banners | Required CM0 | — | `doc-hygiene` | Yes | Required CM0 |
-| AEP READY (multi-file PR) | Advisory CM1; stronger CM3 | — | `aep-advisory` | Partial | Advisory CM1+ |
+| AEP applicability / declaration shape | Advisory CM1; stronger CM3 | — | `aep-advisory` + reference validator | Structural only | Missing plan advisory; declared plan validated |
 | Governance waiver block | Any CM | — | `governance-waiver-advisory` | Partial | When waiver used |
 | Doc hygiene checklist 5–7 | Required CM0 (manual) | — | — | No | Required manual |
 
 ## Kit repo vs adopter repo (maintainer dogfood exceptions)
 
-The kit repo is documentation-only (no product test suite, no boundary lint). Maintainers run **stricter reference CI** than default adopter **CM0**. Adopters declare their own CM in overlay.
+The kit repo contains documentation and reference-validator tests (no product test suite or product boundary lint). Maintainers run **stricter reference CI** than default adopter **CM0**. Adopters declare their own CM in overlay.
 
 | Concern | Kit repo (maintainer) | Typical adopter (`standard`) |
 | --- | --- | --- |
 | Doc hygiene | **Required** (always on) | Required **CM0** |
 | D5 anti-fragmentation | **Error** in `doc-hygiene` (maintainer policy) | Advisory **CM2** → Required **CM3** |
 | DOC DELTA | Advisory (`doc-delta-advisory`) | Required **CM2** review; optional CI |
-| Tests | No product suite — use doc/CI verify | Required **CM1** when tests exist |
+| Tests | Reference-validator tests + doc/CI verify; no product suite | Required **CM1** when tests exist |
 | Boundary | N/A | Required **CM2** when recipes wired |
 | ADR on governance paths | **Required** (`adr-required`) — maintainer dogfood | Required **CM3** |
-| AEP multi-file | Advisory + field grep | Advisory **CM1+** |
+| AEP | Advisory applicability + structured declaration validation and regression tests | Advisory applicability **CM1+**; declared plan shape validated |
 | Waivers | Label advisory | `GOVERNANCE_WAIVERS` + overlay |
 
 **Why ADR runs in kit repo before adopter CM3:** ADR-0005 dogfooding — governance-path changes in this repo must ship with an ADR. Adopters should not enable `adr-required` as required until **CM3** unless overlay promotes earlier.

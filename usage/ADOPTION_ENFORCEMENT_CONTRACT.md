@@ -33,7 +33,7 @@ Normative gate definitions remain in `ci/`. **CI Maturity (CM)** semantics align
 | CM0 | Doc hygiene: manifest paths, hub links, provenance (D3) | Required | CI or manual checklist | `doc-hygiene` job / `DEVELOPMENT.md` checklist |
 | CM0 | Bundled cross-refs (import consistency) | Required | `kit-manifest.yml` present | `doc-hygiene` bundled cross-ref step |
 | CM1 | Deterministic tests (T1) | Required | Test suite exists | `deterministic-tests` job |
-| CM1 | AEP on multi-file PRs | Advisory | Agents active | `aep-advisory` / PR body |
+| CM1 | AEP applicability / declaration shape | Missing plan advisory; declared plan validated | Agents active | `aep-advisory` + `ci/validate_aep.py` / PR body |
 | CM1 | Canonical test command in overlay | Required | CM1 declared | `governance/LOCAL_OVERLAY.md` |
 | CM2 | DOC DELTA on behavior-changing PRs (D2) | Required | Review or CI | PR `### DOC DELTA` / `doc-delta-advisory` |
 | CM2 | Boundary integrity (A1) | Required when tooling exists | Import lint / graph tool | `boundary-integrity` job |

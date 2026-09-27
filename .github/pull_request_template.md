@@ -9,9 +9,10 @@
 ## Documentation impact
 
 ## Governance checks
-- [ ] AEP required for this change (multi-file and/or code+tests+docs scope)
-- [ ] If AEP is required: AEP exists and is `READY` (or was `BLOCKED` with explicit stop)
-- [ ] AEP READY quality checks passed (no `TBD`, explicit test command, explicit file paths)
+- [ ] AEP applicability assessed (HIGH risk, dependent non-trivial steps, handoff, or concurrency)
+- [ ] Structured `aep` declaration added from `usage/AEP_VALIDATION.md`, or concise scope/verification statement for routine work
+- [ ] Declaration shape checked; authorization, feasibility, and acceptance reviewed separately
+- [ ] Evidence identifies tested revision(s), environment, and unmet criteria (`usage/AI_RUN_EVIDENCE.md`)
 - [ ] Architecture-impacting paths changed (`constitution/**`, `ci/**`, `usage/**`, `architecture/**`, `adr/**`, `interface/**`) and ADR added/updated
 - [ ] No architecture-impacting paths changed, ADR not required
 

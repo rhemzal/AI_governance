@@ -127,6 +127,8 @@ Factors that decrease the appropriate governance level:
 
 > **G2 is the default target for serious AI-assisted solo projects.**
 
+Contributor count is not a permission model. A solo agent with production access may perform a G4-risk action, while preparing its patch in an isolated branch remains a separate, reversible action. Assess risk and authorization per effect using `AI_ENFORCEMENT.md` §1.2.
+
 ---
 
 ### Governance Level G3 — Shared / Released Project
@@ -202,7 +204,7 @@ Additional rules:
 - Do not require ADRs for implementation decisions that can be reversed in minutes.
 - Do not add release automation before there are releases.
 - Do not add deployment pipelines before there are deployments.
-- Do not add monitoring and observability before the system is running in production.
+- Add development-time logs, metrics, or traces when they are needed to reproduce and verify behavior. Defer a production monitoring platform until deployment risk justifies it.
 - Do not require changelog entries or release notes at G0–G1.
 - Do not require structured commit messages (e.g., Conventional Commits) unless a tool that depends on them is already in use.
 - Do not propose more than two new process requirements in a single change.
