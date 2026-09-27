@@ -12,7 +12,7 @@ Continue within the authorized task mandate; obtain approval before a new object
 
 ## Daily Checklist
 - AEP: If HIGH-risk, dependent non-trivial steps, handoff, or concurrency are involved, is the Autonomous Execution Plan declared READY before edits? Routine reversible work may use a concise scope and verification statement.
-  - **Discovery:** consult `usage/PROACTIVE_TRIGGER_MAP.md` before broad doc loads (`usage/AEP_VALIDATION.md`).
+  - **Discovery:** when included in the declared bundle, use `usage/PROACTIVE_TRIGGER_MAP.md` before broad doc loads. Minimal adopters use the bounded discovery rules in `usage/AEP_VALIDATION.md` and the core enforcement document; the trigger map is optional upstream context.
 - Architecture: Which layer is this change in?
 - Boundaries: Any inward-dependency violation?
 - Overlay: Is there a local governance overlay, and was it considered?

@@ -8,7 +8,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 **Report:** [AUDIT_REPORT.md](AUDIT_REPORT.md), current September audit.
 
-**State:** review complete with **17 open findings (1 High, 13 Medium, 3 Low)**. This PR records evidence and proposals; it does not implement repairs. The July closure below is historical.
+**State:** A-01/A-02 are implemented and regression-verified by the safe-import change (effective on merge). **15 findings remain unaddressed: 12 Medium, 3 Low (A-03–A-17).** See the report's repair follow-up for the exact implementation SHA and tests. The original audit and July closure are historical evidence; release closure is still not established.
 
 Prioritize safe adoption and truthful verification before adding enforcement. Fix existing checks with small negative fixtures; do not introduce a general script pack, agent orchestrator, mandatory extra reviewers, or broad new process. Existing tests passing is compatible with uncovered defects.
 
@@ -18,7 +18,7 @@ Each row is a focused repair theme with acceptance criteria, not a new workflow 
 
 | Priority | Theme / findings | Target paths | Smallest useful change | Acceptance evidence |
 | --- | --- | --- | --- | --- |
-| P0 | Safe copy import — A-01, A-02 | `usage/HOW_TO_IMPORT.md`, `usage/ADOPTION_BUNDLES.md`, `kit-manifest.yml`, agent projections, affected normative context and import CI guidance | Preserve project-owned instructions/meta files; surface collisions; reconcile required context with selected bundles; separate kit-wide and adopter checks | Existing-file sentinel fixture preserves host content; empty minimal/standard/optional/full copies resolve applicable prerequisites; missing required files fail |
+| P0 — implemented | Safe copy import — A-01, A-02 | `usage/HOW_TO_IMPORT.md`, `usage/ADOPTION_BUNDLES.md`, `kit-manifest.yml`, agent projections, affected normative context and import CI guidance | Preserve project-owned instructions/meta files; surface collisions; reconcile required context with selected bundles; separate kit-wide and adopter checks | Existing-file sentinel fixture preserves host content; empty minimal/standard/optional/full copies resolve applicable prerequisites; missing required files fail |
 | P1 | Reliable boundary recipes — A-03 | `usage/BOUNDARY_GATE_RECIPES.md`, starter §3 | Detect path/scanner errors and ordinary forbidden imports; state limits | Missing paths and direct/from/indented/relative forbidden imports fail; allowed dependencies pass |
 | P1 | AEP declaration detection — A-07 | `ci/validate_aep.py`, `ci/tests/test_validate_aep.py`, `usage/AEP_VALIDATION.md`, related guidance if needed | Recognize or explicitly reject alternate fences; keep absent plans advisory | Existing 12 tests plus canonical/indented/tilde/longer/multiple/unfinished-fence regressions; valid recognized plans pass |
 | P1 | ADR correctness and starter parity — A-04, A-05 | `.github/workflows/adr-required.yml`, starter §4 | Require an existing eligible added/updated record; fetch comparison revisions; exclude deletion/template loopholes | PR-style checkout works; no-ADR/deleted-ADR/rename-away/template-only negatives fail; qualifying decision passes |
@@ -30,7 +30,7 @@ Each row is a focused repair theme with acceptance criteria, not a new workflow 
 
 ### Ordering and decisions
 
-- Start with host-file collisions. Do not recommend fresh literal copy imports until a preservation rule exists.
+- Safe-import repair is implemented: use the fresh namespaced procedure and preserve host entry points. Next repair themes are boundary recipes, AEP declaration detection and ADR gate correctness (P1).
 - Repair demonstrated detection gaps before presenting green checks as substantive evidence. A populated plan or ADR still needs review of meaning and authority.
 - Resolve canonical applicability before copying more quick rules. Decide A3 timing explicitly; this audit does not silently choose G3 or G4.
 - Branch protection is **not** a prerequisite for repairs. If the maintainer wants required checks, prepare compatible statuses first and make that policy decision separately. Preserve adaptive governance for solo use.
@@ -40,8 +40,8 @@ Each row is a focused repair theme with acceptance criteria, not a new workflow 
 
 | Checkpoint | Required evidence | Current state |
 | --- | --- | --- |
-| Finding closed | Implemented repair; original failing scenario now behaves correctly; unaffected control still works | All A-01–A-17 open |
-| Wave 7 closure | At least three distinct drift scenarios recorded; no open High finding | Scenarios recorded; High A-01 open |
+| Finding remediated | Implemented repair; original failing scenario now behaves correctly; unaffected control still works | A-01/A-02 verified in this change; A-03–A-17 unaddressed |
+| Wave 7 closure | At least three distinct drift scenarios recorded; no open High finding | High A-01 has a verified repair; full wave/release closure is not claimed by the scoped retest |
 | Clean release audit | Material findings repaired or explicitly dispositioned with rationale; applicable wave exit criteria rechecked against an exact revision | Not established |
 | Stable bundle contract | Selected-bundle adoption works; one tagged stable cycle; release mapping and remaining checklist conditions satisfied | Not established |
 

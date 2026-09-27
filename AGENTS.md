@@ -7,16 +7,19 @@ The source of truth remains the governance kit documents.
 
 ## Import scope (bundle-aware)
 
-Only consult paths that **exist in your imported bundle** (`kit-manifest.yml`). If a referenced path is missing:
-- do not invent rules from it
-- skip unless the task is **HIGH-risk** and the path is required — then STOP and recommend importing the path or upgrading the bundle
+Kit-document references are relative to the **kit root** (this file's directory; normally `vendor/AI_governance/` in an adopter). Project code, test commands, task paths, decisions and `governance/LOCAL_OVERLAY.md` belong to the **project root**. Read the host's existing instructions first; importing this projection does not replace them or approve an override. Merge a short entry point as described in the upstream `usage/HOW_TO_IMPORT.md`, never overwrite the host `AGENTS.md`.
+
+Consult documents from the declared bundle selection. The manifest lists all available bundles, not which optional bundles were imported. If a referenced path is missing:
+- a required baseline file is an incomplete import: stop the affected task and repair it
+- an optional/add-on or Related Documents reference is upstream-only unless included; skip it without inventing rules
+- if a task needs that optional material, obtain it from the same pinned revision before the affected step
 
 | Bundle | Agent projections include | Typical optional paths (upgrade to `standard` / add bundles) |
 | --- | --- | --- |
-| **minimal** | `constitution/AI_RULES.md`, `AI_ENFORCEMENT.md`, `AI_ENFORCEMENT_DAILY.md`, `ADAPTIVE_GOVERNANCE.md`, `usage/AEP_VALIDATION.md`, `usage/QUICKGUIDE.md` | `architecture/**`, extended `usage/` playbooks, `usage/ENFORCEMENT_MATRIX.md`, `DEVELOPMENT.md` |
-| **standard** | full `constitution/`, `ci/`, `usage/`, overlay template | `architecture/**`, `research/` |
+| **minimal** | Manifest, core/daily/adaptive enforcement, AEP spec, quick guide, ADR template, architecture framework and glossary | Remaining `architecture/`, extended `usage/`, `ci/`, root kit meta docs |
+| **standard** | Everything in minimal; full `constitution/`, `ci/`, `usage/`, overlay template | Remaining `architecture/`, `research/`, `interface/` proposals |
 
-**Terminology:** **Governance Level (G0–G4)** vs **CI Maturity (CM0–CM3)** — see `architecture/TERMINOLOGY_GLOSSARY.md` if imported; otherwise `constitution/ADAPTIVE_GOVERNANCE.md` for G.
+**Terminology:** **Governance Level (G0–G4)** vs **CI Maturity (CM0–CM3)** — `architecture/TERMINOLOGY_GLOSSARY.md` is included in every baseline.
 
 ## Quick rules
 
@@ -30,15 +33,16 @@ Only consult paths that **exist in your imported bundle** (`kit-manifest.yml`). 
 
 ## Required context
 
-Before work, read or consult as applicable (**skip if path not in bundle**):
+Before work, read or consult as applicable (**only explicitly optional context may be absent**):
 
 - `constitution/AI_RULES.md` *(minimal+)*
 - `constitution/AI_ENFORCEMENT_DAILY.md` *(minimal+)*
 - `constitution/AI_ENFORCEMENT.md` *(minimal+)*
 - `constitution/ADAPTIVE_GOVERNANCE.md` *(minimal+)*
 - `usage/AEP_VALIDATION.md` *(minimal+)*
-- `architecture/TERMINOLOGY_GLOSSARY.md` *(standard+ or `architecture` bundle)*
-- `architecture/README.md` *(standard+ or `architecture` bundle — consult before `architecture/rag/` work)*
+- `architecture/TERMINOLOGY_GLOSSARY.md` *(minimal+)*
+- `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` *(minimal+; architecture decisions)*
+- `architecture/README.md` *(optional `architecture` bundle or `full`; consult before RAG work)*
 
 ## Default operating mode
 

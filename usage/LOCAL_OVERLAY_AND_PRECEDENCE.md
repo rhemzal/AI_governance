@@ -10,6 +10,10 @@ This document defines a minimal, auditable way to do that **without creating con
 - Do not fork the canonical rules by copy-pasting them into multiple places.
 - Add local constraints as a **small overlay** that explicitly states what it adds or overrides.
 
+## Kit and project roots
+
+Keep imported kit files under their declared kit root (normally `vendor/AI_governance/`); keep the active overlay and project decisions outside that snapshot. Kit-document references resolve under the kit root, while project source, commands, ADR outputs and the active overlay resolve under the project root. Record the kit root, selected bundles and upstream SHA in the host entry point/overlay. Never replace host instructions with a kit projection; reconcile existing constraints explicitly during adoption.
+
 ## Precedence Rules (Hard)
 Use this precedence order (highest wins):
 1. **Local overlay** (repo-specific constraints; never a grant to bypass platform controls or the user’s task mandate)

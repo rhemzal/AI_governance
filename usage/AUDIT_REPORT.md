@@ -2,13 +2,36 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance)._
 
-## Current audit — 2026-09-27
+## Repair follow-up — A-01/A-02 (2026-09-27)
+
+**Disposition:** A-01 and A-02 are implemented and regression-verified in this change; the repair becomes effective for main when merged. **15 findings remain unaddressed (12 Medium, 3 Low): A-03–A-17.** This is a scoped repair retest, not a clean release audit or closure of the remaining waves.
+
+**Verified implementation:** [b4c59fb1e55a21034784d05e3745f02ac5f804c4](https://github.com/rhemzal/AI_governance/commit/b4c59fb1e55a21034784d05e3745f02ac5f804c4); based on merged audit commit `f253ed17f202bbbaa9668c14ef4c6878d56abfef`. Later report/status edits do not change the import implementation. ADR-0010 records the import contract and scoped tool exception.
+
+| Finding | Repair | Retest evidence |
+| --- | --- | --- |
+| A-01 | Selected snapshot goes into a fresh kit directory, normally `vendor/AI_governance/`; no overwrite/merge/delete mode. Host entry points are merged separately after conflict review. | Exact Bash commands from `usage/HOW_TO_IMPORT.md` imported and verified 65 standard files at the pinned implementation SHA; all five host agent/meta sentinels survived. Repeating the procedure exited 1 with `Refusing existing destination`. |
+| A-02 | Minimal now includes the manifest, required architecture framework and glossary (12 files total). Optional references are explicit; source comparison validates only declared bundles, while upstream catalog checks remain upstream. | Real-manifest fixtures passed for minimal, standard, each with architecture/research, standard with both add-ons, and full (8 selections). Removing required AI_RULES caused verification failure in each selection; absent unselected architecture context did not. |
+
+Verification environment: Linux, Python 3.12.14, Git, Bash, yq 4.44.3, lychee 0.24.2. Commands and outcomes:
+
+- `KIT_MANIFEST_JSON=<yq JSON conversion> timeout 60s python3 -m unittest discover -s ci/bundle_tests -v`: **13 tests PASS**, including real bundle combinations and negative cases for existing targets, missing/changed/extra files, unknown/cyclic selections, traversal, symlinks, exclusions, spaces, and executable bits.
+- `timeout 60s python3 -m unittest discover -s ci/tests -v`: existing **12 AEP tests PASS**. The separate A-07 declaration-fence defect remains open.
+- Existing root metadata, all-catalog manifest, bundled cross-reference and provenance steps: **PASS**; new import regression step: **PASS**. No gate was disabled or weakened for this repair.
+- Offline link checks: **4 hubs PASS** (83 successful local occurrences); full **116-file** scan retains only the **2 known A-15 errors**. No new local-link failure.
+- Exact guide smoke test on a clean implementation checkout: `PASS: imported 65 files; bundles=standard`, followed by `PASS: verified 65 files; bundles=standard`; five host files unchanged; repeat refused without overwriting them.
+
+Limits: source revision/JSON provenance and host policy conflict resolution still require review. The tool reads tracked working-tree files; the guide checks the clean pinned revision before copying. Exclusive target ownership is required; this is not a sandbox against a concurrent filesystem attacker. Interrupted copies may leave a new incomplete destination and are never auto-repaired. Windows executable-bit checking is omitted; acceptance ran on Linux. No downstream repository, branch rule, or release tag was changed.
+
+The original findings below are preserved as evidence against their frozen baseline; this follow-up supplies the current A-01/A-02 disposition.
+
+## Audit baseline — 2026-09-27
 
 **Scope:** quarterly audit, Steps 1–5 and Waves 0–7 of `usage/AUDIT_PLAYBOOK.md`; release closure is deferred.
 
 **Pinned baseline:** [768e2028eaabf943cb6b68e077d891db16f90332](https://github.com/rhemzal/AI_governance/commit/768e2028eaabf943cb6b68e077d891db16f90332), merged PR #34. Source locations and baseline probe results below refer to this revision, not the later audit-document commit.
 
-**Outcome:** review complete; **not audit-clean**. **17 open findings: 1 High, 13 Medium, 3 Low.** The July report is preserved below as history; its PASS conclusion does not validate this revision.
+**Baseline outcome before repairs:** review complete; **not audit-clean**. **17 findings: 1 High, 13 Medium, 3 Low.** The July report is preserved below as history; its PASS conclusion does not validate this revision.
 
 The main concerns are unsafe copy-import instructions, checks that can report success without checking the claimed condition, and contradictions between canonical rules and their projections. PR #34 improved bounded execution and declaration validation, but its new AEP parser has a reproducible detection gap (A-07). Recent changes are included in the audit.
 

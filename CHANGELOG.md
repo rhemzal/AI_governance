@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Safe bundle import (2026-09-27)
+- [Breaking rule change] ADR-0010: copy imports default to a fresh `vendor/AI_governance/` snapshot. Existing destinations are refused; host agent instructions, workflows and metadata are preserved and integrated by a reviewed merge. Existing root-layout imports require a deliberate migration, not an overwrite.
+- [Import bundle change] Minimal adds the manifest catalog, required architecture framework and terminology glossary. Standard/full inherit them and include the scoped importer/checker and separate regression suite through `ci/`. Bundle names and manifest schema remain unchanged.
+- [Governance-impacting] Distinguish kit-document paths from project source/commands/decisions. Optional trigger maps, interface proposals and architecture add-on references no longer masquerade as missing baseline prerequisites.
+- [Fix] Verify the declared bundle selection against a pinned source, including tracked file inventory, exclusions, content and executable bits. Retain kit-wide manifest checks only in the upstream workflow; add import safety/closure regressions. September A-01/A-02 repair evidence is tracked in the audit report.
+
 ### Agent execution update (2026-09-27)
 - [Governance-impacting] ADR-0008: bounded task mandates, action-specific authority, repair budgets, revision/environment-bound evidence, resume/handoff, and explicit task outcomes. Align constitution, projections, overlays, and debugging guidance; remove blanket reapproval for already authorized preparation.
 - [Breaking rule change] AEP applicability now follows HIGH risk, dependent non-trivial steps, handoff, or concurrency; routine reversible multi-file edits may use concise scope/verification statements. Review downstream overlays before adopting.

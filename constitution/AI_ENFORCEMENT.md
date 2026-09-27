@@ -151,10 +151,10 @@ When CI/CD is adopted for a gate, CI MUST be configured to fail on:
 
 Before CI/CD exists, the same expectations MUST still be enforced through local verification and PR evidence where practical. This changes only the enforcement mechanism, not the rule or gate expectation.
 
-Details live in:
+Gate detail documents are included in `standard`/`full`; minimal adopters retain the constitutional rules above and consult a pinned gate definition before adopting that gate. Optional references do not silently expand the imported file set. Details live in:
 - `ci/ARCHITECTURE_GATES.md`
 - `ci/TEST_GATES.md`
-- `ci/INTERFACE_GATES.md` and `interface/INTERFACE_CI_GATES.md`
+- `ci/INTERFACE_GATES.md` (normative gate definitions; optional interface proposals are upstream context)
 - `ci/DOC_GATES.md`
 
 ## 8. Required Output (Hard Requirement)

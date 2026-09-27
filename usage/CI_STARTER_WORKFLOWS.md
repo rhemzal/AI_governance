@@ -8,20 +8,20 @@ These are **reference implementations**, not mandatory stack-specific prescripti
 
 **Kit repo living reference:** `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml` (inline shell + `yq` + `lychee`; AEP adds a Python standard-library reference validator).
 
-Adopters copy **`run:` blocks** from these workflows or the starters below into their CI vendor. The AEP exception in §5 also requires its version-matched reference validator; other starters remain inline.
+Adopters adapt selected `run:` blocks and project paths deliberately. Kit-wide catalog checks are maintainer-only. The scoped snapshot importer/checker (ADR-0010) and AEP validator (ADR-0009) must each match the pinned kit revision; keep imported kit files separate from host-owned workflow/template entry points.
 
 ## 1) Documentation hygiene gate (starter)
 
-Copy from the kit repo or use this minimal pattern:
+Use this project-owned pattern after the selected import has been verified as in `usage/HOW_TO_IMPORT.md`. Do not transplant the upstream all-bundle job into a partial import. Merge with an existing host workflow instead of overwriting it:
 
 ```yaml
 name: doc-hygiene
 on:
   pull_request:
-    paths: ['**.md', 'kit-manifest.yml']
+    paths: ['**.md', '**/kit-manifest.yml']
   push:
     branches: [main]
-    paths: ['**.md', 'kit-manifest.yml']
+    paths: ['**.md', '**/kit-manifest.yml']
 
 concurrency:
   group: doc-hygiene-${{ github.ref }}
@@ -38,9 +38,11 @@ jobs:
         run: |
           set -euo pipefail
           fail=0
+          KIT_ROOT=vendor/AI_governance
+          test -d "$KIT_ROOT/constitution" || { echo 'Missing imported baseline'; exit 1; }
           while IFS= read -r f; do
             head -c 500 "$f" | grep -q 'Provenance' || { echo "Missing Provenance: $f"; fail=1; }
-          done < <(find constitution ci adr usage -name '*.md' -type f)
+          done < <(find "$KIT_ROOT/constitution" -name '*.md' -type f)
           exit "$fail"
 
       - name: Markdown link check (hub docs)
@@ -50,27 +52,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Optional: bundled cross-ref check (standard/full adopters with kit-manifest.yml).
-      # Full inline step: see .github/workflows/doc-hygiene.yml in the kit repo.
+      # Verify the declared selected copy against its pinned source (section 1b).
+      # The upstream all-bundle catalog check is NOT an adopter check.
 ```
 
 Gate intent: `ci/DOC_GATES.md` (D1–D3, D5 warning). Manual checklist: `DEVELOPMENT.md`. Matrix: `usage/ENFORCEMENT_MATRIX.md`.
 
-## 1b) Bundled cross-ref check (inline pattern)
+## 1b) Selected-bundle verification versus kit catalog checks
 
-For repos that ship `kit-manifest.yml` and `usage/` docs, add a step that:
+For an adopter, keep a clean checkout of the recorded upstream SHA available as `KIT_SOURCE`. Convert its manifest with yq v4.44.3 and invoke `ci/import_bundle.py --check` with the declared destination and **the same selected bundles** used at import, following `usage/HOW_TO_IMPORT.md`. Run it from the pinned source, not a potentially modified imported checker. It detects missing, changed and unexpected selected-copy files without writing to the project. A manual comparison is acceptable where the CM0 contract allows local evidence.
 
-1. Resolves `minimal`, `standard`, and `full` bundle path sets via `yq` (including `extends` / `composes` unions).
-2. Scans bundled `usage/*.md` for backticked filenames that exist at the repository root, plus bare/parent Markdown links resolved relative to the source. Inline code examples are excluded from link extraction; other shorthand references still need manual review.
-3. Fails when a referenced file is missing or not in the bundle path set (allowlist target-repo hubs: root `README.md`, `CONTRIBUTING.md`). Directory entries cover only their own descendants.
-
-Copy the complete inline implementation from `.github/workflows/doc-hygiene.yml` (`Bundled cross-refs` step) — do not add a repository script.
-
-```yaml
-      - name: Bundled cross-refs (example placeholder)
-        run: |
-          echo "Copy the Bundled cross-refs step from kit repo doc-hygiene.yml"
-```
+The upstream `.github/workflows/doc-hygiene.yml` intentionally checks all catalog bundles and bundled references in the complete kit repository. Retain that maintainer check upstream; do not require unselected architecture/research paths in minimal or standard adopters. It does not replace semantic review of required/optional context or project-owned links.
 
 ## 2) Deterministic test gate (starter with timeout)
 
@@ -179,7 +171,7 @@ jobs:
 
 Applicability is based on risk, dependent non-trivial steps, handoff, and concurrency (`usage/AEP_VALIDATION.md`). File count is only an advisory prompt to review applicability. Missing declarations warn; an explicitly declared plan must satisfy the structured format, even in a one-file PR.
 
-Copy `.github/workflows/aep-advisory.yml` and `ci/validate_aep.py` from the **same pinned kit revision**. Copy `ci/tests/` as well if retaining the reference workflow's regression-test step. The standard bundle includes `ci/`; minimal adopters can read/copy these files from the upstream kit. No external Python packages are needed.
+Merge the upstream `.github/workflows/aep-advisory.yml` into a host-owned workflow and point its validator/test paths to the declared kit root (for example `vendor/AI_governance/ci/validate_aep.py`). Use the workflow and validator from the **same pinned kit revision**. Copy `ci/tests/` as well if retaining the reference workflow's regression-test step. The standard bundle includes `ci/`; minimal adopters can read/copy these files from the upstream kit. No external Python packages are needed.
 
 The validation step is:
 

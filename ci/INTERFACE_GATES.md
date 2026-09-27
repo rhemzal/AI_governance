@@ -5,8 +5,9 @@ _Provenance: This document originates from the AI_governance kit (https://github
 ## Purpose
 These gates enforce automation-first interfaces (GUI/CLI/TUI/headless).
 
-Primary reference:
-- `interface/INTERFACE_CI_GATES.md`
+Normative sources: this document and `constitution/AI_RULES.md` / `constitution/AI_ENFORCEMENT.md`.
+
+Optional upstream context: `interface/INTERFACE_CI_GATES.md` is a proposal/reference included only in `full`; it is not a prerequisite for using these gates with `standard`.
 
 See `constitution/ADAPTIVE_GOVERNANCE.md` for guidance on which level each gate is appropriate for.
 
