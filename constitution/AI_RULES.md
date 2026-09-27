@@ -4,6 +4,8 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 These rules are **normative**. Any AI assistant working in a governed repository must treat these as hard constraints.
 
+**Import context:** kit-document paths are relative to the declared kit root (normally `vendor/AI_governance/`), while project source, test commands, ADR outputs and local overlays are relative to the project root. Every baseline includes the architecture framework and terminology glossary required below. Supporting RAG notes, historical kit ADRs and Related Documents outside the selected bundle are optional upstream context; they do not add a hidden import requirement. Importing the kit does not replace existing host instructions or approve a policy override.
+
 ## Architecture Selection (Required)
 This kit does not assume a default style.
 

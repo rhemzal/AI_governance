@@ -7,7 +7,9 @@ kit:
 # Machine-readable import bundles for copy/submodule/fork workflows.
 #
 # Path rules:
-# - Repo-root-relative paths.
+# - Paths are relative to the KIT root, not the adopter project root.
+# - Copy imports default to a fresh vendor/AI_governance/ directory.
+# - Existing destinations are never overwritten; host entry points are merged separately.
 # - Trailing slash = directory (include all tracked contents).
 # - No trailing slash = single file.
 #
@@ -29,6 +31,7 @@ bundles:
   minimal:
     purpose: Smallest useful adoption for an existing repo.
     paths:
+      - kit-manifest.yml
       - AGENTS.md
       - .github/copilot-instructions.md
       - constitution/AI_RULES.md
@@ -38,12 +41,13 @@ bundles:
       - usage/QUICKGUIDE.md
       - usage/AEP_VALIDATION.md
       - adr/ADR_TEMPLATE.md
+      - architecture/ARCHITECTURE_DECISION_FRAMEWORK.md
+      - architecture/TERMINOLOGY_GLOSSARY.md
 
   standard:
     purpose: Recommended baseline for serious solo / multi-agent projects.
     extends: minimal
     paths:
-      - kit-manifest.yml
       - VERSIONING.md
       - DEVELOPMENT.md
       - CHANGELOG.md

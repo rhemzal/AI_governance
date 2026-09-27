@@ -18,7 +18,7 @@ This matrix is the **single source of truth** for gate timing across **CI Maturi
 | **Adopter default** | Typical `standard` bundle expectation (overlay may override) |
 | **Manual / review** | Human or PR checklist until prerequisites exist |
 
-**Tooling note:** Most gates use inline CI steps. AEP uses the standard-library reference validator `ci/validate_aep.py` with regression tests (ADR-0009); see `usage/CI_STARTER_WORKFLOWS.md`. This does not introduce an agent runtime.
+**Tooling note:** Most gates use inline CI steps. AEP uses the standard-library reference validator `ci/validate_aep.py` with regression tests (ADR-0009); see `usage/CI_STARTER_WORKFLOWS.md`. ADR-0010 also permits the scoped snapshot importer/checker `ci/import_bundle.py` and `ci/bundle_tests/`. Neither tool is an agent runtime.
 
 ## Canonical gate × CM × G table
 
@@ -37,8 +37,8 @@ This matrix is the **single source of truth** for gate timing across **CI Maturi
 | A2 — New adapter requires contract | Advisory CM2 | Rec G2; Mand G3 | — | Partial | Advisory CM2 |
 | A3 — Architectural change requires ADR | Required CM3 | Rec G3; Mand G4 | `adr-required` | Yes (path-based) | Required CM3 |
 | I1–I4 | Deferred CM2+ | Rec G2; Mand G3 | `interface/` proposal | Stack-dependent | Deferred |
-| Manifest paths exist | Required CM0 | — | `doc-hygiene` | Yes | Required CM0 (`standard`) |
-| Bundled cross-refs | Required CM0 | — | `doc-hygiene` | Yes | Required CM0 (`standard`) |
+| Selected import matches source | Required CM0 | — | `import_bundle.py --check`; all selections tested by kit CI | Yes | Check declared bundles against pinned source, not the full catalog |
+| Applicable bundled context | Required CM0 | — | Kit cross-ref check + import fixtures | Partial | Baseline context present; review optional/upstream references |
 | Provenance banners | Required CM0 | — | `doc-hygiene` | Yes | Required CM0 |
 | AEP applicability / declaration shape | Advisory CM1; stronger CM3 | — | `aep-advisory` + reference validator | Structural only | Missing plan advisory; declared plan validated |
 | Governance waiver block | Any CM | — | `governance-waiver-advisory` | Partial | When waiver used |

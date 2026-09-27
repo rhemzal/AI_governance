@@ -18,6 +18,10 @@ Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes li
 - **Import minimal useful subset**: pick a bundle in [kit-manifest.yml](kit-manifest.yml) ([human guide](usage/ADOPTION_BUNDLES.md): `minimal` or `standard`), then follow [How to Import](usage/HOW_TO_IMPORT.md) and [CI minimum adoption](usage/CI_MINIMUM_ADOPTION.md). Agent projections: [AGENTS.md](AGENTS.md), [.github/copilot-instructions.md](.github/copilot-instructions.md).
 - **Extend/customize the kit**: use [Local overlays & precedence](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md), [ADR template](adr/ADR_TEMPLATE.md), and [Architecture decision framework](architecture/ARCHITECTURE_DECISION_FRAMEWORK.md) before changing canonical rules.
 
+## Safe adoption
+
+Copy the selected snapshot into a fresh `vendor/AI_governance/` directory and merge a short host instruction entry point. Preserve project-owned agent instructions, changelog, development commands and version policy. The scoped importer refuses existing destinations and verifies the selected bundle against its source; optional bundles are not silently required. See [import procedure](usage/HOW_TO_IMPORT.md) and [ADR-0010](adr/ADR_0010_Safe_Bundle_Import.md).
+
 ## Bounded agent execution
 
 The task mandate defines the outcome, allowed targets/effects, and separate approvals. Agents refine plans and repair verification failures within that mandate and a declared budget. Technical risk determines verification depth; it does not automatically require repeated approval for authorized preparation. Completion evidence identifies the tested revisions and environment; long-running work preserves compact state for resume or handoff.

@@ -89,67 +89,96 @@ See `VERSIONING.md` for version series (`0.x` vs `1.0+`) and changelog label mea
 - Keep a policy for upstream cherry-picks (optional but recommended).
  - If you relicense or materially rewrite the kit, update the provenance banner accordingly.
 
-## Post-Import Enforcement Setup (`standard` bundle)
+## Kit root, project root, and file ownership
 
-After copying `standard` (or `full`), complete within one PR:
+The **kit root** holds the imported snapshot, normally `vendor/AI_governance/`. All manifest paths and references to kit documents are relative to that root. The **project root** owns application code, test commands, task paths, project ADRs, the active `governance/LOCAL_OVERLAY.md`, and agent/workflow entry points. Do not run the kit's maintainer commands as if they were the project's test suite.
 
-1. Copy `governance/LOCAL_OVERLAY_TEMPLATE.md` → `governance/LOCAL_OVERLAY.md` and declare **CI Maturity CM0** minimum (see `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`).
-2. Copy `.github/pull_request_template.md` (or merge governance checks into your existing template).
-3. Copy CI starter §1 from `usage/CI_STARTER_WORKFLOWS.md` → `.github/workflows/doc-hygiene.yml` (adapt paths).
-4. Record import ADR: git tag and/or SHA, `kit-manifest.yml` `version`, bundle name, declared maturity level.
+| Material | Destination / action |
+| --- | --- |
+| Selected kit files, including its agent projections and root meta docs | Fresh kit root, preserving paths inside that root |
+| Host `AGENTS.md` and `.github/copilot-instructions.md` | Preserve existing content; merge a short entry point after resolving policy conflicts |
+| Host `CHANGELOG.md`, `DEVELOPMENT.md`, `VERSIONING.md` | Remain project-owned; kit copies stay below the kit root |
+| Active overlay and project adoption/architecture ADRs | Project-owned paths outside the imported snapshot |
+| PR template and workflow YAML | Upstream-only setup inputs from the **same pinned revision**; merge/adapt into host-owned files only when adopting the gate |
 
-See `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` for Required vs Advisory vs Deferred per level.
+A full manifest catalog is included in every baseline. Record the actual selected bundles separately in the host entry point/overlay; catalog membership does not mean an optional bundle was imported. Minimal includes the architecture framework and glossary required by the constitution; the remaining architecture corpus and trigger map are optional upstream/add-on context.
 
-## Post-Import Sanity Checklist (Fast)
-After importing, verify these within one PR:
-- README links to daily enforcement and ADR template.
-- If you use a local overlay: precedence is explicit and the overlay is reviewable.
-- Minimum CI is enabled (at least doc hygiene + deterministic tests).
-- Architecture selection is recorded (ADR) and boundary terms are consistent (core/boundary contracts/integration boundaries).
-- No duplicate “rules docs” were created during import.
+## Option A: Copy into a fresh kit directory
 
-Recommended (when adopting Copilot/AI agents):
-- Add a repo-specific overlay using `governance/LOCAL_OVERLAY_TEMPLATE.md` and include a low-risk execution continuity rule.
+Choose `minimal` or `standard`, with declared optional add-ons. Use `full` only with the justification in `usage/ADOPTION_BUNDLES.md`. Resolve recursive `extends` / `composes`, union/deduplicate paths, and honor `exclude`. Never recursively copy the kit over the project root or an existing kit directory.
 
-## Option A: Copy (Simplest)
-Resolve and copy the **`full` bundle** from `kit-manifest.yml` (composes `standard` + `architecture` + `research`, plus `interface/`, `notes/`, and `governance/`).
+The reference tool `ci/import_bundle.py` is in the **pinned upstream checkout** (and standard/full imports). It requires Python 3.9+ and Git; convert the manifest with yq v4.44.3. Minimal imports remain documentation-only: running the upstream import tool does not add Python scripts to the imported bundle.
 
-Do not maintain a parallel folder list — the manifest is the single source of truth for copy paths. For smaller adoption, resolve `minimal`, `standard`, or `standard` + `architecture` / `research` instead of `full`.
+Before copying:
 
-After resolution, copy every listed path (files and directories) into your target repo, preserving relative paths. The `standard` bundle includes root meta docs (`kit-manifest.yml`, `VERSIONING.md`, `DEVELOPMENT.md`, `CHANGELOG.md`) referenced by `usage/` workflows.
+1. Obtain a reviewed, clean kit checkout at a specific commit; do not rely on a floating branch or an unverified advertised tag.
+2. Identify the project root, selected bundles and unused destination. Inspect existing host agent instructions, overlay, workflow/PR template, ADRs and root meta files. List conflicts and the intended manual integration; copying does not authorize overriding them.
+3. Use exclusive ownership of the target directory during the copy. The helper refuses existing targets, symlinks, traversal paths and non-regular selected Git entries. It is not a sandbox against a concurrent process changing filesystem paths.
 
-Then link imported paths from your main README.
+Set `KIT_SOURCE`, `KIT_REVISION` (full commit SHA), and `PROJECT_ROOT` to the reviewed checkout/revision and existing target project directory. Run from a shell with yq v4.44.3 available:
 
-### When Copy Is the Right Choice
-Copy is the right choice when you want a proven baseline and your main work is enforcing it in your repo (not co-developing the kit).
+```bash
+set -euo pipefail
+: "${KIT_SOURCE:?Set the pinned upstream checkout path}"
+: "${KIT_REVISION:?Set its reviewed full commit SHA}"
+: "${PROJECT_ROOT:?Set the existing target project directory}"
+test -d "$PROJECT_ROOT"
+test "$(git -C "$KIT_SOURCE" rev-parse HEAD)" = "$KIT_REVISION"
+git -C "$KIT_SOURCE" diff --exit-code HEAD --
+KIT_IMPORT_JSON=$(mktemp)
+trap 'rm -f "$KIT_IMPORT_JSON"' EXIT
+yq -o=json '.' "$KIT_SOURCE/kit-manifest.yml" > "$KIT_IMPORT_JSON"
+python3 "$KIT_SOURCE/ci/import_bundle.py" \
+  --manifest-json "$KIT_IMPORT_JSON" --source "$KIT_SOURCE" \
+  --destination "$PROJECT_ROOT/vendor/AI_governance" --bundle standard
+python3 "$KIT_SOURCE/ci/import_bundle.py" \
+  --manifest-json "$KIT_IMPORT_JSON" --source "$KIT_SOURCE" \
+  --destination "$PROJECT_ROOT/vendor/AI_governance" --bundle standard --check
+```
 
-### Minimal Integration Steps (Recommended)
-1. Resolve bundle paths from `kit-manifest.yml` and copy them.
-2. In your repo README, add a “Governance” section that links to:
+Use the same selection for copy and check. Change `--bundle standard` to `--bundle minimal` for the small baseline, or append `--bundle architecture` / `--bundle research` as declared. `--bundle full` is used alone. The helper reads **Git-tracked working-tree files** from the source; the clean-revision check above binds them to the recorded SHA. Untracked files are never imported. The JSON input must be converted from that checkout's manifest; the helper does not fetch or infer an upstream revision.
 
-   - `constitution/AI_ENFORCEMENT_DAILY.md`
-   - `constitution/AI_ENFORCEMENT.md`
-   - `adr/ADR_TEMPLATE.md`
-3. Decide where architectural enforcement lives:
+A successful check means selected file inventory, contents and executable bits match that source (executable-bit comparison is omitted on Windows). It does not validate the semantic quality of the source rules, activate CI, establish adoption precedence, or prove host instructions were merged correctly. Review those separately. No imported code or instructions are executed by the helper.
 
-   - keep `ci/*_GATES.md` as principles, and implement them in your CI/tooling, or
-   - keep them as human-review gates (temporary fallback) until CI exists.
-4. Adopt CI progressively to avoid noisy failures in early projects:
-   - start with `usage/CI_MINIMUM_ADOPTION.md` (CM0 doc hygiene → CM1 tests → CM2 boundary + DOC DELTA → CM3 risk signals)
-5. Enable a low-friction parking-lot for work-in-progress notes:
-   - use `notes/committed/` for shared notes
-   - use `notes/local/` for personal notes (intentionally ignored by `.gitignore`)
+A failed or interrupted copy can leave its **new** destination incomplete. The tool never deletes or repairs a target and refuses retries into existing directories. Inspect the failed copy and clean up only the directory owned by that attempt, or choose a fresh staging path. Do not reset unrelated project changes.
 
-### Common Failure Modes (Copy)
-- Teams copy again later and create duplicates (“v2 folder”), causing drift.
-- Teams edit the copied kit without recording what changed (rules diverge silently).
+### Integrate host entry points deliberately
+
+After snapshot verification, merge a small block like this into the existing host `AGENTS.md` and, when used, `.github/copilot-instructions.md`. Keep all existing constraints, project commands and provenance; reconcile any conflicts explicitly in the adoption decision/overlay before making the kit a baseline.
+
+```markdown
+## Governance baseline
+- Kit root: `vendor/AI_governance/`.
+- Selected bundles and upstream commit: record the reviewed selection and full SHA here.
+- Read `vendor/AI_governance/AGENTS.md` and its core references as applicable.
+- Kit-document references resolve under that kit root; project source, test commands,
+  task paths, project ADRs and the active local overlay resolve from this project.
+- Existing project instructions remain in effect; approved policy overrides are
+  recorded explicitly in `governance/LOCAL_OVERLAY.md`.
+```
+
+Replace the selection/SHA instruction with actual values during integration. Add project README links to the imported daily enforcement and ADR template using the real kit-root prefix. Keep the imported snapshot unchanged and put project decisions/overrides outside it; otherwise the source comparison will intentionally fail.
+
+### Post-import enforcement setup
+
+For `standard`/`full`, use the imported overlay template to create or merge the **project's** active overlay and declare CI Maturity (CM). Fetch the PR template and any chosen workflow from the same upstream revision; neither is silently included by the manifest. Preserve existing host files and adapt paths/triggers, including the prefix of any retained validator.
+
+The upstream `doc-hygiene` job validates the **entire kit**. Its all-bundle manifest and cross-reference checks must not be copied into a partial adopter unchanged. Use the selected-source comparison above or the corresponding manual inventory review; check actual project links/provenance separately. See `usage/CI_STARTER_WORKFLOWS.md` §1 and `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` for CM defaults. Product tests are introduced at CM1 when they exist, not invented during CM0 import.
+
+Record adoption in the project's decision record: kit root, source SHA, manifest version, selected bundles, CI maturity, retained host constraints and any approved overrides. Confirm that the agent can find required baseline documents through the merged entry point, and that no host metadata/test command was replaced with the kit's own content.
+
+### Existing root-layout imports and updates
+
+This layout change does not automatically migrate or delete an older import. Inventory ownership and local edits first. Prepare a new namespaced snapshot from the reviewed revision, compare old/new rules, and reconcile host entry points/overlays in a migration PR. Remove old kit copies only after proving they are kit-owned and that references have moved; preserve host-authored content and history.
+
+For later updates, build and verify a fresh candidate directory outside the active kit root, then review old/new content and the host integration. Replacing the active snapshot is a separate reviewed update, not an overwrite mode of the importer. Local modifications indicate a fork/overlay decision; do not discard them to satisfy a byte comparison.
 
 ## Option B: Git Submodule
 Use when you want upstream updates.
 
 High-level steps:
-1. Add as submodule.
-2. Reference the kit paths from your repo docs.
+1. Add the reviewed source as a submodule at an unused kit-root path; preserve existing project files.
+2. Merge host entry points using the kit/project-root distinction above. A submodule contains the whole upstream tree; declare which governance material is adopted, and do not use the selected-copy inventory check against an unfiltered submodule.
 3. Decide whether CI gates live in the kit or your repo.
 
 ### When Submodule Is the Right Choice

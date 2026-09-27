@@ -7,7 +7,7 @@ It is not a separate source of truth. For full method triage and bundle rules, s
 
 ## Import scope (bundle-aware)
 
-Only consult paths that exist in your imported bundle (`kit-manifest.yml`). If missing, skip — do not invent content. See `AGENTS.md` → Import scope.
+Use the declared kit root (normally `vendor/AI_governance/`) for kit-document references; use the project root for code, commands and the local overlay. Preserve host instructions and merge an entry point; never replace the host Copilot file. Required baseline context must exist; only optional/add-on references may be skipped. See `AGENTS.md` → Import scope; the manifest catalog is not an import-selection record.
 
 ## Quick rules
 
@@ -26,8 +26,9 @@ Only consult paths that exist in your imported bundle (`kit-manifest.yml`). If m
 - High-risk work: `constitution/AI_ENFORCEMENT.md`
 - Adaptive governance (G0–G4): `constitution/ADAPTIVE_GOVERNANCE.md`
 - AEP spec: `usage/AEP_VALIDATION.md`
-- Terminology (G vs CM): `architecture/TERMINOLOGY_GLOSSARY.md` *(when imported)*
-- Architecture decisions: `architecture/README.md` *(when imported)*
+- Terminology (G vs CM): `architecture/TERMINOLOGY_GLOSSARY.md` *(minimal+)*
+- Architecture decisions: `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` *(minimal+)*
+- Extended architecture/RAG: `architecture/README.md` *(optional architecture bundle or full)*
 
 ## How to work
 

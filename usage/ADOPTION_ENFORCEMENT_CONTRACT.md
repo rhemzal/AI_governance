@@ -6,6 +6,10 @@ This contract defines **default enforcement expectations** per import bundle and
 
 Normative gate definitions remain in `ci/`. **CI Maturity (CM)** semantics align with `usage/CI_MINIMUM_ADOPTION.md`. **Governance Level (G0–G4)** is a separate project-risk scale — see `architecture/TERMINOLOGY_GLOSSARY.md` and `constitution/ADAPTIVE_GOVERNANCE.md`. Gate timing for both scales: `usage/ENFORCEMENT_MATRIX.md`.
 
+## Import boundary
+
+Kit files live under the declared kit root; host instructions, workflow activation, project ADRs and the active overlay remain project-owned. Record selected bundles and source SHA. The complete manifest catalog does not imply every bundle was imported. Verify only the declared selection against that pinned source (`usage/HOW_TO_IMPORT.md`); kit-wide manifest and cross-reference jobs are maintainer checks, not adopter requirements for absent optional bundles.
+
 ## Status legend
 
 | Status | Meaning |
@@ -20,7 +24,7 @@ Normative gate definitions remain in `ci/`. **CI Maturity (CM)** semantics align
 
 | CM | Gates / practices | Status | Prerequisite | Evidence |
 | --- | --- | --- | --- | --- |
-| CM0 | Agent projections (`AGENTS.md`, Copilot instructions) | Required | Bundle imported | Files present |
+| CM0 | Agent projections and host entry point | Required | Bundle imported safely | Kit projections present; host instructions preserved and reference the declared kit root |
 | CM0 | Daily enforcement prompt (`constitution/AI_ENFORCEMENT_DAILY.md`) | Required | — | PR / agent output |
 | CM0 | ADR template available | Advisory | — | `adr/ADR_TEMPLATE.md` |
 | CM1+ | Doc hygiene CI, tests, boundary, AEP CI | Deferred | Upgrade to `standard` | — |
@@ -30,8 +34,8 @@ Normative gate definitions remain in `ci/`. **CI Maturity (CM)** semantics align
 | CM | Gates / practices | Status | Prerequisite | Evidence |
 | --- | --- | --- | --- | --- |
 | CM0 | Everything in **minimal** CM0 | Required | `standard` imported | Overlay declares CM level |
-| CM0 | Doc hygiene: manifest paths, hub links, provenance (D3) | Required | CI or manual checklist | `doc-hygiene` job / `DEVELOPMENT.md` checklist |
-| CM0 | Bundled cross-refs (import consistency) | Required | `kit-manifest.yml` present | `doc-hygiene` bundled cross-ref step |
+| CM0 | Doc hygiene: selected import, actual project links, provenance (D3) | Required | CI or manual checklist | Selected-bundle comparison; project-owned doc checks |
+| CM0 | Applicable context / references | Required | Declared kit root and bundle selection | Baseline context present; optional upstream references explicitly identified |
 | CM1 | Deterministic tests (T1) | Required | Test suite exists | `deterministic-tests` job |
 | CM1 | AEP applicability / declaration shape | Missing plan advisory; declared plan validated | Agents active | `aep-advisory` + `ci/validate_aep.py` / PR body |
 | CM1 | Canonical test command in overlay | Required | CM1 declared | `governance/LOCAL_OVERLAY.md` |
@@ -68,6 +72,8 @@ When a **Required** gate cannot pass yet:
 - CM level: CM0 | CM1 | CM2 | CM3
 - Declared: YYYY-MM-DD
 - Next review: YYYY-MM-DD
+- Kit root: vendor/AI_governance/ (or declared location)
+- Upstream commit SHA: record the pinned source
 - Bundle baseline: minimal | standard (+ optional: architecture | research)
 - Governance Level (G) note (optional): G0 | G1 | G2 | G3 | G4 — project risk band; see ADAPTIVE_GOVERNANCE
 

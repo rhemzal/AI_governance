@@ -4,7 +4,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Documentation Hygiene (Kit Repo)
 
-This kit repo ships **reference CM0–CM1 workflows** under `.github/workflows/` (inline shell + `yq` + `lychee`, plus the Python standard-library AEP validator). Maintainers run stricter dogfood than default adopter CM0 — see `usage/ENFORCEMENT_MATRIX.md`. Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
+This kit repo ships **reference CM0–CM1 workflows** under `.github/workflows/` (inline shell + `yq` + `lychee`, plus scoped Python standard-library AEP and import tools). Maintainers run stricter dogfood than default adopter CM0 — see `usage/ENFORCEMENT_MATRIX.md`. Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
 
 Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** below (or rely on CI when it covers the same checks). Paste results into the PR or `usage/AI_RUN_EVIDENCE.md` when running manually.
 
@@ -14,7 +14,7 @@ See `ci/DOC_GATES.md` for gate principles, `usage/ENFORCEMENT_MATRIX.md` for wha
 
 | Checklist item | Kit CI (`doc-hygiene`) | Manual / other CI |
 | --- | --- | --- |
-| 1. Manifest paths | Yes | — |
+| 1. Manifest paths and selected import safety | Yes (upstream catalog + bundle regression fixtures) | Adopters compare only their declared selection |
 | 2. Hub links | Yes (lychee) | — |
 | 3. Bundled cross-refs | Yes (inline shell) | — |
 | 4. Provenance | Yes | — |
@@ -33,19 +33,26 @@ Run the reference-validator regression tests before changing its code, workflow,
 timeout 60s python3 -m unittest discover -s ci/tests -v
 ```
 
-This uses Python 3 standard library only, with no package installation. Before opening a PR also:
+The AEP suite uses the Python standard library only. Import-tool or bundle changes also require the separate bundle suite (Python 3.9+, Git, yq v4.44.3). Run in a tracked checkout; include newly added source files in the Git index before testing directory expansion:
+
+```bash
+yq -o=json '.' kit-manifest.yml > /tmp/ai-governance-manifest.json
+KIT_MANIFEST_JSON=/tmp/ai-governance-manifest.json timeout 60s python3 -m unittest discover -s ci/bundle_tests -v
+```
+
+The import suite exercises disposable targets, preserves host sentinels, and checks the real manifest's selections. It does not apply a migration to an adopter. Before opening a PR also:
 
 1. Run the checklist steps manually (grep, link checker, manifest review).
 2. On GitHub Actions: push a branch and inspect workflow results.
 3. Copy individual `run:` blocks from `.github/workflows/doc-hygiene.yml` into your shell if your environment has `bash`, `yq`, and `grep`.
 
-Adopters choosing the AEP gate copy the validator and workflow together from one pinned revision (`usage/AEP_VALIDATION.md`). Other gates retain the inline patterns in `usage/CI_STARTER_WORKFLOWS.md`. Review applicability/authority and completion evidence separately from declaration validation.
+Adopters choosing the AEP gate copy the validator and workflow together from one pinned revision (`usage/AEP_VALIDATION.md`). The import helper and its source snapshot follow ADR-0010; upstream-only catalog checks must not be transplanted into partial imports. Other gates retain the inline patterns in `usage/CI_STARTER_WORKFLOWS.md`. Review applicability/authority and completion evidence separately from declaration validation.
 
 ### Doc Hygiene Checklist (tool-agnostic)
 
 Complete all steps; record **PASS / FAIL** and any failed paths.
 
-1. **Manifest paths** — Every explicit path in `kit-manifest.yml` bundles exists on disk (files and directories).
+1. **Manifest paths** — In the upstream kit, every explicit catalog path exists and the import regression suite passes. In an adopter, verify only its declared selection against the recorded source SHA; do not require absent optional bundles.
 2. **Hub links** — Relative markdown links in `README.md`, `usage/HOW_TO_IMPORT.md`, `usage/ADOPTION_BUNDLES.md`, and `architecture/README.md` resolve to existing files.
 3. **Bundled cross-refs** — For each bundle (`minimal`, `standard`, `full`), every root-level `.md` file referenced from bundled `usage/*.md` is included in that bundle’s resolved path set (or the doc says “read from upstream kit repo only”).
 4. **Provenance** — Import-target files under `constitution/`, `ci/`, `adr/`, `usage/`, `architecture/`, `governance/LOCAL_OVERLAY_TEMPLATE.md`, `AGENTS.md`, and `.github/copilot-instructions.md` include a Provenance banner in the first ~500 characters.

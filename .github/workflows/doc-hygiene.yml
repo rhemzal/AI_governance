@@ -1,5 +1,5 @@
 # Kit-repo reference implementation for ci/DOC_GATES.md (CM0 doc hygiene; maintainer dogfood).
-# Adopters: copy/adapt inline steps from usage/CI_STARTER_WORKFLOWS.md — no repository scripts.
+# Upstream catalog checks stay here; adopters verify their declared selected snapshot (ADR-0010).
 name: doc-hygiene
 
 on:
@@ -7,6 +7,8 @@ on:
     paths:
       - '**.md'
       - 'kit-manifest.yml'
+      - 'ci/import_bundle.py'
+      - 'ci/bundle_tests/**'
       - '.github/**'
       - 'governance/**'
   push:
@@ -14,6 +16,8 @@ on:
     paths:
       - '**.md'
       - 'kit-manifest.yml'
+      - 'ci/import_bundle.py'
+      - 'ci/bundle_tests/**'
       - '.github/**'
       - 'governance/**'
 
@@ -43,6 +47,13 @@ jobs:
             test -f "$f" || { echo "Missing required file: $f"; exit 1; }
           done
 
+      - name: Bundle import safety and selected-content regressions
+        run: |
+          set -euo pipefail
+          yq -o=json '.' kit-manifest.yml > "$RUNNER_TEMP/kit-manifest.json"
+          KIT_MANIFEST_JSON="$RUNNER_TEMP/kit-manifest.json" timeout 60s python3 -m unittest discover -s ci/bundle_tests -v
+
+      # Upstream only: this checkout contains the complete manifest catalog.
       - name: Manifest explicit paths exist
         run: |
           set -euo pipefail

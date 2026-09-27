@@ -18,7 +18,7 @@ Architecture style selection MUST:
 
 If the answers are unknown, treat this as risk and explicitly record it.
 
-For everyday AI-assisted work, use the copy-paste prompt and fixed output block in `architecture/ARCHITECTURE_DECISION_PROMPT.md` before implementation.
+This framework and the glossary are baseline context. The copy-paste prompt, style matrix, taxonomy, RAG notes and other architecture references below are optional `architecture` add-on content (or upstream-only at the same pinned revision). This document contains the required decision questions and output; missing optional examples do not prevent using it. When the add-on is present, use `architecture/ARCHITECTURE_DECISION_PROMPT.md` for its precheck/output convenience.
 
 ---
 

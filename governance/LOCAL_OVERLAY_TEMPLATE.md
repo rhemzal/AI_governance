@@ -8,6 +8,13 @@ _Provenance: This document originates from the AI_governance kit (https://github
 ## Scope
 - What it applies to (modules, services, teams, repositories).
 
+## Imported baseline
+- Kit root: `vendor/AI_governance/` (or the actual declared location)
+- Upstream commit SHA: record the reviewed source revision
+- Selected bundles: one baseline plus declared optional add-ons
+- Project root: this repository; source, test commands and project ADRs resolve here
+- Existing host instructions: preserve and explicitly reconcile conflicts before adoption
+
 ## Precedence
 - This overlay overrides/adds to the imported kit.
 - Conflicts are resolved by: overlay wins.
