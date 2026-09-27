@@ -61,8 +61,8 @@ Gate intent: `ci/DOC_GATES.md` (D1–D3, D5 warning). Manual checklist: `DEVELOP
 For repos that ship `kit-manifest.yml` and `usage/` docs, add a step that:
 
 1. Resolves `minimal`, `standard`, and `full` bundle path sets via `yq` (including `extends` / `composes` unions).
-2. Scans bundled `usage/*.md` for root-level `` `FILE.md` `` / `](FILE.md)` references.
-3. Fails when a referenced root `.md` is not in the bundle path set (allowlist target-repo hubs: `README.md`, `CONTRIBUTING.md`).
+2. Scans bundled `usage/*.md` for backticked filenames that exist at the repository root, plus bare/parent Markdown links resolved relative to the source. Inline code examples are excluded from link extraction; other shorthand references still need manual review.
+3. Fails when a referenced file is missing or not in the bundle path set (allowlist target-repo hubs: root `README.md`, `CONTRIBUTING.md`). Directory entries cover only their own descendants.
 
 Copy the complete inline implementation from `.github/workflows/doc-hygiene.yml` (`Bundled cross-refs` step) — do not add a repository script.
 
