@@ -181,6 +181,7 @@ jobs:
       - name: Markdown link check (hub docs)
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --exclude-mail './README.md' './usage/HOW_TO_IMPORT.md' './usage/ADOPTION_BUNDLES.md' './architecture/README.md'
+          lycheeVersion: v0.24.2
+          args: --no-progress --include-mail=false './README.md' './usage/HOW_TO_IMPORT.md' './usage/ADOPTION_BUNDLES.md' './architecture/README.md'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

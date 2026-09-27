@@ -11,7 +11,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Import bundle change] Existing `ci/` inclusion adds `ci/validate_aep.py` and `ci/tests/` to standard/full; bundle names and manifest schema remain unchanged. Minimal documentation imports remain script-free unless the AEP gate is explicitly adopted.
 - [Advisory-only] Replace audit finding/severity quotas with coverage and evidence; add agent tool-boundary guidance, a compact handoff template, and matched-task evaluation scenarios/metrics. Reopen release-audit readiness for the new governance changes.
 - [Governance-impacting] Distinguish AI-authored source prose from mechanically generated artifacts; permit development observability when it enables concrete verification.
-- [Fix] Restore the existing documentation gate: use syntax supported by pinned `yq` v4.44.3, resolve Markdown links relative to their source, and match bundle directory prefixes correctly. Detect backticked root-file dependencies without interpreting illustrative filenames as imports.
+- [Fix] Restore the existing documentation gate: use syntax supported by pinned `yq` v4.44.3, resolve Markdown links relative to their source, and match bundle directory prefixes correctly. Detect backticked root-file dependencies without interpreting illustrative filenames as imports. Pin lychee v0.24.2 and replace its removed email-exclusion flag.
 
 ### Added
 - [Advisory-only] `usage/AI_PRODUCTIVITY_CALIBRATION.md` — phased planning (cold start → collect → calibrate → ranges); human vs AI methodology.
