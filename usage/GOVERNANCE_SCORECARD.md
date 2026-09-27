@@ -65,6 +65,18 @@ When using `usage/AI_PRODUCTIVITY_CALIBRATION.md`, add (from local ledger aggreg
 - Owner + due date:
 ```
 
+## Agent outcome signals (optional)
+
+For a bounded-execution pilot, supplement report-completeness metrics with:
+- Tasks whose agreed acceptance criteria were independently verified, versus PARTIAL/BLOCKED/CANCELLED outcomes.
+- Corrections or regressions found after an apparent completion.
+- Operator interruptions classified as necessary or unnecessary, with reasons.
+- Repair-budget exhaustion and repeated attempts without new evidence.
+- Stale-evidence claims, unauthorized effects, and shared-resource collisions.
+- Cost/token use when measured; retain unknown values rather than estimating them from prose.
+
+Record model/tool and governance revisions so changes can be compared. A valid AEP or complete compliance footer is an adoption signal, not proof of task success. See `tooling/BENCHMARK_SCENARIOS.md` (upstream kit if not imported) for matched trials.
+
 ## Related Documents
 - `usage/AI_PRODUCTIVITY_CALIBRATION.md`
 - `usage/AUDIT_PLAYBOOK.md`

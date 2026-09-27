@@ -20,11 +20,12 @@ Only consult paths that **exist in your imported bundle** (`kit-manifest.yml`). 
 
 ## Quick rules
 
-- For multi-file or cross-cutting changes, produce AEP first (`usage/AEP_VALIDATION.md` when present).
-- If verification fails, use the AVR loop before asking the operator.
+- Produce an Autonomous Execution Plan (AEP) for HIGH-risk work, dependent non-trivial steps, handoff, or concurrency (`usage/AEP_VALIDATION.md` when present).
+- If verification fails, use the Autonomous Verification & Repair (AVR) loop within the declared repair budget before asking the operator.
 - For behavior changes, include DOC DELTA.
 - For high-risk changes, use the full `## COMPLIANCE REPORT` from `constitution/AI_ENFORCEMENT.md`.
-- High-risk = architecture boundaries, public contracts, CI gates, interface behavior, security, error model.
+- High-risk = architecture boundaries, public contracts, CI gates, interface behavior, security, error model. This sets verification depth; existing authorization still applies.
+- Follow the task mandate and action authority in `constitution/AI_ENFORCEMENT.md` §§1.2–1.4; bind results to revisions and report unmet acceptance criteria.
 - Use non-interactive commands and wall-clock timeouts (`constitution/AI_RULES.md` §6.2).
 
 ## Required context
@@ -69,11 +70,13 @@ High-risk work requires:
 
 ## AEP requirement
 
-For changes spanning 2+ files, or crossing code + tests + docs:
+For HIGH-risk work, dependent non-trivial steps, handoff, or concurrency:
 - produce an Autonomous Execution Plan (AEP)
 - declare `AEP Status: READY | BLOCKED`
-- READY means no blocking questions remain
-- READY requires explicit file paths and an explicit verification command
+- READY means the next planned actions are authorized and no blocking questions prevent them
+- READY requires known paths, explicit verification, acceptance criteria, and a repair budget
+- Bounded discovery may refine the plan within the mandate
+- Routine reversible work may use a concise scope and verification statement, regardless of file count
 
 Use `usage/AEP_VALIDATION.md` when present.
 
@@ -86,7 +89,7 @@ When verification fails:
 - rerun verification
 - report the result
 
-Do not ask the operator unless genuinely blocked.
+Do not ask the operator unless genuinely blocked. Stop the affected action when the repair budget is exhausted; preserve evidence and the next decision. Do not silently reset the budget.
 
 ## Test diagnostics
 

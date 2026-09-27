@@ -4,7 +4,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Documentation Hygiene (Kit Repo)
 
-This kit repo ships **reference CM0–CM1 workflows** under `.github/workflows/` (inline shell + `yq` + `lychee` — **no repository scripts**). Maintainers run stricter dogfood than default adopter CM0 — see `usage/ENFORCEMENT_MATRIX.md`. Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
+This kit repo ships **reference CM0–CM1 workflows** under `.github/workflows/` (inline shell + `yq` + `lychee`, plus the Python standard-library AEP validator). Maintainers run stricter dogfood than default adopter CM0 — see `usage/ENFORCEMENT_MATRIX.md`. Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
 
 Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** below (or rely on CI when it covers the same checks). Paste results into the PR or `usage/AI_RUN_EVIDENCE.md` when running manually.
 
@@ -27,13 +27,19 @@ See `ci/DOC_GATES.md` for gate principles, `usage/ENFORCEMENT_MATRIX.md` for wha
 
 ### Local verification (tool-agnostic)
 
-No repository scripts are required. Before opening a PR you may:
+Run the reference-validator regression tests before changing its code, workflow, or schema:
+
+```bash
+timeout 60s python3 -m unittest discover -s ci/tests -v
+```
+
+This uses Python 3 standard library only, with no package installation. Before opening a PR also:
 
 1. Run the checklist steps manually (grep, link checker, manifest review).
 2. On GitHub Actions: push a branch and inspect workflow results.
 3. Copy individual `run:` blocks from `.github/workflows/doc-hygiene.yml` into your shell if your environment has `bash`, `yq`, and `grep`.
 
-Adopters should not depend on kit-specific script paths — only on **documented CI patterns** in `usage/CI_STARTER_WORKFLOWS.md`.
+Adopters choosing the AEP gate copy the validator and workflow together from one pinned revision (`usage/AEP_VALIDATION.md`). Other gates retain the inline patterns in `usage/CI_STARTER_WORKFLOWS.md`. Review applicability/authority and completion evidence separately from declaration validation.
 
 ### Doc Hygiene Checklist (tool-agnostic)
 
@@ -64,7 +70,7 @@ Complete all steps; record **PASS / FAIL** and any failed paths.
 
 Review scope also includes: ambiguous acronym usage per `architecture/TERMINOLOGY_GLOSSARY.md` and normative/advisory separation for `architecture/rag/` edits.
 
-**Automation (kit repo):** CI job `doc-hygiene` covers checklist items 1–4 and D5 warning; `aep-advisory` and `adr-required` cover cross-cutting gates. Complete items 5–7 manually when not automated. See `usage/ENFORCEMENT_MATRIX.md`.
+**Automation (kit repo):** CI job `doc-hygiene` covers checklist items 1–4 and the D5 error gate; `aep-advisory` and `adr-required` cover cross-cutting gates. Complete items 5–7 manually when not automated. See `usage/ENFORCEMENT_MATRIX.md`.
 
 ## Testing Quickstart
 

@@ -6,14 +6,15 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## When to use this index
 
-1. **HIGH-risk** (boundaries, contracts, security): stop — use `constitution/AI_ENFORCEMENT.md` and ADR if needed.
+1. **HIGH-risk** (boundaries, contracts, security): check the mandate and use `constitution/AI_ENFORCEMENT.md` with an ADR if needed. Stop only actions with missing authority or a blocking dependency; continue authorized discovery and repair.
 2. **Cause unclear or first fix failed:** run [Prompt 7](DECISION_PROMPTS_DEBUGGING.md) (max **3** pattern IDs).
 3. **Cause proven or domain obvious:** pick **one** pattern below, then [Prompt 6](DECISION_PROMPTS_DEBUGGING.md) if using the scientific path.
 
 ```mermaid
 flowchart TD
   symptom[Symptom] --> risk{Risk preflight}
-  risk -->|HIGH| stop[AI_ENFORCEMENT.md]
+  risk -->|HIGH| mandate[Check mandate and enforcement]
+  mandate --> clear
   risk -->|LOW| clear{Cause clear?}
   clear -->|no| p7[Prompt 7 triage]
   clear -->|yes| index[Pick one pattern from this index]

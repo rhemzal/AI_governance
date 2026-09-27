@@ -44,7 +44,7 @@ Example: `constitution/AI_RULES.md` + `ci/TEST_GATES.md` → high-risk + adaptiv
 | --- | --- |
 | Doc hygiene (links, provenance, manifest, bundled cross-refs, D5 error) | Kit repo: `.github/workflows/doc-hygiene.yml`; manual: `DEVELOPMENT.md` |
 | DOC DELTA on behavior-changing PRs | Kit repo: `.github/workflows/doc-delta-advisory.yml`; starter §7 |
-| AEP for multi-file PRs | Kit repo: `.github/workflows/aep-advisory.yml`; spec: `usage/AEP_VALIDATION.md` |
+| AEP declaration and applicability | Kit repo: `.github/workflows/aep-advisory.yml`; spec: `usage/AEP_VALIDATION.md` |
 | ADR on governance paths | Kit repo: `.github/workflows/adr-required.yml` |
 | Governance waiver (label + PR body) | Kit repo: `.github/workflows/governance-waiver-advisory.yml`; `usage/GOVERNANCE_WAIVERS.md` |
 | Adopter enforcement defaults | `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` |

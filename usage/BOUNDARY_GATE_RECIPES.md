@@ -4,7 +4,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 **Advisory only** — implements `ci/ARCHITECTURE_GATES.md` Gate A1 in stack-specific ways. Normative boundary rules remain in `constitution/AI_RULES.md` and `ci/ARCHITECTURE_GATES.md`.
 
-Adopters copy **inline `run:` blocks** into CI (see `usage/CI_STARTER_WORKFLOWS.md` §3). No repository scripts in the kit.
+Adopters copy **inline `run:` blocks** into CI (see `usage/CI_STARTER_WORKFLOWS.md` §3). These boundary recipes require no kit scripts; the separate AEP gate has a small reference validator.
 
 ## Contract default
 

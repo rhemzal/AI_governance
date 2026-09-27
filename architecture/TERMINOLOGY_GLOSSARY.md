@@ -159,10 +159,10 @@ Use this section to keep AI conversations precise.
   - **EU DORA**: Digital Operational Resilience Act.
 
 ### AI Workflow
-- **AEP** (Autonomous Execution Plan): **project-local** planning artifact required before multi-file or cross-cutting AI changes; must be declared READY or BLOCKED.
+- **AEP** (Autonomous Execution Plan): **project-local** planning artifact required for HIGH-risk work, dependent non-trivial steps, handoff, or concurrency. READY means next planned actions are authorized and unblocked; BLOCKED records a real blocker. NOT-REQUIRED is an applicability declaration for routine work.
 - **Exit criteria**: explicit, verifiable conditions for completing an AI task.
 - **DoD** (Definition of Done): team/project term; do not use it as a substitute for concrete exit criteria.
-- **AVR loop** (Autonomous Verification & Repair loop): an AI-agent execution pattern — run checks, detect failures, diagnose, apply the smallest compliant fix, rerun checks, and report; continue without operator input unless blocked.
+- **AVR loop** (Autonomous Verification & Repair loop): an AI-agent execution pattern — run checks, detect failures, diagnose, apply the smallest compliant fix, rerun checks, and report; continue within the mandate and repair budget; stop the affected action when genuinely blocked or the budget is exhausted.
 - **RAG**: Retrieval-Augmented Generation (advisory grounding in this repo).
 - **MCP**: Model Context Protocol (optional external context integration).
 
@@ -197,6 +197,13 @@ Mitigation:
 ## When this fails
 - If terms are used inconsistently, architecture discussions become unreviewable.
 - If the glossary is treated as authority, it can block pragmatic decisions.
+
+## Agent execution terms
+- **Task mandate**: the authorized objective, acceptance criteria, targets, and effects; separate from technical difficulty or a tool being available.
+- **Harness**: the environment and control loop around an agent, including tools, state persistence, and execution limits.
+- **Task outcome**: VERIFIED, PARTIAL, BLOCKED, or CANCELLED; separate from plan readiness and merge/deployment authority.
+- **Handoff record**: a compact record of actual revisions, evidence, unresolved questions, next action, and resource ownership for another session/agent.
+- **Stale evidence**: a result whose tested code/configuration/environment no longer matches the state being claimed.
 
 ## Related Documents
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`

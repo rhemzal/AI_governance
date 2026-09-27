@@ -14,7 +14,7 @@ Goal: prevent documentation drift and broken references.
 - Add a documentation hygiene check to CI (fast, deterministic).
 - Make the job required on PRs when you declare **CM0** in your overlay.
 - **This kit repo (maintainer dogfood):** CI runs `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, and `governance-waiver-advisory.yml` — stricter than default adopter **CM0** (see `usage/ENFORCEMENT_MATRIX.md` → Kit repo vs adopter).
-- **Downstream adopters:** copy/adapt inline steps from `usage/CI_STARTER_WORKFLOWS.md` — no repository scripts.
+- **Downstream adopters:** copy/adapt steps from `usage/CI_STARTER_WORKFLOWS.md`; the optional AEP gate also needs `ci/validate_aep.py` from the same kit revision.
 
 Why first: it is deterministic, fast, and enforces “single source of truth” behavior.
 

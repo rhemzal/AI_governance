@@ -4,6 +4,14 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Agent execution update (2026-09-27)
+- [Governance-impacting] ADR-0008: bounded task mandates, action-specific authority, repair budgets, revision/environment-bound evidence, resume/handoff, and explicit task outcomes. Align constitution, projections, overlays, and debugging guidance; remove blanket reapproval for already authorized preparation.
+- [Breaking rule change] AEP applicability now follows HIGH risk, dependent non-trivial steps, handoff, or concurrency; routine reversible multi-file edits may use concise scope/verification statements. Review downstream overlays before adopting.
+- [Breaking rule change] ADR-0009: replace whole-PR grep with versioned structured AEP declarations and a standard-library validator. Upgrade workflow, validator, and PR template together; legacy marker-only declarations require migration. Structural validation is not proof of authorization or completion.
+- [Import bundle change] Existing `ci/` inclusion adds `ci/validate_aep.py` and `ci/tests/` to standard/full; bundle names and manifest schema remain unchanged. Minimal documentation imports remain script-free unless the AEP gate is explicitly adopted.
+- [Advisory-only] Replace audit finding/severity quotas with coverage and evidence; add agent tool-boundary guidance, a compact handoff template, and matched-task evaluation scenarios/metrics. Reopen release-audit readiness for the new governance changes.
+- [Governance-impacting] Distinguish AI-authored source prose from mechanically generated artifacts; permit development observability when it enables concrete verification.
+
 ### Added
 - [Advisory-only] `usage/AI_PRODUCTIVITY_CALIBRATION.md` — phased planning (cold start → collect → calibrate → ranges); human vs AI methodology.
 - [Advisory-only] `usage/templates/AI_PRODUCTIVITY_LEDGER.template.md` — local gitignored ledger template.

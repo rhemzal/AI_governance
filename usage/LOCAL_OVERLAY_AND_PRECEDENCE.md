@@ -12,7 +12,7 @@ This document defines a minimal, auditable way to do that **without creating con
 
 ## Precedence Rules (Hard)
 Use this precedence order (highest wins):
-1. **Local overlay** (repo-specific constraints)
+1. **Local overlay** (repo-specific constraints; never a grant to bypass platform controls or the user’s task mandate)
 2. This kit’s constitution and enforcement documents
 3. Everything else (notes, examples, non-normative guidance)
 
@@ -87,7 +87,8 @@ These are recommended because they prevent common "stall after planning" failure
 
 - **LOW-RISK Scope Continuity**
   - Adding a small helper, test, or doc update required by the same change is not considered scope expansion.
-  - If scope truly expands into a new module/area, the AI must announce the expansion and update the touched-file list.
+  - If another module is needed for the same authorized outcome, update the plan and touched-file list. A new objective or unauthorized effect needs approval before that action.
+  - Use the bounded repair, evidence, and handoff rules in `constitution/AI_ENFORCEMENT.md` §§1.2–1.4.
 
 - **LOW-RISK Compliance Output Compatibility**
   - For low-risk work, a short compliance footer is sufficient (e.g., `## COMPLIANCE` + `Decision: PROCEED|STOP`).
@@ -112,7 +113,7 @@ Paste at the start of a task to force a consistent risk classification before ed
 - Confirm whether any boundary contract/interface, adapter/integration, architecture decision, security behavior, CI/gates, or canonical governance docs are affected
 Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
 If LOW: proceed to execution.
-If HIGH/unclear: STOP and ask for confirmation."
+If HIGH: use proportionate verification and check the existing mandate. Continue authorized preparation; ask only before an unauthorized effect or when a genuinely blocking ambiguity remains."
 
 ## Overrides (If Any)
 Only use overrides when unavoidable.

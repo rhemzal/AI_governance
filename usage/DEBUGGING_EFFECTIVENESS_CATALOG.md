@@ -24,7 +24,7 @@ Help AI assistants proactively propose suitable debugging paths with explicit tr
 flowchart TD
   A[Symptom observed] --> B{Risk preflight}
   B -->|LOW| C{Cause clear?}
-  B -->|HIGH / boundary / contract| D[STOP: use AI_ENFORCEMENT.md + ADR if needed]
+  B -->|HIGH / boundary / contract| D[Check mandate: AI_ENFORCEMENT.md and ADR if needed]
   D --> C
   C -->|no| T[Prompt 7 triage max 3 IDs]
   C -->|yes| E[One domain pattern from decision table]
@@ -863,7 +863,7 @@ Unclear root cause with multiple plausible explanations; risk of implementing th
 #### Do NOT use when
 - Cause is already proven (e.g., clear stack trace to a single line).
 - Trivial syntax/typo with obvious fix.
-- HIGH-risk change without STOP gate and operator confirmation.
+- HIGH-risk change without the required verification or authorization for its effects.
 
 #### Pros
 - Cheaper than blind fix-and-retry loops.
@@ -1161,7 +1161,7 @@ Several hypotheses remain plausible; sequential one-by-one falsification would t
 #### Do NOT use when
 - Hypotheses predict identical outcomes for any feasible test.
 - Experiment is really a product fix in disguise.
-- HIGH-risk change without STOP gates.
+- HIGH-risk change without checking the task mandate and required verification.
 
 #### Pros
 - Fewer AVR rounds than sequential falsification.

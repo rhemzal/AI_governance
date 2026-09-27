@@ -108,6 +108,12 @@ See `usage/QUICKGUIDE.md` Recipes D and E.
 - Import mechanics (Copy / Submodule / Fork): `usage/HOW_TO_IMPORT.md`
 - Version policy after import: `VERSIONING.md`
 
+## Agent-execution / AEP upgrade note
+
+The updated constitution distinguishes action authority from technical risk and supports bounded repair and handoff. Review local overrides when importing it; an old blanket STOP rule may still override the new behavior.
+
+The `standard` bundle now carries `ci/validate_aep.py` and its regression tests through the existing `ci/` directory inclusion. Bundle names and manifest schema are unchanged, but copied contents change. The `minimal` bundle remains documentation-only unless the adopter explicitly imports the AEP CI gate. Upgrade the workflow, validator, and PR declaration format together from one pinned revision (`usage/AEP_VALIDATION.md`).
+
 ## Related Documents
 
 - `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`

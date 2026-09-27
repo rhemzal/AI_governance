@@ -14,73 +14,37 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Additions (Additive Rules)
 
-### Autonomous Execution Plan (AEP) — Pre-Execution Gate
+### Task Mandate and Planning
 
-**When required**: Any task touching ≥2 files or spanning code + tests + docs.
-**Not required**: Single-file trivial edits, read-only/assessment tasks.
+Follow `constitution/AI_ENFORCEMENT.md` §§1.1–1.4; do not duplicate or contradict its stop/repair rules here.
 
-Before executing edits, the AI MUST produce an AEP:
+Record per non-trivial task (in the task record or AEP):
+- Outcome and independently checkable acceptance criteria.
+- Authorized repositories, branches, environments, tools, and effects.
+- Actions requiring separate approval (for example merge, deploy, publish, or shared-device mutation), and any approval already granted for those exact actions/targets.
+- Known affected paths, bounded discovery steps, verification commands, and plan changes.
+- Repair-attempt budget and what to report on exhaustion; cost/runtime limits when relevant.
+- Task-state location, resource owner, and integration owner when work is handed off or concurrent.
 
-1. **Objective**: 1–2 sentence observable outcome
-2. **Discovery log**: files read, rules/ADRs consulted, assumptions made
-3. **Risk**: `LOW | HIGH` + justification (per existing risk preflight)
-4. **Steps** (ordered, concrete):
-   - Each step: `file path` + `action` + `reason`
-   - Must include a **verification step** (repo-local test command **or** doc/CI verify command when no test suite exists — see `usage/AEP_VALIDATION.md`)
-   - Must include a doc update step if behavior changes (DOC DELTA)
-5. **Blocking questions**: 0–3 max. If any → STOP. If none → declare READY.
-6. **Exit criteria**: tests green, docs updated, compliance report
-7. **AEP Status**: `READY | BLOCKED`
+AEP is required for HIGH-risk work, dependent non-trivial steps, handoff, or concurrency. Routine reversible work may use a concise scope and verification statement. The structured PR form is in `usage/AEP_VALIDATION.md`.
 
-**Validation rules (hard)**:
-- No "TBD" or placeholder steps in READY plans
-- No steps requiring operator input in READY plans
-- All files in steps must be within declared scope (Section 4 consistency)
-- Test execution step is mandatory **when a test suite exists**; otherwise use explicit doc/CI verification command
-- If scope expands during execution → STOP, update AEP, re-declare
+### Risk and Authority
 
-**On failure during execution**:
-- If any step fails unexpectedly → STOP
-- Report: which step, what failed, what assumption was wrong
-- Propose: updated AEP or scope reduction
+HIGH risk includes public contracts, architecture boundaries, migrations, security behavior, canonical governance/gates, and significant external effects. It requires proportionate verification and ADR consideration. It does not require asking again for actions already authorized.
 
-### Risk Semantics (LOW vs HIGH)
-- In Git workflows, most internal edits are reversible. Treat changes as **HIGH risk** primarily when they have external side effects, non-trivial blast radius, or create complexity/review explosion.
-- HIGH risk is **not** triggered by the mere possibility of an incorrect internal edit.
+Supporting helpers/tests/docs within the same mandate are permitted; update the affected-file list. Obtain approval before a new objective or an effect outside the mandate. Preparing an isolated patch does not authorize applying a migration or deploying it.
 
-**HIGH risk (STOP and confirm before edits)** when work involves:
-- external services/integrations, registrations, credentials, billing/payment steps, or any data-handling/exfiltration risk
-- public contracts/interfaces/boundaries, cross-service protocols, schema/migrations, or security-sensitive behavior
-- canonical governance/gates (`constitution/`, `ci/`, `usage/`, `architecture/`, `adr/`, `interface/`)
-- large cross-cutting refactors spanning multiple modules/areas (complexity/review explosion)
+### Failure, Resume, and Handoff
 
-**LOW risk (proceed to execution)** when work stays within:
-- a single module/component area
-- no new dependencies
-- no public contract/interface changes
-- no external integrations or sensitive data handling
-- changes remain reviewable (small helper/test/doc updates required by the same change are allowed)
+- Use the bounded AVR loop on ordinary verification failures. Preserve evidence and replan when an assumption is falsified.
+- Stop the affected action on missing authorization, unavailable required inputs, a hard-boundary conflict, or exhausted repair budget. State the blocker and smallest next decision; continue independent authorized work.
+- On resume, check actual revisions, uncommitted changes, running jobs, and held resources. Reconcile already-applied external effects before retrying.
+- Use isolated working copies or explicit non-overlapping ownership for concurrent writers. Name an integration owner and rerun affected checks after integration.
+- Report task outcome `VERIFIED`, `PARTIAL`, `BLOCKED`, or `CANCELLED`, with evidence tied to revisions/environment (`usage/AI_RUN_EVIDENCE.md`).
 
-### LOW-RISK Execution Continuity (Do Not Stall)
-- If the AI has sufficient context to proceed safely, it MUST continue to execution (read/search/edit/run tests) rather than stopping after describing what it would do.
-- The AI SHOULD only pause to ask questions when the task is genuinely blocked (missing credentials, missing inputs, high-risk ambiguity).
+### Operator Steering
 
-### Operator Steering (“do not stop” / “do not pause”)
-- If the operator expresses general intent like “do not stop” / “do not pause”, interpret it as: continue within the current objective if safe; only stop on hard gates or if risk is HIGH/unclear after read-only discovery.
-- This MUST NOT be interpreted as permission to bypass hard stops.
-- If a STOP happens anyway, the AI MUST respond with:
-  - the exact gate/reason (1–2 lines)
-  - a minimal “unblock menu” (2–3 concrete reply options)
-  - a one-line scope boundary update the operator can paste verbatim
-
-Example “unblock menu” options:
-- “Proceed, but keep scope limited to: {module/component}; no new deps; no public contract changes.”
-- “Expand scope to include: {new area/files}; still no new deps; confirm?”
-- “Confirm HIGH-risk change: {what}; accepted risk: {summary}; proceed.”
-
-### LOW-RISK Scope Continuity
-- Adding a small helper, test, or doc update required by the same change is not considered scope expansion.
-- If scope truly expands into a new module/area, the AI must announce the expansion and update the touched-file list.
+“Continue” or “do not stop” means continue within the existing mandate. It does not expand tool permissions or authorize a new external effect. Prior explicit approval covering an action remains valid; ask only for the missing decision.
 
 ### Compliance Output Compatibility
 - For low-risk work, a short compliance footer is sufficient (e.g., `## COMPLIANCE` + `Decision: PROCEED|STOP`).
@@ -176,7 +140,7 @@ Recommended ADR trigger examples:
 - Confirm whether any boundary contract/interface, adapter/integration, architecture decision, security behavior, CI/gates, or canonical governance docs are affected
 Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
 If LOW: proceed to execution.
-If HIGH/unclear: STOP and ask for confirmation."
+If HIGH: use proportionate verification and check the existing mandate. Continue authorized preparation; ask only before an unauthorized effect or when a genuinely blocking ambiguity remains."
 
 ## Common Mistakes to Avoid
 - Writing a second “rules doc” that rephrases the constitution.

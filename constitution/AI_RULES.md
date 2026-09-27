@@ -108,11 +108,12 @@ Structural changes (refactoring, module extraction, file reorganisation, build-g
   - include a `Related Documents` section
 
 ### 5.2 Documentation Automation (Reproducible)
-- If any documentation is generated (by AI or tooling), the change MUST include:
+- If documentation is mechanically generated from a maintained source or generator, the change MUST include:
   - the source of truth (where the content comes from)
   - a reproducible regeneration command/process (tool-agnostic description is fine)
   - a clear policy: committed artifact vs build output
 - Generated documentation MUST NOT be edited manually without updating its source.
+- AI-assisted authored prose is source documentation, not a generated artifact by default.
 
 ### 5.3 Working Notes / Parking-Lot Notes (Non-Canonical)
 Some repositories include working notes intended to prevent context-switching (e.g., `notes/`).
@@ -123,6 +124,7 @@ Some repositories include working notes intended to prevent context-switching (e
   - appending new entries instead of rewriting existing text, and/or
   - adding links to the Issue/ADR/PR where the item was resolved.
 - The AI MUST NOT refactor, reformat, or “clean up” notes as part of unrelated tasks.
+- A task mandate MAY authorize a dedicated progress/handoff file in advance. This does not authorize changes to other notes.
 
 ### 5.4 Language Policy (English-First; Translations Optional)
 To keep collaboration and AI-assisted work consistent, this kit defines a strict language policy for shared, canonical artifacts.
@@ -175,6 +177,11 @@ Non-English translations MAY exist, but only as explicitly subordinate artifacts
 - When terminology affects architecture, tests, CI/CD, or agent autonomy, the AI MUST consult `architecture/TERMINOLOGY_GLOSSARY.md`.
 - Project-local acronyms MUST be marked explicitly as **project-local** (with expansion on first use).
 - If an acronym is ambiguous or overloaded, the AI MUST prefer the explicit phrase over the acronym as the primary term.
+
+### 6.4 Bounded Agent Execution
+- Follow the task mandate, action authority, repair budget, and completion evidence requirements in `constitution/AI_ENFORCEMENT.md` Sections 1.2–1.4.
+- Repository instructions guide behavior; tool permissions, isolated execution, and independent verification enforce applicable boundaries.
+- Keep stable task-critical instructions short. Load specialized playbooks only when relevant; do not duplicate the entire governance corpus into every agent context.
 
 ## Related Documents
 - `constitution/AI_ENFORCEMENT.md`
