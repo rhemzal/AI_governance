@@ -10,10 +10,10 @@ Checklist for promoting `kit-manifest.yml` from experimental `0.x` to stable ado
 - [x] **Adopter contract (phase 2)** — `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`, `GOVERNANCE_WAIVERS.md`, `BOUNDARY_GATE_RECIPES.md` ([ADR-0006](adr/ADR_0006_Adopter_Enforcement_Contract.md))
 - [x] **Extended CI dogfood** — `doc-delta-advisory`, `governance-waiver-advisory`; enhanced AEP field checks; D5 **error** mode in `doc-hygiene`
 - [ ] **Reference validator adoption** — ADR-0009 permits the scoped AEP validator and regression tests; confirm one tagged bundle cycle before promotion
-- [ ] **Audit clean** — rerun the release audit after the agent-execution and AEP changes. The 2026-07-11 audit is historical evidence, not validation of these changes; findings have no quota.
+- [ ] **Audit clean** — the [2026-09-27 audit](AUDIT_REPORT.md) of merged PR #34 records 17 open findings (1 High, 13 Medium, 3 Low). Wave 7 scenarios were exercised, but its no-open-High closure criterion is unmet; see [repair plan](FIX_PLAN.md). The July PASS is historical, not current validation.
 - [ ] **Bundle stability** — bundle paths stable one tagged release cycle (`v0.3.0` tag pending)
-- [x] **Enforcement matrix** — includes adopter default column and phase-2 gates
-- [x] **Navigation** — README routing; debugging index; enforcement contract linked for adopters
+- [ ] **Enforcement matrix** — reconcile missing/conflicting gate mappings and distinguish policy from actual branch enforcement (September findings A-08/A-09).
+- [ ] **Navigation** — retain README/debugging/adopter routing; repair the two ADR links in this checklist and retest local links (September finding A-15).
 - [ ] **CHANGELOG + tag** — release section cut in `CHANGELOG.md` v0.3.0; git tag `v0.3.0` aligned with `VERSIONING.md` (section cut **done**; tag pending)
 
 ## Release cut steps
