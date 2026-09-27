@@ -9,8 +9,8 @@ Checklist for promoting `kit-manifest.yml` from experimental `0.x` to stable ado
 - [x] **Enforcement dogfood (phase 1)** — `doc-hygiene`, `aep-advisory`, `adr-required` ([ADR-0005](adr/ADR_0005_Kit_CI_Dogfooding.md))
 - [x] **Adopter contract (phase 2)** — `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`, `GOVERNANCE_WAIVERS.md`, `BOUNDARY_GATE_RECIPES.md` ([ADR-0006](adr/ADR_0006_Adopter_Enforcement_Contract.md))
 - [x] **Extended CI dogfood** — `doc-delta-advisory`, `governance-waiver-advisory`; enhanced AEP field checks; D5 **error** mode in `doc-hygiene`
-- [ ] **Reference validator adoption** — ADR-0009 permits the scoped AEP validator and regression tests; confirm one tagged bundle cycle before promotion
-- [ ] **Audit clean** — the [2026-09-27 audit](AUDIT_REPORT.md) of merged PR #34 records 17 open findings (1 High, 13 Medium, 3 Low). Wave 7 scenarios were exercised, but its no-open-High closure criterion is unmet; see [repair plan](FIX_PLAN.md). The July PASS is historical, not current validation.
+- [ ] **Reference tooling adoption** — ADR-0009 permits the AEP validator; ADR-0010 adds scoped snapshot import/verification and regressions. Confirm one tagged bundle cycle before promotion
+- [ ] **Audit clean** — the [September audit follow-up](AUDIT_REPORT.md) records verified A-01/A-02 repairs, effective on merge; 15 findings remain unaddressed (12 Medium, 3 Low). This scoped retest does not establish full wave/release closure; see [repair plan](FIX_PLAN.md). The July PASS is historical.
 - [ ] **Bundle stability** — bundle paths stable one tagged release cycle (`v0.3.0` tag pending)
 - [ ] **Enforcement matrix** — reconcile missing/conflicting gate mappings and distinguish policy from actual branch enforcement (September findings A-08/A-09).
 - [ ] **Navigation** — retain README/debugging/adopter routing; repair the two ADR links in this checklist and retest local links (September finding A-15).
@@ -29,7 +29,7 @@ Checklist for promoting `kit-manifest.yml` from experimental `0.x` to stable ado
 | Item | Decision |
 | --- | --- |
 | `interface/` normative promotion | Stay **proposal** until separate ADR |
-| General-purpose repository script pack / agent orchestrator | **Deferred**; ADR-0009 permits only the scoped AEP validator and tests |
+| General-purpose repository script pack / agent orchestrator | **Deferred**; ADR-0009/0010 permit only scoped AEP validation and bundle import/verification with tests |
 | Boundary gate in kit repo | N/A |
 | Full AEP semantic CI parser | **Deferred**; structural JSON validation + independent review |
 | Compliance certification | Out of scope |
