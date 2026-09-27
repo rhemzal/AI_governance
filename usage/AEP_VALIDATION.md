@@ -58,6 +58,12 @@ For an inapplicable full AEP, the complete block is:
 ```
 ````
 
+## Recognized fences
+
+Use a top-level fenced block whose info string is exactly `aep` (lowercase). Backtick and tilde fences of at least three characters, zero to three leading spaces, whitespace around the info string, and LF/CRLF line endings are supported. Close with the same character and at least the opening length; unlike Markdown rendering, an unclosed AEP declaration is an error. These fence rules follow the [GitHub Flavored Markdown specification](https://github.github.com/gfm/#fenced-code-blocks).
+
+The scanner is a bounded declaration reader, not a full Markdown renderer. Extra info after `aep`, a tab/four-space-indented opening, and explicitly list/blockquote-prefixed AEP openings are rejected with placement guidance. Keep the authoritative declaration outside HTML/container markup. AEP-looking text and legacy markers inside another fenced block are literal examples and do not count; an example alone therefore leaves applicability advisory. Multiple authoritative blocks fail, including mixed fence styles.
+
 ## Machine-checkable contract
 
 The reference validator is `ci/validate_aep.py` (Python 3 standard library, included in the `standard` bundle through `ci/`; minimal adopters can read it from the upstream kit or copy it explicitly).
@@ -80,7 +86,7 @@ Paths use repository-relative POSIX paths or globs. For multi-repository work, u
 
 The validator rejects duplicate JSON keys, unknown/missing fields, unsupported schema versions/statuses, malformed or multiple `aep` blocks, empty required values, readiness/blocker contradictions, and entire text values that are unresolved placeholders (`TBD`, `TODO`, `later`, `as needed`, `etc.`, `...`). Mentioning these words inside a concrete sentence or outside the AEP is valid. Commands for documentation checks are valid; a test-runner name is not required.
 
-An optional plain `AEP Status: READY` marker must agree with the structured block. A legacy marker without a block fails with migration guidance. Missing declarations remain advisory: multi-file PRs receive a warning to review applicability. Declared plans are checked even for one-file PRs. BLOCKED and NOT-REQUIRED may pass structural validation; neither grants execution authority.
+An optional plain `AEP Status: READY` marker outside fenced examples must agree with the structured block. A legacy marker without a block fails with migration guidance. Missing declarations remain advisory: multi-file PRs receive a warning to review applicability. Declared plans are checked even for one-file PRs. BLOCKED and NOT-REQUIRED may pass structural validation; neither grants execution authority.
 
 ## Verification and limits
 

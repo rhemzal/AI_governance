@@ -131,6 +131,54 @@ class DeclarationTests(unittest.TestCase):
         bad = subprocess.run([sys.executable, str(SCRIPT)], env=env, capture_output=True, text=True, timeout=5)
         self.assertEqual(bad.returncode, 1)
 
+    def test_supported_fences_validate_identical_good_and_bad_payloads(self):
+        plan = ready()
+        plan["objective"] = "Preserve JSON text with a Unicode separator: \u2028 inside the value."
+        for indent in ("", " ", "   "):
+            for fence in ("```", "~~~~", "`````"):
+                for newline in ("\n", "\r\n"):
+                    def fenced(plan):
+                        return newline.join((indent + fence + " aep \t", json.dumps(plan, ensure_ascii=False),
+                                             indent + fence + fence[0] + " \t"))
+                    with self.subTest(indent=indent, fence=fence, newline=newline):
+                        self.assertIn("PASS: READY", validator.validate_body(fenced(plan), 1))
+                        with self.assertRaises(validator.InvalidPlan):
+                            validator.validate_body(fenced({"schema_version": 1, "status": "READY"}), 2)
+
+    def test_alternate_fences_cannot_hide_multiple_declarations(self):
+        for fence in ("~~~", "````", "   ```"):
+            alternate = fence + "aep\n" + json.dumps(ready()) + "\n" + fence + "\n"
+            with self.subTest(fence=fence), self.assertRaises(validator.InvalidPlan):
+                validator.validate_body(body(ready()) + alternate)
+
+    def test_unclosed_short_or_mismatched_closing_fences_fail(self):
+        for opening, closing in (("~~~~", "~~~"), ("```", "~~~"), ("````", "```"),
+                                 ("~~~", ""), ("```", "``` suffix")):
+            with self.subTest(opening=opening, closing=closing), self.assertRaises(validator.InvalidPlan):
+                validator.validate_body(opening + "aep\n" + json.dumps(ready()) + "\n" + closing)
+
+    def test_fenced_examples_are_not_authoritative_declarations_or_markers(self):
+        example = "````markdown\n" + body(ready()) + "AEP Status: BLOCKED\n````\n"
+        self.assertIn("WARN", validator.validate_body(example, 2))
+        self.assertIn("PASS: READY", validator.validate_body(example + body(ready())))
+        self.assertIn("PASS: READY", validator.validate_body(body(ready()) + example))
+
+    def test_unsupported_declared_fence_placement_or_info_is_rejected(self):
+        for opening in ("    ```aep", "\t~~~aep", "> ```aep", "- ~~~aep", "1. ```aep",
+                        "```aep extra", "~~~aep extra"):
+            with self.subTest(opening=opening), self.assertRaises(validator.InvalidPlan):
+                validator.validate_body(opening + "\n{}\n```\n", 2)
+
+    def test_cli_alternate_invalid_declarations_exit_nonzero(self):
+        env = {key: value for key, value in os.environ.items() if key != "PR_BODY"}
+        for fence in ("   ```", "~~~", "````"):
+            malformed = fence + 'aep\n{"schema_version":1,"status":"READY"}\n' + fence
+            result = subprocess.run([sys.executable, str(SCRIPT), "--changed-files", "2"],
+                                    input=malformed, env=env, capture_output=True, text=True, timeout=5)
+            with self.subTest(fence=fence):
+                self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+                self.assertIn("FAIL:", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

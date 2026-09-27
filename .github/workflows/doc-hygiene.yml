@@ -9,6 +9,7 @@ on:
       - 'kit-manifest.yml'
       - 'ci/import_bundle.py'
       - 'ci/bundle_tests/**'
+      - 'ci/gate_tests/**'
       - '.github/**'
       - 'governance/**'
   push:
@@ -18,6 +19,7 @@ on:
       - 'kit-manifest.yml'
       - 'ci/import_bundle.py'
       - 'ci/bundle_tests/**'
+      - 'ci/gate_tests/**'
       - '.github/**'
       - 'governance/**'
 
@@ -52,6 +54,9 @@ jobs:
           set -euo pipefail
           yq -o=json '.' kit-manifest.yml > "$RUNNER_TEMP/kit-manifest.json"
           KIT_MANIFEST_JSON="$RUNNER_TEMP/kit-manifest.json" timeout 60s python3 -m unittest discover -s ci/bundle_tests -v
+
+      - name: Reference boundary and ADR gate regressions
+        run: timeout 60s python3 -m unittest discover -s ci/gate_tests -v
 
       # Upstream only: this checkout contains the complete manifest catalog.
       - name: Manifest explicit paths exist
