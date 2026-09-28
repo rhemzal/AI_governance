@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Agent-first engineering methods (2026-09-28)
+- [Advisory-only] Add `usage/AI_ENGINEERING_METHODS.md` as the method-selection index for harness engineering, agent-legible repositories, executable specifications, verification-first work, runtime interaction, reusable skills/hooks, bounded delegation, isolated parallel execution, evaluation, and failure-to-harness improvement.
+- [Advisory-only] Add focused guides for agent harness engineering, machine-queryable runtime interaction (MCP is one implementation), spec-driven AI development, parallel execution, and agent engineering regression tasks.
+- [Advisory-only] Keep the methods technology-neutral and proportional: no new mandatory orchestration framework, MCP requirement, subagent workflow, hook, or CI gate.
+
+
 ### Safe bundle import (2026-09-27)
 - [Breaking rule change] ADR-0010: copy imports default to a fresh `vendor/AI_governance/` snapshot. Existing destinations are refused; host agent instructions, workflows and metadata are preserved and integrated by a reviewed merge. Existing root-layout imports require a deliberate migration, not an overwrite.
 - [Import bundle change] Minimal adds the manifest catalog, required architecture framework and terminology glossary. Standard/full inherit them and include the scoped importer/checker and separate regression suite through `ci/`. Bundle names and manifest schema remain unchanged.
