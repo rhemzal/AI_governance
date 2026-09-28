@@ -34,6 +34,19 @@ The task mandate defines the outcome, allowed targets/effects, and separate appr
 
 The AEP checker validates declaration shape; authority, feasibility, and actual results remain separate review/control responsibilities. The kit provides a small reference validator, not an agent orchestration platform.
 
+## Adopting engineering methods in an existing project
+
+[Engineering Methods Adoption](usage/ENGINEERING_METHODS_ADOPTION.md) provides a pinned-upgrade
+and one-slice pilot path. The [evidence review](research/AI_ENGINEERING_METHODS_EVIDENCE.md)
+distinguishes empirical findings, vendor case studies and kit design choices. AI_RULES §6.5
+requires a proportionate method/verification rationale in existing task evidence; it mandates
+no specific AI tool or new CI gate. Minimal includes the selector and rollout guide.
+
+For selected legacy invariants, the optional `ci/ratchet_findings.py` rejects new finding
+identities while reporting inherited debt. It requires successful comparable host scans;
+importing it does not activate enforcement. [ADR-0012](adr/ADR_0012_Outcome_Based_Method_Adoption.md)
+records the trade-offs and rollout boundary.
+
 ## Grounded in engineering practice
 
 This project does not attempt to reinvent software engineering fundamentals.

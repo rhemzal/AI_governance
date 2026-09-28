@@ -17,6 +17,7 @@ Continue within the authorized task mandate; obtain approval before a new object
 - Boundaries: Any inward-dependency violation?
 - Overlay: Is there a local governance overlay, and was it considered?
 - Determinism: Any hidden time/random/env dependency?
+- Method and evidence: For non-trivial work, apply `AI_RULES.md` §6.5 in the existing task record: baseline/gap, observable acceptance, smallest sufficient method and uncertainty. Consult `usage/AI_ENGINEERING_METHODS.md` only as needed; honor the host's adopted controls.
 - Tests: What tests are required and where do they live?
   - **Test execution**: Use repo-local test command (e.g., `make test`, `.venv/bin/python -m pytest`, or docker). **Never assume global pytest.**
 - **AVR loop**: If verification fails, diagnose, apply the smallest compliant fix, rerun checks, and report within the declared repair budget. Stop the affected action only on a real blocker or exhausted budget (`AI_ENFORCEMENT.md` §1.3).

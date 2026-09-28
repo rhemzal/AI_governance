@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Evidence-based methods and existing-project adoption (2026-09-28)
+- [Governance-impacting] ADR-0012 / AI_RULES §6.5: non-trivial work records baseline/gap, observable acceptance, smallest method and uncertainty in existing AEP/task evidence. Align daily and agent projections; preserve the routine-work exception and authority boundaries.
+- [Advisory-only] Add a primary-source evidence review, strengthen verification/oracle/maintenance reasoning, and add a concrete pinned-upgrade and one-slice pilot path with local promotion/retirement criteria.
+- [Import bundle change] Minimal adds the method selector and rollout guide (14 files, still documentation-only). Standard/full include the optional finding-set comparator and its tests through `ci/`; no new mandatory adopter CI gate or automatic downstream activation.
+- [Feature] Optional read-only `ci/ratchet_findings.py` rejects new finding identities and invalid/incomparable scans; it reports remaining debt, does not run scanners or update baselines, and needs a trusted host integration.
+
 ### Agent-first engineering methods (2026-09-28)
 - [Advisory-only] Add `usage/AI_ENGINEERING_METHODS.md` as the method-selection index for harness engineering, agent-legible repositories, executable specifications, verification-first work, runtime interaction, reusable skills/hooks, bounded delegation, isolated parallel execution, evaluation, and failure-to-harness improvement.
 - [Advisory-only] Add focused guides for agent harness engineering, machine-queryable runtime interaction (MCP is one implementation), spec-driven AI development, parallel execution, and agent engineering regression tasks.

@@ -38,6 +38,20 @@ symptom
 
 Do not add a diagnostic endpoint solely to bypass architecture boundaries. If exposing state changes a product contract or security boundary, use the existing high-risk/ADR path.
 
+## Measurement integrity and minimal rollout
+
+For one diagnostic, identify the actual instance, build revision, configuration and time
+window. Bound output, correlate the relevant action across components, and distinguish
+absent/stale data from a healthy zero. Validate the probe on a known-good/bad control when
+instrument failure could mimic a product fault.
+
+Start with the existing log query, CLI or socket. Add a transport only if the pilot exposes
+a concrete access limitation. Record/replay captures need redaction and environmental
+assumptions; a successful replay is partial evidence for hardware/timing-sensitive faults.
+Read-only probes can still expose secrets or consume scarce resources; bound both access
+and cost. Authorization, cancellation, retry safety and cleanup belong at the actual tool
+boundary, not only in its natural-language description.
+
 ## MCP-specific guidance
 
 Use MCP when its tool/resource model gives a useful machine boundary, but do not make governance depend on MCP itself.
@@ -52,7 +66,7 @@ For MCP tools:
 
 See `DBG-mcp-01` and `DBG-science-07` in the debugging catalog.
 
-## Related documents
+## Related Documents
 
 - [AI Engineering Methods](AI_ENGINEERING_METHODS.md)
 - [Agent Harness Engineering](AGENT_HARNESS_ENGINEERING.md)

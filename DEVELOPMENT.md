@@ -56,6 +56,19 @@ The import suite exercises disposable targets, preserves host sentinels, and che
 
 Adopters choosing the AEP gate copy the validator and workflow together from one pinned revision (`usage/AEP_VALIDATION.md`). The import helper and its source snapshot follow ADR-0010; upstream-only catalog checks must not be transplanted into partial imports. Other gates retain the inline patterns in `usage/CI_STARTER_WORKFLOWS.md`. Review applicability/authority and completion evidence separately from declaration validation.
 
+### Optional legacy finding comparator
+
+Changes to `ci/ratchet_findings.py` or its documented report contract require:
+
+```bash
+timeout 60s python3 -m unittest discover -s ci/ratchet_tests -v
+```
+
+The suite invokes the real CLI with positive/negative reports, equal-count replacement,
+scanner errors, revision/configuration/scope drift, malformed input and read-only checks.
+Existing `doc-hygiene` runs these fixtures. This tests the comparator, not downstream
+scanner coverage or actual agent effectiveness. No adopter workflow is activated.
+
 ### Doc Hygiene Checklist (tool-agnostic)
 
 Complete all steps; record **PASS / FAIL** and any failed paths.

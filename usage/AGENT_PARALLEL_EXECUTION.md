@@ -50,7 +50,19 @@ The integration owner reconciles contradictory findings, resolves overlapping ed
 
 Physical devices, test environments, services, databases, and ports may require leases or explicit ownership. Retrying a mutation requires determining whether the first attempt already succeeded.
 
-## Related documents
+## Benefit and stopping criteria
+
+Use a single agent as the default when the work is coupled or small. Before delegating,
+identify independent outputs, the integration test and the reason parallel work is likely
+to help. Record coordination/review cost and discarded work; wall time alone can hide a
+larger total burden. Stop redundant branches when they no longer add discriminating evidence.
+
+A worktree isolates files, not ports, databases, credentials, devices or deployment targets.
+Use explicit ownership or independent instances for those resources. A second model/context
+can still share the same mistaken specification; require counterexamples and observations
+rather than counting approving reviewers. No fixed multi-agent topology is required.
+
+## Related Documents
 
 - [AI Engineering Methods](AI_ENGINEERING_METHODS.md)
 - `constitution/AI_ENFORCEMENT.md`

@@ -46,11 +46,32 @@ and the relevant resource counters return to the expected range.
 
 Do not create exhaustive specs for trivial reversible edits, encode implementation details as requirements without reason, update snapshots blindly, make synthetic harnesses the only proof for real scheduling/hardware bugs, or claim verification when the oracle is only subjective agent judgment.
 
+## Oracle quality in existing systems
+
+A test is an oracle only for the properties it distinguishes. Derive expected behavior
+from an agreed contract, a reported failure, a reviewed example or an independent reference;
+a test generated from the new implementation can repeat the same misunderstanding.
+
+- For a bug, reproduce the original failure when practical and keep a nearby success case.
+- For poorly isolated legacy code, characterize the touched boundary before changing it.
+  Mark known defects separately; a golden output is not automatically the desired behavior.
+- For replacements, compare old/new behavior on representative inputs and list intentional
+  differences. Use shadow comparison only with authorized, isolated effects and redacted data;
+  do not execute payments, writes or device commands twice.
+- Property/metamorphic tests can verify relations when exact expected values are hard to
+  enumerate. Mutation or fault injection can test whether the oracle detects the relevant
+  defect; use it selectively rather than imposing a new project-wide score.
+- A fake clock/mock is useful for logic, but does not prove real scheduling, GPU, GUI or
+  device behavior. Keep the smallest representative integration observation where needed.
+
+Preserve existing issue/contract/test sources of truth. A specification framework is a
+candidate implementation, not a prerequisite; review its artifact duplication and update cost.
+
 ## Relationship to AEP and debugging
 
 AEP defines execution planning and authority for applicable work. Executable specifications define observable success. Scientific debugging defines how to discriminate causes when success is not reached.
 
-## Related documents
+## Related Documents
 
 - [AI Engineering Methods](AI_ENGINEERING_METHODS.md)
 - `ci/TEST_GATES.md`

@@ -58,6 +58,25 @@ Warning signs include duplicated canonical docs, obsolete model workarounds, hoo
 
 Periodically remove one redundant scaffold at a time and evaluate the effect with matched tasks.
 
+## Brownfield investment and retirement
+
+First test whether the existing command/interface can supply the missing observation.
+Classify the fault as environment, tool, oracle, context, policy conflict or implementation
+before changing the harness. A model upgrade does not excuse unavailable dependencies.
+
+A useful improvement proposal names the task class, observed friction, cheapest alternative,
+expected signal, owner, maintenance burden and a trigger to reassess. Reuse the existing
+AEP/PR; the evidence block below is optional, not another required form.
+
+After a model/tool upgrade or recurring overhead, remove one optional component in an
+isolated comparison. Keep acceptance and permissions fixed. Retire the component only when
+required outcomes remain covered; update all active instruction routes. Do not retain a
+wrapper merely because it was once needed. Do not remove security controls as a speed trial.
+
+Use [the existing-project rollout](ENGINEERING_METHODS_ADOPTION.md) before proposing a
+whole-repository platform. A stable command and one reliable fixture may be the entire harness
+investment needed for the selected task class.
+
 ## Evidence
 
 ```text
@@ -72,7 +91,7 @@ HARNESS CHANGE EVIDENCE
 - Re-evaluation trigger:
 ```
 
-## Related documents
+## Related Documents
 
 - [AI Engineering Methods](AI_ENGINEERING_METHODS.md)
 - [Agent Runtime Interaction](AGENT_RUNTIME_INTERACTION.md)

@@ -16,7 +16,7 @@ Consult documents from the declared bundle selection. The manifest lists all ava
 
 | Bundle | Agent projections include | Typical optional paths (upgrade to `standard` / add bundles) |
 | --- | --- | --- |
-| **minimal** | Manifest, core/daily/adaptive enforcement, AEP spec, quick guide, ADR template, architecture framework and glossary | Remaining `architecture/`, extended `usage/`, `ci/`, root kit meta docs |
+| **minimal** | Manifest, core/daily/adaptive enforcement, AEP spec, method selector/rollout, quick guide, ADR template, architecture framework and glossary | Remaining `architecture/`, extended `usage/`, `ci/`, root kit meta docs |
 | **standard** | Everything in minimal; full `constitution/`, `ci/`, `usage/`, overlay template | Remaining `architecture/`, `research/`, `interface/` proposals |
 
 **Terminology:** **Governance Level (G0–G4)** vs **CI Maturity (CM0–CM3)** — `architecture/TERMINOLOGY_GLOSSARY.md` is included in every baseline.
@@ -40,6 +40,7 @@ Before work, read or consult as applicable (**only explicitly optional context m
 - `constitution/AI_ENFORCEMENT.md` *(minimal+)*
 - `constitution/ADAPTIVE_GOVERNANCE.md` *(minimal+)*
 - `usage/AEP_VALIDATION.md` *(minimal+)*
+- `usage/AI_ENGINEERING_METHODS.md` and `usage/ENGINEERING_METHODS_ADOPTION.md` *(minimal+; method choice / rollout, consult relevant sections)*
 - `architecture/TERMINOLOGY_GLOSSARY.md` *(minimal+)*
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` *(minimal+; architecture decisions)*
 - `architecture/README.md` *(optional `architecture` bundle or `full`; consult before RAG work)*
@@ -116,6 +117,7 @@ When scope or method is unclear, run **method triage** before loading large corp
 - **Architecture / RAG:** `architecture/ARCHITECTURE_DECISION_PROMPT.md` — precheck then max 2 RAG notes + 1 cross-cutting (`architecture/README.md`).
 - **Security findings:** `usage/SECURITY_MINIMUM_ADOPTION.md` — triage before bulk upgrades (max 3 actions per iteration).
 - **Governance audit:** `usage/AUDIT_PLAYBOOK.md` — pick audit scope before Steps 1–5.
+- **Engineering method / existing-project upgrade:** follow `constitution/AI_RULES.md` §6.5; use `usage/AI_ENGINEERING_METHODS.md` to select the smallest method and `usage/ENGINEERING_METHODS_ADOPTION.md` for rollout. Both are baseline context. Use existing AEP fields; deeper guides are optional.
 - **Kit adoption:** `usage/ADOPTION_BUNDLES.md` — 1 baseline bundle + max 1 optional; defaults in `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`.
 - **AEP discovery:** `usage/AEP_VALIDATION.md` — use `usage/PROACTIVE_TRIGGER_MAP.md` to narrow consulted paths when present.
 - **Enforcement status:** `usage/ENFORCEMENT_MATRIX.md` — what kit CI automates vs adopter wiring.

@@ -20,6 +20,11 @@ This matrix is the **single source of truth** for gate timing across **CI Maturi
 
 **Tooling note:** Most gates use inline CI steps. AEP uses the standard-library reference validator `ci/validate_aep.py` with regression tests (ADR-0009); see `usage/CI_STARTER_WORKFLOWS.md`. ADR-0010 also permits the scoped snapshot importer/checker `ci/import_bundle.py` and `ci/bundle_tests/`. Neither tool is an agent runtime. ADR-0011 adds executable fixtures in `ci/gate_tests/` for inline boundary recipes and the ADR check; `doc-hygiene` runs them. These validate reference implementations, not a product dependency graph.
 
+ADR-0012 adds `ci/ratchet_findings.py`, an optional read-only comparison of revision-bound
+finding sets. It is not a scanner or an installed product gate. Its regression suite runs
+in existing kit CI; adopter activation and trust boundaries are described in
+`usage/ENGINEERING_METHODS_ADOPTION.md`.
+
 ## Canonical gate × CM × G table
 
 | Gate | CM (adopter) | G (normative timing in `ci/`) | Kit reference | Automatable | Adopter default |
@@ -41,6 +46,8 @@ This matrix is the **single source of truth** for gate timing across **CI Maturi
 | Applicable bundled context | Required CM0 | — | Kit cross-ref check + import fixtures | Partial | Baseline context present; review optional/upstream references |
 | Provenance banners | Required CM0 | — | `doc-hygiene` | Yes | Required CM0 |
 | AEP applicability / declaration shape | Advisory CM1; stronger CM3 | — | `aep-advisory` + reference validator | Structural only | Missing plan advisory; declared plan validated |
+| Method selection evidence | Any CM (constitutional) | Proportional to task | AI_RULES §6.5 + instruction projections | Semantic review, not a schema proof | Existing AEP/task fields; no new CI gate |
+| No-new-findings migration aid | Opt-in; no new CM requirement | Local risk/waiver decision | `ratchet_findings.py` + `ci/ratchet_tests/` | Set comparison only; scanner is host-owned | Deferred until proven and wired in a declared scope |
 | Governance waiver block | Any CM | — | `governance-waiver-advisory` | Partial | When waiver used |
 | Doc hygiene checklist 5–7 | Required CM0 (manual) | — | — | No | Required manual |
 

@@ -33,6 +33,7 @@ Use the declared kit root (normally `vendor/AI_governance/`) for kit-document re
 ## How to work
 
 - Keep changes small, scoped, and reviewable.
+- For non-trivial work, apply `constitution/AI_RULES.md` §6.5 in existing task evidence: baseline/gap, acceptance observation, smallest method and uncertainty. Method selection and existing-project rollout are in `usage/AI_ENGINEERING_METHODS.md` and `usage/ENGINEERING_METHODS_ADOPTION.md` (minimal+). Follow adopted host controls; tool choices remain optional.
 - Prefer updating existing documents over creating new large documents.
 - Preserve normative/advisory separation:
   - rules and gates: `constitution/`, `ci/`

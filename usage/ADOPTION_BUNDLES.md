@@ -26,6 +26,7 @@ Smallest useful set for “try it this week”:
 - Core rules, high-risk enforcement, adaptive governance (G0–G4), and daily enforcement
 - AEP validation spec (`usage/AEP_VALIDATION.md`)
 - Quick recipes (`usage/QUICKGUIDE.md`)
+- Method selector and existing-project rollout (`usage/AI_ENGINEERING_METHODS.md`, `usage/ENGINEERING_METHODS_ADOPTION.md`); deeper method guides remain optional
 - ADR template
 - Manifest catalog, architecture decision framework and terminology glossary required by the constitution
 
@@ -118,6 +119,15 @@ The `standard` bundle carries the scoped importer/checker (`ci/import_bundle.py`
 ## Safe import upgrade (ADR-0010)
 
 New copies use a fresh kit directory and reject existing destinations. Existing root-layout imports are not moved or overwritten automatically: inventory host/kit ownership and merge reviewed differences in a migration PR. Minimal stays documentation-only; run import tooling from the pinned upstream checkout when needed. Baseline framework/glossary availability does not require importing the RAG corpus. Workflow YAML and the PR template are upstream-only inputs, fetched from that same revision when a corresponding gate is adopted.
+
+## Engineering methods upgrade (ADR-0012)
+
+Minimal now has 14 files: the previous 12 plus the method selector and rollout guide.
+It remains documentation-only. Standard/full include the optional finding-set comparator
+and tests through `ci/`; no workflow is installed or activated in an adopter by the import.
+Review the new §6.5 behavioral minimum, host instruction routes and local overrides together.
+Use [the rollout guide](ENGINEERING_METHODS_ADOPTION.md) and Recipe J in `usage/QUICKGUIDE.md`.
+Research and focused guides outside the selection are optional, not hidden dependencies.
 
 ## Related Documents
 

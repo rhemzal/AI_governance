@@ -40,6 +40,8 @@ bundles:
       - constitution/ADAPTIVE_GOVERNANCE.md
       - usage/QUICKGUIDE.md
       - usage/AEP_VALIDATION.md
+      - usage/AI_ENGINEERING_METHODS.md
+      - usage/ENGINEERING_METHODS_ADOPTION.md
       - adr/ADR_TEMPLATE.md
       - architecture/ARCHITECTURE_DECISION_FRAMEWORK.md
       - architecture/TERMINOLOGY_GLOSSARY.md

@@ -57,6 +57,19 @@ Import standard → declare CM0 in overlay → wire doc-hygiene CI
 
 Do not enable CM2/CM3 jobs as **required** until prerequisites pass — use `usage/GOVERNANCE_WAIVERS.md` for time-boxed exceptions.
 
+## Engineering methods: behavior versus optional automation
+
+`constitution/AI_RULES.md` §6.5 supplies the non-trivial-task behavioral minimum at any
+bundle/CM: record baseline/gap, observable acceptance, smallest method and uncertainty
+in existing evidence. This is not contingent on opting into the advisory matrix above.
+The selector and [rollout guide](ENGINEERING_METHODS_ADOPTION.md) are included in minimal.
+
+A project may promote a proven outcome for one scope in its existing overlay, with a
+host command, evidence, owner and review trigger. Existing local/CI checks perform the
+verification; method names and file presence are not gates. The optional finding-set
+comparator in standard/full is inactive until wired by the adopter. It adds no CM requirement.
+Legacy baselines require approved exception handling wherever normative obligations apply.
+
 ## Waiver policy summary
 
 When a **Required** gate cannot pass yet:

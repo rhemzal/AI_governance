@@ -30,6 +30,8 @@ Use this map so agents do not guess which governance mode applies.
 | Ambiguous cause / first fix failed | Medium | Use `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 7 then Prompt 6 (`DBG-science-01`); falsify hypotheses before next fix. |
 | Unclear which debug method to use | Medium | `usage/DECISION_PROMPTS_DEBUGGING.md` **Prompt 7** (triage); pattern budget max 3 IDs. |
 | Architecture-impacting change / style selection | Medium → High | `architecture/ARCHITECTURE_DECISION_PROMPT.md` step A then B (RAG triage); consult `architecture/README.md` before loading `architecture/rag/`. |
+| Non-trivial method choice / recurring agent friction | Existing task risk | `AI_RULES.md` §6.5; select from `usage/AI_ENGINEERING_METHODS.md`; use existing AEP/task evidence; no automatic new tool or gate. |
+| Governance pin update / legacy adoption | High for policy changes | `usage/ENGINEERING_METHODS_ADOPTION.md`: reconcile host instructions/overlay, pilot one slice, verify activated controls; no automatic downstream update. |
 | Dependency / security scan failure | Medium → High | `usage/SECURITY_MINIMUM_ADOPTION.md` security finding triage (max 3 actions) before product-code changes. |
 
 ## Multi-prefix changes
