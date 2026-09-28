@@ -95,6 +95,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Import guidance: [usage/HOW_TO_IMPORT.md](usage/HOW_TO_IMPORT.md)
 - Quick recipes & prompts: [usage/QUICKGUIDE.md](usage/QUICKGUIDE.md)
 - Testing quickstart: [DEVELOPMENT.md](DEVELOPMENT.md)
+- AI engineering methods (harness, runtime interaction, specs, parallelism, evals): [usage/AI_ENGINEERING_METHODS.md](usage/AI_ENGINEERING_METHODS.md)
 - AI test diagnostics playbook: [usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md](usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md)
 - Debugging index (start here): [usage/DEBUGGING_INDEX.md](usage/DEBUGGING_INDEX.md)
 - Debugging effectiveness catalog: [usage/DEBUGGING_EFFECTIVENESS_CATALOG.md](usage/DEBUGGING_EFFECTIVENESS_CATALOG.md)
