@@ -185,6 +185,29 @@ Non-English translations MAY exist, but only as explicitly subordinate artifacts
 - Repository instructions guide behavior; tool permissions, isolated execution, and independent verification enforce applicable boundaries.
 - Keep stable task-critical instructions short. Load specialized playbooks only when relevant; do not duplicate the entire governance corpus into every agent context.
 
+### 6.5 Evidence-Based Method Selection
+For non-trivial implementation, debugging, or harness changes, the AI MUST make the
+following explicit in the existing AEP/task record, before implementation:
+- the observed baseline or a stated verification gap, and the relevant compatibility boundary;
+- the acceptance observation and cheapest credible verification, including a negative or
+  known-good control when needed to distinguish a real fix from a misleading pass;
+- the smallest sufficient method (including keeping existing tooling), why it fits, and
+  any unresolved assumption that could change the decision.
+
+Use existing discovery, reason, verification and acceptance fields; no new form, schema,
+method inventory or tool is required. Routine reversible work retains the concise scope
+and verification exception in `AI_ENFORCEMENT.md` §1.1.
+
+In existing projects, apply improvements to the affected slice. Preserve working checks
+and public contracts; do not use a method upgrade to justify unrelated rewrites. Follow
+locally adopted controls in their declared scope. A legacy baseline or a task-local
+explanation MUST NOT silently waive a required invariant or authorize new violations.
+
+Repeated or material friction SHOULD lead to the smallest justified environment improvement.
+Evaluate its benefit and maintenance cost; do not institutionalize every one-off workaround.
+The baseline selector and rollout guide are `usage/AI_ENGINEERING_METHODS.md` and
+`usage/ENGINEERING_METHODS_ADOPTION.md`. Specific technologies remain optional.
+
 ## Related Documents
 - `constitution/AI_ENFORCEMENT.md`
 - `ci/ARCHITECTURE_GATES.md`

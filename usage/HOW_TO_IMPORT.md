@@ -151,6 +151,8 @@ After snapshot verification, merge a small block like this into the existing hos
 - Kit root: `vendor/AI_governance/`.
 - Selected bundles and upstream commit: record the reviewed selection and full SHA here.
 - Read `vendor/AI_governance/AGENTS.md` and its core references as applicable.
+- For non-trivial work apply AI_RULES §6.5 in existing task evidence. Follow the
+  project's adopted verification controls; use the kit method selector when needed.
 - Kit-document references resolve under that kit root; project source, test commands,
   task paths, project ADRs and the active local overlay resolve from this project.
 - Existing project instructions remain in effect; approved policy overrides are
@@ -172,6 +174,15 @@ Record adoption in the project's decision record: kit root, source SHA, manifest
 This layout change does not automatically migrate or delete an older import. Inventory ownership and local edits first. Prepare a new namespaced snapshot from the reviewed revision, compare old/new rules, and reconcile host entry points/overlays in a migration PR. Remove old kit copies only after proving they are kit-owned and that references have moved; preserve host-authored content and history.
 
 For later updates, build and verify a fresh candidate directory outside the active kit root, then review old/new content and the host integration. Replacing the active snapshot is a separate reviewed update, not an overwrite mode of the importer. Local modifications indicate a fork/overlay decision; do not discard them to satisfy a byte comparison.
+
+### Verify behavior after a governance upgrade
+
+The update is incomplete until the active host instruction route, local overrides and
+selected verification commands agree with the reviewed pin. Use
+[Engineering Methods Adoption](ENGINEERING_METHODS_ADOPTION.md) to pilot one real task,
+record the existing command's outcome, and decide what becomes a local requirement.
+Old copies and forks do not receive new behavior automatically. A successful byte comparison
+proves snapshot integrity only; it does not prove agent compliance or effective adoption.
 
 ## Option B: Git Submodule
 Use when you want upstream updates.

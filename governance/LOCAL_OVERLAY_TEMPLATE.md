@@ -94,6 +94,20 @@ Copy the row for your CM level from `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` and
 - **Preferred order**: make targets → repo-local venv → docker fallback
 - **Reference**: See `usage/HOW_TO_USE_WITH_COPILOT.md` and `DEVELOPMENT.md`.
 
+### Engineering methods (optional rollout record)
+
+Apply `constitution/AI_RULES.md` §6.5 in existing task evidence. Use
+`usage/ENGINEERING_METHODS_ADOPTION.md` to pilot one improvement before adding a control.
+Remove this table if the project is not coordinating a rollout; do not fill it for every task.
+
+| Outcome / declared scope | State (deferred/pilot/adopted/required/retired) | Host verification / invocation | Evidence | Owner / review trigger |
+| --- | --- | --- | --- | --- |
+
+Promote properties, not tool brands. Resolve placeholders and verify positive/negative
+controls before declaring a row required. Use the existing verifier and waiver registry;
+no new gate, reviewer, process platform or whole-project cleanup is implied. Record changes
+to protected baselines/scanner configuration as policy changes, not routine agent repairs.
+
 ### Waiver registry
 
 Temporary gate exceptions must follow `usage/GOVERNANCE_WAIVERS.md`. Track open waivers here:

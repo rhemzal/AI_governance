@@ -1,117 +1,89 @@
 # AI Engineering Methods — Agent-First Development Index
 
-_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
+_Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If copied, preserve this line._
 
-## Purpose
+## Purpose and authority
 
-Provide an advisory map of engineering methods that become especially valuable when AI agents inspect repositories, operate tools, observe running systems, implement changes, verify results, and hand work off.
+Select the smallest method that improves an observable engineering outcome. This selector
+is advisory; the behavioral minimum is `constitution/AI_RULES.md` §6.5. It requires a
+proportionate rationale and evidence, not a particular tool, framework or new CI gate.
 
-This is not a new mandatory process layer. Normative authority, risk, AEP, verification, and evidence rules remain in `constitution/` and `ci/`.
+Both this selector and [Engineering Methods Adoption](ENGINEERING_METHODS_ADOPTION.md)
+are in **minimal**. Focused guides named below are **standard** / optional upstream context
+from the same pinned revision. Research is optional in `research/AI_ENGINEERING_METHODS_EVIDENCE.md`;
+`tooling/` references are upstream-only (not included by the copy-import manifest).
+Do not load missing optional guides or the whole catalog for every task.
 
-## Core model
+## Start with a decision, not a catalog
 
-Treat effective AI-assisted development as a feedback system, not a prompt-writing exercise:
+For non-trivial work, use existing AEP discovery/reason/verification/acceptance fields:
 
-```text
-task / executable intent
-        ↓
-agent + repository context
-        ↓
-tools / runtime interfaces
-        ↓
-implementation or experiment
-        ↓
-observable system behavior
-        ↓
-verification / falsification
-        ↓
-evidence / handoff
-        ↺
-```
+1. **Observe:** what fails or costs effort, on which revision/environment? Separate facts
+   from assumptions. If no baseline can run, name the gap.
+2. **Define success:** what observation could distinguish a fix from an attractive but
+   incorrect implementation? Preserve relevant compatibility and authority boundaries.
+3. **Choose:** keep the current mechanism, extend it, or add one capability. State why
+   the smallest option suffices and what evidence would change the decision.
+4. **Verify and learn:** compare behavior, disclose limits, and keep/change/remove the
+   method according to benefit and maintenance cost.
 
-When repeated agent failures are caused by missing context, weak observability, absent verification, or awkward tooling, improve the engineering environment rather than indefinitely expanding prompts.
+Start with **one primary method and at most one supporting method** as a working budget,
+not a quota. Expand only for a concrete unresolved risk. Routine reversible edits need
+only the existing concise scope/verification statement. No reasoning transcript is required.
 
 ## Method selection
 
-| Signal | Prefer | Avoid by default |
-| --- | --- | --- |
-| Agent repeatedly cannot inspect or verify behavior | Harness engineering | Prompt growth without new signal |
-| Running-system state is important | Machine-queryable runtime interaction | Human-only log archaeology |
-| Requirement is ambiguous or hard to verify | Executable specification | Large implementation before defining success |
-| Correctness can be checked cheaply | Verification-first development | Implement-first, verify-last |
-| Repo is hard for a fresh agent to navigate | Agent-legible repository | Giant instruction files |
-| Same reliable procedure is repeated | Repo-local skill or deterministic wrapper | Re-prompting the whole procedure |
-| A rule must always execute | Deterministic hook/gate | Hoping the model remembers |
-| Investigation has independent branches | Bounded subagent delegation | Context-heavy serial exploration |
-| Multiple agents write concurrently | Isolated workspaces + integration owner | Shared mutable working tree |
-| Model/tool/policy change is proposed | Matched-task agent evaluation | Vibe-based model selection |
-| A difficult task exposed recurring friction | Failure-to-harness improvement | Treating every failure as model weakness |
+| Observed need | Smallest candidate / optional focused guide | Evidence it helps | Defer / stop when |
+| --- | --- | --- | --- |
+| Repeated inability to inspect or verify behavior | Repair the missing harness capability; `AGENT_HARNESS_ENGINEERING.md` | A representative task now reaches a credible observation | No recurring friction or material risk; existing tool suffices |
+| Fresh agent misses a non-obvious command or constraint | Short active instruction pointer, task-scoped retrieval | Fresh task finds and uses the correct source/command | More context merely repeats discoverable code or rules |
+| Ambiguous requirement / weak correctness oracle | Example, contract, property or executable scenario; `SPEC_DRIVEN_AI_DEVELOPMENT.md` | Known-bad behavior fails and accepted behavior passes | Full spec framework adds no useful discrimination |
+| Existing behavior must survive a legacy change | Characterization plus contract/differential verification | Intentional differences are explained; compatibility controls pass | Snapshot just blesses an existing defect |
+| Runtime, GUI or device state matters | Narrow CLI/log/socket/API probe; `AGENT_RUNTIME_INTERACTION.md` | Same signal reproduced before/after on relevant runtime | New MCP endpoint adds access surface without diagnostic value |
+| A reliable procedure repeats | Existing command, then small wrapper or skill | Fewer procedural failures on comparable tasks | One-off task, redundant abstraction or stale model workaround |
+| Stable invariant is repeatedly violated | Existing deterministic verifier; scoped gate when justified | Positive and negative controls; bounded noise/runtime | Rule has no reliable oracle or creates only declaration theater |
+| Investigation has independent branches | Bounded delegation if authorized; `AGENT_PARALLEL_EXECUTION.md` | More useful evidence after integration cost | Dependency, shared mutation or coordination dominates |
+| Concurrent writers / shared runtime | Isolated workspaces and explicit resource ownership | Integrated revision verifies; resources are released | Isolation costs more than serial work; worktrees alone do not isolate services |
+| Self-review misses defects | Independent falsification check for selected risk | Concrete counterexample or detection benefit | Reviewer repeats the same assumptions or generates low-value noise |
+| Model/tool/instructions change | Matched representative tasks; `AGENT_EVALUATION.md` | Acceptance first; repair, review, time/cost second | Tiny/cherry-picked sample is presented as a general gain |
+| Context loss / resumed work | Compact task state and actual-state reconciliation | Next session resumes without replaying or duplicating effects | Another state file duplicates the existing tracker |
+| Harness complexity grows | Remove one redundant component and compare | Required outcomes preserved with lower burden | Removal weakens permissions, required checks or useful signal |
 
-## Method families
+Most underlying techniques predate AI. The shift is that agents also operate the feedback
+loop: intent, context, tools, observable behavior, verification and recovery. Keep product
+contracts independent of a particular agent implementation.
 
-### 1. Harness engineering
-Design the environment around the agent: repository map, tools, state, runtime access, verification, evidence, limits, and recovery. See [AGENT_HARNESS_ENGINEERING.md](AGENT_HARNESS_ENGINEERING.md).
+## Reasoning quality and verification
 
-### 2. Agent-legible repository
-Keep authoritative knowledge in repository sources of truth and make it progressively discoverable. Entry instructions should be a map, not a duplicated encyclopedia. Prefer stable commands, explicit contracts, local architecture docs, and searchable task evidence.
+A method choice should connect **observed problem → intervention → expected signal →
+acceptance → cost/retirement condition**. If the expected signal is absent, revisit the
+hypothesis. More explanation, generated code, tests or agent votes is not evidence by itself.
 
-### 3. Executable specifications
-Turn important acceptance criteria into tests, contracts, scenarios, fixtures, assertions, or measurable budgets where practical. See [SPEC_DRIVEN_AI_DEVELOPMENT.md](SPEC_DRIVEN_AI_DEVELOPMENT.md).
+For consequential changes, check a plausible alternative explanation or counterexample.
+Prefer a source of expected behavior independent of the newly generated implementation.
+A clean-context reviewer may help; it is not automatically an independent oracle.
+Do not force a new test onto a trivial prose edit or repeatedly run unrelated suites.
 
-### 4. Verification-first development
-Before a non-trivial implementation, identify the cheapest credible way to observe success or failure. If no verification path exists, creating a probe, fixture, contract check, or test harness may be the first engineering step.
+## Adoption in existing projects
 
-### 5. Machine-queryable runtime interaction
-Expose development-time state through the narrowest suitable interface: MCP, CLI, diagnostic API/socket, structured logs, traces, metrics, browser/GUI automation, or hardware lab control. MCP is a transport/tool boundary, not the method itself. See [AGENT_RUNTIME_INTERACTION.md](AGENT_RUNTIME_INTERACTION.md).
+Use [the rollout guide](ENGINEERING_METHODS_ADOPTION.md): inspect the actual pin and host
+instructions, establish one baseline, pilot one slice, promote a proven outcome locally,
+and periodically retire ineffective scaffolding. Existing debt is explicit; new violations
+are not hidden by a lower total count. Never use an advisory method or legacy baseline to
+silently override a mandatory rule.
 
-### 6. Repo-local skills and reusable procedures
-A repeated task procedure may become a versioned skill, script, command, or playbook when reuse pays for its maintenance. Keep stable constraints separate from model-specific scaffolding; delete obsolete scaffolding when models/tools improve.
+Tool availability does not expand authority. Method uptake is demonstrated by actual task
+behavior and verified outcomes, not imported files, an adoption badge or a self-report.
 
-### 7. Deterministic hooks and gates
-If an invariant must execute reliably, prefer deterministic enforcement at the appropriate boundary. Examples: formatting after edits, contract validation after schema changes, secret checks before publication, or authority checks around mutating tools. Do not turn every recommendation into a hook.
+## Related Documents
 
-### 8. Bounded subagent delegation
-Delegate independent research or verification when it reduces context pressure or wall time. Give each delegate a bounded objective, inputs, authority, expected evidence, and return contract. The parent/integration owner remains responsible for reconciling contradictory results.
-
-### 9. Isolated parallel execution
-Concurrent writers need isolated workspaces or explicit non-overlapping ownership. Git worktrees are one implementation, not a requirement. Shared devices and services require ownership/lease discipline. See [AGENT_PARALLEL_EXECUTION.md](AGENT_PARALLEL_EXECUTION.md).
-
-### 10. Independent falsification review
-For selected high-value tasks, a clean-context reviewer can search for counterexamples, unmet acceptance criteria, boundary violations, and unsupported claims. An extra reviewer is not automatically useful; measure it for the task class.
-
-### 11. Agent evaluation
-Evaluate model/tool/instruction/harness changes on representative tasks with acceptance criteria and authority boundaries. Track repairs, human intervention, active/lead time, cost when available, and later corrections. See [AGENT_EVALUATION.md](AGENT_EVALUATION.md) and `tooling/BENCHMARK_SCENARIOS.md`.
-
-### 12. Failure-to-harness improvement
-Classify recurring agent friction and improve the smallest durable layer:
-
-| Repeated failure | Candidate improvement |
-| --- | --- |
-| Missing project knowledge | Repo map / canonical docs |
-| Cannot inspect state | Probe / logs / trace / runtime interface |
-| Cannot tell correct from incorrect | Test / executable spec / oracle |
-| Repeats a procedure incorrectly | Skill / script / playbook |
-| Misses a mandatory invariant | Hook / gate / wrapper |
-| Context overload | Progressive disclosure / delegation |
-| Concurrent collisions | Isolated workspace / ownership |
-| Environment drift | Reproducible sandbox / fixture |
-
-Do not automatically productize a one-off workaround. Require repeated value or material risk reduction.
-
-## Relationship to existing kit mechanisms
-
-- Authority and bounded autonomy: `constitution/AI_ENFORCEMENT.md`
-- Daily repair loop: `constitution/AI_ENFORCEMENT_DAILY.md`
-- Proportionality: `constitution/ADAPTIVE_GOVERNANCE.md`
-- Debug method selection: `usage/DEBUGGING_INDEX.md`
-- Scientific debugging: `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
-- Test diagnostics: `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`
-- Run evidence: `usage/AI_RUN_EVIDENCE.md`
-- Model/tool benchmarking: `tooling/BENCHMARK_SCENARIOS.md`
-- Productivity calibration: `usage/AI_PRODUCTIVITY_CALIBRATION.md`
-
-## Adoption principle
-
-Adopt methods because they remove a demonstrated bottleneck or reduce concrete risk. Do not require MCP, worktrees, subagents, skills, hooks, or an orchestration framework merely because they are available.
-
-Specify the engineering property first and keep the implementation technology replaceable.
+- [Existing-project adoption](ENGINEERING_METHODS_ADOPTION.md)
+- Baseline: `constitution/AI_RULES.md`, `constitution/AI_ENFORCEMENT.md`,
+  `constitution/ADAPTIVE_GOVERNANCE.md`, `usage/AEP_VALIDATION.md`
+- Standard / optional upstream: `usage/AGENT_HARNESS_ENGINEERING.md`,
+  `usage/AGENT_RUNTIME_INTERACTION.md`, `usage/SPEC_DRIVEN_AI_DEVELOPMENT.md`,
+  `usage/AGENT_PARALLEL_EXECUTION.md`, `usage/AGENT_EVALUATION.md`,
+  `usage/DEBUGGING_INDEX.md`, `usage/AI_RUN_EVIDENCE.md`,
+  `usage/AI_PRODUCTIVITY_CALIBRATION.md`
+- Optional research: `research/AI_ENGINEERING_METHODS_EVIDENCE.md`
+- Upstream-only: `tooling/BENCHMARK_SCENARIOS.md`

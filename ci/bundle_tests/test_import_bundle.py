@@ -208,10 +208,16 @@ class RealManifestTests(unittest.TestCase):
                 bundle.verify_copy(destination, files, excludes)
                 for name in ["AGENTS.md", ".github/copilot-instructions.md", "CHANGELOG.md", "DEVELOPMENT.md", "VERSIONING.md"]:
                     self.assertEqual((project / name).read_text(), "HOST: " + name)
-                for required in ["kit-manifest.yml", "architecture/ARCHITECTURE_DECISION_FRAMEWORK.md", "architecture/TERMINOLOGY_GLOSSARY.md"]:
+                for required in ["kit-manifest.yml", "architecture/ARCHITECTURE_DECISION_FRAMEWORK.md", "architecture/TERMINOLOGY_GLOSSARY.md",
+                                 "usage/AI_ENGINEERING_METHODS.md", "usage/ENGINEERING_METHODS_ADOPTION.md"]:
                     self.assertIn(required, files)
                 if "architecture" not in selected and "full" not in selected:
                     self.assertNotIn("architecture/README.md", files)
+                if selected[0] == "minimal":
+                    self.assertNotIn("ci/ratchet_findings.py", files)
+                    self.assertNotIn("usage/AGENT_EVALUATION.md", files)
+                else:
+                    self.assertIn("ci/ratchet_findings.py", files)
                 missing = destination / "constitution/AI_RULES.md"
                 missing.unlink()
                 with self.assertRaisesRegex(bundle.BundleError, "missing"):

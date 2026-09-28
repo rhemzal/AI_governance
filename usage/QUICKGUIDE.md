@@ -2,7 +2,7 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
-## Practical Recommendations (As of 2025-12-28)
+## Practical Recommendations
 This is the fastest path to get value from this repository.
 
 ## 0) What You’re Trying to Achieve
@@ -202,6 +202,27 @@ Do not invent T_human_manual. Use human_source: unknown unless I provide measure
 Task summary:
 <PASTE WHAT WAS DONE>
 ```
+
+### Recipe J — Upgrade Engineering Methods in an Existing Project
+
+```text
+Use the existing task mandate; assess first and implement the authorized pilot/update.
+1. Inspect active agent instructions, imported kit SHA/selection, local overrides,
+   current verification commands and recurring failures. Preserve host-owned files.
+2. Read AI_RULES §6.5 and the baseline ENGINEERING_METHODS_ADOPTION guide.
+3. Choose one real slice and one smallest useful improvement, or explain why the
+   current method is sufficient. State baseline/gap, acceptance observation and limits.
+4. For an authorized upgrade, prepare a pinned candidate and reconcile host routes.
+   For an authorized pilot, use existing commands and prove useful before/after behavior.
+5. Promote only stable scoped outcomes to the existing verifier. Consider a legacy
+   finding-set ratchet only if the existing scanner lacks equivalent baseline support.
+6. Report adopted/deferred items, verification, owner/revisit trigger and rollback.
+Do not add a new workflow framework, rewrite the whole project, or claim adoption from
+copied files alone. Do not activate downstream controls outside the task's authority.
+```
+
+Use kit-relative `usage/AI_ENGINEERING_METHODS.md` and
+`usage/ENGINEERING_METHODS_ADOPTION.md`; both are included in minimal.
 
 ## 3) When ADR-First is Mandatory
 Use ADR-first when you:
