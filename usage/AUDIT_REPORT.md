@@ -2,9 +2,32 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance)._
 
+## Repair follow-up — A-03/A-04/A-05/A-07 (2026-09-27)
+
+**Disposition:** A-01/A-02 are merged in PR #36. A-03, A-04, A-05 and A-07 are implemented and regression-verified in [PR #37](https://github.com/rhemzal/AI_governance/pull/37), effective for main on merge. **11 findings remain unaddressed (8 Medium, 3 Low): A-06 and A-08–A-17.** This is a scoped retest, not release-audit closure.
+
+**Verified implementation:** [6cb2bd063da04482c80fb0590b17c2dac087550b](https://github.com/rhemzal/AI_governance/commit/6cb2bd063da04482c80fb0590b17c2dac087550b), based on merged PR #36 (`0e30184667060c7e5333897dedcd5d64ddd44301`). GitHub Actions tested its PR merge revision `892eb441f3423cbfd88d45eda2915f1a5ebce650`. Subsequent report/status edits do not change the implementation. ADR-0011 records the decision and limits.
+
+| Finding | Repair | Retest evidence |
+| --- | --- | --- |
+| A-03 | Python examples parse static imports; Python/Go recipes reject missing/empty inputs and report scanner errors. Starter and recipe blocks are tested for parity. | Missing directory, direct/from imports reproduced exit 0 on the base and exit 1 after repair. Aliased, indented, relative and multiline Python forms fail; allowed core imports pass. Go direct/alias/raw/subpackage path controls pass/fail as intended; scanner exit 2 and real permission denial fail visibly. |
+| A-04 | Require an added/modified numbered regular ADR present at the tested revision. Check both sides of moved governance paths. | Deleting the old decision reproduced exit 0 on the base and exit 1 after repair. No-ADR, template, unchanged/untracked record, rename-away/renumber, symlink and type-change cases fail; added/updated records pass. |
+| A-05 | Starter uses full history and the same ADR check and prefixes as the workflow. | Disposable PR-style merge with independently advanced base fails in a depth-1 clone; fetching full history makes the eligible decision pass. Usage-only edits skip the requirement. |
+| A-07 | Recognize backtick/tilde fences, longer delimiters and up to three leading spaces; require matching closure and one authoritative block. | The same invalid READY payload changes from advisory WARN to failure for the three original alternate forms. Valid plans pass across indentation/fence/LF/CRLF combinations; mixed duplicates, unfinished/mismatched fences and unsupported declaration placement fail. Outer fenced examples are ignored. |
+
+**Verification:** Linux, Python 3 standard library, Bash, Git, yq 4.44.3 and lychee 0.24.2. Local runs passed 49 tests with two physical permission cases explicitly skipped under root. The unprivileged GitHub Actions runner passed **all 51 tests, no skips**:
+
+- `timeout 60s python3 -m unittest discover -s ci/tests -v`: **18 PASS**, including all original 12 tests; [AEP run](https://github.com/rhemzal/AI_governance/actions/runs/36328741309).
+- `timeout 60s python3 -m unittest discover -s ci/gate_tests -v`: **20 PASS**, including real unreadable-file/directory fixtures and the copied inline blocks; [doc-hygiene run](https://github.com/rhemzal/AI_governance/actions/runs/36328741360).
+- `KIT_MANIFEST_JSON=<yq conversion> timeout 60s python3 -m unittest discover -s ci/bundle_tests -v`: **13 PASS** in the same doc-hygiene run.
+- Existing metadata, manifest, bundled-reference, provenance, D5 and hub-link checks: **PASS**. [ADR check](https://github.com/rhemzal/AI_governance/actions/runs/36328741320) and DOC DELTA advisory: **PASS**; unused waiver job skipped as expected.
+- Full offline scan of **117 tracked Markdown files** retains only the **two known A-15 errors**. New links resolve locally; external-link health is not asserted.
+
+**Limits:** Python checks a conservative import-name policy, not dynamic/transitive dependencies. Go remains a quoted-path text tripwire with possible comment/string false positives and escaped-literal gaps. Git rename detection is heuristic; meaningful ADR rationale still needs review. AEP is a bounded top-level declaration scanner, not a full Markdown renderer or authority verifier. Applicability/maturity rules, branch rules, release tags and downstream repositories are unchanged. Remaining P2/P3 findings stay in the repair plan.
+
 ## Repair follow-up — A-01/A-02 (2026-09-27)
 
-**Disposition:** A-01 and A-02 are implemented and regression-verified in this change; the repair becomes effective for main when merged. **15 findings remain unaddressed (12 Medium, 3 Low): A-03–A-17.** This is a scoped repair retest, not a clean release audit or closure of the remaining waves.
+**Disposition at PR #36:** A-01 and A-02 were implemented and regression-verified, then merged as `0e30184667060c7e5333897dedcd5d64ddd44301`. At that checkpoint, 15 findings remained (12 Medium, 3 Low): A-03–A-17. The later P1 follow-up above supplies the current disposition; this evidence remains historical.
 
 **Verified implementation:** [b4c59fb1e55a21034784d05e3745f02ac5f804c4](https://github.com/rhemzal/AI_governance/commit/b4c59fb1e55a21034784d05e3745f02ac5f804c4); based on merged audit commit `f253ed17f202bbbaa9668c14ef4c6878d56abfef`. Later report/status edits do not change the import implementation. ADR-0010 records the import contract and scoped tool exception.
 
@@ -16,7 +39,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 Verification environment: Linux, Python 3.12.14, Git, Bash, yq 4.44.3, lychee 0.24.2. Commands and outcomes:
 
 - `KIT_MANIFEST_JSON=<yq JSON conversion> timeout 60s python3 -m unittest discover -s ci/bundle_tests -v`: **13 tests PASS**, including real bundle combinations and negative cases for existing targets, missing/changed/extra files, unknown/cyclic selections, traversal, symlinks, exclusions, spaces, and executable bits.
-- `timeout 60s python3 -m unittest discover -s ci/tests -v`: existing **12 AEP tests PASS**. The separate A-07 declaration-fence defect remains open.
+- `timeout 60s python3 -m unittest discover -s ci/tests -v`: existing **12 AEP tests PASS**. A-07 was still open at this checkpoint (repaired in the follow-up above).
 - Existing root metadata, all-catalog manifest, bundled cross-reference and provenance steps: **PASS**; new import regression step: **PASS**. No gate was disabled or weakened for this repair.
 - Offline link checks: **4 hubs PASS** (83 successful local occurrences); full **116-file** scan retains only the **2 known A-15 errors**. No new local-link failure.
 - Exact guide smoke test on a clean implementation checkout: `PASS: imported 65 files; bundles=standard`, followed by `PASS: verified 65 files; bundles=standard`; five host files unchanged; repeat refused without overwriting them.

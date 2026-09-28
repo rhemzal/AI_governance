@@ -4,7 +4,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 ## Documentation Hygiene (Kit Repo)
 
-This kit repo ships **reference CM0–CM1 workflows** under `.github/workflows/` (inline shell + `yq` + `lychee`, plus scoped Python standard-library AEP and import tools). Maintainers run stricter dogfood than default adopter CM0 — see `usage/ENFORCEMENT_MATRIX.md`. Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
+This kit repo ships **reference CM0–CM1 workflows** under `.github/workflows/` (inline shell/Python + `yq` + `lychee`, plus scoped Python standard-library AEP and import tools). Maintainers run stricter dogfood than default adopter CM0 — see `usage/ENFORCEMENT_MATRIX.md`. Adopters copy/adapt YAML blocks from `usage/CI_STARTER_WORKFLOWS.md` into their CI platform.
 
 Before PRs that touch documentation or import bundles, complete the **Doc Hygiene Checklist** below (or rely on CI when it covers the same checks). Paste results into the PR or `usage/AI_RUN_EVIDENCE.md` when running manually.
 
@@ -33,7 +33,15 @@ Run the reference-validator regression tests before changing its code, workflow,
 timeout 60s python3 -m unittest discover -s ci/tests -v
 ```
 
-The AEP suite uses the Python standard library only. Import-tool or bundle changes also require the separate bundle suite (Python 3.9+, Git, yq v4.44.3). Run in a tracked checkout; include newly added source files in the Git index before testing directory expansion:
+The AEP suite uses the Python standard library only. Changes to the boundary recipes, ADR workflow or their starters also require the executable reference fixtures (Python 3.9+, Bash and Git):
+
+```bash
+timeout 60s python3 -m unittest discover -s ci/gate_tests -v
+```
+
+These fixtures execute the published inline blocks, compare starter/reference parity, and exercise disposable repositories including a shallow PR merge. Filesystem permission cases require an unprivileged POSIX runner (the kit CI runner); they are explicitly skipped under root, which bypasses `chmod`. A separate injected scanner-error case runs under either identity. Kit `doc-hygiene` runs this suite without adding a product boundary gate.
+
+Import-tool or bundle changes also require the separate bundle suite (Python 3.9+, Git, yq v4.44.3). Run in a tracked checkout; include newly added source files in the Git index before testing directory expansion:
 
 ```bash
 yq -o=json '.' kit-manifest.yml > /tmp/ai-governance-manifest.json

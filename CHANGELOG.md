@@ -9,6 +9,11 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Advisory-only] Add focused guides for agent harness engineering, machine-queryable runtime interaction (MCP is one implementation), spec-driven AI development, parallel execution, and agent engineering regression tasks.
 - [Advisory-only] Keep the methods technology-neutral and proportional: no new mandatory orchestration framework, MCP requirement, subagent workflow, hook, or CI gate.
 
+### Gate input correctness (2026-09-27)
+- [Fix] September A-03: Python boundary examples inspect static import syntax, including direct/from/relative/indented forms. Python/Go recipes fail on missing/empty source roots and scanner errors; document the Go text scan and Python name-policy limits.
+- [Governance-impacting] ADR-0011: the ADR check accepts only added/modified numbered regular records at the tested revision. Deleted/template/symlink/type-change/detected-rename records do not satisfy it. Starter §4 fetches full history and matches the kit's governance prefixes (A-04/A-05).
+- [Fix] AEP detection recognizes tilde, longer and up-to-three-space-indented fences, rejects incomplete/multiple declarations, and ignores examples inside ordinary code fences. Schema version and absent-plan advisory behavior stay unchanged (A-07).
+- [Import bundle change] Standard/full gain scoped inline-check regression fixtures through existing `ci/`; the kit runs them in doc hygiene. Minimal stays documentation-only. Copy corrected recipes/workflows and the AEP validator from the same pinned revision; no downstream workflow is activated automatically.
 
 ### Safe bundle import (2026-09-27)
 - [Breaking rule change] ADR-0010: copy imports default to a fresh `vendor/AI_governance/` snapshot. Existing destinations are refused; host agent instructions, workflows and metadata are preserved and integrated by a reviewed merge. Existing root-layout imports require a deliberate migration, not an overwrite.

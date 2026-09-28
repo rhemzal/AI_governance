@@ -6,7 +6,7 @@ This guide provides **ready-to-copy GitHub Actions starter examples** for the ga
 
 These are **reference implementations**, not mandatory stack-specific prescriptions. Adapt tooling, commands, and paths to your repository.
 
-**Kit repo living reference:** `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml` (inline shell + `yq` + `lychee`; AEP adds a Python standard-library reference validator).
+**Kit repo living reference:** `.github/workflows/doc-hygiene.yml`, `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml` (inline shell/Python + `yq` + `lychee`; AEP uses a Python standard-library reference validator).
 
 Adopters adapt selected `run:` blocks and project paths deliberately. Kit-wide catalog checks are maintainer-only. The scoped snapshot importer/checker (ADR-0010) and AEP validator (ADR-0009) must each match the pinned kit revision; keep imported kit files separate from host-owned workflow/template entry points.
 
@@ -108,17 +108,59 @@ jobs:
 
 Full stack-specific inline examples: `usage/BOUNDARY_GATE_RECIPES.md` and below.
 
-### 3a) Python — forbidden import grep (inline)
+### 3a) Python — static forbidden imports (inline)
+
+Same check and limitations as `usage/BOUNDARY_GATE_RECIPES.md`; configure the root and forbidden components before adoption.
 
 ```yaml
-      - name: Python boundary grep (example)
+      - name: Python boundary syntax check (example)
         run: |
           set -euo pipefail
-          # Adapt: core must not import infrastructure
-          if grep -rE '^(from|import) (infra|adapters)\.' src/myapp/domain/ 2>/dev/null; then
-            echo "Domain layer imports infrastructure"
-            exit 1
-          fi
+          python3 - <<'PYTHON'
+          import ast
+          import os
+          import tokenize
+          from pathlib import Path
+
+          # Adapt the root and forbidden module components to the declared boundaries.
+          root = Path("src/myapp/domain")
+          forbidden = {"infra", "adapters"}
+          if not root.is_dir() or root.is_symlink():
+              raise SystemExit(f"Invalid source directory: {root}")
+
+          def scan_error(error):
+              raise error  # os.walk otherwise ignores directory-read failures
+
+          count = 0
+          violations = []
+          for directory, dirs, files in os.walk(root, onerror=scan_error):
+              dirs.sort()
+              for name in sorted(dirs + files):
+                  if (Path(directory) / name).is_symlink():
+                      raise SystemExit(f"Unsupported source symlink: {Path(directory) / name}")
+              for name in sorted(files):
+                  if not name.endswith(".py"):
+                      continue
+                  path = Path(directory) / name
+                  with tokenize.open(path) as source:
+                      tree = ast.parse(source.read(), filename=str(path))
+                  count += 1
+                  for node in ast.walk(tree):
+                      if isinstance(node, ast.Import):
+                          imports = [alias.name for alias in node.names]
+                      elif isinstance(node, ast.ImportFrom):
+                          imports = [node.module or ""]
+                          imports += [(node.module or "") + "." + alias.name for alias in node.names]
+                      else:
+                          continue
+                      if any(forbidden.intersection(name.split(".")) for name in imports):
+                          violations.append(f"{path}:{node.lineno}: forbidden infrastructure import")
+          if not count:
+              raise SystemExit(f"No Python source files found: {root}")
+          if violations:
+              raise SystemExit("\n".join(violations))
+          print(f"PASS: checked {count} Python source files")
+          PYTHON
 ```
 
 ### 3b) TypeScript — dependency-cruiser (inline invoke)
@@ -130,42 +172,84 @@ Full stack-specific inline examples: `usage/BOUNDARY_GATE_RECIPES.md` and below.
           npx --yes dependency-cruiser@16 --config .dependency-cruiser.cjs src
 ```
 
-### 3c) Go — forbidden import path (inline)
+### 3c) Go — forbidden quoted import path (inline)
+
+Conservative text tripwire; review the limitations in `usage/BOUNDARY_GATE_RECIPES.md` before using it as boundary evidence.
 
 ```yaml
-      - name: Go boundary grep (example)
+      - name: Go boundary path scan (example)
         run: |
           set -euo pipefail
-          if grep -r '"my/module/internal/infra"' ./pkg/domain/ 2>/dev/null; then
-            echo "Domain imports infra path"
-            exit 1
-          fi
+          # Adapt the directory and escaped module prefix. This is a text scan, not a Go parser.
+          ROOT=./pkg/domain
+          test -d "$ROOT" || { echo "Missing source directory: $ROOT" >&2; exit 1; }
+          SOURCE="$(find "$ROOT" -type f -name '*.go' -print -quit)"
+          test -n "$SOURCE" || { echo "No Go source files found: $ROOT" >&2; exit 1; }
+          status=0
+          grep -rEn --include='*.go' '["`]example\.com/myapp/internal/infra(/[^"`]*)?["`]' "$ROOT" || status=$?
+          case "$status" in
+            0) echo "Boundary violation: domain references infrastructure" >&2; exit 1 ;;
+            1) echo "PASS: no forbidden quoted import path found" ;;
+            *) echo "Boundary scan failed (grep exit $status)" >&2; exit "$status" ;;
+          esac
 ```
 
 ## 4) ADR-required check for architecture-impacting paths
 
+Python 3 standard library and Git only. The comparison uses the PR base and tested merge revision. Full history makes both revisions available; a missing revision is a check failure. Keep the inline check synchronized with `.github/workflows/adr-required.yml` at the pinned kit revision.
+
 ```yaml
 name: adr-required
 on: [pull_request]
+permissions:
+  contents: read
 jobs:
   adr:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Fail when architecture-impacting paths changed without ADR
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require ADR when governance paths change
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          BASE="${{ github.event.pull_request.base.sha }}"
-          HEAD="${{ github.sha }}"
-          CHANGED="$(git diff --name-only "$BASE" "$HEAD")"
-          if echo "$CHANGED" | grep -Eq '^(constitution/|ci/|usage/|architecture/|interface/|adr/)'; then
-            if ! echo "$CHANGED" | grep -Eq '^adr/ADR_.*\.md$'; then
-              echo "Architecture-impacting paths changed, but no ADR file was added/updated."
-              exit 1
-            fi
-          fi
+          python3 - "$BASE_SHA" "$HEAD_SHA" <<'PYTHON'
+          import re
+          import subprocess
+          import sys
+
+          base, head = sys.argv[1:]
+
+          def changed(*options):
+              output = subprocess.check_output(
+                  ["git", "diff", "--name-only", "-z", *options, base, head, "--"])
+              return output.split(b"\0")[:-1]
+
+          # Include both sides of moves when deciding whether governance was touched.
+          prefixes = (b"constitution/", b"ci/", b"architecture/", b"interface/", b"adr/")
+          if not any(path.startswith(prefixes) for path in changed("--no-renames")):
+              print("SKIP: no governance-impacting paths changed")
+              sys.exit(0)
+
+          # A deletion, detected rename, template, symlink or type change is not a decision update.
+          for path in changed("--find-renames=50%", "--diff-filter=AM"):
+              if not re.fullmatch(rb"adr/ADR_[0-9]+_[^/]+\.md", path):
+                  continue
+              entry = subprocess.check_output(["git", "ls-tree", "-z", head, "--", path])
+              metadata = entry.split(b"\t", 1)[0].split()
+              if len(metadata) == 3 and metadata[:2] in ([b"100644", b"blob"], [b"100755", b"blob"]):
+                  print("PASS: added/modified numbered ADR exists at HEAD; content still needs review")
+                  sys.exit(0)
+          raise SystemExit("Governance-impacting paths changed without an added/modified numbered ADR")
+          PYTHON
 ```
+
+Governance prefixes match the kit workflow: `constitution/`, `ci/`, `architecture/`, `interface/`, `adr/`. Usage-only edits do not trigger this check's ADR requirement. An eligible record is an added or modified numbered `adr/ADR_<number>_<name>.md` regular file present at the tested revision. Deletions, templates, symlinks, type changes and Git-detected renames do not qualify. A move alone records no new decision; add/update a decision separately. Git's similarity classification is a heuristic, so substantial rewrites/moves and the decision's meaning still require review. The check does not validate ADR content or prove approval.
 
 ## 5) AEP declaration validation
 

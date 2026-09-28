@@ -29,6 +29,7 @@ The task mandate defines the outcome, allowed targets/effects, and separate appr
 - Canonical contract: [AI_ENFORCEMENT](constitution/AI_ENFORCEMENT.md) §§1.1–1.4
 - Structured PR plans and migration: [AEP validation](usage/AEP_VALIDATION.md)
 - Results and handoff: [AI run evidence](usage/AI_RUN_EVIDENCE.md)
+- Gate correctness and copyable regression coverage: [ADR-0011](adr/ADR_0011_Gate_Input_Validation.md)
 - Decisions: [ADR-0008](adr/ADR_0008_Bounded_Agent_Execution.md), [ADR-0009](adr/ADR_0009_Structured_AEP_Validation.md)
 
 The AEP checker validates declaration shape; authority, feasibility, and actual results remain separate review/control responsibilities. The kit provides a small reference validator, not an agent orchestration platform.
@@ -95,7 +96,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Import guidance: [usage/HOW_TO_IMPORT.md](usage/HOW_TO_IMPORT.md)
 - Quick recipes & prompts: [usage/QUICKGUIDE.md](usage/QUICKGUIDE.md)
 - Testing quickstart: [DEVELOPMENT.md](DEVELOPMENT.md)
-- AI engineering methods (harness, runtime interaction, specs, parallelism, evals): [usage/AI_ENGINEERING_METHODS.md](usage/AI_ENGINEERING_METHODS.md)
+- AI engineering methods (harness, runtime interaction, specs, parallelism, evals): [usage/AI_ENGINEERING_METHODS.md](usage/AI_ENGINEERING_METHODS.md) — focused guides: [AGENT_HARNESS_ENGINEERING.md](usage/AGENT_HARNESS_ENGINEERING.md), [AGENT_RUNTIME_INTERACTION.md](usage/AGENT_RUNTIME_INTERACTION.md), [SPEC_DRIVEN_AI_DEVELOPMENT.md](usage/SPEC_DRIVEN_AI_DEVELOPMENT.md), [AGENT_PARALLEL_EXECUTION.md](usage/AGENT_PARALLEL_EXECUTION.md), [AGENT_EVALUATION.md](usage/AGENT_EVALUATION.md)
 - AI test diagnostics playbook: [usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md](usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md)
 - Debugging index (start here): [usage/DEBUGGING_INDEX.md](usage/DEBUGGING_INDEX.md)
 - Debugging effectiveness catalog: [usage/DEBUGGING_EFFECTIVENESS_CATALOG.md](usage/DEBUGGING_EFFECTIVENESS_CATALOG.md)
