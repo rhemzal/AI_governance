@@ -105,21 +105,54 @@ def validate_plan(plan):
     return status
 
 
+def _declarations(body):
+    """Scan the documented top-level fence subset, not a full Markdown AST."""
+    blocks, markers, content = [], [], []
+    active = None
+    for line in re.split(r"\r\n|\r|\n", body):
+        fence = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line)
+        if active:
+            delimiter, is_aep = active
+            if (fence and fence[1][0] == delimiter[0]
+                    and len(fence[1]) >= len(delimiter) and not fence[2].strip()):
+                if is_aep:
+                    blocks.append("\n".join(content))
+                active, content = None, []
+            elif is_aep:
+                content.append(line)
+            continue
+        if fence:
+            info = fence[2].strip()
+            if info.split()[:1] == ["aep"] and info != "aep":
+                raise InvalidPlan("aep fence info must contain only the language name")
+            # Backticks in a backtick info string do not open a Markdown block.
+            if fence[1][0] == "`" and "`" in info:
+                continue
+            active = (fence[1], info == "aep")
+            continue
+        if re.match(r"^[ \t>]*(?:(?:[-+*]|[0-9]+[.)])[ \t]+)?"
+                    r"(?:`{3,}|~{3,})[ \t]*aep(?:[ \t]|$)", line):
+            raise InvalidPlan("put the aep fence at top level, indented at most three spaces")
+        marker = re.match(r"^\s*(?:[-*]\s+)?AEP Status:\s*(\S+)", line)
+        if marker:
+            markers.append(marker[1])
+    if active and active[1]:
+        raise InvalidPlan("expected exactly one complete fenced aep block")
+    return blocks, markers
+
+
 def validate_body(body, changed_files=0):
     """Return a status message; missing declarations remain advisory.
 
     Only one fenced `aep` JSON block is authoritative. Other PR prose is ignored,
     except an optional legacy status marker, which must agree if supplied.
     """
-    openings = re.findall(r"^```aep\s*$", body, re.MULTILINE)
-    blocks = re.findall(r"^```aep[^\S\r\n]*\r?\n(.*?)^```[^\S\r\n]*\r?$",
-                        body, re.MULTILINE | re.DOTALL)
-    markers = re.findall(r"^\s*(?:[-*]\s+)?AEP Status:\s*(\S+)", body, re.MULTILINE)
-    if not openings and not blocks:
+    blocks, markers = _declarations(body)
+    if not blocks:
         if markers:
             raise InvalidPlan("legacy AEP Status marker requires a structured aep block; see migration guide")
         return "WARN: no AEP declaration; review applicability" if changed_files >= 2 else "SKIP: no AEP declaration"
-    if len(openings) != 1 or len(blocks) != 1:
+    if len(blocks) != 1:
         raise InvalidPlan("expected exactly one complete fenced aep block")
     try:
         plan = json.loads(blocks[0], object_pairs_hook=_object)

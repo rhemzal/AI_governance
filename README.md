@@ -29,6 +29,7 @@ The task mandate defines the outcome, allowed targets/effects, and separate appr
 - Canonical contract: [AI_ENFORCEMENT](constitution/AI_ENFORCEMENT.md) §§1.1–1.4
 - Structured PR plans and migration: [AEP validation](usage/AEP_VALIDATION.md)
 - Results and handoff: [AI run evidence](usage/AI_RUN_EVIDENCE.md)
+- Gate correctness and copyable regression coverage: [ADR-0011](adr/ADR_0011_Gate_Input_Validation.md)
 - Decisions: [ADR-0008](adr/ADR_0008_Bounded_Agent_Execution.md), [ADR-0009](adr/ADR_0009_Structured_AEP_Validation.md)
 
 The AEP checker validates declaration shape; authority, feasibility, and actual results remain separate review/control responsibilities. The kit provides a small reference validator, not an agent orchestration platform.

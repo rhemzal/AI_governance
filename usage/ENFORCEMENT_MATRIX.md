@@ -18,7 +18,7 @@ This matrix is the **single source of truth** for gate timing across **CI Maturi
 | **Adopter default** | Typical `standard` bundle expectation (overlay may override) |
 | **Manual / review** | Human or PR checklist until prerequisites exist |
 
-**Tooling note:** Most gates use inline CI steps. AEP uses the standard-library reference validator `ci/validate_aep.py` with regression tests (ADR-0009); see `usage/CI_STARTER_WORKFLOWS.md`. ADR-0010 also permits the scoped snapshot importer/checker `ci/import_bundle.py` and `ci/bundle_tests/`. Neither tool is an agent runtime.
+**Tooling note:** Most gates use inline CI steps. AEP uses the standard-library reference validator `ci/validate_aep.py` with regression tests (ADR-0009); see `usage/CI_STARTER_WORKFLOWS.md`. ADR-0010 also permits the scoped snapshot importer/checker `ci/import_bundle.py` and `ci/bundle_tests/`. Neither tool is an agent runtime. ADR-0011 adds executable fixtures in `ci/gate_tests/` for inline boundary recipes and the ADR check; `doc-hygiene` runs them. These validate reference implementations, not a product dependency graph.
 
 ## Canonical gate × CM × G table
 
@@ -53,13 +53,15 @@ The kit repo contains documentation and reference-validator tests (no product te
 | Doc hygiene | **Required** (always on) | Required **CM0** |
 | D5 anti-fragmentation | **Error** in `doc-hygiene` (maintainer policy) | Advisory **CM2** → Required **CM3** |
 | DOC DELTA | Advisory (`doc-delta-advisory`) | Required **CM2** review; optional CI |
-| Tests | Reference-validator tests + doc/CI verify; no product suite | Required **CM1** when tests exist |
+| Tests | AEP, import and inline gate regression fixtures + doc/CI verify; no product suite | Required **CM1** when tests exist |
 | Boundary | N/A | Required **CM2** when recipes wired |
 | ADR on governance paths | **Required** (`adr-required`) — maintainer dogfood | Required **CM3** |
 | AEP | Advisory applicability + structured declaration validation and regression tests | Advisory applicability **CM1+**; declared plan shape validated |
 | Waivers | Label advisory | `GOVERNANCE_WAIVERS` + overlay |
 
 **Why ADR runs in kit repo before adopter CM3:** ADR-0005 dogfooding — governance-path changes in this repo must ship with an ADR. Adopters should not enable `adr-required` as required until **CM3** unless overlay promotes earlier.
+
+**ADR check scope:** The reference requires an added/modified numbered regular ADR at the tested revision for governance-prefix changes. Deletions, templates and detected renames do not qualify. The starter fetches full history and uses the same check. Presence does not establish meaningful rationale or approval; see starter §4.
 
 ## Related Documents
 

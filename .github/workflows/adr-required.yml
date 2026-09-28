@@ -1,5 +1,5 @@
 # Kit-repo dogfood: ADR required when governance paths change.
-# Adopters: copy/adapt from usage/CI_STARTER_WORKFLOWS.md §4 — inline CI only, no repository scripts.
+# Adopters: copy/adapt usage/CI_STARTER_WORKFLOWS.md §4 (inline Python standard library + Git).
 name: adr-required
 
 on:
@@ -10,6 +10,9 @@ on:
       - 'architecture/**'
       - 'interface/**'
       - 'adr/**'
+
+permissions:
+  contents: read
 
 concurrency:
   group: adr-required-${{ github.ref }}
@@ -23,16 +26,40 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Require ADR when governance paths change
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          BASE="${{ github.event.pull_request.base.sha }}"
-          HEAD="${{ github.sha }}"
-          CHANGED="$(git diff --name-only "$BASE" "$HEAD")"
-          if echo "$CHANGED" | grep -Eq '^(constitution/|ci/|architecture/|interface/|adr/)'; then
-            if ! echo "$CHANGED" | grep -Eq '^adr/ADR_[0-9]+_.*\.md$'; then
-              echo "Governance-impacting paths changed, but no adr/ADR_*.md file was added or updated."
-              exit 1
-            fi
-          fi
+          python3 - "$BASE_SHA" "$HEAD_SHA" <<'PYTHON'
+          import re
+          import subprocess
+          import sys
+
+          base, head = sys.argv[1:]
+
+          def changed(*options):
+              output = subprocess.check_output(
+                  ["git", "diff", "--name-only", "-z", *options, base, head, "--"])
+              return output.split(b"\0")[:-1]
+
+          # Include both sides of moves when deciding whether governance was touched.
+          prefixes = (b"constitution/", b"ci/", b"architecture/", b"interface/", b"adr/")
+          if not any(path.startswith(prefixes) for path in changed("--no-renames")):
+              print("SKIP: no governance-impacting paths changed")
+              sys.exit(0)
+
+          # A deletion, detected rename, template, symlink or type change is not a decision update.
+          for path in changed("--find-renames=50%", "--diff-filter=AM"):
+              if not re.fullmatch(rb"adr/ADR_[0-9]+_[^/]+\.md", path):
+                  continue
+              entry = subprocess.check_output(["git", "ls-tree", "-z", head, "--", path])
+              metadata = entry.split(b"\t", 1)[0].split()
+              if len(metadata) == 3 and metadata[:2] in ([b"100644", b"blob"], [b"100755", b"blob"]):
+                  print("PASS: added/modified numbered ADR exists at HEAD; content still needs review")
+                  sys.exit(0)
+          raise SystemExit("Governance-impacting paths changed without an added/modified numbered ADR")
+          PYTHON
