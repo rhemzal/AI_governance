@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Test automation and runner evidence (2026-09-30)
+- [Advisory-only] Extend existing testing, evidence, adoption and evaluation guides with runner conformance controls, failure-to-regression loops and scoped upstream-first pilots.
+- [Feature] Add optional `ci/validate_test_evidence.py`: assess normalized observations against independently supplied run/state/check expectations; reject empty required coverage, reported failures and incomplete required cleanup.
+- [Verification] Add positive and negative regression controls to the existing `ci/gate_tests` job and include the helper in its existing workflow path filters. No new workflow or mandatory adopter gate.
+- [Governance] ADR-0013 records trust limits, native-runner ownership and adoption after upstream acceptance. Constitutional rules and import bundle definitions are unchanged; minimal remains documentation-only.
+
 ### Evidence-based methods and existing-project adoption (2026-09-28)
 - [Governance-impacting] ADR-0012 / AI_RULES §6.5: non-trivial work records baseline/gap, observable acceptance, smallest method and uncertainty in existing AEP/task evidence. Align daily and agent projections; preserve the routine-work exception and authority boundaries.
 - [Advisory-only] Add a primary-source evidence review, strengthen verification/oracle/maintenance reasoning, and add a concrete pinned-upgrade and one-slice pilot path with local promotion/retirement criteria.

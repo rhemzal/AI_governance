@@ -21,6 +21,8 @@ This folder contains Architecture Decision Records (ADRs) that define and evolve
 - [ADR_0008_Bounded_Agent_Execution.md](ADR_0008_Bounded_Agent_Execution.md) — proposed
 - [ADR_0009_Structured_AEP_Validation.md](ADR_0009_Structured_AEP_Validation.md) — proposed
 
+- [ADR_0013_Test_Evidence_And_Runner_Conformance.md](ADR_0013_Test_Evidence_And_Runner_Conformance.md) — proposed
+
 ## Status Convention (Recommended)
 Use one of:
 - Proposed

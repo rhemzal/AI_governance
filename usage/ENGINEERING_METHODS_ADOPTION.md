@@ -176,6 +176,31 @@ A security-critical regression never becomes acceptable just because the total c
 
 These are illustrative choices, not assessments of any named downstream repository.
 
+## Automation pilot across related repositories
+
+For repositories sharing this kit, review the common guidance upstream first, then adopt
+it on one concrete failure path in each affected project. Preparation may proceed under
+the currently accepted baseline; proposed upstream guidance does not approve itself.
+
+1. Identify one observed gap, such as empty test selection reported as success or incomplete
+   cancellation cleanup. Reuse existing scenario IDs, native results and runner commands.
+2. Prepare the smallest project change plus known-good and relevant negative controls.
+   Use existing local/lab verification when hosted CI is unavailable; report missing runs.
+3. After upstream acceptance, update each project's kit pin, active instruction pointer
+   and local overlay together as needed. Record the adopted scope and explicit deferrals.
+4. Verify the combined revisions through the existing integration/closure path, including
+   the real supervisor boundary. A submodule update alone is not activation evidence.
+5. Pilot improved test selection, failure replay or an agent debugging task separately
+   once runner results are trustworthy. Promote only the demonstrated scope; keep, narrow
+   or retire it based on acceptance, missed failures and maintenance effort.
+
+A proposed or unverified pilot is not a repository-wide adopted requirement. Keep existing
+mandatory invariants intact, and use the project's current coordination and approval rules.
+The optional runner controls and data helper are described in
+`usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md` and `usage/AI_RUN_EVIDENCE.md` (standard/upstream).
+Minimal imports remain documentation-only; consult optional material at the same pinned
+revision when needed, without adding a mandatory Python dependency.
+
 ## 7. Close the loop
 
 At pilot review, keep, adjust, defer or remove the method. Compare accepted behavior, missed
