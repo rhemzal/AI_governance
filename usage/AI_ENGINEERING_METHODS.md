@@ -35,7 +35,7 @@ only the existing concise scope/verification statement. No reasoning transcript 
 
 | Observed need | Smallest candidate / optional focused guide | Evidence it helps | Defer / stop when |
 | --- | --- | --- | --- |
-| Repeated inability to inspect or verify behavior | Repair the missing harness capability; `AGENT_HARNESS_ENGINEERING.md` | A representative task now reaches a credible observation | No recurring friction or material risk; existing tool suffices |
+| Repeated inability to inspect or verify behavior | Repair the missing harness capability; `AGENT_HARNESS_ENGINEERING.md`; runner controls in `AI_TEST_EXECUTION_AND_DIAGNOSTICS.md` | A representative task now reaches a credible observation | No recurring friction or material risk; existing tool suffices |
 | Fresh agent misses a non-obvious command or constraint | Short active instruction pointer, task-scoped retrieval | Fresh task finds and uses the correct source/command | More context merely repeats discoverable code or rules |
 | Ambiguous requirement / weak correctness oracle | Example, contract, property or executable scenario; `SPEC_DRIVEN_AI_DEVELOPMENT.md` | Known-bad behavior fails and accepted behavior passes | Full spec framework adds no useful discrimination |
 | Existing behavior must survive a legacy change | Characterization plus contract/differential verification | Intentional differences are explained; compatibility controls pass | Snapshot just blesses an existing defect |

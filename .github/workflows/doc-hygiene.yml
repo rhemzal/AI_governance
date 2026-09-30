@@ -10,6 +10,7 @@ on:
       - 'ci/import_bundle.py'
       - 'ci/bundle_tests/**'
       - 'ci/gate_tests/**'
+      - 'ci/validate_test_evidence.py'
       - 'ci/ratchet_findings.py'
       - 'ci/ratchet_tests/**'
       - '.github/**'
@@ -22,6 +23,7 @@ on:
       - 'ci/import_bundle.py'
       - 'ci/bundle_tests/**'
       - 'ci/gate_tests/**'
+      - 'ci/validate_test_evidence.py'
       - 'ci/ratchet_findings.py'
       - 'ci/ratchet_tests/**'
       - '.github/**'
@@ -59,7 +61,7 @@ jobs:
           yq -o=json '.' kit-manifest.yml > "$RUNNER_TEMP/kit-manifest.json"
           KIT_MANIFEST_JSON="$RUNNER_TEMP/kit-manifest.json" timeout 60s python3 -m unittest discover -s ci/bundle_tests -v
 
-      - name: Reference boundary and ADR gate regressions
+      - name: Reference boundary, ADR and test evidence regressions
         run: timeout 60s python3 -m unittest discover -s ci/gate_tests -v
 
       - name: Legacy finding comparison regressions

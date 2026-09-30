@@ -95,6 +95,27 @@ A small stable set of representative tasks can become an **agent engineering reg
 
 Do not freeze the suite forever. Add a task when a real failure reveals an important missing capability; retire cases that no longer represent project work.
 
+## Small debugging pilot
+
+Use a few representative historical failures before building a benchmark platform.
+Include a product defect and an instrument/environment trap such as a missing fixture,
+empty selection, stale report or cancellation that leaves a child alive. Clearly label
+synthetic controls; they are useful but not evidence of resolving a historical incident.
+
+Give the agent the symptom, starting revision, allowed effects and acceptance criteria
+without leaking the intended patch. Observe whether it selects a useful diagnostic,
+distinguishes the cause, produces a minimal reproduction, repairs the right boundary and
+verifies the result. Record failures and unnecessary changes as well as successful runs.
+
+A tool response corpus or direct service test verifies that interface; it does not measure
+an agent performing this debugging loop. Keep those existing tests and add a small actual
+task trial only when evaluating the agent workflow. If runtime access is unavailable,
+report that limitation; a simulation is not a live integration result.
+
+Compare accepted outcomes first, then reproduction attempts, repair iterations, human
+interventions and measured effort. Small pilot results support a local adoption decision,
+not a general productivity claim.
+
 ## Independent evaluator
 
 A second agent or reviewer is optional. Use it when it improves detection of unsupported claims or unmet criteria for the task class. Measure the extra cost and false-positive burden.

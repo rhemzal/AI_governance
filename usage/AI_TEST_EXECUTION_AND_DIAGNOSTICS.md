@@ -26,6 +26,72 @@ AI agents should prefer short, observable test loops over long runs followed by 
 8. Rerun the smallest useful scope.
 9. Escalate only when blocked.
 
+## Optional automation profile
+
+Automate a reliable loop inside the existing runner before adding another orchestration
+service. This profile is advisory: it adds no mandatory governance gate, runner, artifact
+store, or model service. A project can adopt one capability at a time and run it locally
+when hosted continuous integration (CI) is unavailable.
+
+| Stage | Smallest useful automation | Evidence / stop condition |
+| --- | --- | --- |
+| Select | Map the symptom or changed boundary to existing scenario IDs | Record required checks before execution; an unknown mapping falls back to an existing broader check, never an empty success |
+| Preflight | Check fixture, build, permissions and declared resource ownership | Missing prerequisites are explicit; discovery alone does not establish execution |
+| Execute | Invoke the existing bounded, non-interactive command | Preserve exit status, timeout, cancellation and every retry |
+| Observe | Collect native test results and the first useful diagnostic | Identify executed behavior assertions, required skips and missing results |
+| Evaluate | Compare observations with independent acceptance criteria | Process exit zero alone is insufficient |
+| Reproduce | Minimize the failure into an existing fixture/replay path | The control detects the defect before the repair and accepts intended behavior after it |
+| Release | Verify cleanup at the actual supervising boundary | Report remaining processes/resources; parent exit alone is insufficient |
+
+Reuse a project's scenario catalog, metadata and report format. A small explicit mapping
+is usually enough for initial test selection. Measure missed relevant checks before
+introducing a model-based selector or a new coverage database.
+
+### Runner conformance controls
+
+Before trusting automated diagnosis, exercise the instrument with disposable fixtures.
+Select controls for the runner's actual failure modes:
+
+| Control | Expected observation |
+| --- | --- |
+| Known-good selected behavior | Required behavior assertions execute and pass |
+| Injected assertion failure, including a wrapper that exits zero | Native failure remains a failure |
+| Empty selection or renamed test | No successful outcome; report what was selected and executed |
+| Missing fixture or all required behavior skipped | Prerequisite/coverage gap, not a pass |
+| Old report, stale binary or wrong fixture | Reject the mismatched run/build/fixture identity |
+| Timeout or cancellation through the real supervisor | Forward termination, finish bounded cleanup and preserve the outcome |
+| Parent exits while a descendant remains alive | Cleanup remains incomplete; do not release ownership as if nothing remains |
+| Retry after failure | Keep both attempts; a later pass does not erase the first failure |
+
+Count executed behavior assertions, not discovery entries or setup/teardown successes.
+An outer test may pass while a nested framework skips the behavior of interest; normalize
+that framework's native results before deciding success. A headless GUI check establishes
+only the tier it exercises, not device presentation or rendering quality.
+
+Exercise cancellation across the actual process boundary used by the backend or launcher,
+including nested subprocess sessions when present. A direct-child unit test cannot prove
+that boundary safe. Cleanup should target resources owned by the run, not unrelated
+processes found by name. Record incomplete cleanup before releasing a device lease.
+
+### Turn a failure into a regression
+
+1. Preserve the first failing result, exact tested identities and bounded diagnostics.
+2. Distinguish product failure from environment, fixture and harness failure; test competing
+   explanations before changing product code.
+3. Minimize a replay in the existing fixture path. Pin relevant inputs, clock and event
+   order; a random seed alone may not reproduce a concurrent failure.
+4. Keep the expected result independent of the repair. Demonstrate failure before and
+   success after the change, then run adjacent compatibility checks.
+5. Version the small regression fixture and its expectation; redact sensitive captures
+   and retain bulky artifacts according to existing project policy.
+
+For repeated ordering/lifecycle defects, a small stateful test can complement one replay.
+Start with one invariant and the existing test framework. Defer a general chaos platform.
+Do not automatically weaken the oracle, bless a snapshot or retry until green.
+
+Use [run evidence](AI_RUN_EVIDENCE.md) for comparable observations and
+[existing-project adoption](ENGINEERING_METHODS_ADOPTION.md) for a bounded pilot.
+
 ## Failure signal classes
 
 Examples of critical signals:
