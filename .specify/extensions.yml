@@ -1,0 +1,25 @@
+installed:
+- gates
+settings:
+  auto_execute_hooks: true
+hooks:
+  after_implement:
+  - extension: gates
+    command: speckit.gates.verify
+    enabled: true
+    optional: true
+    priority: 10
+    prompt: Run quality gates on the implemented changes?
+    description: Run the gate suite after implementation
+    condition: null
+  before_constitution:
+  - extension: gates
+    command: speckit.gates.constitution
+    enabled: true
+    optional: true
+    priority: 10
+    prompt: Run the guided constitution session first (interview, corpus principles,
+      enforcement annotations)?
+    description: Offer the guided, enforcement-aware session before the core constitution
+      command runs
+    condition: null
