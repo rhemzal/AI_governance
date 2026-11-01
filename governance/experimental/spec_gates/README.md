@@ -47,3 +47,5 @@ Root `.gitignore` excludes machine-local Spec Kit state (`.specify-dev/`, `featu
 2. **Projected runtime** — `.specify/**`, `.claude/**`, `.cursor/skills/**` from `install-and-project.sh` (regenerate after pinned upstream bumps; do not hand-edit projected copies).
 
 Re-run `sync-policy.sh` after changing `policy.kit.json`; never treat `.specify/gates/policy.json` as the source of truth.
+
+**Local git hooks:** after commit 2, `project.sh` installs spec-gates into `.git/hooks/`. The commit-msg gate rejects `Co-Authored-By:` trailers (spec-gates default). Cursor may inject `Co-authored-by: Cursor …` on commit — use a one-line message via `git commit -F file` without that trailer, or `--no-verify` only when you accept skipping the git boundary for that commit.

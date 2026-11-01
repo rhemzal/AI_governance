@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "extensions": {
+    "gates": {
+      "version": "0.5.0",
+      "source": "local",
+      "manifest_hash": "sha256:e815d69f1cad84d3efeb29d9d3bcf78d7204e148e3a59b75ad46bb4197adaf91",
+      "enabled": true,
+      "priority": 10,
+      "registered_commands": {
+        "cursor-agent": [
+          "speckit.gates.init",
+          "speckit.gates.verify",
+          "speckit.gates.doctor",
+          "speckit.gates.ci",
+          "speckit.gates.upgrade",
+          "speckit.gates.sync",
+          "speckit.gates.propose",
+          "speckit.gates.constitution"
+        ]
+      },
+      "registered_skills": [],
+      "installed_at": "2026-11-01T16:41:14.168477+00:00"
+    }
+  }
+}
