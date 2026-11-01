@@ -156,7 +156,7 @@ evidence JSON as evidence that a native agent ran tests.
 
 ### Local handoff record (Cursor, 2026-11-01)
 
-Kit-repo follow-up on a disposable fixture and `/tmp` adopter slice. **Reviewable integration:** [PR #42](https://github.com/rhemzal/AI_governance/pull/42) (`governance/experimental/spec_gates/`). Operator notes remain in gitignored `notes/local/spec-gates-adopter-slice/`.
+Kit-repo follow-up on a disposable fixture and `/tmp` adopter slice. **Integration merged:** [#42](https://github.com/rhemzal/AI_governance/pull/42) (`governance/experimental/spec_gates/`). Operator notes remain in gitignored `notes/local/spec-gates-adopter-slice/`.
 
 | Handoff step | Status | Evidence boundary |
 | --- | --- | --- |
@@ -166,7 +166,7 @@ Kit-repo follow-up on a disposable fixture and `/tmp` adopter slice. **Reviewabl
 | 4 B4 adopter slice | DONE (`/tmp` only) | Baseline vs candidate `kit-gate-tests`; not merged to `main` without PR |
 | 5 Adapter + CI negative | PARTIAL | `verify.sh --boundary ci` rejection observed locally; **GHA advisory job green on PR #42**; not a required check |
 
-**Promotion:** merge of PR #42 adds an **experimental** adapter only; it does not satisfy the pilot’s native stop or required-merge CI promotion conditions by itself.
+**Promotion:** merge of #42 added an **experimental** adapter only; it does not satisfy the pilot’s native stop or required-merge CI promotion conditions by itself.
 
 1. Reproduce the commands above. Open only
    `$pilot_root/run/workspaces/claude` in Claude Code. Put
