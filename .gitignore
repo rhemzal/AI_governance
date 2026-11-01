@@ -16,7 +16,19 @@ Desktop.ini
 # Logs
 *.log
 
+# Python
+__pycache__/
+*.py[cod]
+
 # Notes
 notes/local/**
 !notes/local/
 !notes/local/README.md
+
+# Spec Kit / spec-gates (see governance/experimental/spec_gates/README.md)
+.specify-dev/
+.specify/feature.json
+.specify/integrations/packages/
+.specify/integrations/packages.json
+# Speckit memory scaffold; kit normative sources stay under constitution/ and adr/
+.specify/memory/

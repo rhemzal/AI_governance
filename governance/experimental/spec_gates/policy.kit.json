@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "verify-quality": {
+      "orchestrator": "none",
+      "severity": "error",
+      "gates": {
+        "kit-gate-tests": {
+          "command": "timeout 120s python3 -m unittest discover -s ci/gate_tests -v",
+          "timeout_s": 130
+        }
+      }
+    }
+  },
+  "git": {
+    "block_main_commits": false,
+    "conventional_commits": false,
+    "forbid_ai_isms": false,
+    "protected_change_trailer": false
+  },
+  "spec": {
+    "enabled": false
+  },
+  "attestation": {
+    "enabled": true,
+    "parity": "error"
+  }
+}

@@ -1,0 +1,50 @@
+# Advisory: spec-gates CI boundary for kit-approved checks (see governance/experimental/spec_gates/).
+# Not a replacement for doc-hygiene until promoted via branch protection + CODEOWNERS review.
+# Requires projected .specify/gates/verify.sh (install-and-project.sh).
+name: spec-gates-kit-advisory
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.specify/gates/**'
+      - 'governance/experimental/spec_gates/**'
+      - 'ci/gate_tests/**'
+      - 'ci/validate_test_evidence.py'
+      - '.cursor/hooks/**'
+      - '.cursor/hooks.json'
+      - '.github/workflows/spec-gates-kit-advisory.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spec-gates-kit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Require projected spec-gates runtime
+        run: |
+          set -euo pipefail
+          test -x .specify/gates/verify.sh || {
+            echo "Missing .specify/gates/verify.sh — run governance/experimental/spec_gates/install-and-project.sh locally and commit the projection (separate maintainer commit)."
+            exit 1
+          }
+
+      - name: Install jq
+        run: |
+          set -euo pipefail
+          sudo apt-get update -q
+          sudo apt-get install -y -q jq
+
+      - name: Apply kit policy overlay
+        run: bash governance/experimental/spec_gates/sync-policy.sh
+
+      - name: Run CI boundary (kit gate tests via verify.sh)
+        run: bash .specify/gates/verify.sh --boundary ci --json
