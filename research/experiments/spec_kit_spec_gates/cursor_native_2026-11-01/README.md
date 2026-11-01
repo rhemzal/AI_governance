@@ -54,4 +54,12 @@ Failure, commit `135890313853e53835cf52002e1c9fff185a5a06`:
 - `verify.sh --boundary ci` printed `"failed":1` and exit 2. The gate detail
   was `intentional candidate-job rejection: advisory verify.sh must fail this run`.
 
-The repair run is added after the commit that restores the unit-test command.
+Success, commit `12e3fde47ed8ca7f10480b5977e64412c185e8bc`:
+
+- Run: https://github.com/rhemzal/AI_governance/actions/runs/41329921631
+- Job: https://github.com/rhemzal/AI_governance/actions/runs/41329921631/job/124917663775
+- `verify.sh --boundary ci` printed `"failed":0`, exit 0. `kit-gate-tests` passed
+  (`duration_s` 4) and parity passed.
+
+The commit that records these two URLs does not change the hook or the policy.
+The green run is bound to `12e3fde`.

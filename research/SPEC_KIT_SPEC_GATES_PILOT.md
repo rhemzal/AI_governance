@@ -165,7 +165,7 @@ Kit-repo follow-up on a disposable fixture and `/tmp` adopter slice. **Integrati
 | 2 Native prompt (fixture) | BLOCKED | See the Cursor usability follow-up. Script contract is not native dispatch. |
 | 3 Malformed policy + resumed | DONE (shell) | Fail-open stop vs CI `refused`; not adoption VERIFIED |
 | 4 B4 adopter slice | DONE (`/tmp` only) | Baseline vs candidate `kit-gate-tests`; not merged to `main` without PR |
-| 5 Adapter + CI negative | PARTIAL | Advisory job failed, then the repair run is linked in the follow-up. Not a required check. |
+| 5 Adapter + CI negative | DONE for the advisory job | [Failure](https://github.com/rhemzal/AI_governance/actions/runs/41329791882) then [success](https://github.com/rhemzal/AI_governance/actions/runs/41329921631). Not a required check. |
 
 **Promotion:** merge of #42 added an **experimental** adapter only; it does not satisfy the pilot’s native stop or required-merge CI promotion conditions by itself.
 
@@ -244,7 +244,7 @@ Cursor IDE 3.27.22 loads `.cursor/hooks.json` and `.claude/settings.json` `Stop`
 | Run | Commit | Result |
 | --- | --- | --- |
 | [Failure](https://github.com/rhemzal/AI_governance/actions/runs/41329791882) | `135890313853e53835cf52002e1c9fff185a5a06` | `verify.sh --boundary ci` exit 2. Gate `kit-gate-tests` detail: `intentional candidate-job rejection`. Job log: [gates](https://github.com/rhemzal/AI_governance/actions/runs/41329791882/job/124917281691). |
-| Repair | the commit that restores the unit-test command | Linked after that workflow run finishes. |
+| [Success](https://github.com/rhemzal/AI_governance/actions/runs/41329921631) | `12e3fde47ed8ca7f10480b5977e64412c185e8bc` | `verify.sh --boundary ci` exit 0. `kit-gate-tests` and parity passed. Job log: [gates](https://github.com/rhemzal/AI_governance/actions/runs/41329921631/job/124917663775). |
 
 Cleaned notes for the dispatch attempts are in [cursor_native_2026-11-01](experiments/spec_kit_spec_gates/cursor_native_2026-11-01/README.md).
 
