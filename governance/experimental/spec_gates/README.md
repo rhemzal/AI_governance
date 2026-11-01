@@ -31,11 +31,19 @@ Requires: Linux, Git, `uv`, Python 3.12, pinned upstream (see script headers).
 
 ## Cursor
 
-Project hooks call the same `verify.sh --boundary agent` entrypoint. Clear stray `CLAUDE_PROJECT_DIR` / `CURSOR_PROJECT_DIR` when testing from a shell — they override the git root.
+`.cursor/hooks.json` registers a `stop` command. On Cursor IDE 3.27.22 the host continues the agent only when stdout is `{"followup_message":"..."}`. Exit code 2 does not do that: the host drops the reason and uses `{}`, so the agent is allowed to stop. The script therefore always exits 0 and emits that JSON object.
+
+`loop_count` in stdin starts at 0. `loop_limit` 2 skips the script once that counter reaches 2, which caps automatic repair follow-ups. `stop_hook_active` is not sent by this Cursor version; the script treats it as a Claude-compatible loop guard if a caller sets it.
+
+The script prefers `CURSOR_PROJECT_DIR`, then the git root. It unsets `CLAUDE_PROJECT_DIR` and `CURSOR_PROJECT_DIR` before `verify.sh`, because that entrypoint treats `CLAUDE_PROJECT_DIR` as the project root. Clear those variables when invoking the script from a shell that inherited another project.
+
+A gate failure (`verify.sh` exit 2) emits `followup_message`. A missing runtime or any other exit allows the stop (`{}`) and writes the reason on stderr. That fail-open path does not itself force the agent to report the work as unverified.
+
+Cursor IDE 3.27.22 runs `.cursor/hooks.json` and `.claude/settings.json` `Stop` hooks in parallel. For `followup_message`, the later response wins, and the Claude project hook is later than the Cursor project hook. The projected Claude `verify-quality.sh` still uses exit 2, which this host turns into `{}` and therefore does not replace a Cursor `followup_message`. Both hooks can still run `verify.sh` on the same stop. Do not skip git hooks to avoid that overlap.
 
 ## CI
 
-See `.github/workflows/spec-gates-kit-advisory.yml`. Promote to a required check only after native stop evidence and a negative control in GHA.
+See `.github/workflows/spec-gates-kit-advisory.yml`. It is advisory. Branch protection is unchanged.
 
 ## Git hygiene
 
@@ -48,4 +56,4 @@ Root `.gitignore` excludes machine-local Spec Kit state (`.specify-dev/`, `featu
 
 Re-run `sync-policy.sh` after changing `policy.kit.json`; never treat `.specify/gates/policy.json` as the source of truth.
 
-**Local git hooks:** after commit 2, `project.sh` installs spec-gates into `.git/hooks/`. The commit-msg gate rejects `Co-Authored-By:` trailers (spec-gates default). Cursor may inject `Co-authored-by: Cursor …` on commit — use a one-line message via `git commit -F file` without that trailer, or `--no-verify` only when you accept skipping the git boundary for that commit.
+**Local git hooks:** after the projected runtime is installed, `project.sh` installs spec-gates into `.git/hooks/`. The commit-msg gate rejects `Co-Authored-By:` trailers (spec-gates default). Pass a message file that does not contain that trailer (`git commit -F file`). Skipping the git hook is not the way to resolve that conflict.

@@ -5,7 +5,7 @@
       "severity": "error",
       "gates": {
         "kit-gate-tests": {
-          "command": "bash governance/experimental/spec_gates/ci-negative-control.sh",
+          "command": "timeout 120s python3 -m unittest discover -s ci/gate_tests -v",
           "timeout_s": 130
         }
       }

@@ -10,9 +10,10 @@ kit's policy, host instructions and evidence contract.
 ## Outcome and replacement decision
 
 **Overall status: PARTIAL.** The deterministic integration slice is VERIFIED in
-the environment below. Native coding-agent lifecycle, execution on a CI service,
-downstream usefulness and cross-version upgrades are NOT RUN. This is sufficient
-to keep the candidates, not to adopt them in production or retire this kit.
+the environment below. The Cursor usability follow-up later in this file is the
+current adapter decision: modify the experimental stop script, and do not promote
+it. Downstream usefulness and cross-version upgrades remain NOT RUN. This is
+sufficient to keep the candidates, not to adopt them in production or retire this kit.
 
 The observed result is **65/65 expected observations matched**. This count includes
 setup checks and **six observations of known permissive behavior**, not 65 security
@@ -161,10 +162,10 @@ Kit-repo follow-up on a disposable fixture and `/tmp` adopter slice. **Integrati
 | Handoff step | Status | Evidence boundary |
 | --- | --- | --- |
 | 1 Deterministic slice | DONE | Pilot runner 65/65 (prior session) |
-| 2 Native prompt (fixture) | PARTIAL | Shell + stop **script** exit 2/0; **Cursor IDE `stop` dispatch NOT RUN** |
+| 2 Native prompt (fixture) | BLOCKED | See the Cursor usability follow-up. Script contract is not native dispatch. |
 | 3 Malformed policy + resumed | DONE (shell) | Fail-open stop vs CI `refused`; not adoption VERIFIED |
 | 4 B4 adopter slice | DONE (`/tmp` only) | Baseline vs candidate `kit-gate-tests`; not merged to `main` without PR |
-| 5 Adapter + CI negative | PARTIAL | `verify.sh --boundary ci` rejection observed locally; **GHA advisory job green on PR #42**; not a required check |
+| 5 Adapter + CI negative | PARTIAL | Advisory job failed, then the repair run is linked in the follow-up. Not a required check. |
 
 **Promotion:** merge of #42 added an **experimental** adapter only; it does not satisfy the pilot’s native stop or required-merge CI promotion conditions by itself.
 
@@ -214,6 +215,38 @@ passing native/CI negative controls; retain this kit's normative source and
 evidence semantics. A full replacement or a new mandatory dependency requires a
 separate decision. If the wrapper adds recurring manual repair or duplicated
 policy without eliminating meaningful infrastructure, keep the current setup.
+
+## Cursor usability follow-up (2026-11-01)
+
+**Decision: modify the experimental adapter, and do not promote it.**
+
+The useful change is the Cursor `stop` contract. On the running IDE server, a `stop` hook continues the agent only by printing `{"followup_message":"..."}` and exiting 0. Exit 2 is recorded as blocked and then replaced with `{}`, so the reason never becomes the next turn. `loop_count` starts at 0. `loop_limit` 2 skips the script after two follow-ups. `stop_hook_active` is not part of this host's stdin; the script still treats it as a Claude loop guard when a caller sends it.
+
+What remains unresolved is host dispatch. Two repair attempts did not show a project hook running:
+
+1. Cursor Agent CLI `2026.10.01-e373342`, `cursor agent --print --trust --force --sandbox disabled` in an isolated fixture whose stop script appends to `stop-invocations.jsonl` only when the host invokes it. The agent replied `DONE`. The invocation log stayed empty. The CLI session log shows a cloud turn end (`interactionUpdate:turnEnded`) and no local stop hook.
+2. This IDE session's local loop (agent harness `b951911e4476`, built 2026-10-28) did not run a temporary `beforeShellExecution` probe that writes `/tmp/ide-hook-seen.txt`. The harness calls its hook executor only when `enableExecuteHookExec` is true and the step is listed in `configuredSteps`. The session log has no hook-firing line. The probe was removed and is not part of the adapter.
+
+A direct stdin call of the script is a contract check only. It is not native verification. On a passing `verify.sh` it prints `{}`. On a disposable fixture whose checker exits 2 it prints `followup_message`. Invalid policy (`verify.sh` exit 1) still allows the stop. That fail-open path does not force the agent to say the work is unverified.
+
+Cursor IDE 3.27.22 loads `.cursor/hooks.json` and `.claude/settings.json` `Stop` hooks together, in parallel, with the Claude project hook merged after the Cursor project hook. For `followup_message`, the later object wins. The projected Claude `verify-quality.sh` still exits 2, which this host turns into `{}` and therefore does not replace a Cursor follow-up. Both can still run `verify.sh`. The CLI build above does not contain a Claude project-hook loader. Neither coexistence path was observed live, because no project hook was dispatched.
+
+| Item | Identity |
+| --- | --- |
+| Cursor server actually running | 3.27.22, commit `b1aa50cb6db84fd3e8c808259cb172ea73425c10` |
+| `cursor` on `PATH` | 3.24.12, commit `37b865941ccb31e2fc90c685157534efca87f960` (not the running server) |
+| Agent harness for this IDE session | `b951911e4476`, built 2026-10-28 |
+| Cursor Agent CLI | `2026.10.01-e373342` |
+| Protocol sources | That server's `agent-host-daemon` bundle and the CLI bundle. Public docs: [Hooks](https://cursor.com/docs/hooks), [Third Party Hooks](https://cursor.com/docs/reference/third-party-hooks). The docs describe exit 2 as a block; this build's `createBlockResponse` for `stop` returns `{}`. |
+
+**Advisory CI.** The candidate workflow is still not required, and branch protection was not changed.
+
+| Run | Commit | Result |
+| --- | --- | --- |
+| [Failure](https://github.com/rhemzal/AI_governance/actions/runs/41329791882) | `135890313853e53835cf52002e1c9fff185a5a06` | `verify.sh --boundary ci` exit 2. Gate `kit-gate-tests` detail: `intentional candidate-job rejection`. Job log: [gates](https://github.com/rhemzal/AI_governance/actions/runs/41329791882/job/124917281691). |
+| Repair | the commit that restores the unit-test command | Linked after that workflow run finishes. |
+
+Cleaned notes for the dispatch attempts are in [cursor_native_2026-11-01](experiments/spec_kit_spec_gates/cursor_native_2026-11-01/README.md).
 
 ## Execution plan
 
