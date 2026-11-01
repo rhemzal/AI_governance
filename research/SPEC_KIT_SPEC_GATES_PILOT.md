@@ -154,6 +154,20 @@ normal project permissions. Record its product/version, OS, installed integratio
 the AI_governance revision, input state and raw outputs. Do not reuse the synthetic
 evidence JSON as evidence that a native agent ran tests.
 
+### Local handoff record (Cursor, 2026-11-01)
+
+Kit-repo follow-up on a disposable fixture and `/tmp` adopter slice. **Integration merged:** [#42](https://github.com/rhemzal/AI_governance/pull/42) (`governance/experimental/spec_gates/`). Operator notes remain in gitignored `notes/local/spec-gates-adopter-slice/`.
+
+| Handoff step | Status | Evidence boundary |
+| --- | --- | --- |
+| 1 Deterministic slice | DONE | Pilot runner 65/65 (prior session) |
+| 2 Native prompt (fixture) | PARTIAL | Shell + stop **script** exit 2/0; **Cursor IDE `stop` dispatch NOT RUN** |
+| 3 Malformed policy + resumed | DONE (shell) | Fail-open stop vs CI `refused`; not adoption VERIFIED |
+| 4 B4 adopter slice | DONE (`/tmp` only) | Baseline vs candidate `kit-gate-tests`; not merged to `main` without PR |
+| 5 Adapter + CI negative | PARTIAL | `verify.sh --boundary ci` rejection observed locally; **GHA advisory job green on PR #42**; not a required check |
+
+**Promotion:** merge of #42 added an **experimental** adapter only; it does not satisfy the pilot’s native stop or required-merge CI promotion conditions by itself.
+
 1. Reproduce the commands above. Open only
    `$pilot_root/run/workspaces/claude` in Claude Code. Put
    `$pilot_root/venv/bin` on that process's PATH. Review `.claude/settings.json`

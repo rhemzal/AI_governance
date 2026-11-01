@@ -7,6 +7,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 ### External tooling investigation and isolated pilot (2026-11-01)
 - [Advisory-only] Preserve the comparative review of development-agent governance/workflow tools, primary sources, evidence limits and reevaluation triggers in the existing external-project record.
 - [Experimental] Add a reproducible Spec Kit v1.2.5 + spec-gates v0.5.0 pilot, captured positive/negative results and a native-agent handoff. Preserve this kit's policy and test-evidence validator; production adoption remains deferred.
+- [Experimental] PR [#42](https://github.com/rhemzal/AI_governance/pull/42): optional in-repo adapter (`governance/experimental/spec_gates/`), Cursor `stop` wiring, projected spec-gates runtime, and advisory `spec-gates-kit-advisory` workflow. Native Cursor stop dispatch and required-check promotion remain open.
 - [Import content] The opt-in experiment and evidence are included through the existing `research/` directory selection in research/full bundles. Minimal/standard selections, manifest definitions, canonical rules and mandatory CI gates are unchanged; importing research does not run the experiment or activate hooks.
 
 ### Test automation and runner evidence (2026-09-30)
