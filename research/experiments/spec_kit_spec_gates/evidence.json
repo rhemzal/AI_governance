@@ -1,0 +1,1084 @@
+{
+  "capture_date_utc": "2026-11-01",
+  "results": {
+    "schema_version": 1,
+    "scope": "deterministic disposable fixtures",
+    "spec_kit_commit": "4572a67fe0e72a6837e2d7bb0fda875bc41482e5",
+    "spec_gates_commit": "8a5a0e8a58aa548ad3dbba6f61e772c73cde50ae",
+    "kit_base_commit": "873df7e982ed953181d6526e7866b0bd34d2fa0d",
+    "python": "3.12.14",
+    "platform": "Linux",
+    "runner_sha256": "078118d8e4990adef45cdad19f0bb59892867576f97ed527dd33b5bb534cebcf",
+    "validator_sha256": "d512461e05e9995d2f77246354fae24a116440fc5d462d5550ec234f67dd8d33",
+    "native_agent_execution": "NOT_RUN",
+    "ci_service_execution": "NOT_RUN",
+    "records": [
+      {
+        "id": "spec-kit-pin",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/01-spec-kit-pin.txt"
+      },
+      {
+        "id": "spec-kit-unchanged",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/02-spec-kit-unchanged.txt"
+      },
+      {
+        "id": "spec-gates-pin",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/03-spec-gates-pin.txt"
+      },
+      {
+        "id": "spec-gates-unchanged",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/04-spec-gates-unchanged.txt"
+      },
+      {
+        "id": "specify-version",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/05-specify-version.txt"
+      },
+      {
+        "id": "claude-git-init",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/06-claude-git-init.txt"
+      },
+      {
+        "id": "claude-init",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/07-claude-init.txt"
+      },
+      {
+        "id": "claude-preserve-instructions",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Byte equality of host AGENTS.md, CLAUDE.md and constitution after initialization."
+      },
+      {
+        "id": "claude-skills-installed",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Generated skill files exist; native agent loading is not tested."
+      },
+      {
+        "id": "codex-git-init",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/10-codex-git-init.txt"
+      },
+      {
+        "id": "codex-init",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/11-codex-init.txt"
+      },
+      {
+        "id": "codex-preserve-instructions",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Byte equality of host AGENTS.md, CLAUDE.md and constitution after initialization."
+      },
+      {
+        "id": "codex-skills-installed",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Generated skill files exist; native agent loading is not tested."
+      },
+      {
+        "id": "cursor-agent-git-init",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/14-cursor-agent-git-init.txt"
+      },
+      {
+        "id": "cursor-agent-init",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/15-cursor-agent-init.txt"
+      },
+      {
+        "id": "cursor-agent-preserve-instructions",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Byte equality of host AGENTS.md, CLAUDE.md and constitution after initialization."
+      },
+      {
+        "id": "cursor-agent-skills-installed",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Generated skill files exist; native agent loading is not tested."
+      },
+      {
+        "id": "project-and-canaries",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/18-project-and-canaries.txt"
+      },
+      {
+        "id": "policy-preserved",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Projection did not rewrite the approved experimental policy."
+      },
+      {
+        "id": "host-settings-preserved",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Existing deny permission and harmless Stop hook remain after merge."
+      },
+      {
+        "id": "projection-check",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/21-projection-check.txt"
+      },
+      {
+        "id": "projected-write-refused",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/22-projected-write-refused.txt"
+      },
+      {
+        "id": "projection-reapply",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/23-projection-reapply.txt"
+      },
+      {
+        "id": "projection-no-duplicate-hooks",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Reapplying the same version does not duplicate merged hooks; not an upgrade test."
+      },
+      {
+        "id": "valid-agent",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/25-valid-agent.txt"
+      },
+      {
+        "id": "valid-git",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/26-valid-git.txt"
+      },
+      {
+        "id": "valid-ci",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/27-valid-ci.txt"
+      },
+      {
+        "id": "stage-fixture",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/28-stage-fixture.txt"
+      },
+      {
+        "id": "git-commit-valid",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/29-git-commit-valid.txt"
+      },
+      {
+        "id": "real-check-failed-agent",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/30-real-check-failed-agent.txt"
+      },
+      {
+        "id": "real-check-failed-git",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/31-real-check-failed-git.txt"
+      },
+      {
+        "id": "real-check-failed-ci",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/32-real-check-failed-ci.txt"
+      },
+      {
+        "id": "stop-first-failure",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/33-stop-first-failure.txt"
+      },
+      {
+        "id": "stop-loop-guard",
+        "kind": "known-limit",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/34-stop-loop-guard.txt"
+      },
+      {
+        "id": "stage-invalid",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/35-stage-invalid.txt"
+      },
+      {
+        "id": "git-commit-blocked",
+        "kind": "assertion",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "matched": true,
+        "log": "logs/36-git-commit-blocked.txt"
+      },
+      {
+        "id": "git-head-unchanged",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Rejected commit did not advance the synthetic repository HEAD."
+      },
+      {
+        "id": "noop-does-not-prove-coverage-agent",
+        "kind": "known-limit",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/38-noop-does-not-prove-coverage-agent.txt"
+      },
+      {
+        "id": "noop-does-not-prove-coverage-git",
+        "kind": "known-limit",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/39-noop-does-not-prove-coverage-git.txt"
+      },
+      {
+        "id": "noop-does-not-prove-coverage-ci",
+        "kind": "known-limit",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/40-noop-does-not-prove-coverage-ci.txt"
+      },
+      {
+        "id": "restore-staged-fixture",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/41-restore-staged-fixture.txt"
+      },
+      {
+        "id": "stale-evidence-agent",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/42-stale-evidence-agent.txt"
+      },
+      {
+        "id": "stale-evidence-git",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/43-stale-evidence-git.txt"
+      },
+      {
+        "id": "stale-evidence-ci",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/44-stale-evidence-ci.txt"
+      },
+      {
+        "id": "missing-check-agent",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/45-missing-check-agent.txt"
+      },
+      {
+        "id": "missing-check-git",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/46-missing-check-git.txt"
+      },
+      {
+        "id": "missing-check-ci",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/47-missing-check-ci.txt"
+      },
+      {
+        "id": "incomplete-cleanup-agent",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/48-incomplete-cleanup-agent.txt"
+      },
+      {
+        "id": "incomplete-cleanup-git",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/49-incomplete-cleanup-git.txt"
+      },
+      {
+        "id": "incomplete-cleanup-ci",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/50-incomplete-cleanup-ci.txt"
+      },
+      {
+        "id": "missing-command-agent",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/51-missing-command-agent.txt"
+      },
+      {
+        "id": "missing-command-git",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/52-missing-command-git.txt"
+      },
+      {
+        "id": "missing-command-ci",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/53-missing-command-ci.txt"
+      },
+      {
+        "id": "gate-timeout-agent",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/54-gate-timeout-agent.txt"
+      },
+      {
+        "id": "gate-timeout-git",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/55-gate-timeout-git.txt"
+      },
+      {
+        "id": "gate-timeout-ci",
+        "kind": "assertion",
+        "expected_exit": 2,
+        "actual_exit": 2,
+        "matched": true,
+        "log": "logs/56-gate-timeout-ci.txt"
+      },
+      {
+        "id": "invalid-policy-ci",
+        "kind": "assertion",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "matched": true,
+        "log": "logs/57-invalid-policy-ci.txt"
+      },
+      {
+        "id": "invalid-policy-stop-allows",
+        "kind": "known-limit",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/58-invalid-policy-stop-allows.txt"
+      },
+      {
+        "id": "missing-runtime-stop-allows",
+        "kind": "known-limit",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/59-missing-runtime-stop-allows.txt"
+      },
+      {
+        "id": "local-runtime-edit-refused",
+        "kind": "assertion",
+        "expected_exit": 3,
+        "actual_exit": 3,
+        "matched": true,
+        "log": "logs/60-local-runtime-edit-refused.txt"
+      },
+      {
+        "id": "local-runtime-edit-retained",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Projection refusal did not silently discard the local edit."
+      },
+      {
+        "id": "restored-agent",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/62-restored-agent.txt"
+      },
+      {
+        "id": "restored-git",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/63-restored-git.txt"
+      },
+      {
+        "id": "restored-ci",
+        "kind": "assertion",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "matched": true,
+        "log": "logs/64-restored-ci.txt"
+      },
+      {
+        "id": "host-instructions-after-gates",
+        "kind": "assertion",
+        "matched": true,
+        "detail": "Original instructions and constitution still match after the complete experiment."
+      }
+    ],
+    "matched": 65,
+    "total": 65
+  },
+  "transcripts": {
+    "logs/01-spec-kit-pin.txt": "argv: [\"git\", \"rev-parse\", \"HEAD\"]\ncwd: <SPEC_KIT>\nexpected_exit: 0\nactual_exit: 0\nstdout:\n4572a67fe0e72a6837e2d7bb0fda875bc41482e5\n\nstderr:\n",
+    "logs/02-spec-kit-unchanged.txt": "argv: [\"git\", \"diff\", \"--exit-code\", \"HEAD\"]\ncwd: <SPEC_KIT>\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/03-spec-gates-pin.txt": "argv: [\"git\", \"rev-parse\", \"HEAD\"]\ncwd: <SPEC_GATES>\nexpected_exit: 0\nactual_exit: 0\nstdout:\n8a5a0e8a58aa548ad3dbba6f61e772c73cde50ae\n\nstderr:\n",
+    "logs/04-spec-gates-unchanged.txt": "argv: [\"git\", \"diff\", \"--exit-code\", \"HEAD\"]\ncwd: <SPEC_GATES>\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/05-specify-version.txt": "argv: [\"<VENV_BIN>/specify\", \"version\"]\ncwd: <OUTPUT>\nexpected_exit: 0\nactual_exit: 0\nstdout:\n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557   \u2588\u2588\u2557              \n              \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u255a\u2588\u2588\u2557 \u2588\u2588\u2554\u255d              \n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551     \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2557   \u255a\u2588\u2588\u2588\u2588\u2554\u255d               \n              \u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u255d \u2588\u2588\u2554\u2550\u2550\u255d  \u2588\u2588\u2551     \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u255d    \u255a\u2588\u2588\u2554\u255d                \n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551        \u2588\u2588\u2551                 \n              \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d     \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d\u255a\u2550\u255d        \u255a\u2550\u255d                 \n                                                                                \n               GitHub Spec Kit - Spec-Driven Development Toolkit                \n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Specify CLI Information \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502     CLI Version    1.2.5                                                     \u2502\n\u2502                                                                              \u2502\n\u2502          Python    3.12.14                                                   \u2502\n\u2502        Platform    Linux                                                     \u2502\n\u2502    Architecture    x86_64                                                    \u2502\n\u2502      OS Version    #1 SMP Tue Oct 20 21:56:04 UTC 2026                       \u2502\n\u2502         OpenSSL    OpenSSL 3.5.8 25 Aug 2026                                 \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\n\nstderr:\n",
+    "logs/06-claude-git-init.txt": "argv: [\"git\", \"init\", \"-q\", \"-b\", \"pilot\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/07-claude-init.txt": "argv: [\"<VENV_BIN>/specify\", \"init\", \"--here\", \"--force\", \"--non-interactive\", \"--integration\", \"claude\", \"--ignore-agent-tools\", \"--extension\", \"<SPEC_GATES>/extension\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557   \u2588\u2588\u2557              \n              \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u255a\u2588\u2588\u2557 \u2588\u2588\u2554\u255d              \n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551     \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2557   \u255a\u2588\u2588\u2588\u2588\u2554\u255d               \n              \u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u255d \u2588\u2588\u2554\u2550\u2550\u255d  \u2588\u2588\u2551     \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u255d    \u255a\u2588\u2588\u2554\u255d                \n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551        \u2588\u2588\u2551                 \n              \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d     \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d\u255a\u2550\u255d        \u255a\u2550\u255d                 \n                                                                                \n               GitHub Spec Kit - Spec-Driven Development Toolkit                \n\nWarning: Current directory is not empty (5 items)\nTemplate files will be merged with existing content and may overwrite existing \nfiles\n--force supplied: skipping confirmation and proceeding with merge\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Specify Project Setup                                                       \u2502\n\u2502                                                                              \u2502\n\u2502  Project         claude                                                      \u2502\n\u2502  Working Path                                                                \u2502\n\u2502  <OUTPUT>/workspaces/claude               \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\nSelected coding agent integration: claude\nSelected script type: sh\nInitialize Specify Project\n\u251c\u2500\u2500 \u25cf Check required tools (ok)\n\u251c\u2500\u2500 \u25cf Select coding agent integration (claude)\n\u251c\u2500\u2500 \u25cf Select script type (sh)\n\u251c\u2500\u2500 \u25cf Install integration (Claude Code)\n\u251c\u2500\u2500 \u25cf Install shared infrastructure (scripts (sh) + templates)\n\u251c\u2500\u2500 \u25cf Ensure scripts executable (6 updated)\n\u251c\u2500\u2500 \u25cb Constitution setup (existing file preserved)\n\u251c\u2500\u2500 \u25cf Install bundled workflow (speckit installed)\n\u251c\u2500\u2500 \u25cf Install extension: \n\u2502   <SPEC_GATES>/extension (Quality Gates \n\u2502   (Enforcement Layer) v0.5.0 installed)\n\u2514\u2500\u2500 \u25cf Finalize (project ready)\n\nProject ready.\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Agent Folder Security \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Some agents may store credentials, auth tokens, or other identifying and    \u2502\n\u2502  private artifacts in the agent folder within your project.                  \u2502\n\u2502  Consider adding .claude/ (or parts of it) to .gitignore to prevent          \u2502\n\u2502  accidental credential leakage.                                              \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Next Steps \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  1. You're already in the project directory!                                 \u2502\n\u2502  2. Start Claude in this project directory; spec-kit skills were installed   \u2502\n\u2502  to .claude/skills                                                           \u2502\n\u2502  3. Start using skills with your coding agent:                               \u2502\n\u2502     3.1 /speckit-constitution - Establish project principles                 \u2502\n\u2502     3.2 /speckit-specify - Create baseline specification                     \u2502\n\u2502     3.3 /speckit-plan - Create implementation plan                           \u2502\n\u2502     3.4 /speckit-tasks - Generate actionable tasks                           \u2502\n\u2502     3.5 /speckit-implement - Execute implementation                          \u2502\n\u2502     3.6 /speckit-converge - Assess the codebase and append remaining work    \u2502\n\u2502  as tasks                                                                    \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Enhancement Skills \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Optional skills that you can use for your specs (improve quality &          \u2502\n\u2502  confidence)                                                                 \u2502\n\u2502                                                                              \u2502\n\u2502  \u25cb /speckit-clarify (optional) - Ask structured questions to de-risk         \u2502\n\u2502  ambiguous areas before planning (run before /speckit-plan if used)          \u2502\n\u2502  \u25cb /speckit-analyze (optional) - Cross-artifact consistency & alignment      \u2502\n\u2502  report (after /speckit-tasks, before /speckit-implement)                    \u2502\n\u2502  \u25cb /speckit-checklist (optional) - Generate quality checklists to validate   \u2502\n\u2502  requirements completeness, clarity, and consistency (after /speckit-plan)   \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\nstderr:\n",
+    "logs/10-codex-git-init.txt": "argv: [\"git\", \"init\", \"-q\", \"-b\", \"pilot\"]\ncwd: <OUTPUT>/workspaces/codex\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/11-codex-init.txt": "argv: [\"<VENV_BIN>/specify\", \"init\", \"--here\", \"--force\", \"--non-interactive\", \"--integration\", \"codex\", \"--ignore-agent-tools\", \"--extension\", \"<SPEC_GATES>/extension\"]\ncwd: <OUTPUT>/workspaces/codex\nexpected_exit: 0\nactual_exit: 0\nstdout:\n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557   \u2588\u2588\u2557              \n              \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u255a\u2588\u2588\u2557 \u2588\u2588\u2554\u255d              \n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551     \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2557   \u255a\u2588\u2588\u2588\u2588\u2554\u255d               \n              \u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u255d \u2588\u2588\u2554\u2550\u2550\u255d  \u2588\u2588\u2551     \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u255d    \u255a\u2588\u2588\u2554\u255d                \n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551        \u2588\u2588\u2551                 \n              \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d     \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d\u255a\u2550\u255d        \u255a\u2550\u255d                 \n                                                                                \n               GitHub Spec Kit - Spec-Driven Development Toolkit                \n\nWarning: Current directory is not empty (5 items)\nTemplate files will be merged with existing content and may overwrite existing \nfiles\n--force supplied: skipping confirmation and proceeding with merge\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Specify Project Setup                                                       \u2502\n\u2502                                                                              \u2502\n\u2502  Project         codex                                                       \u2502\n\u2502  Working Path                                                                \u2502\n\u2502  <OUTPUT>/workspaces/codex                \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\nSelected coding agent integration: codex\nSelected script type: sh\nInitialize Specify Project\n\u251c\u2500\u2500 \u25cf Check required tools (ok)\n\u251c\u2500\u2500 \u25cf Select coding agent integration (codex)\n\u251c\u2500\u2500 \u25cf Select script type (sh)\n\u251c\u2500\u2500 \u25cf Install integration (Codex CLI)\n\u251c\u2500\u2500 \u25cf Install shared infrastructure (scripts (sh) + templates)\n\u251c\u2500\u2500 \u25cf Ensure scripts executable (6 updated)\n\u251c\u2500\u2500 \u25cb Constitution setup (existing file preserved)\n\u251c\u2500\u2500 \u25cf Install bundled workflow (speckit installed)\n\u251c\u2500\u2500 \u25cf Install extension: \n\u2502   <SPEC_GATES>/extension (Quality Gates \n\u2502   (Enforcement Layer) v0.5.0 installed)\n\u2514\u2500\u2500 \u25cf Finalize (project ready)\n\nProject ready.\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Agent Folder Security \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Some agents may store credentials, auth tokens, or other identifying and    \u2502\n\u2502  private artifacts in the agent folder within your project.                  \u2502\n\u2502  Consider adding .agents/ (or parts of it) to .gitignore to prevent          \u2502\n\u2502  accidental credential leakage.                                              \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Next Steps \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  1. You're already in the project directory!                                 \u2502\n\u2502  2. Start Codex in this project directory; spec-kit skills were installed    \u2502\n\u2502  to .agents/skills                                                           \u2502\n\u2502  3. Start using skills with your coding agent:                               \u2502\n\u2502     3.1 $speckit-constitution - Establish project principles                 \u2502\n\u2502     3.2 $speckit-specify - Create baseline specification                     \u2502\n\u2502     3.3 $speckit-plan - Create implementation plan                           \u2502\n\u2502     3.4 $speckit-tasks - Generate actionable tasks                           \u2502\n\u2502     3.5 $speckit-implement - Execute implementation                          \u2502\n\u2502     3.6 $speckit-converge - Assess the codebase and append remaining work    \u2502\n\u2502  as tasks                                                                    \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Enhancement Skills \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Optional skills that you can use for your specs (improve quality &          \u2502\n\u2502  confidence)                                                                 \u2502\n\u2502                                                                              \u2502\n\u2502  \u25cb $speckit-clarify (optional) - Ask structured questions to de-risk         \u2502\n\u2502  ambiguous areas before planning (run before $speckit-plan if used)          \u2502\n\u2502  \u25cb $speckit-analyze (optional) - Cross-artifact consistency & alignment      \u2502\n\u2502  report (after $speckit-tasks, before $speckit-implement)                    \u2502\n\u2502  \u25cb $speckit-checklist (optional) - Generate quality checklists to validate   \u2502\n\u2502  requirements completeness, clarity, and consistency (after $speckit-plan)   \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\nstderr:\n",
+    "logs/14-cursor-agent-git-init.txt": "argv: [\"git\", \"init\", \"-q\", \"-b\", \"pilot\"]\ncwd: <OUTPUT>/workspaces/cursor-agent\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/15-cursor-agent-init.txt": "argv: [\"<VENV_BIN>/specify\", \"init\", \"--here\", \"--force\", \"--non-interactive\", \"--integration\", \"cursor-agent\", \"--ignore-agent-tools\", \"--extension\", \"<SPEC_GATES>/extension\"]\ncwd: <OUTPUT>/workspaces/cursor-agent\nexpected_exit: 0\nactual_exit: 0\nstdout:\n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557   \u2588\u2588\u2557              \n              \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u255a\u2588\u2588\u2557 \u2588\u2588\u2554\u255d              \n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551     \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2557   \u255a\u2588\u2588\u2588\u2588\u2554\u255d               \n              \u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u255d \u2588\u2588\u2554\u2550\u2550\u255d  \u2588\u2588\u2551     \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u255d    \u255a\u2588\u2588\u2554\u255d                \n              \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551        \u2588\u2588\u2551                 \n              \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d     \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d\u255a\u2550\u255d\u255a\u2550\u255d        \u255a\u2550\u255d                 \n                                                                                \n               GitHub Spec Kit - Spec-Driven Development Toolkit                \n\nWarning: Current directory is not empty (5 items)\nTemplate files will be merged with existing content and may overwrite existing \nfiles\n--force supplied: skipping confirmation and proceeding with merge\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Specify Project Setup                                                       \u2502\n\u2502                                                                              \u2502\n\u2502  Project         cursor-agent                                                \u2502\n\u2502  Working Path                                                                \u2502\n\u2502  <OUTPUT>/workspaces/cursor-agent         \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\nSelected coding agent integration: cursor-agent\nSelected script type: sh\nInitialize Specify Project\n\u251c\u2500\u2500 \u25cf Check required tools (ok)\n\u251c\u2500\u2500 \u25cf Select coding agent integration (cursor-agent)\n\u251c\u2500\u2500 \u25cf Select script type (sh)\n\u251c\u2500\u2500 \u25cf Install integration (Cursor)\n\u251c\u2500\u2500 \u25cf Install shared infrastructure (scripts (sh) + templates)\n\u251c\u2500\u2500 \u25cf Ensure scripts executable (6 updated)\n\u251c\u2500\u2500 \u25cb Constitution setup (existing file preserved)\n\u251c\u2500\u2500 \u25cf Install bundled workflow (speckit installed)\n\u251c\u2500\u2500 \u25cf Install extension: \n\u2502   <SPEC_GATES>/extension (Quality Gates \n\u2502   (Enforcement Layer) v0.5.0 installed)\n\u2514\u2500\u2500 \u25cf Finalize (project ready)\n\nProject ready.\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Agent Folder Security \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Some agents may store credentials, auth tokens, or other identifying and    \u2502\n\u2502  private artifacts in the agent folder within your project.                  \u2502\n\u2502  Consider adding .cursor/ (or parts of it) to .gitignore to prevent          \u2502\n\u2502  accidental credential leakage.                                              \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Next Steps \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  1. You're already in the project directory!                                 \u2502\n\u2502  2. Start Cursor Agent in this project directory; spec-kit skills were       \u2502\n\u2502  installed to .cursor/skills                                                 \u2502\n\u2502  3. Start using skills with your coding agent:                               \u2502\n\u2502     3.1 /speckit-constitution - Establish project principles                 \u2502\n\u2502     3.2 /speckit-specify - Create baseline specification                     \u2502\n\u2502     3.3 /speckit-plan - Create implementation plan                           \u2502\n\u2502     3.4 /speckit-tasks - Generate actionable tasks                           \u2502\n\u2502     3.5 /speckit-implement - Execute implementation                          \u2502\n\u2502     3.6 /speckit-converge - Assess the codebase and append remaining work    \u2502\n\u2502  as tasks                                                                    \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Enhancement Skills \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502                                                                              \u2502\n\u2502  Optional skills that you can use for your specs (improve quality &          \u2502\n\u2502  confidence)                                                                 \u2502\n\u2502                                                                              \u2502\n\u2502  \u25cb /speckit-clarify (optional) - Ask structured questions to de-risk         \u2502\n\u2502  ambiguous areas before planning (run before /speckit-plan if used)          \u2502\n\u2502  \u25cb /speckit-analyze (optional) - Cross-artifact consistency & alignment      \u2502\n\u2502  report (after /speckit-tasks, before /speckit-implement)                    \u2502\n\u2502  \u25cb /speckit-checklist (optional) - Generate quality checklists to validate   \u2502\n\u2502  requirements completeness, clarity, and consistency (after /speckit-plan)   \u2502\n\u2502                                                                              \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\nstderr:\n",
+    "logs/18-project-and-canaries.txt": "argv: [\"bash\", \".specify/extensions/gates/runtime/project.sh\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\nproject: projected spec-gates 0.5.0:\nproject:   write .specify/gates/verify.sh\nproject:   write .specify/gates/doctor.sh\nproject:   write .specify/gates/canary.sh\nproject:   write .specify/gates/contract.sh\nproject:   write .specify/gates/constitution.sh\nproject:   write .specify/gates/pr-check.sh\nproject:   write .specify/gates/project.sh\nproject:   write .specify/gates/install-shellcheck.sh\nproject:   write .specify/gates/shellcheck.sha256\nproject:   write .specify/gates/policy.schema.json\nproject:   write .specify/gates/lib/attest.sh\nproject:   write .specify/gates/lib/constitution.sh\nproject:   write .specify/gates/lib/contract.sh\nproject:   write .specify/gates/lib/formatter-dispatch.sh\nproject:   write .specify/gates/lib/install-state.sh\nproject:   write .specify/gates/lib/local-hooks.sh\nproject:   write .specify/gates/lib/managers.sh\nproject:   write .specify/gates/lib/manifest.sh\nproject:   write .specify/gates/lib/message.sh\nproject:   write .specify/gates/lib/policy-infer.sh\nproject:   write .specify/gates/lib/policy.sh\nproject:   write .specify/gates/lib/secrets.sh\nproject:   write .specify/gates/lib/spec-gate.sh\nproject:   write .specify/gates/lib/taskfile-detect.sh\nproject:   write .specify/gates/lib/timeline.sh\nproject:   write .specify/gates/lib/watch.sh\nproject:   write .specify/gates/hooks/pre-commit\nproject:   write .specify/gates/hooks/pre-merge-commit\nproject:   write .specify/gates/hooks/commit-msg\nproject:   write .specify/gates/hooks/stub.sh\nproject:   write .claude/hooks/gates/format-changed.sh\nproject:   write .claude/hooks/gates/post-edit.sh\nproject:   write .claude/hooks/gates/protect-files.sh\nproject:   write .claude/hooks/gates/validate-bash.sh\nproject:   write .claude/hooks/gates/validate-pr.sh\nproject:   write .claude/hooks/gates/verify-quality.sh\nproject:   record runtime version 0.5.0\nproject:   add attestations.jsonl .lock/ to .specify/gates/.gitignore\nproject:   merge agent hooks into .claude/settings.json\nproject:   install the gates stub as git hook pre-commit\nproject:   install the gates stub as git hook pre-merge-commit\nproject:   install the gates stub as git hook commit-msg\nproject:   write .specify/gates/.projected.sha256\nproject: running the canary suite (every gate must block a planted violation):\ncanary: format -- skipped: prettier not installed and not policy-enabled\ncanary: markdown -- skipped: markdownlint-cli2 not installed and not policy-enabled\ncanary: shell -- skipped: shellcheck not installed and not policy-enabled\ncanary: bash -- blocked: validate-bash hook blocked the probe, with and without jq\ncanary: protect -- blocked: protect-files hook blocked the probe, with and without jq\ncanary: prhook -- blocked: validate-pr.sh allowed a clean PR and refused an AI-ism body and an unreadable body file\ncanary: bulk -- blocked: validate-bash refused git add -A under git.block_bulk_staging\ncanary: local -- blocked: a hooks.local.d rule refused its command, and a plain command passed\ncanary: secret -- blocked: pre-commit secret scan refused the staged AWS-key-shaped string\ncanary: credential -- blocked: pre-commit refused a staged token assignment\ncanary: protected -- blocked: commit-msg refused a protected file staged without a Protected-Change trailer\ncanary: branding -- blocked: commit-msg refused a message naming a default AI-branding term\ncanary: pr -- blocked: pr-check.sh refused an undeclared protected change and an AI-ism PR description\ncanary: spec -- blocked: spec gate rejected a Complete feature with a failing accept block\ncanary: errexit -- blocked: spec gate rejected an accept block that fails before its last line\ncanary: contract -- blocked: contract gate rejected a tampered effective policy\ncanary: project -- blocked: a failing project gate blocked at ci and was reported skipped by declaration at agent\ncanary: covered -- blocked: a failing block a covering script vouches for failed at ci and was reported covered at git\ncanary: 18 run, 15 blocked, 0 accepted, 3 skipped\nproject: git probe: pre-commit reaches the gates hook, and its refusal reaches git\nproject: git probe: pre-merge-commit reaches the gates hook, and its refusal reaches git\nproject: git probe: commit-msg reaches the gates hook, and its refusal reaches git\n\nstderr:\n",
+    "logs/21-projection-check.txt": "argv: [\"bash\", \".specify/gates/project.sh\", \"--check\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\nproject: spec-gates 0.5.0, install state: installed\nproject: no changes\n\nstderr:\n",
+    "logs/22-projected-write-refused.txt": "argv: [\"bash\", \".specify/gates/project.sh\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n\nstderr:\nproject: run the installed copy, not the projected one: bash .specify/extensions/gates/runtime/project.sh\n",
+    "logs/23-projection-reapply.txt": "argv: [\"bash\", \".specify/extensions/gates/runtime/project.sh\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\nproject: no changes (spec-gates 0.5.0 already projected)\nproject: running the canary suite (every gate must block a planted violation):\ncanary: format -- skipped: prettier not installed and not policy-enabled\ncanary: markdown -- skipped: markdownlint-cli2 not installed and not policy-enabled\ncanary: shell -- skipped: shellcheck not installed and not policy-enabled\ncanary: bash -- blocked: validate-bash hook blocked the probe, with and without jq\ncanary: protect -- blocked: protect-files hook blocked the probe, with and without jq\ncanary: prhook -- blocked: validate-pr.sh allowed a clean PR and refused an AI-ism body and an unreadable body file\ncanary: bulk -- blocked: validate-bash refused git add -A under git.block_bulk_staging\ncanary: local -- blocked: a hooks.local.d rule refused its command, and a plain command passed\ncanary: secret -- blocked: pre-commit secret scan refused the staged AWS-key-shaped string\ncanary: credential -- blocked: pre-commit refused a staged token assignment\ncanary: protected -- blocked: commit-msg refused a protected file staged without a Protected-Change trailer\ncanary: branding -- blocked: commit-msg refused a message naming a default AI-branding term\ncanary: pr -- blocked: pr-check.sh refused an undeclared protected change and an AI-ism PR description\ncanary: spec -- blocked: spec gate rejected a Complete feature with a failing accept block\ncanary: errexit -- blocked: spec gate rejected an accept block that fails before its last line\ncanary: contract -- blocked: contract gate rejected a tampered effective policy\ncanary: project -- blocked: a failing project gate blocked at ci and was reported skipped by declaration at agent\ncanary: covered -- blocked: a failing block a covering script vouches for failed at ci and was reported covered at git\ncanary: 18 run, 15 blocked, 0 accepted, 3 skipped\nproject: git probe: pre-commit reaches the gates hook, and its refusal reaches git\nproject: git probe: pre-merge-commit reaches the gates hook, and its refusal reaches git\nproject: git probe: commit-msg reaches the gates hook, and its refusal reaches git\n\nstderr:\n",
+    "logs/25-valid-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"agent\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:15Z\",\"boundary\":\"agent\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/26-valid-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"git\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:15Z\",\"boundary\":\"git\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/27-valid-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"ci\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:16Z\",\"boundary\":\"ci\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/28-stage-fixture.txt": "argv: [\"git\", \"add\", \".\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/29-git-commit-valid.txt": "argv: [\"git\", \"-c\", \"user.name=Governance pilot\", \"-c\", \"user.email=pilot@example.invalid\", \"commit\", \"-qm\", \"test: initialize synthetic fixture\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\nPre-commit: scanning staged files for secrets and forbidden paths...\nPre-commit: running quality gate (verify.sh --boundary git)...\ngates: boundary=git failed=0 warnings=0\n  [pass] real-check\n  [pass] test-evidence\n  [pass] parity\n",
+    "logs/30-real-check-failed-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"agent\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"Traceback (most recent call last):\\n  File \\\"<string>\\\", line 1, in <module>\\nAssertionError: fixture mismatch\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:17Z\",\"boundary\":\"agent\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/31-real-check-failed-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"git\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"Traceback (most recent call last):\\n  File \\\"<string>\\\", line 1, in <module>\\nAssertionError: fixture mismatch\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:17Z\",\"boundary\":\"git\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/32-real-check-failed-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"ci\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"Traceback (most recent call last):\\n  File \\\"<string>\\\", line 1, in <module>\\nAssertionError: fixture mismatch\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:17Z\",\"boundary\":\"ci\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/33-stop-first-failure.txt": "argv: [\"bash\", \".claude/hooks/gates/verify-quality.sh\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n\nstderr:\ngates: boundary=agent failed=1 warnings=0\n  [fail] real-check -- AssertionError: fixture mismatch\n  [pass] test-evidence\n  [pass] parity\n\nQuality gate failed at the agent boundary. Fix the issues above before stopping.\n",
+    "logs/34-stop-loop-guard.txt": "argv: [\"bash\", \".claude/hooks/gates/verify-quality.sh\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/35-stage-invalid.txt": "argv: [\"git\", \"add\", \"fixture.txt\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/36-git-commit-blocked.txt": "argv: [\"git\", \"-c\", \"user.name=Governance pilot\", \"-c\", \"user.email=pilot@example.invalid\", \"commit\", \"-qm\", \"test: reject invalid fixture\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 1\nactual_exit: 1\nstdout:\n\nstderr:\nPre-commit: scanning staged files for secrets and forbidden paths...\nPre-commit: running quality gate (verify.sh --boundary git)...\ngates: boundary=git failed=1 warnings=0\n  [fail] real-check -- AssertionError: fixture mismatch\n  [pass] test-evidence\n  [pass] parity\n\nQuality gate failed at the git boundary (see above).\n\nPre-commit failed: 1 issue(s) found.\n",
+    "logs/38-noop-does-not-prove-coverage-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"agent\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:19Z\",\"boundary\":\"agent\",\"policy_sha256\":\"028ca9cbae997f8f4dd7082b42e548d1ff7584185845cbbfe206d7ba47ff2f91\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":1},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/39-noop-does-not-prove-coverage-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"git\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:19Z\",\"boundary\":\"git\",\"policy_sha256\":\"028ca9cbae997f8f4dd7082b42e548d1ff7584185845cbbfe206d7ba47ff2f91\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/40-noop-does-not-prove-coverage-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"ci\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:19Z\",\"boundary\":\"ci\",\"policy_sha256\":\"028ca9cbae997f8f4dd7082b42e548d1ff7584185845cbbfe206d7ba47ff2f91\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/41-restore-staged-fixture.txt": "argv: [\"git\", \"add\", \"fixture.txt\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/42-stale-evidence-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"agent\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"outcome\\\": \\\"BLOCKED\\\", \\\"reasons\\\": [\\\"tested_state: evidence is stale or incomparable\\\"]}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:19Z\",\"boundary\":\"agent\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/43-stale-evidence-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"git\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"outcome\\\": \\\"BLOCKED\\\", \\\"reasons\\\": [\\\"tested_state: evidence is stale or incomparable\\\"]}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:20Z\",\"boundary\":\"git\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/44-stale-evidence-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"ci\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"outcome\\\": \\\"BLOCKED\\\", \\\"reasons\\\": [\\\"tested_state: evidence is stale or incomparable\\\"]}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:20Z\",\"boundary\":\"ci\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/45-missing-check-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"agent\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"optional_skipped_checks\\\": [], \\\"outcome\\\": \\\"PARTIAL\\\", \\\"reasons\\\": [\\\"required check missing: required-check\\\"], \\\"run_id\\\": \\\"synthetic-pilot\\\"}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:20Z\",\"boundary\":\"agent\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/46-missing-check-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"git\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"optional_skipped_checks\\\": [], \\\"outcome\\\": \\\"PARTIAL\\\", \\\"reasons\\\": [\\\"required check missing: required-check\\\"], \\\"run_id\\\": \\\"synthetic-pilot\\\"}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:21Z\",\"boundary\":\"git\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/47-missing-check-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"ci\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"optional_skipped_checks\\\": [], \\\"outcome\\\": \\\"PARTIAL\\\", \\\"reasons\\\": [\\\"required check missing: required-check\\\"], \\\"run_id\\\": \\\"synthetic-pilot\\\"}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:21Z\",\"boundary\":\"ci\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/48-incomplete-cleanup-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"agent\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"optional_skipped_checks\\\": [], \\\"outcome\\\": \\\"PARTIAL\\\", \\\"reasons\\\": [\\\"cleanup unknown\\\"], \\\"run_id\\\": \\\"synthetic-pilot\\\"}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:21Z\",\"boundary\":\"agent\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/49-incomplete-cleanup-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"git\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"optional_skipped_checks\\\": [], \\\"outcome\\\": \\\"PARTIAL\\\", \\\"reasons\\\": [\\\"cleanup unknown\\\"], \\\"run_id\\\": \\\"synthetic-pilot\\\"}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:22Z\",\"boundary\":\"git\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/50-incomplete-cleanup-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"ci\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"fail\",\"detail\":\"{\\\"optional_skipped_checks\\\": [], \\\"outcome\\\": \\\"PARTIAL\\\", \\\"reasons\\\": [\\\"cleanup unknown\\\"], \\\"run_id\\\": \\\"synthetic-pilot\\\"}\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:22Z\",\"boundary\":\"ci\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"check failed\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/51-missing-command-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"agent\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"sh: 1: pilot-command-that-does-not-exist: not found\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:22Z\",\"boundary\":\"agent\",\"policy_sha256\":\"c33d76b8f0e96fea8f8222b8121274f71e07112d9cdb65785af2fa7e20042ae2\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"command not found or not executable\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/52-missing-command-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"git\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"sh: 1: pilot-command-that-does-not-exist: not found\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:23Z\",\"boundary\":\"git\",\"policy_sha256\":\"c33d76b8f0e96fea8f8222b8121274f71e07112d9cdb65785af2fa7e20042ae2\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"command not found or not executable\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/53-missing-command-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"ci\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"sh: 1: pilot-command-that-does-not-exist: not found\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:23Z\",\"boundary\":\"ci\",\"policy_sha256\":\"c33d76b8f0e96fea8f8222b8121274f71e07112d9cdb65785af2fa7e20042ae2\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"command not found or not executable\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/54-gate-timeout-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"agent\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:24Z\",\"boundary\":\"agent\",\"policy_sha256\":\"9fe83fd589be5f5d6de04bff33c7ac420120ded6cd1258e98dfe5d114a05021b\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"timeout after 1s at load 0.19\",\"duration_s\":1},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/55-gate-timeout-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"git\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:26Z\",\"boundary\":\"git\",\"policy_sha256\":\"9fe83fd589be5f5d6de04bff33c7ac420120ded6cd1258e98dfe5d114a05021b\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"timeout after 1s at load 0.19\",\"duration_s\":2},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/56-gate-timeout-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 2\nactual_exit: 2\nstdout:\n{\"boundary\":\"ci\",\"failed\":1,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"fail\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:27Z\",\"boundary\":\"ci\",\"policy_sha256\":\"9fe83fd589be5f5d6de04bff33c7ac420120ded6cd1258e98dfe5d114a05021b\",\"runtime_version\":\"0.5.0\",\"exit\":2,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"fail\",\"reason\":\"timeout after 1s at load 0.19\",\"duration_s\":1},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/57-invalid-policy-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 1\nactual_exit: 1\nstdout:\n{\"result\":\"refused\",\"boundary\":\"ci\",\"reason\":\"invalid policy, no gate ran; fix the errors above (run /speckit.gates.doctor)\"}\n\nstderr:\nERROR: <OUTPUT>/workspaces/claude/.specify/gates/policy.json is not valid JSON\ngates: invalid policy, no gate ran; fix the errors above (run /speckit.gates.doctor)\n",
+    "logs/58-invalid-policy-stop-allows.txt": "argv: [\"bash\", \".claude/hooks/gates/verify-quality.sh\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\ngates: verify.sh could not run (exit 1); allowing stop.\nERROR: <OUTPUT>/workspaces/claude/.specify/gates/policy.json is not valid JSON\ngates: invalid policy, no gate ran; fix the errors above (run /speckit.gates.doctor)\n",
+    "logs/59-missing-runtime-stop-allows.txt": "argv: [\"bash\", \".claude/hooks/gates/verify-quality.sh\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n\nstderr:\n",
+    "logs/60-local-runtime-edit-refused.txt": "argv: [\"bash\", \".specify/gates/project.sh\", \"--check\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 3\nactual_exit: 3\nstdout:\n\nstderr:\nproject: these projected files were changed locally since they were projected:\nproject:   .specify/gates/verify.sh\nproject: nothing was written. Decide per file and re-run with:\nproject:   --take-upstream <path>   replace it with 0.5.0\nproject:   --keep-local <path>      keep it; it is added to .specify/gates/.upgrade-holds and never overwritten\n",
+    "logs/62-restored-agent.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"agent\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"agent\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:28Z\",\"boundary\":\"agent\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/63-restored-git.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"git\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"git\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:28Z\",\"boundary\":\"git\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n",
+    "logs/64-restored-ci.txt": "argv: [\"bash\", \".specify/gates/verify.sh\", \"--boundary\", \"ci\", \"--json\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 0\nstdout:\n{\"boundary\":\"ci\",\"failed\":0,\"warnings\":0,\"gates\":[{\"name\":\"real-check\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"test-evidence\",\"status\":\"pass\",\"detail\":\"\"},{\"name\":\"parity\",\"status\":\"pass\",\"detail\":\"\"}],\"attestation\":{\"v\":1,\"ts\":\"2026-11-01T15:29:29Z\",\"boundary\":\"ci\",\"policy_sha256\":\"53ae82af488cbf8cdc6ff22e6b841da9b8b2dccd2e31449f34b293593dd3e0c9\",\"runtime_version\":\"0.5.0\",\"exit\":0,\"gates\":[{\"name\":\"real-check\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0},{\"name\":\"test-evidence\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":1},{\"name\":\"parity\",\"bin\":null,\"version\":null,\"pinned\":null,\"candidates\":null,\"checked\":null,\"result\":\"pass\",\"reason\":\"\",\"duration_s\":0}]}}\n\nstderr:\n"
+  },
+  "repair_attempts": [
+    {
+      "attempt": 1,
+      "cause": "Pilot used projected project.sh to reapply; upstream correctly requires installed extension copy for writes.",
+      "change": "Run .specify/extensions/gates/runtime/project.sh; retain projected-copy refusal as a negative control. Canary outcome assertion also permits optional installed linters; no upstream code changed.",
+      "initial_result": {
+        "schema_version": 1,
+        "scope": "deterministic disposable fixtures",
+        "spec_kit_commit": "4572a67fe0e72a6837e2d7bb0fda875bc41482e5",
+        "spec_gates_commit": "8a5a0e8a58aa548ad3dbba6f61e772c73cde50ae",
+        "kit_base_commit": "873df7e982ed953181d6526e7866b0bd34d2fa0d",
+        "python": "3.12.14",
+        "platform": "Linux",
+        "runner_sha256": "1c80d94cb9ede83f05e8928c2b99a3d87e19d8e418d0f5c9677529ce8fb677cb",
+        "validator_sha256": "d512461e05e9995d2f77246354fae24a116440fc5d462d5550ec234f67dd8d33",
+        "native_agent_execution": "NOT_RUN",
+        "ci_service_execution": "NOT_RUN",
+        "records": [
+          {
+            "id": "spec-kit-pin",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/01-spec-kit-pin.txt"
+          },
+          {
+            "id": "spec-kit-unchanged",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/02-spec-kit-unchanged.txt"
+          },
+          {
+            "id": "spec-gates-pin",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/03-spec-gates-pin.txt"
+          },
+          {
+            "id": "spec-gates-unchanged",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/04-spec-gates-unchanged.txt"
+          },
+          {
+            "id": "specify-version",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/05-specify-version.txt"
+          },
+          {
+            "id": "claude-git-init",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/06-claude-git-init.txt"
+          },
+          {
+            "id": "claude-init",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/07-claude-init.txt"
+          },
+          {
+            "id": "claude-preserve-instructions",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Byte equality of host AGENTS.md, CLAUDE.md and constitution after initialization."
+          },
+          {
+            "id": "claude-skills-installed",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Generated skill files exist; native agent loading is not tested."
+          },
+          {
+            "id": "codex-git-init",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/10-codex-git-init.txt"
+          },
+          {
+            "id": "codex-init",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/11-codex-init.txt"
+          },
+          {
+            "id": "codex-preserve-instructions",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Byte equality of host AGENTS.md, CLAUDE.md and constitution after initialization."
+          },
+          {
+            "id": "codex-skills-installed",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Generated skill files exist; native agent loading is not tested."
+          },
+          {
+            "id": "cursor-agent-git-init",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/14-cursor-agent-git-init.txt"
+          },
+          {
+            "id": "cursor-agent-init",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/15-cursor-agent-init.txt"
+          },
+          {
+            "id": "cursor-agent-preserve-instructions",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Byte equality of host AGENTS.md, CLAUDE.md and constitution after initialization."
+          },
+          {
+            "id": "cursor-agent-skills-installed",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Generated skill files exist; native agent loading is not tested."
+          },
+          {
+            "id": "project-and-canaries",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/18-project-and-canaries.txt"
+          },
+          {
+            "id": "policy-preserved",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Projection did not rewrite the approved experimental policy."
+          },
+          {
+            "id": "host-settings-preserved",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Existing deny permission and harmless Stop hook remain after merge."
+          },
+          {
+            "id": "projection-check",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/21-projection-check.txt"
+          },
+          {
+            "id": "projection-reapply",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 2,
+            "matched": false,
+            "log": "logs/22-projection-reapply.txt"
+          },
+          {
+            "id": "projection-no-duplicate-hooks",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Reapplying the same version does not duplicate merged hooks; not an upgrade test."
+          },
+          {
+            "id": "valid-agent",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/24-valid-agent.txt"
+          },
+          {
+            "id": "valid-git",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/25-valid-git.txt"
+          },
+          {
+            "id": "valid-ci",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/26-valid-ci.txt"
+          },
+          {
+            "id": "stage-fixture",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/27-stage-fixture.txt"
+          },
+          {
+            "id": "git-commit-valid",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/28-git-commit-valid.txt"
+          },
+          {
+            "id": "real-check-failed-agent",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/29-real-check-failed-agent.txt"
+          },
+          {
+            "id": "real-check-failed-git",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/30-real-check-failed-git.txt"
+          },
+          {
+            "id": "real-check-failed-ci",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/31-real-check-failed-ci.txt"
+          },
+          {
+            "id": "stop-first-failure",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/32-stop-first-failure.txt"
+          },
+          {
+            "id": "stop-loop-guard",
+            "kind": "known-limit",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/33-stop-loop-guard.txt"
+          },
+          {
+            "id": "stage-invalid",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/34-stage-invalid.txt"
+          },
+          {
+            "id": "git-commit-blocked",
+            "kind": "assertion",
+            "expected_exit": 1,
+            "actual_exit": 1,
+            "matched": true,
+            "log": "logs/35-git-commit-blocked.txt"
+          },
+          {
+            "id": "git-head-unchanged",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Rejected commit did not advance the synthetic repository HEAD."
+          },
+          {
+            "id": "noop-does-not-prove-coverage-agent",
+            "kind": "known-limit",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/37-noop-does-not-prove-coverage-agent.txt"
+          },
+          {
+            "id": "noop-does-not-prove-coverage-git",
+            "kind": "known-limit",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/38-noop-does-not-prove-coverage-git.txt"
+          },
+          {
+            "id": "noop-does-not-prove-coverage-ci",
+            "kind": "known-limit",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/39-noop-does-not-prove-coverage-ci.txt"
+          },
+          {
+            "id": "restore-staged-fixture",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/40-restore-staged-fixture.txt"
+          },
+          {
+            "id": "stale-evidence-agent",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/41-stale-evidence-agent.txt"
+          },
+          {
+            "id": "stale-evidence-git",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/42-stale-evidence-git.txt"
+          },
+          {
+            "id": "stale-evidence-ci",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/43-stale-evidence-ci.txt"
+          },
+          {
+            "id": "missing-check-agent",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/44-missing-check-agent.txt"
+          },
+          {
+            "id": "missing-check-git",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/45-missing-check-git.txt"
+          },
+          {
+            "id": "missing-check-ci",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/46-missing-check-ci.txt"
+          },
+          {
+            "id": "incomplete-cleanup-agent",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/47-incomplete-cleanup-agent.txt"
+          },
+          {
+            "id": "incomplete-cleanup-git",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/48-incomplete-cleanup-git.txt"
+          },
+          {
+            "id": "incomplete-cleanup-ci",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/49-incomplete-cleanup-ci.txt"
+          },
+          {
+            "id": "missing-command-agent",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/50-missing-command-agent.txt"
+          },
+          {
+            "id": "missing-command-git",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/51-missing-command-git.txt"
+          },
+          {
+            "id": "missing-command-ci",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/52-missing-command-ci.txt"
+          },
+          {
+            "id": "gate-timeout-agent",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/53-gate-timeout-agent.txt"
+          },
+          {
+            "id": "gate-timeout-git",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/54-gate-timeout-git.txt"
+          },
+          {
+            "id": "gate-timeout-ci",
+            "kind": "assertion",
+            "expected_exit": 2,
+            "actual_exit": 2,
+            "matched": true,
+            "log": "logs/55-gate-timeout-ci.txt"
+          },
+          {
+            "id": "invalid-policy-ci",
+            "kind": "assertion",
+            "expected_exit": 1,
+            "actual_exit": 1,
+            "matched": true,
+            "log": "logs/56-invalid-policy-ci.txt"
+          },
+          {
+            "id": "invalid-policy-stop-allows",
+            "kind": "known-limit",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/57-invalid-policy-stop-allows.txt"
+          },
+          {
+            "id": "missing-runtime-stop-allows",
+            "kind": "known-limit",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/58-missing-runtime-stop-allows.txt"
+          },
+          {
+            "id": "local-runtime-edit-refused",
+            "kind": "assertion",
+            "expected_exit": 3,
+            "actual_exit": 3,
+            "matched": true,
+            "log": "logs/59-local-runtime-edit-refused.txt"
+          },
+          {
+            "id": "local-runtime-edit-retained",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Projection refusal did not silently discard the local edit."
+          },
+          {
+            "id": "restored-agent",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/61-restored-agent.txt"
+          },
+          {
+            "id": "restored-git",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/62-restored-git.txt"
+          },
+          {
+            "id": "restored-ci",
+            "kind": "assertion",
+            "expected_exit": 0,
+            "actual_exit": 0,
+            "matched": true,
+            "log": "logs/63-restored-ci.txt"
+          },
+          {
+            "id": "host-instructions-after-gates",
+            "kind": "assertion",
+            "matched": true,
+            "detail": "Original instructions and constitution still match after the complete experiment."
+          }
+        ],
+        "matched": 63,
+        "total": 64
+      },
+      "failure_transcript": "argv: [\"bash\", \".specify/gates/project.sh\"]\ncwd: <OUTPUT>/workspaces/claude\nexpected_exit: 0\nactual_exit: 2\nstdout:\n\nstderr:\nproject: run the installed copy, not the projected one: bash .specify/extensions/gates/runtime/project.sh\n"
+    }
+  ]
+}

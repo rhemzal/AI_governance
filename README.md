@@ -137,6 +137,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - ADR template: [adr/ADR_TEMPLATE.md](adr/ADR_TEMPLATE.md)
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
 - External project evaluations: [research/EXTERNAL_PROJECT_EVALUATIONS.md](research/EXTERNAL_PROJECT_EVALUATIONS.md)
+- Spec Kit + spec-gates pilot and local handoff: [research/SPEC_KIT_SPEC_GATES_PILOT.md](research/SPEC_KIT_SPEC_GATES_PILOT.md)
 - Engineering playbook research: [research/RESEARCH_ENGINEERING_PLAYBOOKS.md](research/RESEARCH_ENGINEERING_PLAYBOOKS.md)
 - Playbook adaptation guide: [research/PLAYBOOK_ADAPTATION_GUIDE.md](research/PLAYBOOK_ADAPTATION_GUIDE.md)
 
