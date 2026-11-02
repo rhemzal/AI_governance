@@ -4,6 +4,13 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Claim cards for absorbed theses (2026-11-02)
+- [Advisory-only] Record visible kit limits as claim cards in `ci/claim_cards.json`, with shape and promotion rules in `usage/AGENT_EVALUATION.md`. A normative claim or a new required CI check needs an integrated canary under `ci/gate_tests/`. The checker does not read unregistered `constitution/` prose.
+- [Verification] Add `ci/validate_claim_cards.py` and standing-limit regressions to the existing `ci/gate_tests` job. Extend `doc-hygiene` path filters so registry-only edits run that job. No new workflow or mandatory adopter gate.
+- [Governance] ADR-0014 records the registry, its trust limits, and the constitution blind spot. Constitutional rules and import bundle definitions are unchanged; minimal remains documentation-only.
+- [Fix] DOC DELTA and governance-waiver advisories warn when the section is empty, placeholder, or absent, including when the same words appear elsewhere. A populated section suppresses the warning. Both checks still exit 0. Starter §6 and §7 carry the same section predicate.
+- [Verification] `ci/gate_tests/test_advisory_evidence.py` runs the kit and starter blocks. Claim cards `doc-delta-section-value` and `waiver-section-values` are integrated canaries and are not normative.
+
 ### External tooling investigation and isolated pilot (2026-11-01)
 - [Advisory-only] Preserve the comparative review of development-agent governance/workflow tools, primary sources, evidence limits and reevaluation triggers in the existing external-project record.
 - [Experimental] Add a reproducible Spec Kit v1.2.5 + spec-gates v0.5.0 pilot, captured positive/negative results and a native-agent handoff. Preserve this kit's policy and test-evidence validator; production adoption remains deferred.

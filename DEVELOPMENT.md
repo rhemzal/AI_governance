@@ -39,7 +39,7 @@ The AEP suite uses the Python standard library only. Changes to the boundary rec
 timeout 60s python3 -m unittest discover -s ci/gate_tests -v
 ```
 
-These fixtures execute the published inline blocks, compare starter/reference parity, and exercise disposable repositories including a shallow PR merge. Filesystem permission cases require an unprivileged POSIX runner (the kit CI runner); they are explicitly skipped under root, which bypasses `chmod`. A separate injected scanner-error case runs under either identity. Kit `doc-hygiene` runs this suite without adding a product boundary gate.
+These fixtures execute the published inline blocks, compare starter/reference parity, and exercise disposable repositories including a shallow PR merge. Filesystem permission cases require an unprivileged POSIX runner (the kit CI runner); they are explicitly skipped under root, which bypasses `chmod`. A separate injected scanner-error case runs under either identity. Kit `doc-hygiene` runs this suite without adding a product boundary gate. The same suite checks `ci/claim_cards.json` (ADR-0014) and executes the DOC DELTA and governance-waiver advisory blocks against empty and populated fixtures. Those advisories warn and exit 0. A registry-only edit is on the `doc-hygiene` path filters. The claim-card checker does not grade whether a thesis is true.
 
 Import-tool or bundle changes also require the separate bundle suite (Python 3.9+, Git, yq v4.44.3). Run in a tracked checkout; include newly added source files in the Git index before testing directory expansion:
 

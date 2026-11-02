@@ -25,12 +25,17 @@ finding sets. It is not a scanner or an installed product gate. Its regression s
 in existing kit CI; adopter activation and trust boundaries are described in
 `usage/ENGINEERING_METHODS_ADOPTION.md`.
 
+ADR-0014 adds `ci/claim_cards.json` and `ci/validate_claim_cards.py`. The checker validates
+card shape and the promotion rule in `usage/AGENT_EVALUATION.md`. It does not prove a thesis
+is true, and it does not see an unregistered `constitution/` edit. `doc-hygiene` runs the
+regressions. No new adopter gate is activated.
+
 ## Canonical gate × CM × G table
 
 | Gate | CM (adopter) | G (normative timing in `ci/`) | Kit reference | Automatable | Adopter default |
 | --- | --- | --- | --- | --- | --- |
 | D1 — Single source of truth | Advisory CM2; Required CM3 | Rec G2; Mand G3 | Starter §1 | Partial | Advisory CM2 |
-| D2 — Docs updated with behavior | Required CM2 (review); CI advisory | Rec G2; Mand G3 | `doc-delta-advisory` | Partial (PR body) | Required CM2 review |
+| D2 — Docs updated with behavior | Required CM2 (review); CI advisory | Rec G2; Mand G3 | `doc-delta-advisory` | Partial (populated section; warning only) | Required CM2 review |
 | D3 — Broken links / missing files | Required CM0 | Rec G1; Mand G2 | `doc-hygiene` (lychee) | Yes | Required CM0 |
 | D4 — Reproducible doc generation | Deferred CM2+ | Rec G2; Mand G3 | — | Stack-dependent | Deferred |
 | D5 — Anti-fragmentation | Advisory CM2; Required CM3 | Rec G2; Mand G3 | `doc-hygiene` (error on new docs) | Partial | Advisory CM2 → Required CM3 |
@@ -48,7 +53,8 @@ in existing kit CI; adopter activation and trust boundaries are described in
 | AEP applicability / declaration shape | Advisory CM1; stronger CM3 | — | `aep-advisory` + reference validator | Structural only | Missing plan advisory; declared plan validated |
 | Method selection evidence | Any CM (constitutional) | Proportional to task | AI_RULES §6.5 + instruction projections | Semantic review, not a schema proof | Existing AEP/task fields; no new CI gate |
 | No-new-findings migration aid | Opt-in; no new CM requirement | Local risk/waiver decision | `ratchet_findings.py` + `ci/ratchet_tests/` | Set comparison only; scanner is host-owned | Deferred until proven and wired in a declared scope |
-| Governance waiver block | Any CM | — | `governance-waiver-advisory` | Partial | When waiver used |
+| Claim-card shape and promotion | Opt-in; no new CM requirement | — | `validate_claim_cards.py` + `ci/gate_tests/` | Shape and promotion only; constitution prose is unread | Not required |
+| Governance waiver block | Any CM | — | `governance-waiver-advisory` | Partial (section values; warning only) | When waiver used |
 | Doc hygiene checklist 5–7 | Required CM0 (manual) | — | — | No | Required manual |
 
 ## Kit repo vs adopter repo (maintainer dogfood exceptions)
@@ -60,7 +66,7 @@ The kit repo contains documentation and reference-validator tests (no product te
 | Doc hygiene | **Required** (always on) | Required **CM0** |
 | D5 anti-fragmentation | **Error** in `doc-hygiene` (maintainer policy) | Advisory **CM2** → Required **CM3** |
 | DOC DELTA | Advisory (`doc-delta-advisory`) | Required **CM2** review; optional CI |
-| Tests | AEP, import and inline gate regression fixtures + doc/CI verify; no product suite | Required **CM1** when tests exist |
+| Tests | AEP, import, claim-card shape, and inline gate regression fixtures + doc/CI verify; no product suite | Required **CM1** when tests exist |
 | Boundary | N/A | Required **CM2** when recipes wired |
 | ADR on governance paths | **Required** (`adr-required`) — maintainer dogfood | Required **CM3** |
 | AEP | Advisory applicability + structured declaration validation and regression tests | Advisory applicability **CM1+**; declared plan shape validated |

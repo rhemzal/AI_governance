@@ -95,6 +95,8 @@ A small stable set of representative tasks can become an **agent engineering reg
 
 Do not freeze the suite forever. Add a task when a real failure reveals an important missing capability; retire cases that no longer represent project work.
 
+Theses absorbed from other work are recorded as claim cards. The Claim cards section is the rule; `ci/claim_cards.json` is the checked list.
+
 ## Small debugging pilot
 
 Use a few representative historical failures before building a benchmark platform.
@@ -116,6 +118,30 @@ Compare accepted outcomes first, then reproduction attempts, repair iterations, 
 interventions and measured effort. Small pilot results support a local adoption decision,
 not a general productivity claim.
 
+## Claim cards
+
+A thesis that this kit absorbs gets one card in `ci/claim_cards.json`. The checker is `ci/validate_claim_cards.py`. It checks the card's shape and the promotion rules below. It does not run scenarios, and it does not read `constitution/` looking for new sentences.
+
+The oracle is the kind of check that could falsify the claim:
+
+- `canary` — a planted violation exercised by a test under `ci/gate_tests/`
+- `declaration` — a shape or presence check; a matching document can still be untrue
+- `scenario` — a bounded task whose acceptance is fixed before the run
+- `none` — no executable check; the card keeps the gap visible
+
+Record what a hollow pass looks like in `known_pass_that_is_not_proof`. `path` points at the evidence file, and `anchor` is a sentence or test line that must remain in that file.
+
+Promotion, as enforced by the checker:
+
+- `none` stays `research` or `advisory`, and `open`
+- `integrated` is a `canary` whose path is a `ci/gate_tests/*.py` file and whose anchor is a `def test_` line in that file
+- `normative` is allowed only as that integrated canary
+- a `scenario` may be `open` or `probed`, and it is not `integrated`
+
+Copy a thesis into `constitution/`, or into a new required CI check, only together with a normative integrated canary. Until that card exists, keep the thesis in `research/` or in advisory `usage/`. The checker rejects a normative card that has no canary. An unregistered constitution edit can still merge; that limit is card `unregistered-constitution-sentence` and `adr/ADR_0014_Claim_Card_Registry.md`.
+
+The initial cards are limits this repo already states. Their recorded status stays until the evidence anchor and `ci/gate_tests/test_claim_cards.py` change together. Adding a thesis means adding a card in the same registry. A rejected external project that copies nothing into `constitution/` or required CI does not need a card.
+
 ## Independent evaluator
 
 A second agent or reviewer is optional. Use it when it improves detection of unsupported claims or unmet criteria for the task class. Measure the extra cost and false-positive burden.
@@ -127,3 +153,5 @@ A second agent or reviewer is optional. Use it when it improves detection of uns
 - `tooling/BENCHMARK_SCENARIOS.md`
 - `tooling/AI_TOOL_OPTIMIZATION.md`
 - `usage/AI_PRODUCTIVITY_CALIBRATION.md`
+- `ci/claim_cards.json`
+- `adr/ADR_0014_Claim_Card_Registry.md`
