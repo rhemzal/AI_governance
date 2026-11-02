@@ -19,7 +19,7 @@ Keep one advisory registry, `ci/claim_cards.json`, of claims that are already vi
 `ci/validate_claim_cards.py` checks that shape and these promotion rules:
 
 - `none` stays `research` or `advisory`, and `open`
-- `integrated` is a `canary` whose evidence path is a `ci/gate_tests/*.py` file and whose anchor is a `def test_` line in that file
+- `integrated` is a `canary` whose evidence path is a `ci/gate_tests/*.py` file and whose anchor is a `def test_` line that unittest collects from that file. A mention of the name is not enough. The checker does not run the test.
 - `normative` is allowed only as an integrated canary
 - a `scenario` may be `open` or `probed` and is not `integrated`
 
@@ -46,7 +46,7 @@ The checker validates declarations and anchors, not reality. A probed scenario c
 - Anchors shorter than the enforced minimum can latch onto incidental wording. The checker requires sixteen characters.
 - Renaming a test or editing a cited sentence breaks the card until the anchor is updated. That is the intended latch.
 - Authors can set `probed` without a new run. The standing-card test pins the initial statuses so a silent upgrade fails this suite.
-- A normative canary proves the planted case fails in `ci/gate_tests`. It does not prove the surrounding prose is the right policy.
+- A collected canary shows the test is in the suite. It does not run the test, and it does not prove the assertion matches the claim.
 
 ## Points of No Return
 
@@ -58,7 +58,7 @@ Standard and full imports receive the registry and checker through the existing 
 
 Initial cards record limits that are already written down, including the checker's failure to see an unregistered constitution sentence. None start as `normative`.
 
-The DOC DELTA and governance-waiver advisories are the first integrated canaries. A warning still exits 0. Neither card is normative, and neither becomes an adopter requirement.
+The DOC DELTA and governance-waiver advisories are integrated canaries. A warning still exits 0. Neither card is normative, and neither becomes an adopter requirement. Doc hygiene root-file, Provenance header, new-doc link, and bundled cross-ref steps are also integrated canaries. The cross-ref canary supplies the path list that yq would print; it does not run the pinned yq binary or lychee.
 
 ## Enforcement
 

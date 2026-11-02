@@ -192,11 +192,14 @@ jobs:
 
       - name: Anti-fragmentation (D5, PR only)
         if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           fail=0
-          BASE="${{ github.event.pull_request.base.sha }}"
-          HEAD="${{ github.sha }}"
+          BASE="$BASE_SHA"
+          HEAD="$HEAD_SHA"
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             base=$(basename "$f")

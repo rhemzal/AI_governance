@@ -128,6 +128,34 @@
       "rerun_when": "The waiver advisory workflow or starter section 6 changes."
     },
     {
+      "id": "doc-hygiene-bundle-cross-ref",
+      "statement": "The bundled cross-ref step rejects a usage link outside the selected bundle and fails closed when yq fails.",
+      "source": ".github/workflows/doc-hygiene.yml",
+      "layer": "advisory",
+      "oracle": "canary",
+      "status": "integrated",
+      "positive": "A usage link whose target sits under a directory prefix printed by yq passes.",
+      "negative": "An existing file outside that prefix fails, and a missing yq command fails the step.",
+      "known_pass_that_is_not_proof": "The fixture supplies yq's path list. It does not prove the pinned yq binary parsed kit-manifest.yml, and it does not run lychee.",
+      "path": "ci/gate_tests/test_doc_hygiene_blocks.py",
+      "anchor": "def test_usage_link_outside_the_bundle_fails",
+      "rerun_when": "The bundled cross-ref step or its yq path queries change."
+    },
+    {
+      "id": "doc-hygiene-planted-failures",
+      "statement": "Doc hygiene rejects a missing root file, a Provenance banner outside the header, and a new usage document whose name is not on a hub page.",
+      "source": ".github/workflows/doc-hygiene.yml",
+      "layer": "advisory",
+      "oracle": "canary",
+      "status": "integrated",
+      "positive": "A header Provenance banner, the five root meta files, and a new usage document named on the README pass.",
+      "negative": "A missing root file, a banner past the first 500 bytes, and an unlinked new usage document fail.",
+      "known_pass_that_is_not_proof": "These steps do not run the bundled cross-ref check or the lychee link check.",
+      "path": "ci/gate_tests/test_doc_hygiene_blocks.py",
+      "anchor": "def test_missing_provenance_banner_fails",
+      "rerun_when": "The doc-hygiene root-file, provenance, or anti-fragmentation step changes."
+    },
+    {
       "id": "provable-enforcement-not-kit-wide",
       "statement": "The spec-gates provable-enforcement fragment asks every gate class for a planted-violation canary, and its presence does not create those canaries for doc-hygiene, AEP, or ADR.",
       "source": ".specify/extensions/gates/constitution/fragments/governance/provable-enforcement.md",
@@ -135,7 +163,7 @@
       "oracle": "none",
       "status": "open",
       "positive": "No kit-wide canary inventory is produced by the fragment file being present.",
-      "negative": "No check fails when a kit gate class has no planted violation of its own.",
+      "negative": "The fragment file being present does not fail a gate class that still has no planted violation of its own.",
       "known_pass_that_is_not_proof": "The fragment file is present in the experimental projection.",
       "path": ".specify/extensions/gates/constitution/fragments/governance/provable-enforcement.md",
       "anchor": "Every gate class re-proves itself",

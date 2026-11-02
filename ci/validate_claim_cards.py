@@ -7,8 +7,11 @@ The constitution blind spot is card unregistered-constitution-sentence.
 """
 
 import argparse
+import importlib.util
 import json
+import re
 import sys
+import unittest
 from pathlib import Path, PurePosixPath
 
 
@@ -91,6 +94,46 @@ def _repo_file(value, label, root):
     return candidate
 
 
+def _defined_test(body, anchor, name):
+    if not re.fullmatch(r"def test_[A-Za-z0-9_]+", anchor):
+        raise ClaimError(f"{name}: integrated anchor must be a def test_ name")
+    pattern = re.compile(re.escape(anchor) + r"\(.*\):\s*(?:#.*)?\Z")
+    if not any(pattern.fullmatch(line.strip()) for line in body.splitlines()):
+        raise ClaimError(f"{name}: anchor is not a test definition line")
+    return anchor.removeprefix("def ")
+
+
+def _suite_names(suite):
+    names = set()
+    pending = [suite]
+    while pending:
+        item = pending.pop()
+        if isinstance(item, unittest.TestSuite):
+            pending.extend(list(item))
+        else:
+            method = getattr(item, "_testMethodName", "")
+            if method:
+                names.add(method)
+    return names
+
+
+def _collected_test_names(path, cache):
+    key = str(path.resolve())
+    if key in cache:
+        return cache[key]
+    module_name = "claim_canary_" + re.sub(r"\W", "_", path.stem)
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    if spec is None or spec.loader is None:
+        raise ClaimError(f"{path.name}: cannot load canary module")
+    module = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(module)
+    except Exception as exc:
+        raise ClaimError(f"{path.name}: canary module failed to import: {exc}") from exc
+    cache[key] = _suite_names(unittest.defaultTestLoader.loadTestsFromModule(module))
+    return cache[key]
+
+
 def _promotion(card):
     name = card["id"]
     oracle, layer, status, path = card["oracle"], card["layer"], card["status"], card["path"]
@@ -120,6 +163,8 @@ def validate_registry(document, root):
     if not isinstance(cards, list) or not cards:
         raise ClaimError("cards: expected a non-empty list")
     seen = set()
+    integrated_anchors = set()
+    collected = {}
     for index, card in enumerate(cards):
         label = f"cards[{index}]"
         _fields(card, CARD_FIELDS, label)
@@ -145,7 +190,14 @@ def validate_registry(document, root):
             body = evidence.read_text(encoding="utf-8")
         except UnicodeError as exc:
             raise ClaimError(f"{name}.path: evidence file is not UTF-8 text") from exc
-        if card["anchor"] not in body:
+        if card["status"] == "integrated":
+            if card["anchor"] in integrated_anchors:
+                raise ClaimError(f"{name}: duplicate integrated anchor")
+            integrated_anchors.add(card["anchor"])
+            test_name = _defined_test(body, card["anchor"], name)
+            if test_name not in _collected_test_names(evidence, collected):
+                raise ClaimError(f"{name}: {test_name} is not collected by unittest")
+        elif card["anchor"] not in body:
             raise ClaimError(f"{name}: anchor is not in the evidence file")
     return cards
 

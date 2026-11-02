@@ -24,6 +24,8 @@ STANDING = {
     "method-rationale-is-unchecked-prose": ("advisory", "declaration", "probed"),
     "doc-delta-section-value": ("advisory", "canary", "integrated"),
     "waiver-section-values": ("advisory", "canary", "integrated"),
+    "doc-hygiene-bundle-cross-ref": ("advisory", "canary", "integrated"),
+    "doc-hygiene-planted-failures": ("advisory", "canary", "integrated"),
     "provable-enforcement-not-kit-wide": ("research", "none", "open"),
     "ratchet-does-not-run-scanners": ("advisory", "declaration", "probed"),
     "unregistered-constitution-sentence": ("advisory", "none", "open"),
@@ -67,7 +69,12 @@ class ClaimCardRegistry(unittest.TestCase):
 
     def test_open_declaration_and_integrated_canary_pass(self):
         self.assertEqual(1, len(VALIDATOR.validate_registry(self.ready(), self.root)))
-        self.write("ci/gate_tests/test_canary.py", "def test_planted_violation():\n    pass\n")
+        self.write("ci/gate_tests/test_canary.py", (
+            "import unittest\n"
+            "class Planted(unittest.TestCase):\n"
+            "    def test_planted_violation(self):\n"
+            "        pass\n"
+        ))
         document = self.ready(
             id="planted-canary",
             layer="normative",
@@ -108,6 +115,29 @@ class ClaimCardRegistry(unittest.TestCase):
             with self.subTest(overrides=overrides):
                 with self.assertRaises(VALIDATOR.ClaimError):
                     VALIDATOR.validate_registry(self.ready(**overrides), self.root)
+
+    def test_mentioned_or_uncollected_def_is_not_an_integrated_canary(self):
+        mentioned = (
+            "import unittest\n"
+            "class Planted(unittest.TestCase):\n"
+            "    def test_real(self):\n"
+            "        note = \"def test_planted_violation():\"\n"
+            "        # def test_planted_violation():\n"
+        )
+        bare = "def test_planted_violation():\n    pass\n"
+        for text in (mentioned, bare):
+            with self.subTest(text=text.splitlines()[0]):
+                self.write("ci/gate_tests/test_canary.py", text)
+                document = self.ready(
+                    id="planted-canary",
+                    oracle="canary",
+                    status="integrated",
+                    path="ci/gate_tests/test_canary.py",
+                    anchor="def test_planted_violation",
+                    source="ci/gate_tests/test_canary.py",
+                )
+                with self.assertRaises(VALIDATOR.ClaimError):
+                    VALIDATOR.validate_registry(document, self.root)
 
     def test_integrated_canary_outside_gate_tests_fails(self):
         self.write("ci/test_canary.py", "def test_planted_violation():\n    pass\n")

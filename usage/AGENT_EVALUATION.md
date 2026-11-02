@@ -134,7 +134,7 @@ Record what a hollow pass looks like in `known_pass_that_is_not_proof`. `path` p
 Promotion, as enforced by the checker:
 
 - `none` stays `research` or `advisory`, and `open`
-- `integrated` is a `canary` whose path is a `ci/gate_tests/*.py` file and whose anchor is a `def test_` line in that file
+- `integrated` is a `canary` whose path is a `ci/gate_tests/*.py` file and whose anchor is a `def test_` line that unittest collects from that file. A comment, string, or bare function that discovery does not collect does not count. The checker does not run the test.
 - `normative` is allowed only as that integrated canary
 - a `scenario` may be `open` or `probed`, and it is not `integrated`
 

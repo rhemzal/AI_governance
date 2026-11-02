@@ -10,6 +10,9 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Governance] ADR-0014 records the registry, its trust limits, and the constitution blind spot. Constitutional rules and import bundle definitions are unchanged; minimal remains documentation-only.
 - [Fix] DOC DELTA and governance-waiver advisories warn when the section is empty, placeholder, or absent, including when the same words appear elsewhere. A populated section suppresses the warning. Both checks still exit 0. Starter §6 and §7 carry the same section predicate.
 - [Verification] `ci/gate_tests/test_advisory_evidence.py` runs the kit and starter blocks. Claim cards `doc-delta-section-value` and `waiver-section-values` are integrated canaries and are not normative.
+- [Fix] An integrated claim card requires a `def test_` line that unittest discovery collects. A comment, string, or uncollected function containing the test name no longer passes. The checker still does not run the test.
+- [Verification] Doc hygiene root-file, Provenance header, and new-doc link steps now run against planted failures in `ci/gate_tests`. D5 reads `BASE_SHA` and `HEAD_SHA` so the same block can run outside Actions.
+- [Verification] The bundled cross-ref step rejects a usage link outside the path list and fails closed when yq is missing. The fixture supplies that path list; lychee still has no planted failure.
 
 ### External tooling investigation and isolated pilot (2026-11-01)
 - [Advisory-only] Preserve the comparative review of development-agent governance/workflow tools, primary sources, evidence limits and reevaluation triggers in the existing external-project record.
