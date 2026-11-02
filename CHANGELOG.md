@@ -13,6 +13,19 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Fix] An integrated claim card requires a `def test_` line that unittest discovery collects. A comment, string, or uncollected function containing the test name no longer passes. The checker still does not run the test.
 - [Verification] Doc hygiene root-file, Provenance header, and new-doc link steps now run against planted failures in `ci/gate_tests`. D5 reads `BASE_SHA` and `HEAD_SHA` so the same block can run outside Actions.
 - [Verification] The bundled cross-ref step rejects a usage link outside the path list and fails closed when yq is missing. The fixture supplies that path list; lychee still has no planted failure.
+- [Verification] The manifest path step rejects a missing file or directory from that path list and fails closed when yq fails. The fixture supplies the list.
+- [Verification] The yq release named in `doc-hygiene` is run against this repo's manifest paths and usage links, and against a planted missing tree and outside link.
+- [Verification] The lychee release named in `doc-hygiene` rejects a missing local hub file and accepts this repo's hub files offline. Offline mode does not prove remote URLs.
+- [Verification] The Cursor stop script allows a stop when verify.sh is missing, exits with a code other than 2, or receives stop_hook_active. Exit 2 asks for a follow-up. The test calls the script directly and does not show native host dispatch.
+- [Verification] The ADR presence check accepts a numbered record whose body is only a title and TODO. Its PASS line still says the content needs review.
+- [Verification] The test-evidence helper assesses hand-written JSON as VERIFIED when the schema matches. It does not open the named evidence paths and does not show that a runner wrote the report.
+- [Verification] AEP schema version 1 accepts a READY plan with no method field. An empty discovery list still fails. PASS does not show that a method was compared.
+- [Verification] The finding comparator accepts two hand-written reports with the same identity and does not modify them. A new identity fails. The pass does not show that a scanner ran.
+- [Verification] The claim-card checker still passes when a constitution file contains a thesis that no card names. It does not copy that sentence into the registry.
+- [Verification] A passing doc-hygiene root-file step leaves an open-finding note unchanged. The workflow does not mention the fix plan. Exit 0 is not release readiness.
+- [Verification] The recorded 2026-11-01 stop session has an empty invocation log and no stop-invocations.jsonl. B5–B8 have no trial-result record. The provable-enforcement fragment is not referenced by doc hygiene, ADR, AEP, or constitution. None of these checks re-runs the host, a matched trial, or the fragment.
+- [Fix] An integrated claim card now requires the collected test method to contain an assertion. A method whose body is only `pass` no longer qualifies. The checker still does not run the test.
+- [Fix] An assertion made only of literals, such as `self.assertTrue(True)`, no longer qualifies as that canary. A name assigned from a literal in the same straight-line block counts as a literal too. The checker still does not run the test. A value produced by a call can still be constant at runtime.
 
 ### External tooling investigation and isolated pilot (2026-11-01)
 - [Advisory-only] Preserve the comparative review of development-agent governance/workflow tools, primary sources, evidence limits and reevaluation triggers in the existing external-project record.

@@ -15,20 +15,23 @@ SPEC.loader.exec_module(VALIDATOR)
 
 ROOT = Path(__file__).resolve().parents[2]
 STANDING = {
-    "stop-hook-fail-open": ("research", "scenario", "probed"),
-    "native-stop-dispatch-unobserved": ("research", "scenario", "probed"),
-    "adr-presence-is-not-rationale": ("advisory", "declaration", "probed"),
-    "fabricated-test-evidence": ("advisory", "declaration", "probed"),
-    "doc-hygiene-does-not-close-findings": ("advisory", "none", "open"),
-    "benchmark-scenarios-unrun": ("advisory", "scenario", "open"),
-    "method-rationale-is-unchecked-prose": ("advisory", "declaration", "probed"),
+    "stop-hook-fail-open": ("research", "canary", "integrated"),
+    "native-stop-dispatch-unobserved": ("research", "canary", "integrated"),
+    "adr-presence-is-not-rationale": ("advisory", "canary", "integrated"),
+    "fabricated-test-evidence": ("advisory", "canary", "integrated"),
+    "doc-hygiene-does-not-close-findings": ("advisory", "canary", "integrated"),
+    "benchmark-scenarios-unrun": ("advisory", "canary", "integrated"),
+    "method-rationale-is-unchecked-prose": ("advisory", "canary", "integrated"),
     "doc-delta-section-value": ("advisory", "canary", "integrated"),
     "waiver-section-values": ("advisory", "canary", "integrated"),
+    "doc-hygiene-lychee-hubs": ("advisory", "canary", "integrated"),
+    "doc-hygiene-real-yq": ("advisory", "canary", "integrated"),
+    "doc-hygiene-manifest-paths": ("advisory", "canary", "integrated"),
     "doc-hygiene-bundle-cross-ref": ("advisory", "canary", "integrated"),
     "doc-hygiene-planted-failures": ("advisory", "canary", "integrated"),
-    "provable-enforcement-not-kit-wide": ("research", "none", "open"),
-    "ratchet-does-not-run-scanners": ("advisory", "declaration", "probed"),
-    "unregistered-constitution-sentence": ("advisory", "none", "open"),
+    "provable-enforcement-not-kit-wide": ("research", "canary", "integrated"),
+    "ratchet-does-not-run-scanners": ("advisory", "canary", "integrated"),
+    "unregistered-constitution-sentence": ("advisory", "canary", "integrated"),
 }
 
 
@@ -67,13 +70,22 @@ class ClaimCardRegistry(unittest.TestCase):
         self.write("notes/evidence.md", "prefix sample evidence anchor suffix\n")
         return {"schema_version": 1, "cards": [card(**overrides)]}
 
+    def test_unregistered_constitution_file_still_passes(self):
+        thesis = "Agents must always deploy on Fridays.\n"
+        self.write("constitution/NEW_RULE.md", thesis)
+        cards = VALIDATOR.validate_registry(self.ready(), self.root)
+        self.assertEqual(["sample-limit"], [item["id"] for item in cards])
+        self.assertNotIn("Fridays", cards[0]["statement"])
+        self.assertEqual(thesis, (self.root / "constitution/NEW_RULE.md").read_text(encoding="utf-8"))
+
     def test_open_declaration_and_integrated_canary_pass(self):
         self.assertEqual(1, len(VALIDATOR.validate_registry(self.ready(), self.root)))
         self.write("ci/gate_tests/test_canary.py", (
             "import unittest\n"
             "class Planted(unittest.TestCase):\n"
             "    def test_planted_violation(self):\n"
-            "        pass\n"
+            "        text = open(__file__, encoding='utf-8').read()\n"
+            "        self.assertIn('def test_planted_violation', text)\n"
         ))
         document = self.ready(
             id="planted-canary",
@@ -115,6 +127,51 @@ class ClaimCardRegistry(unittest.TestCase):
             with self.subTest(overrides=overrides):
                 with self.assertRaises(VALIDATOR.ClaimError):
                     VALIDATOR.validate_registry(self.ready(**overrides), self.root)
+
+    def test_constant_assertion_is_not_a_canary(self):
+        for body in (
+            "self.assertTrue(True)\n",
+            "self.assertEqual(1, 1)\n",
+            "assert True\n",
+            "value = 1\n        self.assertEqual(value, 1)\n",
+        ):
+            with self.subTest(body=body.strip()):
+                self.write("ci/gate_tests/test_canary.py", (
+                    "import unittest\n"
+                    "class Planted(unittest.TestCase):\n"
+                    "    def test_planted_violation(self):\n"
+                    f"        {body}"
+                ))
+                document = self.ready(
+                    id="planted-canary",
+                    oracle="canary",
+                    status="integrated",
+                    path="ci/gate_tests/test_canary.py",
+                    anchor="def test_planted_violation",
+                    source="ci/gate_tests/test_canary.py",
+                )
+                with self.assertRaises(VALIDATOR.ClaimError) as caught:
+                    VALIDATOR.validate_registry(document, self.root)
+                self.assertIn("only restate constants", str(caught.exception))
+
+    def test_collected_test_without_an_assertion_is_not_a_canary(self):
+        self.write("ci/gate_tests/test_canary.py", (
+            "import unittest\n"
+            "class Planted(unittest.TestCase):\n"
+            "    def test_planted_violation(self):\n"
+            "        pass\n"
+        ))
+        document = self.ready(
+            id="planted-canary",
+            oracle="canary",
+            status="integrated",
+            path="ci/gate_tests/test_canary.py",
+            anchor="def test_planted_violation",
+            source="ci/gate_tests/test_canary.py",
+        )
+        with self.assertRaises(VALIDATOR.ClaimError) as caught:
+            VALIDATOR.validate_registry(document, self.root)
+        self.assertIn("does not assert anything", str(caught.exception))
 
     def test_mentioned_or_uncollected_def_is_not_an_integrated_canary(self):
         mentioned = (

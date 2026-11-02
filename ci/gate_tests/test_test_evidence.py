@@ -34,6 +34,23 @@ def records():
 
 
 class TestEvidenceAssessment(unittest.TestCase):
+    def test_hand_written_report_is_verified_without_a_runner(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            expected, report = records()
+            evidence = root / "result.json"
+            self.assertFalse(evidence.exists())
+            (root / "expected.json").write_text(json.dumps(expected), encoding="utf-8")
+            (root / "report.json").write_text(json.dumps(report), encoding="utf-8")
+            result = subprocess.run(
+                [sys.executable, str(SCRIPT), "--expected", str(root / "expected.json"),
+                 "--report", str(root / "report.json")],
+                capture_output=True, text=True, timeout=10, check=False,
+            )
+            self.assertEqual(0, result.returncode, result.stderr)
+            self.assertEqual("VERIFIED", json.loads(result.stdout)["outcome"])
+            self.assertFalse(evidence.exists())
+
     def test_known_good_and_no_input_mutation(self):
         expected, report = records()
         original = copy.deepcopy((expected, report))

@@ -19,7 +19,7 @@ Keep one advisory registry, `ci/claim_cards.json`, of claims that are already vi
 `ci/validate_claim_cards.py` checks that shape and these promotion rules:
 
 - `none` stays `research` or `advisory`, and `open`
-- `integrated` is a `canary` whose evidence path is a `ci/gate_tests/*.py` file and whose anchor is a `def test_` line that unittest collects from that file. A mention of the name is not enough. The checker does not run the test.
+- `integrated` is a `canary` whose evidence path is a `ci/gate_tests/*.py` file and whose anchor is a `def test_` line that unittest collects from that file and whose body asserts something. A mention of the name, a collected method that does not assert, an assertion made only of literals, or a name assigned from a literal in that straight-line block is not enough. The checker does not run the test. A value produced by a call can still be constant at runtime.
 - `normative` is allowed only as an integrated canary
 - a `scenario` may be `open` or `probed` and is not `integrated`
 
@@ -58,7 +58,7 @@ Standard and full imports receive the registry and checker through the existing 
 
 Initial cards record limits that are already written down, including the checker's failure to see an unregistered constitution sentence. None start as `normative`.
 
-The DOC DELTA and governance-waiver advisories are integrated canaries. A warning still exits 0. Neither card is normative, and neither becomes an adopter requirement. Doc hygiene root-file, Provenance header, new-doc link, and bundled cross-ref steps are also integrated canaries. The cross-ref canary supplies the path list that yq would print; it does not run the pinned yq binary or lychee.
+The DOC DELTA and governance-waiver advisories are integrated canaries. A warning still exits 0. Neither card is normative, and neither becomes an adopter requirement. Doc hygiene root-file, Provenance header, new-doc link, bundled cross-ref, and manifest path steps are also integrated canaries. Stub yq canaries supply the path list. A separate canary runs the yq release named in the workflow against this repo's manifest. Another runs the named lychee release offline against the hub files and a missing local link. Offline mode does not prove remote URLs. The Cursor stop script is an integrated canary of its stdin contract, including the fail-open paths. That call does not show that the native host dispatched the hook. The ADR presence check is an integrated canary that a numbered file whose body is only TODO still passes. Exit 0 does not judge the rationale. The test-evidence helper is an integrated canary that hand-written JSON assesses as VERIFIED without a runner or an evidence file. Schema version 1 is an integrated canary that a READY plan with no method field still passes. PASS does not show that a method was compared. The finding comparator is an integrated canary that hand-written reports with no new identity pass and are not modified. That pass does not show that a scanner ran. An unregistered file under constitution/ is an integrated canary that the checker still passes and does not copy the new sentence into a card. Closing that hole would be a different check. A passing doc-hygiene root-file step is an integrated canary that an open-finding note stays unchanged. Exit 0 is not release readiness. The recorded native stop session, the absence of a B5–B8 trial record, and the unwired provable-enforcement fragment are integrated canaries of those limits. None of them re-runs the host, a matched trial, or the fragment.
 
 ## Enforcement
 

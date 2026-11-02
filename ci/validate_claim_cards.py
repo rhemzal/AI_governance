@@ -7,6 +7,7 @@ The constitution blind spot is card unregistered-constitution-sentence.
 """
 
 import argparse
+import ast
 import importlib.util
 import json
 import re
@@ -103,6 +104,131 @@ def _defined_test(body, anchor, name):
     return anchor.removeprefix("def ")
 
 
+def _body_asserts(path, test_name):
+    """Return whether the test asserts, and whether that assertion reads a runtime value.
+
+    A name assigned once from a literal in the same straight-line block is still a literal.
+    Names loaded from calls, attributes, or branches are runtime. The test is not executed.
+    """
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == test_name:
+            return _scan_stmts(node.body, {})
+    return False, False
+
+
+def _scan_stmts(stmts, consts):
+    has_assert = False
+    observes = False
+    for stmt in stmts:
+        if isinstance(stmt, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            continue
+        found, saw_runtime = _scan_stmt(stmt, consts)
+        has_assert = has_assert or found
+        observes = observes or saw_runtime
+    return has_assert, observes
+
+
+def _scan_stmt(stmt, consts):
+    if isinstance(stmt, ast.Assign):
+        _bind(stmt.targets, stmt.value, consts)
+        return False, False
+    if isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+        _mark(stmt.target.id, stmt.value is not None and _constant(stmt.value, consts), consts)
+        return False, False
+    if isinstance(stmt, ast.AugAssign) and isinstance(stmt.target, ast.Name):
+        _mark(stmt.target.id, False, consts)
+        return False, False
+    if isinstance(stmt, ast.Assert):
+        return True, not _constant(stmt.test, consts)
+    if isinstance(stmt, ast.Expr) and _is_assert_call(stmt.value):
+        return True, _call_observes(stmt.value, consts)
+    if isinstance(stmt, ast.With):
+        for item in stmt.items:
+            if item.optional_vars is not None:
+                _bind([item.optional_vars], None, consts)
+        return _scan_stmts(stmt.body, consts)
+    if isinstance(stmt, ast.If):
+        return _scan_copies((stmt.body, stmt.orelse), consts)
+    if isinstance(stmt, ast.For):
+        _bind([stmt.target], None, consts)
+        return _scan_copies((stmt.body, stmt.orelse), consts)
+    if isinstance(stmt, ast.While):
+        return _scan_copies((stmt.body, stmt.orelse), consts)
+    if isinstance(stmt, ast.Try):
+        parts = [stmt.body, stmt.orelse, stmt.finalbody]
+        parts.extend(handler.body for handler in stmt.handlers)
+        return _scan_copies(parts, consts)
+    return False, False
+
+
+def _scan_copies(parts, consts):
+    has_assert = False
+    observes = False
+    for part in parts:
+        found, saw_runtime = _scan_stmts(part, dict(consts))
+        has_assert = has_assert or found
+        observes = observes or saw_runtime
+    return has_assert, observes
+
+
+def _bind(targets, value, consts):
+    for target in targets:
+        if isinstance(target, ast.Name):
+            _mark(target.id, value is not None and _constant(value, consts), consts)
+        elif isinstance(target, (ast.Tuple, ast.List)):
+            if isinstance(value, (ast.Tuple, ast.List)) and len(target.elts) == len(value.elts):
+                for elt, item in zip(target.elts, value.elts):
+                    _bind([elt], item, consts)
+            else:
+                for elt in target.elts:
+                    _bind([elt], None, consts)
+
+
+def _mark(name, is_const, consts):
+    if is_const:
+        consts[name] = True
+    else:
+        consts.pop(name, None)
+
+
+def _is_assert_call(node):
+    return (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr.startswith("assert")
+    )
+
+
+def _constant(node, consts):
+    if node is None:
+        return False
+    if isinstance(node, ast.Constant):
+        return True
+    if isinstance(node, ast.Name):
+        return consts.get(node.id) is True
+    if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.Not, ast.UAdd, ast.USub)):
+        return _constant(node.operand, consts)
+    if isinstance(node, ast.BinOp):
+        return _constant(node.left, consts) and _constant(node.right, consts)
+    if isinstance(node, ast.BoolOp):
+        return all(_constant(item, consts) for item in node.values)
+    if isinstance(node, ast.Compare):
+        return _constant(node.left, consts) and all(_constant(item, consts) for item in node.comparators)
+    if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+        return all(_constant(item, consts) for item in node.elts)
+    if isinstance(node, ast.Dict):
+        pairs = zip(node.keys, node.values)
+        return all(key is not None and _constant(key, consts) and _constant(value, consts)
+                   for key, value in pairs)
+    return False
+
+
+def _call_observes(node, consts):
+    parts = list(node.args) + [item.value for item in node.keywords]
+    return any(not _constant(part, consts) for part in parts)
+
+
 def _suite_names(suite):
     names = set()
     pending = [suite]
@@ -197,6 +323,11 @@ def validate_registry(document, root):
             test_name = _defined_test(body, card["anchor"], name)
             if test_name not in _collected_test_names(evidence, collected):
                 raise ClaimError(f"{name}: {test_name} is not collected by unittest")
+            has_assert, observes = _body_asserts(evidence, test_name)
+            if not has_assert:
+                raise ClaimError(f"{name}: {test_name} does not assert anything")
+            if not observes:
+                raise ClaimError(f"{name}: {test_name} assertions only restate constants")
         elif card["anchor"] not in body:
             raise ClaimError(f"{name}: anchor is not in the evidence file")
     return cards
