@@ -4,6 +4,11 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Adoption completion plan (2026-11-03)
+
+- [Advisory-only] Reassess the implemented work-procedure pilot at `65fe471b6a2b9924295f5ea8eb9701856ea976c9` and preserve a follow-up Autonomous Execution Plan in `research/EXTERNAL_PROJECT_EVALUATIONS.md`. Credit the existing pin, profile, feature cycle and benchmark repair; prioritize native workflow use, safe opt-in transfer, matched debugging/resume observations and a spec-gates simplification decision.
+- [Verification] Eight focused existing tests passed without skips; distinguish these checks and the recorded feature evidence from unrun native workflow and downstream trials. This is a plan, with no runtime, default import selection, constitutional rule or required-check change.
+
 ### Cursor stop notice (2026-11-03)
 
 - [Experimental] When `verify.sh` is missing or exits with a code other than 0 or 2, the stop script asks once, at `loop_count` 0, for an UNVERIFIED report. A later `loop_count` allows the stop. `stop_hook_active` still allows the stop. The contract test calls the script directly and is not native host dispatch. Promotion stays deferred.
