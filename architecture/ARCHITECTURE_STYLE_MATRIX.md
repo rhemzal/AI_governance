@@ -2,31 +2,33 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
-
 ## Purpose
+
 This matrix is a **trade-off map**, not dogma.
 It supports the `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`.
 
 Legend:
+
 - ✅ Strong fit
 - ⚠️ Possible, but watch the trade-offs
 - ❌ Usually a mismatch
 
-| Criterion / Goal | Hexagonal (Ports & Adapters) | Layered | Modular Monolith | Event-Driven | Microservices | Pipeline/Batch | Config-Driven Pipeline | Serverless/FaaS | Orchestration (Saga/Workflow) | CQRS | Streaming/Reactive |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Stable domain rules | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ⚠️ | ⚠️ (write side only) | ❌ |
-| Many external integrations | ✅ | ⚠️ | ⚠️ | ✅ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ⚠️ | ⚠️ |
-| Automation-first testability | ✅ | ⚠️ | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ |
-| Determinism by design | ✅ | ⚠️ | ✅ | ❌ (harder) | ❌ (harder) | ⚠️ | ⚠️ | ❌ (stateless only) | ⚠️ | ⚠️ (eventual consistency) | ❌ (ordering/timing) |
-| Simple CRUD (Create, Read, Update, Delete) / data-first | ⚠️ | ✅ | ✅ | ⚠️ | ❌ | ⚠️ | ❌ | ⚠️ | ❌ | ⚠️ (read side) | ❌ |
-| High throughput streaming | ⚠️ | ❌ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ⚠️ | ❌ | ❌ | ✅ |
-| Low cognitive load for small teams | ⚠️ | ✅ | ✅ | ❌ | ❌ | ⚠️ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Clear failure isolation boundaries | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ❌ (hidden coupling) | ⚠️ | ⚠️ | ⚠️ |
-| Long-running workflows | ❌ | ❌ | ⚠️ | ⚠️ (choreography) | ⚠️ | ✅ | ⚠️ | ❌ (timeout limits) | ✅ | ❌ | ❌ |
-| Platform extensibility (plugins) | ✅ (ports) | ❌ | ⚠️ | ❌ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Contract/schema is the product | ⚠️ | ❌ | ⚠️ | ⚠️ (event schema) | ⚠️ | ❌ | ❌ | ⚠️ | ❌ | ❌ | ⚠️ (stream schema) |
+| Criterion / Goal                                        | Hexagonal (Ports & Adapters) | Layered | Modular Monolith |      Event-Driven | Microservices | Pipeline/Batch | Config-Driven Pipeline |      Serverless/FaaS | Orchestration (Saga/Workflow) |                      CQRS |   Streaming/Reactive |
+| ------------------------------------------------------- | ---------------------------: | ------: | ---------------: | ----------------: | ------------: | -------------: | ---------------------: | -------------------: | ----------------------------: | ------------------------: | -------------------: |
+| Stable domain rules                                     |                           ✅ |      ⚠️ |               ✅ |                ⚠️ |            ⚠️ |             ❌ |                     ❌ |                   ❌ |                            ⚠️ |      ⚠️ (write side only) |                   ❌ |
+| Many external integrations                              |                           ✅ |      ⚠️ |               ⚠️ |                ✅ |            ⚠️ |             ⚠️ |                     ✅ |                   ✅ |                            ✅ |                        ⚠️ |                   ⚠️ |
+| Automation-first testability                            |                           ✅ |      ⚠️ |               ✅ |                ⚠️ |            ❌ |             ⚠️ |                     ⚠️ |                   ⚠️ |                            ⚠️ |                        ⚠️ |                   ⚠️ |
+| Determinism by design                                   |                           ✅ |      ⚠️ |               ✅ |       ❌ (harder) |   ❌ (harder) |             ⚠️ |                     ⚠️ |  ❌ (stateless only) |                            ⚠️ | ⚠️ (eventual consistency) | ❌ (ordering/timing) |
+| Simple CRUD (Create, Read, Update, Delete) / data-first |                           ⚠️ |      ✅ |               ✅ |                ⚠️ |            ❌ |             ⚠️ |                     ❌ |                   ⚠️ |                            ❌ |            ⚠️ (read side) |                   ❌ |
+| High throughput streaming                               |                           ⚠️ |      ❌ |               ⚠️ |                ✅ |            ✅ |             ✅ |                     ✅ |                   ⚠️ |                            ❌ |                        ❌ |                   ✅ |
+| Low cognitive load for small teams                      |                           ⚠️ |      ✅ |               ✅ |                ❌ |            ❌ |             ⚠️ |                     ✅ |                   ✅ |                            ❌ |                        ❌ |                   ❌ |
+| Clear failure isolation boundaries                      |                           ✅ |      ⚠️ |               ✅ |                ⚠️ |            ⚠️ |             ⚠️ |                     ⚠️ | ❌ (hidden coupling) |                            ⚠️ |                        ⚠️ |                   ⚠️ |
+| Long-running workflows                                  |                           ❌ |      ❌ |               ⚠️ | ⚠️ (choreography) |            ⚠️ |             ✅ |                     ⚠️ |  ❌ (timeout limits) |                            ✅ |                        ❌ |                   ❌ |
+| Platform extensibility (plugins)                        |                   ✅ (ports) |      ❌ |               ⚠️ |                ❌ |            ⚠️ |             ❌ |                     ❌ |                   ❌ |                            ❌ |                        ❌ |                   ❌ |
+| Contract/schema is the product                          |                           ⚠️ |      ❌ |               ⚠️ | ⚠️ (event schema) |            ⚠️ |             ❌ |                     ❌ |                   ⚠️ |                            ❌ |                        ❌ |   ⚠️ (stream schema) |
 
 ## Notes (Failure Modes)
+
 - Hexagonal fails when you pretend a system is domain-centric but it is actually data/query-centric.
 - Event-driven fails when observability, ordering, and consistency requirements are underestimated.
 - Layered fails when “layers” become a dumping ground and boundaries are not enforced.
@@ -38,6 +40,7 @@ Legend:
 - Streaming/Reactive fails when backpressure is not explicitly designed for, when event-time vs. processing-time distinction is ignored (causing incorrect aggregations), or when stream record schema evolution is treated as less critical than API schema evolution. (See `architecture/rag/STREAMING_REACTIVE.md`.)
 
 ## Quick Guidance (Choose / Avoid)
+
 Use this as a fast sanity check before writing an ADR.
 
 - Hexagonal: choose for domain-centric + lots of volatility at edges; avoid for simple CRUD/data-first where the “domain” is thin.
@@ -49,26 +52,31 @@ Use this as a fast sanity check before writing an ADR.
 - Serverless/FaaS: choose for stateless, event-triggered workloads with variable traffic where infrastructure management is a burden; avoid when cold-start latency is unacceptable, when state must persist in-memory, or when local testing fidelity is critical.
 - Orchestration (Saga/Workflow): choose for long-running, reliable multi-step processes where explicit process visibility and compensation logic are required; avoid for high-throughput paths, simple single-service processes, or when choreography already meets the need.
 - CQRS: choose when read and write patterns differ significantly and you need multiple specialized read views; avoid for simple CRUD, small teams without projection operation expertise, or when eventual consistency in read models is unacceptable.
-- Streaming/Reactive: choose for high-throughput unbounded data streams requiring real-time or near-real-time processing with complex windowed aggregations; avoid when batch processing is sufficient, when the team lacks stream platform operational experience, or when exactly-once semantics cannot be guaranteed.
+- Streaming/Reactive: choose for high-throughput unbounded data streams requiring real-time or near-real-time processing with complex windowed aggregations; avoid when batch processing is sufficient or when the team lacks stream platform operational experience. If the requirement needs end-to-end exactly-once, reject a design that cannot provide it. At-least-once plus idempotent handling stays eligible when duplicates are acceptable. See `architecture/rag/STREAMING_REACTIVE.md`.
 
 ## Hybridization Guidance (Keep It Intentional)
+
 Most systems are hybrids.
 
 This section is a **summary** to support fast scanning.
 Canonical hybridization rules and required ADR fields live in:
+
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` (section “Hybrid Architectures”)
 
 The professional move is to make the hybrid explicit:
+
 - pick a dominant style per bounded context/module
 - define where the secondary pattern applies (boundary)
 - name the main new risks (versioning, observability, operational load)
 
 Common hybrids that often work:
+
 - Modular monolith + boundary contracts (ports/interfaces) and integration adapters at volatile edges
 - Layered core + boundary contracts (ports/interfaces) for integrations
 - Event-driven between contexts + state model inside contexts
 
 Hybrids that often fail without strong governance:
+
 - Microservices + shared DB tables/ownership
 - Event-driven + no schema evolution policy
 - CQRS everywhere (projection sprawl)
@@ -81,6 +89,7 @@ These are not architecture-style columns; they apply across styles. See `archite
 - **Feature flags / progressive delivery**: choose when deploy≠release and controlled rollout is required; avoid when flags become permanent hidden state without test pinning. (See `architecture/rag/FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md`.)
 
 ## Related Documents
+
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
 - `architecture/SOLUTION_CLASS_TAXONOMY.md`
 - `architecture/rag/QUALITY_ATTRIBUTES.md`
@@ -96,4 +105,3 @@ These are not architecture-style columns; they apply across styles. See `archite
 - `architecture/rag/OBSERVABILITY_AS_ARCHITECTURE.md`
 - `architecture/rag/FEATURE_FLAGS_PROGRESSIVE_DELIVERY.md`
 - `architecture/TERMINOLOGY_GLOSSARY.md`
-

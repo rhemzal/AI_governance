@@ -237,7 +237,7 @@
       "known_pass_that_is_not_proof": "Touching the registry file does not prove the new sentence received a meaningful card. A typo in constitution/ requires the same touch.",
       "path": "ci/gate_tests/test_doc_hygiene_blocks.py",
       "anchor": "def test_constitution_edit_without_registry_fails",
-      "rerun_when": "The constitution-to-registry coupling step changes."
+      "rerun_when": "The constitution-to-registry coupling step changes, or AI_ENFORCEMENT section 8 / AI_RULES architecture-ADR applicability changes."
     },
     {
       "id": "unregistered-constitution-sentence",

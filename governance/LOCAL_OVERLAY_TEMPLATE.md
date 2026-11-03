@@ -3,12 +3,15 @@
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). Copy it into your target repository as `governance/LOCAL_OVERLAY.md` and customize it. Keep this line to preserve traceability._
 
 ## Purpose
+
 - Why this overlay exists (org policy, deployment constraints, tooling, risk posture).
 
 ## Scope
+
 - What it applies to (modules, services, teams, repositories).
 
 ## Imported baseline
+
 - Kit root: `vendor/AI_governance/` (or the actual declared location)
 - Upstream commit SHA: record the reviewed source revision
 - Selected bundles: one baseline plus declared optional add-ons
@@ -16,6 +19,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 - Existing host instructions: preserve and explicitly reconcile conflicts before adoption
 
 ## Precedence
+
 - This overlay overrides/adds to the imported kit.
 - Conflicts are resolved by: overlay wins.
 
@@ -26,6 +30,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 Follow `constitution/AI_ENFORCEMENT.md` §§1.1–1.4; do not duplicate or contradict its stop/repair rules here.
 
 Record per non-trivial task (in the task record or AEP):
+
 - Outcome and independently checkable acceptance criteria.
 - Authorized repositories, branches, environments, tools, and effects.
 - Actions requiring separate approval (for example merge, deploy, publish, or shared-device mutation), and any approval already granted for those exact actions/targets.
@@ -53,15 +58,13 @@ Supporting helpers/tests/docs within the same mandate are permitted; update the 
 
 “Continue” or “do not stop” means continue within the existing mandate. It does not expand tool permissions or authorize a new external effect. Prior explicit approval covering an action remains valid; ask only for the missing decision.
 
-### Compliance Output Compatibility
-- For low-risk work, a short compliance footer is sufficient (e.g., `## COMPLIANCE` + `Decision: PROCEED|STOP`).
-- For high-risk work, the full `## COMPLIANCE REPORT` requirements apply.
-
 ### National-Language Notes Allowance
+
 - National language is allowed in local notes areas (e.g., `notes/local/**`).
 - Canonical governance documents remain English-first.
 
 ## Verification
+
 - What checks prove compliance (CI gates, tests, audits)
 
 ## Enforcement maturity (declare after import)
@@ -101,7 +104,7 @@ Apply `constitution/AI_RULES.md` §6.5 in existing task evidence. Use
 Remove this table if the project is not coordinating a rollout; do not fill it for every task.
 
 | Outcome / declared scope | State (deferred/pilot/adopted/required/retired) | Host verification / invocation | Evidence | Owner / review trigger |
-| --- | --- | --- | --- | --- |
+| ------------------------ | ----------------------------------------------- | ------------------------------ | -------- | ---------------------- |
 
 Promote properties, not tool brands. Resolve placeholders and verify positive/negative
 controls before declaring a row required. Use the existing verifier and waiver registry;
@@ -112,11 +115,12 @@ to protected baselines/scanner configuration as policy changes, not routine agen
 
 Temporary gate exceptions must follow `usage/GOVERNANCE_WAIVERS.md`. Track open waivers here:
 
-| Gate ID | Owner | Expiration | PR/issue | Compensating control | Status |
-| --- | --- | --- | --- | --- | --- |
-| | | | | | open / closed |
+| Gate ID | Owner | Expiration | PR/issue | Compensating control | Status        |
+| ------- | ----- | ---------- | -------- | -------------------- | ------------- |
+|         |       |            |          |                      | open / closed |
 
 ### Filesystem Write Boundary (Repo-Local Writes Only)
+
 - AI MUST treat the repository working tree as the default writable boundary.
 - AI MUST prefer repo-local paths for any generated files, caches, logs, artifacts, or intermediate outputs.
 - AI MUST NOT write outside the repository (e.g. `/tmp`, home directory, parent directories, arbitrary absolute external paths) unless the operator explicitly requests it.
@@ -139,7 +143,10 @@ Declare when using `usage/AI_PRODUCTIVITY_CALIBRATION.md`:
 Promote Phase 0–1 “no calendar ETA” to required here if your team wants strict enforcement.
 
 ## Overrides (If Any)
+
 Only use overrides when unavoidable.
+
+The short compliance footer for routine work is already `constitution/AI_ENFORCEMENT.md` §8. Do not record it here as an extra rule. An overlay override is required only when the project replaces that section.
 
 - Override:
   - Imported rule reference (path + section)
@@ -148,27 +155,33 @@ Only use overrides when unavoidable.
   - Risk accepted / mitigation
 
 ## Change Control
+
 - Changes to this overlay require an ADR (recommended) when they affect boundaries/contracts or enforcement.
 
 Recommended ADR trigger examples:
+
 - you weaken or change enforcement evidence requirements
 - you change architectural boundary expectations
 - you introduce exceptions to non-interactive execution/time limits
 
 ## User Prompt (Copy/Paste): Quick LOW vs HIGH Risk Check
+
 "Do a risk preflight before changes:
+
 - List exact files you will touch
 - Confirm whether any boundary contract/interface, adapter/integration, architecture decision, security behavior, CI/gates, or canonical governance docs are affected
-Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
-If LOW: proceed to execution.
-If HIGH: use proportionate verification and check the existing mandate. Continue authorized preparation; ask only before an unauthorized effect or when a genuinely blocking ambiguity remains."
+  Return: `Risk: LOW|HIGH` + 1–2 sentence justification.
+  If LOW: proceed to execution.
+  If HIGH: use proportionate verification and check the existing mandate. Continue authorized preparation; ask only before an unauthorized effect or when a genuinely blocking ambiguity remains."
 
 ## Common Mistakes to Avoid
+
 - Writing a second “rules doc” that rephrases the constitution.
 - Overriding silently (no rationale, no explicit replacement).
 - Mixing normative requirements into advisory notes.
 
 ## Related Documents
+
 - `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`
 - `usage/GOVERNANCE_WAIVERS.md`
 - `usage/HOW_TO_IMPORT.md`

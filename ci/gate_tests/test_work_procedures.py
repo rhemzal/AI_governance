@@ -96,7 +96,10 @@ class WorkProcedures(unittest.TestCase):
             pin = adopter / "vendor/superpowers/v7.0.1"
             self.assertFalse(entry.is_symlink())
             self.assertFalse((pin / "skills/executing-plans/SKILL.md").is_symlink())
-            self.assertIn("2ce8aa15d05bd57213e6f746f953aafb7ded7a8b", entry.read_text(encoding="utf-8"))
+            entry_text = entry.read_text(encoding="utf-8")
+            self.assertIn("2ce8aa15d05bd57213e6f746f953aafb7ded7a8b", entry_text)
+            self.assertIn("vendor/AI_governance/constitution/AI_ENFORCEMENT.md", entry_text)
+            self.assertIn("install spec-gates or a Stop hook", entry_text)
             check = subprocess.run(
                 ["sha256sum", "-c", "SHA256SUMS"],
                 cwd=pin,

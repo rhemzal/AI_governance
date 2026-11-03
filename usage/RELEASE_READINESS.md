@@ -6,14 +6,14 @@ Checklist for promoting `kit-manifest.yml` from experimental `0.x` to stable ado
 
 ## Preconditions (all required)
 
-- [x] **Enforcement dogfood (phase 1)** — `doc-hygiene`, `aep-advisory`, `adr-required` ([ADR-0005](adr/ADR_0005_Kit_CI_Dogfooding.md))
-- [x] **Adopter contract (phase 2)** — `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`, `GOVERNANCE_WAIVERS.md`, `BOUNDARY_GATE_RECIPES.md` ([ADR-0006](adr/ADR_0006_Adopter_Enforcement_Contract.md))
+- [x] **Enforcement dogfood (phase 1)** — `doc-hygiene`, `aep-advisory`, `adr-required` ([ADR-0005](../adr/ADR_0005_Kit_CI_Dogfooding.md))
+- [x] **Adopter contract (phase 2)** — `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`, `GOVERNANCE_WAIVERS.md`, `BOUNDARY_GATE_RECIPES.md` ([ADR-0006](../adr/ADR_0006_Adopter_Enforcement_Contract.md))
 - [x] **Extended CI dogfood** — `doc-delta-advisory`, `governance-waiver-advisory`; enhanced AEP field checks; D5 **error** mode in `doc-hygiene`
 - [ ] **Reference tooling adoption** — ADR-0009 permits the AEP validator; ADR-0010 adds scoped snapshot import/verification; ADR-0011 adds regression fixtures for inline boundary/ADR checks. Confirm one tagged bundle cycle before promotion
-- [ ] **Audit clean** — the [September audit follow-up](AUDIT_REPORT.md) records merged A-01/A-02 repairs and verified A-03/A-04/A-05/A-07 repairs (effective on merge of PR #37); 11 findings remain unaddressed (8 Medium, 3 Low). This scoped retest does not establish full wave/release closure; see [repair plan](FIX_PLAN.md). The July PASS is historical.
+- [ ] **Audit clean** — A-01–A-17 have recorded repairs in [the audit report](AUDIT_REPORT.md). That is not full wave or release closure; see [repair plan](FIX_PLAN.md). The July PASS is historical.
 - [ ] **Bundle stability** — bundle paths stable one tagged release cycle (`v0.3.0` tag pending)
 - [ ] **Enforcement matrix** — reconcile missing/conflicting gate mappings and distinguish policy from actual branch enforcement (September findings A-08/A-09).
-- [ ] **Navigation** — retain README/debugging/adopter routing; repair the two ADR links in this checklist and retest local links (September finding A-15).
+- [ ] **Navigation** — retain README/debugging/adopter routing. The two ADR links in this checklist now use `../adr/`. `ci/gate_tests/test_local_links.py` checks tracked Markdown links. Release closure is still a separate checklist item.
 - [ ] **CHANGELOG + tag** — release section cut in `CHANGELOG.md` v0.3.0; git tag `v0.3.0` aligned with `VERSIONING.md` (section cut **done**; tag pending)
 
 ## Release cut steps
@@ -26,13 +26,13 @@ Checklist for promoting `kit-manifest.yml` from experimental `0.x` to stable ado
 
 ## Explicitly deferred past 1.0
 
-| Item | Decision |
-| --- | --- |
-| `interface/` normative promotion | Stay **proposal** until separate ADR |
+| Item                                                        | Decision                                                                                                                                     |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `interface/` normative promotion                            | Stay **proposal** until separate ADR                                                                                                         |
 | General-purpose repository script pack / agent orchestrator | **Deferred**; ADR-0009/0010 permit scoped AEP validation and bundle import/verification; ADR-0011 adds only inline-check regression fixtures |
-| Boundary gate in kit repo | N/A |
-| Full AEP semantic CI parser | **Deferred**; structural JSON validation + independent review |
-| Compliance certification | Out of scope |
+| Boundary gate in kit repo                                   | N/A                                                                                                                                          |
+| Full AEP semantic CI parser                                 | **Deferred**; structural JSON validation + independent review                                                                                |
+| Compliance certification                                    | Out of scope                                                                                                                                 |
 
 ## Related Documents
 

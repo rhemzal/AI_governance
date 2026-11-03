@@ -5,20 +5,24 @@ This folder provides a low-friction place to capture project notes without derai
 **Important**: notes are not canonical documentation. Canonical rules and guidance live in `constitution/`, `ci/`, `usage/`, and ADRs under `adr/`.
 
 ## Structure
+
 - `notes/committed/` — shared notes that are committed to the repo (reviewable).
 - `notes/local/` — personal notes that are intentionally not committed (ignored by `.gitignore`).
 
 ## Guidelines
+
 - Prefer links over duplication: if something becomes a real decision, capture it as an ADR and link it here.
 - Keep committed notes **append-only and link-first** (avoid rewriting history; add links to the Issue/ADR/PR where resolved).
 
 ## Language policy (recommended)
+
 - `notes/local/` can be written in any language (personal, not committed).
 - `notes/committed/` should be written in English by default (shared, reviewable), unless your local governance overlay defines another shared language.
 
 ## Related Documents
+
+- Advisory research, not a rule: [research/NOTES_PARKING_LOT_PRACTICES.md](../research/NOTES_PARKING_LOT_PRACTICES.md). Authority for notes remains `constitution/AI_RULES.md` §5.3.
 - `constitution/AI_RULES.md`
 - `constitution/AI_ENFORCEMENT.md`
 - `usage/HOW_TO_IMPORT.md`
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`
-

@@ -4,12 +4,12 @@ This repository is a reusable, project-agnostic governance kit for **AI-assisted
 
 Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes live in `architecture/rag/`.
 
-**Version note:** Latest release: `v0.3.0` (manifest `0.2`). If you import from `main` ahead of the tag, read `CHANGELOG.md` **Unreleased** and `VERSIONING.md` (release mapping).
+**Version note:** Latest published tags are `v0.2.0` and `v1.0.0` (manifest `0.2` on `v0.2.0`). The `v0.3.0` heading in `CHANGELOG.md` is a cut without a git tag. Pin a published tag or a commit SHA. If you import from `main`, read `CHANGELOG.md` **Unreleased** and `VERSIONING.md`.
 
 ## I am…
 
 - **Kit maintainer** — [DEVELOPMENT.md](DEVELOPMENT.md), [Audit playbook](usage/AUDIT_PLAYBOOK.md), kit CI workflows (`.github/workflows/`), [Release readiness](usage/RELEASE_READINESS.md)
-- **Adopter** — [Adoption bundles](usage/ADOPTION_BUNDLES.md), [Enforcement contract](usage/ADOPTION_ENFORCEMENT_CONTRACT.md), [How to import](usage/HOW_TO_IMPORT.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes D/E
+- **Adopter** — [Adoption bundles](usage/ADOPTION_BUNDLES.md), [Enforcement contract](usage/ADOPTION_ENFORCEMENT_CONTRACT.md), [How to import](usage/HOW_TO_IMPORT.md), [Existing project](usage/FOR_EXISTING_PROJECTS.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes D/E
 - **AI agent** — [AGENTS.md](AGENTS.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes A/B, [Enforcement matrix](usage/ENFORCEMENT_MATRIX.md)
 
 ## Choose your path (evaluate / import / extend)
@@ -140,6 +140,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Architecture decision prompt (copy-paste): [architecture/ARCHITECTURE_DECISION_PROMPT.md](architecture/ARCHITECTURE_DECISION_PROMPT.md)
 - Solution class taxonomy & coverage: [architecture/SOLUTION_CLASS_TAXONOMY.md](architecture/SOLUTION_CLASS_TAXONOMY.md)
 - ADR template: [adr/ADR_TEMPLATE.md](adr/ADR_TEMPLATE.md)
+- ADR index: [adr/README.md](adr/README.md)
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
 - External project evaluations: [research/EXTERNAL_PROJECT_EVALUATIONS.md](research/EXTERNAL_PROJECT_EVALUATIONS.md)
 - Current adoption assessment and execution plan: [Adoption completion AEP](research/EXTERNAL_PROJECT_EVALUATIONS.md#adoption-completion-aep-2026-11-03)

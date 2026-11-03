@@ -12,14 +12,14 @@ Close a **pinned opt-in transfer recipe** so adopters install governed-work proc
 
 **Baseline at plan refresh (2026-11-03, this session):**
 
-| Area | Status |
-| --- | --- |
-| Shell copy + upgrade/rollback blocks | Present in `usage/HOW_TO_IMPORT.md` § Opt-in work procedures (~L189–231); may include **uncommitted** edits in the working tree |
-| Fixture tests SC-001, SC-003, SC-004 | `test_opt_in_copy_*`, `test_upgrade_then_rollback_*` — **7/7 OK** (`timeout 120s python3 -m unittest ci.gate_tests.test_work_procedures -v`, Ran 7 tests in ~0.14s) |
-| Phase 0 `research.md` | All technical unknowns resolved |
-| Phase 1 `data-model.md`, `contracts/opt-in-recipe.md`, `quickstart.md` | Present; contract matches `_copy_procedures` copy set |
+| Area                                                                                                                   | Status                                                                                                                                                                                                         |
+| ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Shell copy + upgrade/rollback blocks                                                                                   | Present in `usage/HOW_TO_IMPORT.md` § Opt-in work procedures (~L189–231); may include **uncommitted** edits in the working tree                                                                                |
+| Fixture tests SC-001, SC-003, SC-004                                                                                   | `test_opt_in_copy_*`, `test_upgrade_then_rollback_*` — **7/7 OK** (`timeout 120s python3 -m unittest ci.gate_tests.test_work_procedures -v`, Ran 7 tests in ~0.14s)                                            |
+| Phase 0 `research.md`                                                                                                  | All technical unknowns resolved                                                                                                                                                                                |
+| Phase 1 `data-model.md`, `contracts/opt-in-recipe.md`, `quickstart.md`                                                 | Present; contract matches `_copy_procedures` copy set                                                                                                                                                          |
 | FR-005 activation, FR-010 bundle cross-ref, ownership table, minimum baseline, edited-file edge case, SC-005 checklist | **Not yet in normative docs** — no `Activation` / host-vs-kit table in HOW_TO_IMPORT; no Opt-in pointer in `ADOPTION_BUNDLES.md`; `checklists/recipe-readiness.md` **missing** — closure tasks T005–T015, T011 |
-| Native workflow run `c37bf147`, B6/B7, spec-gates, named downstream trial | **Out of feature closure** — [progress.md](./progress.md) |
+| Native workflow run `c37bf147`, B6/B7, spec-gates, named downstream trial                                              | **Out of feature closure** — [progress.md](./progress.md)                                                                                                                                                      |
 
 **Target shape for § Opt-in work procedures (after T005–T013):** keep existing copy/upgrade/rollback blocks; add subsections **Activation**, **Host-owned vs kit-added**, **Minimum kit baseline**, **AGENTS.md merge example**, **Repeat install and operator edits** (idempotency + edited transferred file policy). Do not duplicate bundle import steps from earlier HOW_TO_IMPORT sections.
 
@@ -37,17 +37,17 @@ Close a **pinned opt-in transfer recipe** so adopters install governed-work proc
 
 ## Constitution Check
 
-*GATE: Passed before Phase 0. Re-checked after Phase 1 design.*
+_GATE: Passed before Phase 0. Re-checked after Phase 1 design._
 
 Kit governance applies (`.specify/memory/constitution.md` is a Spec Kit placeholder; normative rules remain in `constitution/` and adoption contracts).
 
-| Check | Status | Notes |
-| --- | --- | --- |
-| Normative vs advisory separation | Pass | Recipe is opt-in; enforcement authority unchanged (FR-009) |
-| Import safety contract | Pass | Copy path uses regular files; importer symlink rejection unchanged |
-| HIGH-risk touchpoints | Pass with care | Adoption docs + CI gate tests — use AEP JSON below |
-| DOC DELTA on doc/behavior changes | Required | CHANGELOG + external adoption record when recipe text closes |
-| Verification before completion claims | Required | Green `test_work_procedures` + quickstart §1 before claiming SC-001–SC-004 |
+| Check                                 | Status         | Notes                                                                      |
+| ------------------------------------- | -------------- | -------------------------------------------------------------------------- |
+| Normative vs advisory separation      | Pass           | Recipe is opt-in; enforcement authority unchanged (FR-009)                 |
+| Import safety contract                | Pass           | Copy path uses regular files; importer symlink rejection unchanged         |
+| HIGH-risk touchpoints                 | Pass with care | Adoption docs + CI gate tests — use AEP JSON below                         |
+| DOC DELTA on doc/behavior changes     | Required       | CHANGELOG + external adoption record when recipe text closes               |
+| Verification before completion claims | Required       | Green `test_work_procedures` + quickstart §1 before claiming SC-001–SC-004 |
 
 **Post-design re-check**: `contracts/opt-in-recipe.md` and `data-model.md` match research decisions; no unjustified complexity or constitution violations.
 
@@ -92,28 +92,28 @@ No constitution violations requiring justification.
 
 ## Gap map (spec → evidence)
 
-| ID | Requirement / outcome | Current evidence | Closure task(s) |
-| --- | --- | --- | --- |
-| FR-001 | Explicit what is added / never overwritten | Partial (copy block + one-line AGENTS/overlay) | T008, T013 |
-| FR-002 | Host + overlay precedence | Stated; not tabulated | T006, T008 |
-| FR-003 | Coherent pin + entry + verify | Copy block + gate tests | T003–T004 (confirm sync) |
-| FR-004 | Import/bundle primary path | § Opt-in + research | T009, T010 |
-| FR-005 | Activation / discovery | Missing dedicated subsection | T005, T007 |
-| FR-006 | Repeat install behavior | Doc + `FileExistsError` test | T013–T014 |
-| FR-007 | Upgrade / rollback | Doc + gate test | T015 |
-| FR-008 | Disposable fixture verification | Gate tests | T002, T019 |
-| FR-009 | Non-mandatory procedures | ADR + spec | T011 (checklist item) |
-| FR-010 | Single source of truth vs bundles | Generic HOW_TO_IMPORT links only | T009 |
-| SC-001–SC-004 | Fixture outcomes | Tests pass at plan time | T002, T019 |
-| SC-005 | Two readers, ten items | Checklist file missing | T011 + quickstart §4 |
+| ID            | Requirement / outcome                      | Current evidence                               | Closure task(s)          |
+| ------------- | ------------------------------------------ | ---------------------------------------------- | ------------------------ |
+| FR-001        | Explicit what is added / never overwritten | Partial (copy block + one-line AGENTS/overlay) | T008, T013               |
+| FR-002        | Host + overlay precedence                  | Stated; not tabulated                          | T006, T008               |
+| FR-003        | Coherent pin + entry + verify              | Copy block + gate tests                        | T003–T004 (confirm sync) |
+| FR-004        | Import/bundle primary path                 | § Opt-in + research                            | T009, T010               |
+| FR-005        | Activation / discovery                     | Missing dedicated subsection                   | T005, T007               |
+| FR-006        | Repeat install behavior                    | Doc + `FileExistsError` test                   | T013–T014                |
+| FR-007        | Upgrade / rollback                         | Doc + gate test                                | T015                     |
+| FR-008        | Disposable fixture verification            | Gate tests                                     | T002, T019               |
+| FR-009        | Non-mandatory procedures                   | ADR + spec                                     | T011 (checklist item)    |
+| FR-010        | Single source of truth vs bundles          | Generic HOW_TO_IMPORT links only               | T009                     |
+| SC-001–SC-004 | Fixture outcomes                           | Tests pass at plan time                        | T002, T019               |
+| SC-005        | Two readers, ten items                     | Checklist file missing                         | T011 + quickstart §4     |
 
 ## User story → phase mapping
 
-| Story | Priority | Phase in tasks.md | Independent test |
-| --- | --- | --- | --- |
-| US1 — Adopter enables governed work | P1 | Phase 3 | Fixture sentinels + activation smoke (SC-001, SC-002) |
-| US2 — Maintainer repeatable recipe | P1 | Phase 4 | Artifact table + bundle cross-ref + SC-005 checklist |
-| US3 — Repeat install / upgrade / rollback | P2 | Phase 5 | Existing gate tests + edited-file policy |
+| Story                                     | Priority | Phase in tasks.md | Independent test                                      |
+| ----------------------------------------- | -------- | ----------------- | ----------------------------------------------------- |
+| US1 — Adopter enables governed work       | P1       | Phase 3           | Fixture sentinels + activation smoke (SC-001, SC-002) |
+| US2 — Maintainer repeatable recipe        | P1       | Phase 4           | Artifact table + bundle cross-ref + SC-005 checklist  |
+| US3 — Repeat install / upgrade / rollback | P2       | Phase 5           | Existing gate tests + edited-file policy              |
 
 ## Method and continuation
 
@@ -181,14 +181,14 @@ No constitution violations requiring justification.
 
 ## Phase artifacts (this command)
 
-| Artifact | Path | State |
-| --- | --- | --- |
-| Research | [research.md](./research.md) | Complete |
-| Data model | [data-model.md](./data-model.md) | Complete |
-| Contract | [contracts/opt-in-recipe.md](./contracts/opt-in-recipe.md) | Complete; align after doc edits (T012) |
-| Quickstart | [quickstart.md](./quickstart.md) | Complete; §3 tracks T005/T007 |
-| Tasks | [tasks.md](./tasks.md) | Ready for implementation (T001–T020); none marked complete until a full implement pass |
-| Recipe readiness (SC-005) | [checklists/recipe-readiness.md](./checklists/recipe-readiness.md) | **Create in T011** |
+| Artifact                  | Path                                                       | State                                                                                  |
+| ------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Research                  | [research.md](./research.md)                               | Complete                                                                               |
+| Data model                | [data-model.md](./data-model.md)                           | Complete                                                                               |
+| Contract                  | [contracts/opt-in-recipe.md](./contracts/opt-in-recipe.md) | Complete; align after doc edits (T012)                                                 |
+| Quickstart                | [quickstart.md](./quickstart.md)                           | Complete; §3 tracks T005/T007                                                          |
+| Tasks                     | [tasks.md](./tasks.md)                                     | Ready for implementation (T001–T020); none marked complete until a full implement pass |
+| Recipe readiness (SC-005) | `checklists/recipe-readiness.md`                           | **Create in T011**                                                                     |
 
 ## Handoff (next implement pass)
 

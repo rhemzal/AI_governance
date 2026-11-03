@@ -226,9 +226,60 @@ rm -rf vendor/superpowers/v7.0.1
 mv vendor/superpowers/v7.0.1.prev vendor/superpowers/v7.0.1
 ```
 
-This recipe was checked as a disposable copy. It is not a trial on a named
-downstream repository, and it does not by itself run the Spec Kit workflow
-engine.
+### What is copied and what stays yours
+
+| Path                                          | Who owns it                                                 |
+| --------------------------------------------- | ----------------------------------------------------------- |
+| `vendor/superpowers/v7.0.1/`                  | Copied pin. MIT. Do not edit upstream files in place.       |
+| `.cursor/skills/governed-work/SKILL.md`       | Copied entry. A regular file, not a symlink.                |
+| `.specify/presets/ai-governance/`             | Optional preset. Not required for the one-task trial below. |
+| Other `.cursor/skills/*` symlinks in the kit  | Not copied.                                                 |
+| `AGENTS.md`, `governance/LOCAL_OVERLAY.md`    | Host. The copy commands do not change them.                 |
+| spec-gates, Stop hook, `specify workflow run` | Not part of this trial.                                     |
+
+The policy snapshot, when you want it, stays a separate import under
+`vendor/AI_governance/` via the sections above. The procedure pin does not
+bring that snapshot with it. A project with no kit snapshot can still run the
+procedures. It does not gain the kit's rules by copying the pin.
+
+If `vendor/superpowers/v7.0.1` or `.cursor/skills/governed-work/SKILL.md`
+already exists and differs from the kit, stop. Diff it. Do not delete the
+overlay to make the copy succeed. Replace the pin only through the upgrade
+block, which keeps the old tree as `v7.0.1.prev`.
+
+### Activation
+
+After the copy, the host loads `.cursor/skills/governed-work/SKILL.md`.
+Documentation and registry wording do not require a red-green test. A failing
+check uses `systematic-debugging` from the pin. Paths in the skill are from
+the project root, not from `vendor/AI_governance/`.
+
+### One live-project trial
+
+Use a repository you are allowed to edit. Write the task and the acceptance
+observation before the agent starts. Do not install spec-gates, do not wire a
+Stop hook, and do not drive the trial with `specify workflow run`.
+
+Merge this into the existing `AGENTS.md`. Do not replace that file:
+
+```markdown
+## Governed work trial
+
+- Pin: `vendor/superpowers/v7.0.1/` (MIT).
+- Entry: `.cursor/skills/governed-work/SKILL.md`.
+- Kit policy, if present: `vendor/AI_governance/` or `constitution/`. This file and `governance/LOCAL_OVERLAY.md` stay in force.
+- One task. Do not commit, push, or deploy unless the task says so.
+```
+
+Ask the agent to load that skill and do the one task. Stop the trial if it
+asks to continue work the task already allowed, repeats a finished edit, or
+reviews `HEAD~1` while the change is still uncommitted.
+
+Remove the trial by deleting `vendor/superpowers/v7.0.1`,
+`.cursor/skills/governed-work/`, `.specify/presets/ai-governance/`, and the
+pointer you merged. The disposable copy, repeat refusal, and upgrade/rollback
+checks are `ci/gate_tests/test_work_procedures.py`. They are not a result from
+a named downstream repository.
 
 ### Existing root-layout imports and updates
 

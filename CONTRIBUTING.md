@@ -5,9 +5,10 @@ Thanks for helping improve this governance kit.
 ## What belongs here
 
 This repository is a **project-agnostic** kit. Contributions should be:
+
 - Generalizable across stacks and teams.
 - Written as portable documents (mostly Markdown).
-- Consistent with the repo's premise: **normative rules** live in `constitution/`, `ci/`, `interface/`; `architecture/rag/` is **advisory**.
+- Consistent with the repo's premise: **normative rules** live in `constitution/` and `ci/` (`ci/INTERFACE_GATES.md` for interfaces). `interface/` is proposal context, not a normative source. `architecture/rag/` is **advisory**.
 
 ## How to contribute
 

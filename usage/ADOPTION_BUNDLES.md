@@ -6,15 +6,17 @@ This is the human companion to `kit-manifest.yml`. Use the manifest for bundle s
 
 **Do not copy the whole kit by default.** Pick one baseline bundle, then add optional bundles only when you need them.
 
+The pinned work procedures and `.cursor/skills/governed-work/SKILL.md` are not in any bundle, including `full`. Copy them only with `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. That copy does not install spec-gates or a Stop hook.
+
 ## Quick picker
 
-| Bundle | One-line purpose | Choose when |
-| --- | --- | --- |
-| **minimal** | Fastest useful adoption | You want agent projections + core rules in an existing repo with minimal friction. |
-| **standard** | Serious solo / multi-agent baseline | You want enforceable governance: constitution, CI gate principles, ADRs, usage workflows, overlay template. |
-| **architecture** | Architecture decision support | You need structured architecture selection, taxonomy, data modeling, terminology, and advisory RAG notes. |
-| **research** | Advisory grounding | You want external playbook research and adaptation references (non-normative). |
-| **full** | Complete governance dependency | The repo will treat this kit as its governance baseline (copy-import Option A). |
+| Bundle           | One-line purpose                    | Choose when                                                                                                 |
+| ---------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **minimal**      | Fastest useful adoption             | You want agent projections + core rules in an existing repo with minimal friction.                          |
+| **standard**     | Serious solo / multi-agent baseline | You want enforceable governance: constitution, CI gate principles, ADRs, usage workflows, overlay template. |
+| **architecture** | Architecture decision support       | You need structured architecture selection, taxonomy, data modeling, terminology, and advisory RAG notes.   |
+| **research**     | Advisory grounding                  | You want external playbook research and adaptation references (non-normative).                              |
+| **full**         | Complete governance dependency      | The repo will treat this kit as its governance baseline (copy-import Option A).                             |
 
 ## Bundle details
 
@@ -77,6 +79,7 @@ Use only when the target repo adopts the kit as its **governance baseline**:
 Before import or bundle expansion, run **bundle triage** — do not recommend `full` for a trial without explicit governance-baseline justification.
 
 **Corpus budget:**
+
 - **1 baseline** bundle: `minimal` or `standard` (pick one with rationale).
 - **Max 1 optional** add-on: `architecture` or `research` (not both unless HIGH-risk need documented).
 - **`full`** only when the repo will treat this kit as its **governance baseline** (not “try it out”).
@@ -97,12 +100,12 @@ See `usage/QUICKGUIDE.md` Recipes D and E.
 
 ## Common mistakes
 
-| Mistake | Better approach |
-| --- | --- |
-| Copy entire repo / all folders | Pick `minimal` or `standard`; add bundles deliberately. |
-| Import `full` for a quick trial | Use `minimal`; expand after Recipe D assessment. |
+| Mistake                         | Better approach                                                                                                       |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Copy entire repo / all folders  | Pick `minimal` or `standard`; add bundles deliberately.                                                               |
+| Import `full` for a quick trial | Use `minimal`; expand after Recipe D assessment.                                                                      |
 | Replace host agent instructions | Keep projections under the kit root; merge a short entry point into existing host instructions after conflict review. |
-| Import `research/` as rules | Treat `research/` as advisory; normative rules stay in `constitution/` and `ci/`. |
+| Import `research/` as rules     | Treat `research/` as advisory; normative rules stay in `constitution/` and `ci/`.                                     |
 
 ## Machine-readable source
 

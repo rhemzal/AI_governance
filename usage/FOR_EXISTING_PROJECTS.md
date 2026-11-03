@@ -2,31 +2,10 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
-## Step 1: Baseline Assessment
-- Where are the boundaries today?
-- What is the current test posture?
-- Where does non-determinism enter the system?
+Use the current import path. Do not copy `constitution/` into the project root and do not turn on CI gates as part of copying files.
 
-## Step 2: Introduce Rules Without Big Refactors
-- Add `constitution/` and align terminology.
-- Add CI gates as warnings first (optional), then enforce.
+- Snapshot and host-file rules: [How to import](HOW_TO_IMPORT.md)
+- One-slice method rollout after import: [Engineering methods adoption](ENGINEERING_METHODS_ADOPTION.md)
+- Product tests start at CI Maturity CM1 when the project already has tests. A CM0 import does not invent them.
 
-Practical rule for early adoption: keep CI automation aligned with current project maturity.
-- Prefer adding automated checks that can pass immediately (doc hygiene).
-- If a gate’s prerequisites do not exist yet (no tests, no boundary tooling), keep the check informational/non-required or enforce it via PR checklist review until the prerequisites are in place.
-
-## Step 3: Pay Down the Biggest Risks
-Prioritize:
-- hidden IO and global state
-- lack of interface headless mode
-- missing tests for critical flows
-
-## Step 4: Record Decisions
-Use ADRs for major changes so AI-assisted work stays consistent.
-
-## Related Documents
-- `constitution/AI_RULES.md` and `constitution/AI_ENFORCEMENT.md`
-- `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
-- `adr/ADR_TEMPLATE.md`
-- `ci/ARCHITECTURE_GATES.md` and `ci/TEST_GATES.md`
-
+An earlier draft of this page told adopters to add `constitution/` and optional warning gates first. That conflicted with the snapshot importer and the adoption contract.

@@ -4,6 +4,16 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Live-project procedure trial (2026-11-03)
+
+- [Pilot] The opt-in recipe now says what is copied, what stays host-owned, how to invoke `.cursor/skills/governed-work/SKILL.md`, and how to remove the trial. The entry skill resolves kit policy under `vendor/AI_governance/` when the project root has no `constitution/`. spec-gates, the Stop hook, and `specify workflow run` are outside that trial.
+
+### Audit findings A-08–A-17 (2026-11-03)
+
+- [Fix] Separate kit workflow presence from branch protection. List gates A4, A5, and I1–I5 with Governance Level (G). Routine work uses the short compliance footer. A new architecture ADR follows Gate A3.
+- [Fix] Correct the boundary example, the streaming exactly-once line, the unpublished `v0.3.0` tag, Copilot Chat setup, interface automation prompts, the audit finding quota, and the two release-readiness ADR links. Tracked Markdown links are checked in `ci/gate_tests/test_local_links.py`.
+- [Fix] `usage/FOR_EXISTING_PROJECTS.md` points at the snapshot importer. `notes/README.md` points at the advisory parking-lot note.
+
 ### Adoption completion plan (2026-11-03)
 
 - [Advisory-only] Reassess the implemented work-procedure pilot at `65fe471b6a2b9924295f5ea8eb9701856ea976c9` and preserve a follow-up Autonomous Execution Plan in `research/EXTERNAL_PROJECT_EVALUATIONS.md`. Credit the existing pin, profile, feature cycle and benchmark repair; prioritize native workflow use, safe opt-in transfer, matched debugging/resume observations and a spec-gates simplification decision.

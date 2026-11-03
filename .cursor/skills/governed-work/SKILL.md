@@ -1,13 +1,25 @@
 ---
 name: governed-work
-description: Use when debugging a failure, executing an already authorized plan, verifying a result, resuming interrupted work, or reviewing a change in this kit. Routes that work to pinned Superpowers procedures without making documentation edits follow test-driven development.
+description: Use when debugging a failure, executing an already authorized plan, verifying a result, resuming interrupted work, or reviewing a change. Routes that work to the pinned Superpowers procedures. A documentation or registry-text change does not require test-driven development.
 ---
 
 # Governed work
 
 Use this skill before the pinned Superpowers texts. Those texts are procedures.
-`constitution/AI_ENFORCEMENT.md` §§1.2–1.4 remains the authority. A skill cannot
-widen the mandate, demand a commit, or replace an acceptance criterion.
+A skill cannot widen the mandate, demand a commit, or replace an acceptance criterion.
+
+## Adopter checkout
+
+Policy, in order: `constitution/AI_ENFORCEMENT.md`, then
+`vendor/AI_governance/constitution/AI_ENFORCEMENT.md`. Host `AGENTS.md` and
+`governance/LOCAL_OVERLAY.md` stay in force when they conflict with the kit.
+If neither constitution file exists, these procedures still apply and the host
+instructions are the authority.
+
+The pin path is `vendor/superpowers/v7.0.1/` from the project root. Do not
+install spec-gates or a Stop hook to use this skill. Do not start
+`specify workflow run` unless the operator asked for that engine. A killed
+run left `running` is not resumed.
 
 The pin is Superpowers v7.0.1, commit `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b`,
 under `vendor/superpowers/v7.0.1/` (MIT). Active skill directories in

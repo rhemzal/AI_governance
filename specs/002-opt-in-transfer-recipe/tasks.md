@@ -60,7 +60,7 @@ description: "Task list for opt-in governed work transfer recipe closure"
 **Independent Test:** Fixture sentinels in `AGENTS.md` / `governance/LOCAL_OVERLAY.md` unchanged; entry skill and pin reachable without path repair.
 
 - [ ] T005 [US1] Add **Activation** subsection under § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (after intro, before or after copy block per readability): discover `.cursor/skills/governed-work/SKILL.md`, invoke for debug vs documentation-only work (proportionality), resolve kit under `vendor/AI_governance/` vs project root
-- [ ] T006 [P] [US1] Add append-only **AGENTS.md merge example** subsection in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (pointer to governed-work entry; host precedence + [governance/LOCAL_OVERLAY.md](../../governance/LOCAL_OVERLAY.md); no sentinel overwrite)
+- [ ] T006 [P] [US1] Add append-only **AGENTS.md merge example** subsection in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (pointer to governed-work entry; host precedence + `governance/LOCAL_OVERLAY_TEMPLATE.md`; no sentinel overwrite)
 - [ ] T007 [US1] Align [quickstart.md](./quickstart.md) §3 smoke steps with T005 activation text and expected outcomes
 
 **Checkpoint:** Reader can follow HOW_TO_IMPORT + quickstart §3 without manual path repair.
@@ -76,7 +76,7 @@ description: "Task list for opt-in governed work transfer recipe closure"
 - [ ] T008 [P] [US2] Add **host-owned vs kit-added** table to § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (pin, entry skill, preset, workflows, other skill symlinks, AGENTS, overlay, bundle importer)
 - [ ] T009 [US2] Add dedicated cross-reference in [usage/ADOPTION_BUNDLES.md](../../usage/ADOPTION_BUNDLES.md) to § Opt-in work procedures (profile transfer is opt-in, not default bundle content)
 - [ ] T010 [P] [US2] State **minimum kit baseline** for governed-work references in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) § Opt-in work procedures (adopter without `standard`/`full` research bundle — spec edge case)
-- [ ] T011 [US2] Create [checklists/recipe-readiness.md](./checklists/recipe-readiness.md) — ten yes/no items for SC-005 (host ownership, pin verify, repeat install, upgrade, rollback, activation, non-mandatory status, symlink policy, kit-root paths, optional workflow scope); each item MUST cite the recipe section or linked adoption doc a reader uses to answer it
+- [ ] T011 [US2] Create `checklists/recipe-readiness.md` — ten yes/no items for SC-005 (host ownership, pin verify, repeat install, upgrade, rollback, activation, non-mandatory status, symlink policy, kit-root paths, optional workflow scope); each item MUST cite the recipe section or linked adoption doc a reader uses to answer it
 - [ ] T012 [P] [US2] Update [contracts/opt-in-recipe.md](./contracts/opt-in-recipe.md) if T005–T010 change scope, preconditions, or non-goals
 
 **Checkpoint:** Maintainer can satisfy US2 acceptance scenarios against [ADOPTION_BUNDLES.md](../../usage/ADOPTION_BUNDLES.md) + HOW_TO_IMPORT.
@@ -171,12 +171,12 @@ Through **T007** plus T002 verification.
 
 For each task, name the verification command and whether the task changes behavior.
 
-| Task range | Verification | Behavior change |
-| --- | --- | --- |
-| T001–T004 | Read diff / T002 unittest output | Ledger + alignment only |
-| T005–T015 | Read HOW_TO_IMPORT + ADOPTION_BUNDLES; T014 may run T002 | Documentation; optional test if T014 adds automation |
-| T016–T018 | Read diff | Documentation / adoption record |
-| T019–T020 | quickstart §1 command + ledger review | Evidence recording |
+| Task range | Verification                                             | Behavior change                                      |
+| ---------- | -------------------------------------------------------- | ---------------------------------------------------- |
+| T001–T004  | Read diff / T002 unittest output                         | Ledger + alignment only                              |
+| T005–T015  | Read HOW_TO_IMPORT + ADOPTION_BUNDLES; T014 may run T002 | Documentation; optional test if T014 adds automation |
+| T016–T018  | Read diff                                                | Documentation / adoption record                      |
+| T019–T020  | quickstart §1 command + ledger review                    | Evidence recording                                   |
 
 - Behavior or bug fix: write the test, run it, and see the expected failure before implementation (T014 only if applicable).
 - Documentation or registry wording only: do not require red-green cycle; check diff and existing gate command.

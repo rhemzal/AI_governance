@@ -6,9 +6,9 @@ This policy helps consumers answer: **which kit version do I have, and what kind
 
 ## Version scheme
 
-| Series | Meaning |
-| --- | --- |
-| **0.x** | Experimental. Breaking governance changes are allowed. Bundle composition and file layout may change. |
+| Series   | Meaning                                                                                                                         |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **0.x**  | Experimental. Breaking governance changes are allowed. Bundle composition and file layout may change.                           |
 | **1.0+** | Stable adoption contract: bundle names, core file paths, and normative document roles remain compatible unless marked breaking. |
 
 The kit version is recorded in:
@@ -21,12 +21,12 @@ Record **all three** in your import ADR when they differ (common on `main` betwe
 
 ## Current release mapping
 
-| Git tag | Manifest `version` | Adoption contract | Notes |
-| --- | --- | --- | --- |
-| `v1.0.0` (2025-12-31) | *(no manifest file)* | Pre-bundle baseline | Public-ready kit without `kit-manifest.yml` bundles. |
-| `v0.2.0` (2026-07-05) | `0.2` | Experimental (`0.x`) | Bundles, meta docs in `standard`, doc-hygiene CI reference, audit 2026-07-05. |
-| `v0.3.0` (2026-07-11) | `0.2` | Experimental (`0.x`) | G vs CM taxonomy (ADR-0007); gate × CM × G matrix; minimal bundle expansion; full audit waves closed. |
-| `main` (ahead of `v0.3.0`) | `0.2` | Experimental (`0.x`) | See `CHANGELOG.md` **Unreleased** for deltas after `v0.3.0`. |
+| Git tag                                                | Manifest `version`   | Adoption contract    | Notes                                                                                                             |
+| ------------------------------------------------------ | -------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `v1.0.0` (2025-12-31)                                  | _(no manifest file)_ | Pre-bundle baseline  | Public-ready kit without `kit-manifest.yml` bundles.                                                              |
+| `v0.2.0` (2026-07-05)                                  | `0.2`                | Experimental (`0.x`) | Bundles, meta docs in `standard`, doc-hygiene CI reference, audit 2026-07-05.                                     |
+| `v0.3.0` (changelog 2026-07-11; **tag not published**) | `0.2`                | Experimental (`0.x`) | G vs CM taxonomy (ADR-0007); gate × CM × G matrix; minimal bundle expansion. Not a pin until a tag exists.        |
+| `main` (ahead of `v0.2.0`)                             | `0.2`                | Experimental (`0.x`) | See `CHANGELOG.md` **Unreleased**. On 2026-11-03 `git ls-remote --tags origin` listed `v0.2.0` and `v1.0.0` only. |
 
 **Rule:** Pin imports by **git tag and/or commit SHA**. Read `kit-manifest.yml` `version` from the **same** commit you copy or submodule-pin. Do not mix a release tag with a manifest from a newer branch.
 
@@ -53,12 +53,12 @@ Strategy: Copy
 
 ## Upgrade decision guide
 
-| Changelog label | Action for importers |
-| --- | --- |
-| **Advisory-only** | Optional refresh. No rule enforcement change expected. |
-| **Import bundle change** | Review `kit-manifest.yml` and `usage/ADOPTION_BUNDLES.md`; adjust copied paths or overlay. |
+| Changelog label          | Action for importers                                                                            |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| **Advisory-only**        | Optional refresh. No rule enforcement change expected.                                          |
+| **Import bundle change** | Review `kit-manifest.yml` and `usage/ADOPTION_BUNDLES.md`; adjust copied paths or overlay.      |
 | **Governance-impacting** | Read affected `constitution/` / `ci/` docs; update local overlay if needed; rerun verification. |
-| **Breaking rule change** | Treat as a governance dependency upgrade: ADR required, diff review, re-validate CI/doc gates. |
+| **Breaking rule change** | Treat as a governance dependency upgrade: ADR required, diff review, re-validate CI/doc gates.  |
 
 ## Submodule / fork consumers
 

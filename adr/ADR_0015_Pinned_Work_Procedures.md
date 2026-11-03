@@ -115,7 +115,9 @@ called. Both were fixed in this change: the new assertion failed, then passed.
 - Local overlay impact: none.
 - Enforcement impact: the trial checker and the pin-hash test. No new
   adopter-mandatory workflow.
-- Migration: existing clones gain the files at this revision. A trial file
+- Migration: existing clones gain the files at this revision. A live project
+  trial uses `usage/HOW_TO_IMPORT.md` § Opt-in work procedures and does not
+  install spec-gates or a Stop hook. A trial file
   added under `research/benchmark_trials/` must carry `scenario`, `revision`,
   and `outcome`. `README.md` is ignored.
 
