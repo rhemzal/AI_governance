@@ -36,3 +36,8 @@ executor for that continuation is `.cursor/skills/governed-work/SKILL.md`.
 
 This profile does not make a documentation edit follow test-driven development.
 A behavior change still needs a test that has been seen to fail.
+
+Matched B6, B7, and B8 runs met the same acceptance with this text and without
+it. None of those runs is a productivity or safety gain. Keep the three
+appended sections. Do not add another section until a matched pair on a named
+task class differs. The record is `research/benchmark_trials/`.

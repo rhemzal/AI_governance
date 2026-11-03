@@ -81,7 +81,9 @@ test is restored deliberately.
 
 Agents in this repository have a default route for debug, execute, verify,
 resume, and review. Copy-import bundles do not gain those files until an
-adopter copies the pin. The benchmark suite can accept a later trial file
+adopter copies the pin. Matched B6, B7, and B8 runs later met the same
+acceptance with the extra procedure text and without it. The pin and the
+preset stay. They are not a measured productivity or safety gain. The benchmark suite can accept a later trial file
 and still rejects a malformed one. A file the checker accepts is not a
 completed matched trial. Review of the first green checker found that
 `cancelled` was rejected and that a missing directory was not what the test

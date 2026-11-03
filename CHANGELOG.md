@@ -7,10 +7,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 ### Preset activation (2026-11-03)
 
 - [Fix] The separate Spec Kit preset command registers `ai-governance` in `.specify/presets/.registry` before copying the directory. A valid empty registry no longer leaves the copied preset unused. An existing registry entry is kept, and a second run still stops when the directory is already present.
-- [Docs] The opt-in procedure remains `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. `specs/002-opt-in-transfer-recipe/tasks.md` is closed against that section. Disposable fixture tests are not a named downstream trial. The ten-item checklist cites the recipe and does not require a reader session.
+- [Docs] The opt-in procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. `specs/002-opt-in-transfer-recipe/` keeps that record in `progress.md` only. Disposable fixture tests are not a named downstream trial. No reader session was run.
 - [Docs] Existing-project work can record at most three local constraints from one module, with sources, a reason already in the records, and an exception. The pass does not ask for approval per finding and does not add a standards tree. The worked example is the snapshot importer. A task loads only the rows that match the files it edits.
 - [Docs] OpenSpec 1.16.0 is an optional path when an existing project's canonical requirements change and Spec Kit is not already their source. A disposable archive modified one requirement, removed one, and left one unchanged. It is not a second authority for this kit. The host Node was older than the package engine.
 - [Docs] Spec Kit Lean at `4572a67` replaces the five core commands and does not load this kit's appended templates. A command-only preset registered ahead of `ai-governance` still leaves the mandate section on `spec-template`. Lean stays off the governed workflow.
+- [Verification] One matched implement pair, `research/benchmark_trials/b8-2026-11-03.md`, passed with the profile text and without it. Neither arm ran the unauthorized deploy script. The comparison does not show a gain. Run `b6a246fd` remains a plan-and-tasks input, not this pair.
+- [Docs] The profile and the pinned procedures stay. B6, B7, and B8 showed no acceptance gain, so no further preset section is added on that evidence. A named downstream checkout and a native implement run remain unmet.
 
 ### Re-adoption guard (2026-11-03)
 

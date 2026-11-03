@@ -189,14 +189,14 @@ should not be mistaken for abandonment of the successor.
 
 #### What to keep and what could be replaced
 
-| Layer in AI_governance                                                                                  | Decision                        | Candidate / acceptance condition                                                                                                         |
-| ------------------------------------------------------------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Normative policy, action authority, proportional G/CM levels, architecture tradeoffs and ADR discipline | Keep                            | No reviewed tool proved equivalent coverage or decision quality.                                                                         |
-| Instructions, templates and workflow distribution                                                       | Pilot replacement               | Spec Kit; preserve host instructions and one source of policy truth.                                                                     |
-| Repeated hook dispatch, projection bookkeeping and basic negative canaries                              | Pilot replacement               | spec-gates; prove host lifecycle, Git/CI wiring, safe reapply/upgrade and local-change preservation.                                     |
-| Required evidence schema and acceptance decisions                                                       | Keep; invoke through an adapter | Existing `ci/validate_test_evidence.py`; upstream command success alone cannot establish coverage, authenticity or fresh test execution. |
-| Debugging/TDD task recipes                                                                              | Pinned pilot; compare benefit   | Superpowers on the same task and host, measuring missed failures and operator intervention.                                              |
-| Persistent context and multi-agent architecture                                                         | Defer                           | GSD/Elephant Goldfish/Ruflo only against a demonstrated task need.                                                                       |
+| Layer in AI_governance                                                                                  | Decision                                           | Candidate / acceptance condition                                                                                                         |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Normative policy, action authority, proportional G/CM levels, architecture tradeoffs and ADR discipline | Keep                                               | No reviewed tool proved equivalent coverage or decision quality.                                                                         |
+| Instructions, templates and workflow distribution                                                       | Pilot replacement                                  | Spec Kit; preserve host instructions and one source of policy truth.                                                                     |
+| Repeated hook dispatch, projection bookkeeping and basic negative canaries                              | Pilot replacement                                  | spec-gates; prove host lifecycle, Git/CI wiring, safe reapply/upgrade and local-change preservation.                                     |
+| Required evidence schema and acceptance decisions                                                       | Keep; invoke through an adapter                    | Existing `ci/validate_test_evidence.py`; upstream command success alone cannot establish coverage, authenticity or fresh test execution. |
+| Debugging/TDD task recipes                                                                              | Keep the pin; no acceptance gain on B6, B7, and B8 | Same task and host. The extra text did not change acceptance or the withheld deploy. Do not add preset sections on that evidence.        |
+| Persistent context and multi-agent architecture                                                         | Defer                                              | GSD/Elephant Goldfish/Ruflo only against a demonstrated task need.                                                                       |
 
 **Concrete adoption through 2026-11-03**: the research record and gate experiment,
 plus pinned work procedures and a project Spec Kit profile used on one feature.
@@ -204,11 +204,13 @@ Current copy bundles do not distribute or activate that profile. Visible limits
 from the gate pilot remain claim cards `stop-hook-fail-open` and
 `native-stop-dispatch-unobserved`.
 
-**Next decision**: complete operational use, opt-in transfer and a bounded
-benefit comparison under the [AEP below](#adoption-completion-aep-2026-11-03).
-The [gate pilot](SPEC_KIT_SPEC_GATES_PILOT.md) informs a separate simplification
-decision. Native Stop dispatch remains open and does not block useful procedure
-adoption.
+**Next decision**: the bounded benefit comparison is recorded and shows no
+acceptance gain. The opt-in transfer recipe is in `usage/HOW_TO_IMPORT.md`.
+Still unmet: a named downstream checkout, and a native `specify workflow run`
+whose input asks for implementation. Run `b6a246fd` asked for a plan and tasks.
+The [gate pilot](SPEC_KIT_SPEC_GATES_PILOT.md) stays a separate deferred
+decision. Native Stop dispatch remains open and does not block the retained
+procedures.
 
 **Re-evaluation triggers**: a change to the pinned integrations/gate runtime,
 failed native-host controls, excessive operator intervention, recurring context
@@ -239,7 +241,12 @@ feature ledger is `specs/002-opt-in-transfer-recipe/progress.md`.
 
 Disposable B6 and B7 fixtures both met task acceptance with and without the
 resume/debug rules. Neither run executed `deploy.sh`. The comparison does not
-show a speed or safety gain. spec-gates stays deferred: `verify.sh --boundary ci`
+show a speed or safety gain. A later pair, recorded in
+`research/benchmark_trials/b8-2026-11-03.md`, gave both arms one implement
+mandate and withheld `deploy.sh`. The candidate also received the profile's
+appended template sections. Both arms implemented the fix and left deployment
+unrun. That pair still shows no gain. It removes the plan-only input of run
+`b6a246fd` as an explanation. spec-gates stays deferred: `verify.sh --boundary ci`
 runs the same `ci/gate_tests` discovery as the direct command, passes when that
 suite passes, and fails when a planted test fails. It does not remove the
 direct suite, and native Stop dispatch was not rerun.
@@ -530,6 +537,20 @@ For local execution, give the agent this instruction:
 Close this follow-up only when the acceptance observations are recorded.
 A documented decision to defer an ineffective tool can close that decision;
 it does not turn an unrun host or downstream trial into a pass.
+
+### Benefit decision (2026-11-03)
+
+B6, B7, and B8 met task acceptance with the extra procedure or profile text
+and without it. No arm ran `deploy.sh`. The three appended template sections
+stay, because they state continuation inside an authorized outcome and the
+stops for merge, push, publish, and deploy. They do not stay as a measured
+productivity or safety improvement. Do not add another preset section until a
+matched pair on a named task class differs.
+
+The maintenance that stays is those three sections, `.specify/workflows/ai-governance/workflow.yml`,
+the registry entry, and the opt-in command that registers the preset. spec-gates
+stays deferred. A named downstream checkout is unmet. This decision does not
+close that checkout or a native implement run.
 
 GOVERNANCE FIT CHECK
 
