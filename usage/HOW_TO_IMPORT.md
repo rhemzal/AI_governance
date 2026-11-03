@@ -8,13 +8,13 @@ This kit is documentation-first governance: you import it to make AI-assisted ch
 
 Do not import everything by default. Use `kit-manifest.yml` at the kit root to select a bundle:
 
-| Bundle | When to use |
-| --- | --- |
-| `minimal` | Fastest useful adoption: agent projections, core rules, daily enforcement, quick recipes, ADR template. |
-| `standard` | Recommended baseline: `minimal` plus full `constitution/`, `ci/`, `adr/`, `usage/`, and the local overlay template. |
-| `architecture` | Architecture selection and advisory RAG notes (decision framework, style matrix, taxonomy, data modeling, terminology, `architecture/rag/`). |
-| `research` | Advisory research and external playbook references (`research/`). |
-| `full` | Complete copy import (Option A below): composes `standard` + `architecture` + `research`, plus `interface/`, `notes/`, and full `governance/`. |
+| Bundle         | When to use                                                                                                                                    |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `minimal`      | Fastest useful adoption: agent projections, core rules, daily enforcement, quick recipes, ADR template.                                        |
+| `standard`     | Recommended baseline: `minimal` plus full `constitution/`, `ci/`, `adr/`, `usage/`, and the local overlay template.                            |
+| `architecture` | Architecture selection and advisory RAG notes (decision framework, style matrix, taxonomy, data modeling, terminology, `architecture/rag/`).   |
+| `research`     | Advisory research and external playbook references (`research/`).                                                                              |
+| `full`         | Complete copy import (Option A below): composes `standard` + `architecture` + `research`, plus `interface/`, `notes/`, and full `governance/`. |
 
 Bundle paths use `extends` / `composes` resolution (union, deduplicated). Importers must honor `exclude` entries (e.g. `notes/local/**`).
 
@@ -22,11 +22,14 @@ For humans: start with `minimal` or `standard`, then add bundles as needed.
 For agents and automation: read `kit-manifest.yml` first; use `usage/ADOPTION_BUNDLES.md` for human-oriented bundle selection.
 
 ## Choose an Import Strategy (When to Use What)
+
 Pick based on two questions:
-1) Do you want **upstream updates**?
-2) Will you **customize** the governance baseline?
+
+1. Do you want **upstream updates**?
+2. Will you **customize** the governance baseline?
 
 ### Quick Decision Guide
+
 - Choose **Copy** if you want a stable snapshot and fast adoption (most teams).
 - Choose **Git Submodule** if you want upstream updates with explicit version pinning.
 - Choose **Fork** if you will materially change rules/gates and want to own the baseline.
@@ -34,32 +37,40 @@ Pick based on two questions:
 ### Signs You Should Prefer Each Option
 
 **Prefer Copy when**:
+
 - You need the fastest path to “working governance” (days, not weeks).
 - You want a stable baseline and you do not plan frequent governance changes.
 - Your organization restricts submodules or has tooling friction around them.
 
 **Prefer Git Submodule when**:
+
 - You want upstream improvements over time.
 - You can handle occasional merge/rebase effort for docs.
 - You can enforce a pinned commit SHA (avoid "floating" governance).
 
 **Prefer Fork when**:
+
 - You will rewrite or extend the constitution/gates materially (org-specific policy).
 - You need language/jurisdiction-specific compliance wording.
 - You want to keep your governance changes private or controlled.
 
 ## Core Principle (Regardless of Option)
+
 Avoid duplication: have one canonical source for each rule/gate.
 When you must add local rules, add them as **project-specific overlays** and clearly state precedence.
 
 See:
+
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`
 
 This kit provides a ready-to-copy overlay template:
+
 - `governance/LOCAL_OVERLAY_TEMPLATE.md` (copy to `governance/LOCAL_OVERLAY.md` in the target repo and customize)
 
 ## If You Already Have Governance
+
 Decide which of these this kit will be in your repo:
+
 - **Upstream baseline**: this kit is the canonical source for rules/gates; your repo adds a local overlay.
 - **Reference only**: this kit is informational; your existing governance remains canonical.
 
@@ -68,38 +79,43 @@ Do not run with two sources of truth.
 Recommended: record the decision as an ADR using `adr/ADR_TEMPLATE.md` (title suggestion: “Governance Baseline: Imported Kit vs Local”).
 
 If you want an AI to assess what to adopt (and in what order), see:
+
 - `usage/QUICKGUIDE.md` (Recipe D/E: adoption assessment prompts)
 
 ## Governance Versioning (Recommended)
+
 To keep governance auditable over time, record which kit version you imported.
 
 See `VERSIONING.md` for version series (`0.x` vs `1.0+`) and changelog label meanings (`Governance-impacting`, `Advisory-only`, `Import bundle change`, `Breaking rule change`).
 
 **If you Copy**:
+
 - Record the import as an ADR (what was imported, date, and source commit/tag if known).
-   - Do not remove the “Provenance” banner from imported documents.
+  - Do not remove the “Provenance” banner from imported documents.
 
 **If you use a Submodule**:
+
 - Pin to a commit SHA.
 - Treat updates as dependency upgrades and record upgrades as an ADR (old SHA → new SHA, why, what enforcement changed).
- - Do not remove the “Provenance” banner from documents.
+- Do not remove the “Provenance” banner from documents.
 
 **If you Fork**:
+
 - Maintain your own version tags.
 - Keep a policy for upstream cherry-picks (optional but recommended).
- - If you relicense or materially rewrite the kit, update the provenance banner accordingly.
+- If you relicense or materially rewrite the kit, update the provenance banner accordingly.
 
 ## Kit root, project root, and file ownership
 
 The **kit root** holds the imported snapshot, normally `vendor/AI_governance/`. All manifest paths and references to kit documents are relative to that root. The **project root** owns application code, test commands, task paths, project ADRs, the active `governance/LOCAL_OVERLAY.md`, and agent/workflow entry points. Do not run the kit's maintainer commands as if they were the project's test suite.
 
-| Material | Destination / action |
-| --- | --- |
-| Selected kit files, including its agent projections and root meta docs | Fresh kit root, preserving paths inside that root |
-| Host `AGENTS.md` and `.github/copilot-instructions.md` | Preserve existing content; merge a short entry point after resolving policy conflicts |
-| Host `CHANGELOG.md`, `DEVELOPMENT.md`, `VERSIONING.md` | Remain project-owned; kit copies stay below the kit root |
-| Active overlay and project adoption/architecture ADRs | Project-owned paths outside the imported snapshot |
-| PR template and workflow YAML | Upstream-only setup inputs from the **same pinned revision**; merge/adapt into host-owned files only when adopting the gate |
+| Material                                                               | Destination / action                                                                                                        |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Selected kit files, including its agent projections and root meta docs | Fresh kit root, preserving paths inside that root                                                                           |
+| Host `AGENTS.md` and `.github/copilot-instructions.md`                 | Preserve existing content; merge a short entry point after resolving policy conflicts                                       |
+| Host `CHANGELOG.md`, `DEVELOPMENT.md`, `VERSIONING.md`                 | Remain project-owned; kit copies stay below the kit root                                                                    |
+| Active overlay and project adoption/architecture ADRs                  | Project-owned paths outside the imported snapshot                                                                           |
+| PR template and workflow YAML                                          | Upstream-only setup inputs from the **same pinned revision**; merge/adapt into host-owned files only when adopting the gate |
 
 A full manifest catalog is included in every baseline. Record the actual selected bundles separately in the host entry point/overlay; catalog membership does not mean an optional bundle was imported. Minimal includes the architecture framework and glossary required by the constitution; the remaining architecture corpus and trigger map are optional upstream/add-on context.
 
@@ -148,6 +164,7 @@ After snapshot verification, merge a small block like this into the existing hos
 
 ```markdown
 ## Governance baseline
+
 - Kit root: `vendor/AI_governance/`.
 - Selected bundles and upstream commit: record the reviewed selection and full SHA here.
 - Read `vendor/AI_governance/AGENTS.md` and its core references as applicable.
@@ -169,6 +186,50 @@ The upstream `doc-hygiene` job validates the **entire kit**. Its all-bundle mani
 
 Record adoption in the project's decision record: kit root, source SHA, manifest version, selected bundles, CI maturity, retained host constraints and any approved overrides. Confirm that the agent can find required baseline documents through the merged entry point, and that no host metadata/test command was replaced with the kit's own content.
 
+### Opt-in work procedures
+
+The copy bundles do not include the pinned Superpowers procedures, the
+`governed-work` entry, or the project Spec Kit preset. `ci/import_bundle.py`
+rejects symlinks, and the kit's active `.cursor/skills/` entries for those
+procedures are symlinks. Do not put those symlinks in a bundle and do not
+relax that check.
+
+Copy regular files into the adopter project root. Stop if the pin directory
+already exists. From the adopter root, with `KIT` set to a reviewed checkout:
+
+```bash
+test ! -e vendor/superpowers/v7.0.1
+mkdir -p vendor/superpowers .cursor/skills/governed-work .specify/presets
+cp -aL "$KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1
+cp -L "$KIT/.cursor/skills/governed-work/SKILL.md" .cursor/skills/governed-work/SKILL.md
+cp -aL "$KIT/.specify/presets/ai-governance" .specify/presets/ai-governance
+( cd vendor/superpowers/v7.0.1 && sha256sum -c SHA256SUMS )
+test ! -L .cursor/skills/governed-work/SKILL.md
+```
+
+Do not copy the other `.cursor/skills/` symlinks. The entry file points at
+`vendor/superpowers/v7.0.1/`. Leave `AGENTS.md` and `governance/LOCAL_OVERLAY.md`
+unchanged except for a pointer the adopter reviews and merges. A second copy
+must see that `vendor/superpowers/v7.0.1` exists and stop, not overwrite it.
+
+Upgrade only after the new pin's own sums check. Rollback puts the previous
+directory back and does not touch the overlay:
+
+```bash
+cp -aL "$NEW_KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1.next
+( cd vendor/superpowers/v7.0.1.next && sha256sum -c SHA256SUMS )
+test ! -e vendor/superpowers/v7.0.1.prev
+mv vendor/superpowers/v7.0.1 vendor/superpowers/v7.0.1.prev
+mv vendor/superpowers/v7.0.1.next vendor/superpowers/v7.0.1
+# rollback, only if that previous directory exists
+rm -rf vendor/superpowers/v7.0.1
+mv vendor/superpowers/v7.0.1.prev vendor/superpowers/v7.0.1
+```
+
+This recipe was checked as a disposable copy. It is not a trial on a named
+downstream repository, and it does not by itself run the Spec Kit workflow
+engine.
+
 ### Existing root-layout imports and updates
 
 This layout change does not automatically migrate or delete an older import. Inventory ownership and local edits first. Prepare a new namespaced snapshot from the reviewed revision, compare old/new rules, and reconcile host entry points/overlays in a migration PR. Remove old kit copies only after proving they are kit-owned and that references have moved; preserve host-authored content and history.
@@ -185,52 +246,66 @@ Old copies and forks do not receive new behavior automatically. A successful byt
 proves snapshot integrity only; it does not prove agent compliance or effective adoption.
 
 ## Option B: Git Submodule
+
 Use when you want upstream updates.
 
 High-level steps:
+
 1. Add the reviewed source as a submodule at an unused kit-root path; preserve existing project files.
 2. Merge host entry points using the kit/project-root distinction above. A submodule contains the whole upstream tree; declare which governance material is adopted, and do not use the selected-copy inventory check against an unfiltered submodule.
 3. Decide whether CI gates live in the kit or your repo.
 
 ### When Submodule Is the Right Choice
+
 Submodule is right when governance is a living dependency and you want improvements (new gates, clarified rules, better auditability) without re-copying.
 
 ### Operational Guidance (Submodule)
+
 - Pin to a known commit SHA and update intentionally (e.g., monthly).
 - Treat governance updates like dependency updates:
 
   - create a PR
   - run your doc/CI checks
   - review diffs to rules/gates carefully
+
 - Keep project-specific overlays in your repo (not inside the submodule), so updates stay mergeable.
 
 ### Common Failure Modes (Submodule)
+
 - Teams “vendor” a second copy and stop updating the submodule.
 - Teams edit inside the submodule path locally (changes get lost or conflict).
 
 ## Option C: Fork
+
 Use when you want a customized governance baseline.
 
 ### When Fork Is the Right Choice
+
 Fork is right when your organization will maintain a long-lived variant:
+
 - different enforcement constraints
 - different audit requirements
 - different required output formats
 
 ### Common Failure Modes (Fork)
+
 - Fork diverges without a clear policy for upstream cherry-picks.
 - Teams over-customize early and lose the benefits of a shared baseline.
 
 ## Where Architecture Is Defined (For the AI)
+
 This kit is architecture-neutral by default. The selected architecture (and any hybrids) is defined by:
+
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` (decision + hybrid rules)
 - ADRs written in `adr/` using `adr/ADR_TEMPLATE.md`
 
 Enforcement is style-agnostic and expressed as boundary rules (core vs boundary contracts vs integration boundaries) in:
+
 - `constitution/AI_RULES.md`
 - `ci/ARCHITECTURE_GATES.md` and `ci/TEST_GATES.md`
 
 ## Related Documents
+
 - `kit-manifest.yml`
 - `usage/ADOPTION_BUNDLES.md`
 - `VERSIONING.md`
@@ -240,4 +315,3 @@ Enforcement is style-agnostic and expressed as boundary rules (core vs boundary 
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`
 - `usage/HOW_TO_USE_WITH_COPILOT.md`
 - `adr/ADR_TEMPLATE.md`
-

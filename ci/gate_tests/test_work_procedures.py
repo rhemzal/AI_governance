@@ -1,11 +1,13 @@
-"""Pin, preset, and workflow checks for the routine work procedures.
+"""Pin, preset, workflow, and opt-in copy checks for the routine work procedures.
 
 Provenance: AI_governance kit (https://github.com/rhemzal/AI_governance).
 These tests do not execute Superpowers and do not run a benchmark trial.
 """
 
 import hashlib
+import shutil
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -78,3 +80,123 @@ class WorkProcedures(unittest.TestCase):
         self.assertIn("# Feature Specification:", result.stdout)
         self.assertIn("## Mandate continuation", result.stdout)
         self.assertIn("Automatic continuation", result.stdout)
+
+    def test_opt_in_copy_keeps_host_files_and_refuses_a_repeat(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            agents = adopter / "AGENTS.md"
+            overlay = adopter / "governance" / "LOCAL_OVERLAY.md"
+            agents.write_text("HOST-SENTINEL\n", encoding="utf-8")
+            overlay.parent.mkdir()
+            overlay.write_text("OVERLAY-SENTINEL\n", encoding="utf-8")
+            _copy_procedures(ROOT, adopter)
+            self.assertEqual(agents.read_text(encoding="utf-8"), "HOST-SENTINEL\n")
+            self.assertEqual(overlay.read_text(encoding="utf-8"), "OVERLAY-SENTINEL\n")
+            entry = adopter / ".cursor/skills/governed-work/SKILL.md"
+            pin = adopter / "vendor/superpowers/v7.0.1"
+            self.assertFalse(entry.is_symlink())
+            self.assertFalse((pin / "skills/executing-plans/SKILL.md").is_symlink())
+            self.assertIn("2ce8aa15d05bd57213e6f746f953aafb7ded7a8b", entry.read_text(encoding="utf-8"))
+            check = subprocess.run(
+                ["sha256sum", "-c", "SHA256SUMS"],
+                cwd=pin,
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            self.assertEqual(check.returncode, 0, check.stdout + check.stderr)
+            with self.assertRaises(FileExistsError):
+                _copy_procedures(ROOT, adopter)
+
+    def test_upgrade_then_rollback_restores_the_pin_and_overlay(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            overlay = adopter / "governance" / "LOCAL_OVERLAY.md"
+            overlay.parent.mkdir()
+            overlay.write_text("OVERLAY-SENTINEL\n", encoding="utf-8")
+            _copy_procedures(ROOT, adopter)
+            active = adopter / "vendor/superpowers/v7.0.1"
+            original = (active / "PIN.md").read_bytes()
+            staged = adopter / "vendor/superpowers/v7.0.1.next"
+            shutil.copytree(active, staged, symlinks=False)
+            pin_md = staged / "PIN.md"
+            pin_md.write_text(pin_md.read_text(encoding="utf-8") + "\nupgrade-marker\n", encoding="utf-8")
+            _rewrite_sums(staged)
+            check = subprocess.run(
+                ["sha256sum", "-c", "SHA256SUMS"],
+                cwd=staged,
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            self.assertEqual(check.returncode, 0, check.stdout + check.stderr)
+            _activate_staged_pin(adopter)
+            self.assertIn("upgrade-marker", (active / "PIN.md").read_text(encoding="utf-8"))
+            self.assertEqual(overlay.read_text(encoding="utf-8"), "OVERLAY-SENTINEL\n")
+            _rollback_pin(adopter)
+            self.assertEqual((active / "PIN.md").read_bytes(), original)
+            self.assertEqual(overlay.read_text(encoding="utf-8"), "OVERLAY-SENTINEL\n")
+            restored = subprocess.run(
+                ["sha256sum", "-c", "SHA256SUMS"],
+                cwd=active,
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            self.assertEqual(restored.returncode, 0, restored.stdout + restored.stderr)
+
+
+def _rewrite_sums(pin):
+    lines = []
+    for path in sorted(item for item in pin.rglob("*") if item.is_file() and item.name != "SHA256SUMS"):
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        lines.append(f"{digest}  {path.relative_to(pin).as_posix()}")
+    (pin / "SHA256SUMS").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _activate_staged_pin(adopter):
+    base = adopter / "vendor/superpowers"
+    active = base / "v7.0.1"
+    staged = base / "v7.0.1.next"
+    previous = base / "v7.0.1.prev"
+    if not staged.is_dir():
+        raise FileNotFoundError(staged)
+    if previous.exists():
+        raise FileExistsError(previous)
+    active.rename(previous)
+    staged.rename(active)
+
+
+def _rollback_pin(adopter):
+    base = adopter / "vendor/superpowers"
+    active = base / "v7.0.1"
+    previous = base / "v7.0.1.prev"
+    if not previous.is_dir():
+        raise FileNotFoundError(previous)
+    if active.exists():
+        shutil.rmtree(active)
+    previous.rename(active)
+
+
+def _copy_procedures(kit, adopter):
+    """Regular-file copy used by usage/HOW_TO_IMPORT.md. Refuse an existing pin."""
+    pin_dest = adopter / "vendor/superpowers/v7.0.1"
+    if pin_dest.exists():
+        raise FileExistsError(pin_dest)
+    pin_dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(kit / "vendor/superpowers/v7.0.1", pin_dest, symlinks=False)
+    entry_dir = adopter / ".cursor/skills/governed-work"
+    entry_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(
+        kit / ".cursor/skills/governed-work/SKILL.md",
+        entry_dir / "SKILL.md",
+    )
+    preset_dest = adopter / ".specify/presets/ai-governance"
+    shutil.copytree(
+        kit / ".specify/presets/ai-governance",
+        preset_dest,
+        symlinks=False,
+    )

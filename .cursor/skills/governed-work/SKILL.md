@@ -15,13 +15,13 @@ under `vendor/superpowers/v7.0.1/` (MIT). Active skill directories in
 
 ## Which procedure
 
-| Observed need | Read and follow | Skip it when |
-| --- | --- | --- |
-| A failure, unexpected test result, or behavior you do not yet understand | `systematic-debugging` | The edit only changes wording and nothing fails |
-| Several dependent steps of an outcome the operator already authorized | `executing-plans`, including the vendored scripts it calls | The outcome itself is not authorized |
-| You are about to say the work passes, is fixed, or is complete | `verification-before-completion` | Do not skip this for a behavior claim |
-| A change should be read against its spec by a fresh reviewer | `requesting-code-review` and `code-reviewer.md` | There is no spec and no diff |
-| A behavior change or bug fix | `test-driven-development` | The change is documentation or a registry sentence only |
+| Observed need                                                            | Read and follow                                            | Skip it when                                            |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------- | ------------------------------------------------------- |
+| A failure, unexpected test result, or behavior you do not yet understand | `systematic-debugging`                                     | The edit only changes wording and nothing fails         |
+| Several dependent steps of an outcome the operator already authorized    | `executing-plans`, including the vendored scripts it calls | The outcome itself is not authorized                    |
+| You are about to say the work passes, is fixed, or is complete           | `verification-before-completion`                           | Do not skip this for a behavior claim                   |
+| A change should be read against its spec by a fresh reviewer             | `requesting-code-review` and `code-reviewer.md`            | There is no spec and no diff                            |
+| A behavior change or bug fix                                             | `test-driven-development`                                  | The change is documentation or a registry sentence only |
 
 `writing-plans` is the shape of an `executing-plans` plan. In this kit that
 plan is the feature's Spec Kit `tasks.md`. Do not also create
@@ -42,6 +42,17 @@ An authorized mandate continues through the remaining tasks without asking
 after each one. The default Spec Kit workflow's `review-spec` and `review-plan`
 gates do not apply to `.specify/workflows/ai-governance/workflow.yml`.
 
+A Spec Kit completion report is not a question. After `speckit-specify`,
+`speckit-plan`, or `speckit-tasks` says the command ends or names the next
+phase, start that next phase in the same session when the mandate already
+covers it. `.specify/workflows/ai-governance/workflow.yml` is the order. The
+file is not a host engine, and a completion report does not replace the next
+command.
+
+The pinned `writing-plans` Execution Handoff does not apply once this profile
+is loaded and execution was already authorized. Do not wait for a plan review
+and do not offer `subagent-driven-development`. That skill is not installed.
+
 Stop for a person only when the next action is irreversible or destructive,
 security-sensitive, outside the authorized worktree (merge, push, publish,
 deploy, production data, a shared device), or when every remaining path is a
@@ -50,6 +61,24 @@ guess. Those stops match Autonomous Execution Plan `approval_required`.
 Do not run `finishing-a-development-branch` unless the operator asked to open
 a pull request. Do not create a git worktree when the operator assigned the
 current checkout. Record both as rulings in the ledger.
+
+## Review range
+
+`requesting-code-review` uses `HEAD~1..HEAD`. That is the last commit. When
+this task has no new commit, review `git diff HEAD` and the untracked files
+in the task scope. A review of the previous commit is not a review of the
+working tree.
+
+## Ledger
+
+The durable ledger is `specs/<feature>/progress.md`. Upstream `task-done`
+also writes `.superpowers/sdd/<plan>/progress.md`, and `specify workflow`
+writes `.specify/workflows/runs/<run_id>/`. Those directories are scratch.
+Copy the completion facts into the feature ledger. If a scratch file
+disagrees with it, the feature ledger and the working tree win. Do not edit
+a run `state.json` to change `running` into `paused` or `completed`. A
+process killed while the run still says `running` cannot be resumed. Record
+that and continue the mandate in the feature ledger.
 
 ## Resume
 

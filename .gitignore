@@ -35,3 +35,6 @@ notes/local/**
 
 # Inline-execution scratch. A kept ledger is copied under specs/.
 .superpowers/
+
+# Workflow engine scratch. A killed run can remain "running" and is not resumed.
+.specify/workflows/runs/
