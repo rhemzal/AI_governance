@@ -10,6 +10,15 @@ registry already exists.
 It appends three sections to the core Spec Kit templates. It does not replace
 those templates and it does not copy rules out of `constitution/`.
 
+Do not enable the bundled Spec Kit Lean preset on this workflow. At Spec Kit
+`4572a67fe0e72a6837e2d7bb0fda875bc41482e5` its five files are command
+replacements, not templates. A registered command-only preset still leaves
+this append on `spec-template`. The Lean specify command does not load that
+template: it asks for a feature directory and writes `spec.md` directly. Its
+plan, tasks, and implement commands load `.specify/memory/constitution.md`,
+not `constitution/`. Compact work stays a direct edit. Lean is not a shorter
+form of this profile.
+
 Use workflow `.specify/workflows/ai-governance/workflow.yml` when the operator
 has already authorized the outcome. That workflow is specify, plan, tasks,
 implement, with no `review-spec` or `review-plan` gate. The bundled `speckit`

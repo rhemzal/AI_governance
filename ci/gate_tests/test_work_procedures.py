@@ -234,6 +234,51 @@ class WorkProcedures(unittest.TestCase):
             self.assertIn("# Feature Specification:", resolved.stdout)
             self.assertIn("## Mandate continuation", resolved.stdout)
 
+    def test_command_only_preset_does_not_drop_the_governance_template(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            _install_core_spec_template(adopter)
+            shutil.copytree(
+                ROOT / ".specify/presets/ai-governance",
+                adopter / ".specify/presets/ai-governance",
+            )
+            lean = adopter / ".specify/presets/lean"
+            (lean / "commands").mkdir(parents=True)
+            (lean / "preset.yml").write_text(
+                "schema_version: '1.0'\n"
+                "preset:\n"
+                "  id: lean\n"
+                "provides:\n"
+                "  templates:\n"
+                "    - type: command\n"
+                "      name: speckit.specify\n"
+                "      file: commands/speckit.specify.md\n",
+                encoding="utf-8",
+            )
+            (lean / "commands/speckit.specify.md").write_text(
+                "Ask the user for the feature directory.\n",
+                encoding="utf-8",
+            )
+            registry = adopter / ".specify/presets/.registry"
+            registry.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "1.0",
+                        "presets": {
+                            "lean": {"enabled": True, "priority": 1, "version": "1.0.0", "source": "project"},
+                            "ai-governance": {"enabled": True, "priority": 10, "version": "1.0.0", "source": "project"},
+                        },
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            resolved = _resolve_spec_template(adopter)
+            self.assertEqual(resolved.returncode, 0, resolved.stdout + resolved.stderr)
+            self.assertIn("# Feature Specification:", resolved.stdout)
+            self.assertIn("## Mandate continuation", resolved.stdout)
+            self.assertNotIn("Ask the user", resolved.stdout)
+
     def test_preset_copy_keeps_an_existing_registry_entry(self):
         with tempfile.TemporaryDirectory() as tmp:
             adopter = Path(tmp)
