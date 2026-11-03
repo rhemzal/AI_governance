@@ -10,6 +10,8 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Verification] Activation smoke after opt-in copy is automated in `WorkProcedures.test_activation_smoke_after_opt_in_copy`.
 - [Docs] `governance/LOCAL_OVERLAY.md` dogfoods the import constraint table for this upstream repo. `kit-manifest.yml` excludes it from bundle copy.
 - [Docs] `usage/FOR_EXISTING_PROJECTS.md` adds a named downstream trial checklist and separates native Stop from workflow evidence.
+- [Docs] The adoption table's remaining-gap column matches the current tree: B6, B7, and B8 are recorded, the opt-in recipe is tested on disposable fixtures, and a named downstream checkout is still not authorized.
+- [Docs] spec-gates promotion stays **deferred**. Fresh parity on this tree: `verify.sh --boundary ci` and direct `ci/gate_tests` discovery both exited 0 (99 tests). The adapter remains experimental; native Stop dispatch is still unobserved.
 - [Docs] The opt-in procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. `specs/002-opt-in-transfer-recipe/` keeps that record in `progress.md` only. Disposable fixture tests are not a named downstream trial.
 - [Docs] The adoption plan in `research/EXTERNAL_PROJECT_EVALUATIONS.md` is `NOT-REQUIRED`. It no longer tells an agent to create `specs/002-operational-adoption/` or to restart the transfer recipe. The earlier ready plan remains in git history.
 - [Verification] Disposable `specify` 1.2.5 run `8ecad04d` used workflow `ai-governance` with an implement input. Steps specify, plan, tasks, and implement completed. `python3 -m unittest test_calc.py` exited 0, the expected value stayed, and `deploy.sh` did not run. This is not a named downstream trial and not an acceptance gain.

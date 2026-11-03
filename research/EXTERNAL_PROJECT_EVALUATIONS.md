@@ -260,14 +260,14 @@ Reviewed `main` at
 Do not repeat the previous recommendation to install the procedures or repair
 the permanent benchmark-directory prohibition: both have been implemented.
 
-| Capability                      | Evidence at the reviewed revision                                                                                                                                                                               | Remaining gap                                                                                                                                                        |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Selected Superpowers procedures | v7.0.1 pinned with MIT license, hashes, six skill links and a governed entry point; `specs/001-benchmark-trial-records/progress.md` records debugging, continuation, stale-result handling and a review finding | One recorded use; host discovery and repeatable use beyond that slice have not been independently demonstrated here                                                  |
-| Spec Kit profile                | Three appended templates, registered `ai-governance` workflow, disposable run `8ecad04d` through `implement`, and feature ledgers                                                                               | No named downstream trial; native Stop hook still unobserved; B6/B7/B8 show no acceptance gain from the profile text                                                                 |
-| Resume and review               | The ledger records a resumed Task 2, a changed hash and rerun; review found rejection of `cancelled` and missing coverage of an absent directory                                                                | Narrative evidence is useful, but no matched B6/B7 comparison is recorded; the durable feature ledger and upstream scratch ledger need one documented ownership rule |
-| Later benchmark evidence        | Historical absence remains dated; the new checker accepts later records and rejects malformed fields                                                                                                            | `research/benchmark_trials/` contains only a README; no matched trial result is recorded                                                                             |
-| Use in another repository       | Profile is explicitly repository-local; `kit-manifest.yml` excludes the procedure pin, Cursor links, presets and workflows from its current selections, including `full`                                        | No tested opt-in transfer/activation route. Copying the active symlinks into the manifest is insufficient: `ci/import_bundle.py` deliberately rejects symlinks       |
-| spec-gates                      | Pilot records actual rejecting/passing candidate CI runs, Git rejection, release verification and upgrade controls                                                                                              | Native Cursor Stop dispatch remains unobserved. The kit policy still wraps the existing gate suite; no net infrastructure reduction has been shown                   |
+| Capability                      | Evidence at the reviewed revision                                                                                                                                                                               | Remaining gap                                                                                                                                                                                                                             |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Selected Superpowers procedures | v7.0.1 pinned with MIT license, hashes, six skill links and a governed entry point; `specs/001-benchmark-trial-records/progress.md` records debugging, continuation, stale-result handling and a review finding | One recorded use; host discovery and repeatable use beyond that slice have not been independently demonstrated here                                                                                                                       |
+| Spec Kit profile                | Three appended templates, registered `ai-governance` workflow, disposable run `8ecad04d` through `implement`, and feature ledgers                                                                               | No named downstream trial; native Stop hook still unobserved; B6/B7/B8 show no acceptance gain from the profile text                                                                                                                      |
+| Resume and review               | The ledger records a resumed Task 2, a changed hash and rerun; review found rejection of `cancelled` and missing coverage of an absent directory                                                                | Matched B6 and B7 records are in `research/benchmark_trials/`. The durable ledger is `specs/<feature>/progress.md`. Scratch under `.superpowers/` and `.specify/workflows/runs/` does not replace it.                                     |
+| Later benchmark evidence        | Historical absence remains dated; the new checker accepts later records and rejects malformed fields                                                                                                            | `b6-2026-11-03.md`, `b7-2026-11-03.md`, and `b8-2026-11-03.md` are recorded. Checker acceptance is not a gain.                                                                                                                            |
+| Use in another repository       | Profile is explicitly repository-local; `kit-manifest.yml` excludes the procedure pin, Cursor links, presets and workflows from its current selections, including `full`                                        | `usage/HOW_TO_IMPORT.md` and the disposable procedure tests cover opt-in copy and preset registration. A named downstream checkout is not authorized.                                                                                     |
+| spec-gates                      | Pilot records actual rejecting/passing candidate CI runs, Git rejection, release verification and upgrade controls                                                                                              | **Deferred** for required checks. Native Stop dispatch remains unobserved. Projected `verify.sh --boundary ci` runs the same `ci/gate_tests` discovery as the direct command; see [spec-gates decision](#spec-gates-decision-2026-11-03). |
 
 **Checks performed for this assessment:** on the reviewed checkout,
 `timeout 60s python3 -m unittest ci.gate_tests.test_work_procedures ci.gate_tests.test_open_claim_limits -v`
@@ -285,9 +285,10 @@ was making the existing procedures reliably invocable, transferable and worth
 maintaining. Another registry, generic orchestrator, or collection of installed
 frameworks would not have closed that gap.
 
-The rows above describe that assessment's checkout. The current tree has the
-opt-in recipe in `usage/HOW_TO_IMPORT.md`, the B6/B7/B8 records, and a feature
-directory that keeps `progress.md` only.
+The evidence column is the reviewed checkout. The Spec Kit row also names
+disposable run `8ecad04d`. The remaining-gap column is the current tree:
+the opt-in recipe is `usage/HOW_TO_IMPORT.md`, the B6/B7/B8 records exist,
+and `specs/002-opt-in-transfer-recipe/` keeps `progress.md` only.
 
 ### Ordered work and completion evidence
 
@@ -322,6 +323,25 @@ The maintenance that stays is those three sections, `.specify/workflows/ai-gover
 the registry entry, and the opt-in command that registers the preset. spec-gates
 stays deferred. A named downstream checkout is unmet. Disposable run `8ecad04d`
 implemented one authorized calc fix and does not close that checkout.
+
+### spec-gates decision (2026-11-03)
+
+**Defer** promotion to required checks and branch protection. **Retain** the
+experimental adapter under `governance/experimental/spec_gates/` and the advisory
+workflow only. Do not install spec-gates or the Stop hook as part of the opt-in
+work-procedure trial.
+
+On this tree, `timeout 120s bash .specify/gates/verify.sh --boundary ci` exited
+0 and `timeout 120s python3 -m unittest discover -s ci/gate_tests -q` exited 0
+with **99 tests**. The projected policy gate `kit-gate-tests` is the same
+discovery command recorded in `governance/experimental/spec_gates/policy.kit.json`.
+That is parity, not a removed manual step for maintainers who already run
+`ci/gate_tests` directly.
+
+Native Cursor Stop dispatch remains unobserved. The pilot's Stop repair budget is
+not reopened without new host evidence. The [gate pilot](SPEC_KIT_SPEC_GATES_PILOT.md)
+records permissive Stop cases; claim cards `stop-hook-fail-open` and
+`native-stop-dispatch-unobserved` stay in force.
 
 GOVERNANCE FIT CHECK
 
