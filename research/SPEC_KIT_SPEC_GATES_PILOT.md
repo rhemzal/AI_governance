@@ -163,7 +163,7 @@ Kit-repo follow-up on a disposable fixture and `/tmp` adopter slice. **Integrati
 | --- | --- | --- |
 | 1 Deterministic slice | DONE | Pilot runner 65/65 (prior session) |
 | 2 Native prompt (fixture) | BLOCKED | See the Cursor usability follow-up. Script contract is not native dispatch. |
-| 3 Malformed policy + resumed | DONE (shell) | Fail-open stop vs CI `refused`; not adoption VERIFIED |
+| 3 Malformed policy + resumed | DONE (shell) | First unavailable stop asks for UNVERIFIED; not a host transcript |
 | 4 B4 adopter slice | DONE (`/tmp` only) | Baseline vs candidate `kit-gate-tests`; not merged to `main` without PR |
 | 5 Adapter + CI negative | DONE for the advisory job | [Failure](https://github.com/rhemzal/AI_governance/actions/runs/41329791882) then [success](https://github.com/rhemzal/AI_governance/actions/runs/41329921631). Not a required check. |
 
@@ -227,7 +227,7 @@ What remains unresolved is host dispatch. Two repair attempts did not show a pro
 1. Cursor Agent CLI `2026.10.01-e373342`, `cursor agent --print --trust --force --sandbox disabled` in an isolated fixture whose stop script appends to `stop-invocations.jsonl` only when the host invokes it. The agent replied `DONE`. The invocation log stayed empty. The CLI session log shows a cloud turn end (`interactionUpdate:turnEnded`) and no local stop hook.
 2. This IDE session's local loop (agent harness `b951911e4476`, built 2026-10-28) did not run a temporary `beforeShellExecution` probe that writes `/tmp/ide-hook-seen.txt`. The harness calls its hook executor only when `enableExecuteHookExec` is true and the step is listed in `configuredSteps`. The session log has no hook-firing line. The probe was removed and is not part of the adapter.
 
-A direct stdin call of the script is a contract check only. It is not native verification. On a passing `verify.sh` it prints `{}`. On a disposable fixture whose checker exits 2 it prints `followup_message`. Invalid policy (`verify.sh` exit 1) still allows the stop. That fail-open path does not force the agent to say the work is unverified.
+A direct stdin call of the script is a contract check only. It is not native verification. On a passing `verify.sh` it prints `{}`. On a disposable fixture whose checker exits 2 it prints `followup_message`. Invalid policy (`verify.sh` exit 1) at `loop_count` 0 asks the agent to report the work as UNVERIFIED. A later `loop_count` allows the stop. That notice does not prove the agent complied.
 
 Cursor IDE 3.27.22 loads `.cursor/hooks.json` and `.claude/settings.json` `Stop` hooks together, in parallel, with the Claude project hook merged after the Cursor project hook. For `followup_message`, the later object wins. The projected Claude `verify-quality.sh` still exits 2, which this host turns into `{}` and therefore does not replace a Cursor follow-up. Both can still run `verify.sh`. The CLI build above does not contain a Claude project-hook loader. Neither coexistence path was observed live, because no project hook was dispatched.
 
@@ -247,6 +247,16 @@ Cursor IDE 3.27.22 loads `.cursor/hooks.json` and `.claude/settings.json` `Stop`
 | [Success](https://github.com/rhemzal/AI_governance/actions/runs/41329921631) | `12e3fde47ed8ca7f10480b5977e64412c185e8bc` | `verify.sh --boundary ci` exit 0. `kit-gate-tests` and parity passed. Job log: [gates](https://github.com/rhemzal/AI_governance/actions/runs/41329921631/job/124917663775). |
 
 Cleaned notes for the dispatch attempts are in [cursor_native_2026-11-01](experiments/spec_kit_spec_gates/cursor_native_2026-11-01/README.md).
+
+## Host checks on this machine (2026-11-03)
+
+These checks ran in disposable directories. They do not promote the adapter and they do not change branch protection.
+
+The Cursor Agent CLI is still `2026.10.01-e373342`. Two `--print` runs loaded `.cursor/hooks.json` and executed `sessionStart` (analytics `cli.hook.executed`, exit 0). Neither run executed `stop`, including a wrapper that logs before the stop script. Both turns ended on the NAL loop at `interactionUpdate:turnEnded`. The Claude `Stop` probe did not run. Stop coexistence stays unobserved. A `sessionStart` line is not a native stop.
+
+Spec Kit releases v1.2.5 and v1.2.6 have no uploaded zip. The peeled tag v1.2.5 is still `4572a67fe0e72a6837e2d7bb0fda875bc41482e5`. spec-gates v0.5.0 `gates-0.5.0.zip` matches its published sha256 and the sigstore bundle digest. `cosign` 3.1.4 `verify-blob` printed `Verified OK` for the release workflow identity. There is no newer spec-gates release than v0.5.0.
+
+A disposable upgrade from spec-gates 0.4.2 to that verified 0.5.0 zip kept `policy.json` and a local line in `verify.sh`. `project.sh` without a decision exited 3 and wrote nothing. `--keep-local` recorded runtime 0.5.0 and left the line. With that edited `verify.sh` the canary suite reported 13 blocked, 2 accepted, and 3 skipped. After shellcheck 0.10.0, prettier 3.9.10, and markdownlint-cli2 0.24.0 were installed, `--take-upstream` on `verify.sh` made the same suite 18 blocked, 0 accepted, 0 skipped, and `project.sh` exited 0. `specify extension remove` deletes the extension directory and leaves the projected runtime and policy. Adding 0.5.0 again succeeds. No package on this host makes the Agent CLI invoke `stop`. Details are in [cursor_host_2026-11-03](experiments/spec_kit_spec_gates/cursor_host_2026-11-03/README.md).
 
 ## Execution plan
 

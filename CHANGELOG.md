@@ -4,6 +4,10 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Cursor stop notice (2026-11-03)
+- [Experimental] When `verify.sh` is missing or exits with a code other than 0 or 2, the stop script asks once, at `loop_count` 0, for an UNVERIFIED report. A later `loop_count` allows the stop. `stop_hook_active` still allows the stop. The contract test calls the script directly and is not native host dispatch. Promotion stays deferred.
+- [Experimental] On this host the Cursor Agent CLI runs a project `sessionStart` hook and does not run `stop`. The spec-gates v0.5.0 zip verifies with cosign. A disposable 0.4.2 to 0.5.0 upgrade keeps policy and a local edit, and removal leaves the projected runtime. With shellcheck, prettier, and markdownlint-cli2 installed, a clean `verify.sh` makes the canary suite 18 blocked and 0 accepted. See the 2026-11-03 host note.
+
 ### Claim cards for absorbed theses (2026-11-02)
 - [Advisory-only] Record visible kit limits as claim cards in `ci/claim_cards.json`, with shape and promotion rules in `usage/AGENT_EVALUATION.md`. A normative claim or a new required CI check needs an integrated canary under `ci/gate_tests/`. The checker does not read unregistered `constitution/` prose.
 - [Verification] Add `ci/validate_claim_cards.py` and standing-limit regressions to the existing `ci/gate_tests` job. Extend `doc-hygiene` path filters so registry-only edits run that job. No new workflow or mandatory adopter gate.
@@ -16,7 +20,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Verification] The manifest path step rejects a missing file or directory from that path list and fails closed when yq fails. The fixture supplies the list.
 - [Verification] The yq release named in `doc-hygiene` is run against this repo's manifest paths and usage links, and against a planted missing tree and outside link.
 - [Verification] The lychee release named in `doc-hygiene` rejects a missing local hub file and accepts this repo's hub files offline. Offline mode does not prove remote URLs.
-- [Verification] The Cursor stop script allows a stop when verify.sh is missing, exits with a code other than 2, or receives stop_hook_active. Exit 2 asks for a follow-up. The test calls the script directly and does not show native host dispatch.
+- [Verification] The Cursor stop script asks once for an UNVERIFIED report when verify.sh is missing or exits with a code other than 2, and allows the stop on a later loop_count or on stop_hook_active. Exit 2 asks for a follow-up. The test calls the script directly and does not show native host dispatch.
 - [Verification] The ADR presence check accepts a numbered record whose body is only a title and TODO. Its PASS line still says the content needs review.
 - [Verification] The test-evidence helper assesses hand-written JSON as VERIFIED when the schema matches. It does not open the named evidence paths and does not show that a runner wrote the report.
 - [Verification] AEP schema version 1 accepts a READY plan with no method field. An empty discovery list still fails. PASS does not show that a method was compared.
@@ -32,7 +36,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Advisory-only] Preserve the comparative review of development-agent governance/workflow tools, primary sources, evidence limits and reevaluation triggers in the existing external-project record.
 - [Experimental] Add a reproducible Spec Kit v1.2.5 + spec-gates v0.5.0 pilot, captured positive/negative results and a native-agent handoff. Preserve this kit's policy and test-evidence validator; production adoption remains deferred.
 - [Experimental] PR [#42](https://github.com/rhemzal/AI_governance/pull/42): optional in-repo adapter (`governance/experimental/spec_gates/`), Cursor `stop` wiring, projected spec-gates runtime, and advisory `spec-gates-kit-advisory` workflow. Native Cursor stop dispatch and required-check promotion remain open.
-- [Experimental] The Cursor stop script now emits `followup_message` and exits 0. Cursor 3.27.22 drops the reason on stop exit 2. Promotion stays deferred: native dispatch was not observed, and the advisory workflow is not a required check. See the pilot follow-up and PR [#44](https://github.com/rhemzal/AI_governance/pull/44).
+- [Experimental] The Cursor stop script now emits `followup_message` and exits 0. Cursor 3.27.22 drops the reason on stop exit 2. Promotion stays deferred: native dispatch was not observed, and the advisory workflow is not a required check. See the pilot follow-up and PR [#45](https://github.com/rhemzal/AI_governance/pull/45).
 - [Import content] The opt-in experiment and evidence are included through the existing `research/` directory selection in research/full bundles. Minimal/standard selections, manifest definitions, canonical rules and mandatory CI gates are unchanged; importing research does not run the experiment or activate hooks.
 
 ### Test automation and runner evidence (2026-09-30)

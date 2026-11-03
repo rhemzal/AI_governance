@@ -3,16 +3,16 @@
   "cards": [
     {
       "id": "stop-hook-fail-open",
-      "statement": "On the Cursor stop path, a missing spec-gates runtime or a verifier exit other than the follow-up case still allows the agent to stop.",
+      "statement": "When the Cursor stop script cannot run the verifier, loop_count 0 asks for an UNVERIFIED report and a later loop_count allows the stop.",
       "source": ".cursor/hooks/kit-verify-stop.sh",
       "layer": "research",
       "oracle": "canary",
       "status": "integrated",
       "positive": "A fake verify.sh that exits 2 makes the stop script print followup_message and exit 0.",
-      "negative": "A missing verify.sh, any other verifier exit, or stop_hook_active true prints an empty object and exits 0.",
+      "negative": "loop_count 0 with a missing verify.sh or any other verifier exit prints followup_message containing UNVERIFIED. loop_count 1 or stop_hook_active true prints an empty object and exits 0.",
       "known_pass_that_is_not_proof": "Calling the script on stdin shows its contract and does not show that the native host ran the hook.",
       "path": "ci/gate_tests/test_stop_hook_contract.py",
-      "anchor": "def test_missing_or_other_verify_exit_allows_stop",
+      "anchor": "def test_missing_or_other_verify_exit_asks_once_for_unverified",
       "rerun_when": "The Cursor stop script, the host stop contract, or the spec-gates verify entrypoint changes."
     },
     {
