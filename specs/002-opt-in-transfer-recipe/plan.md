@@ -4,7 +4,7 @@
 
 **Input**: Feature specification from `/specs/002-opt-in-transfer-recipe/spec.md`
 
-**Plan status**: Phase 0–1 design artifacts complete; **implementation closure** tracked in [tasks.md](./tasks.md). Refreshed by `/speckit-implement` on 2026-11-03 (**plan + tasks only** — no T001–T020 execution, commit, or push in that pass).
+**Plan status**: Closed 2026-11-03. The procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. [tasks.md](./tasks.md) is checked against that section. Do not add a second copy of the procedure here.
 
 ## Summary
 
@@ -12,16 +12,16 @@ Close a **pinned opt-in transfer recipe** so adopters install governed-work proc
 
 **Baseline at plan refresh (2026-11-03, this session):**
 
-| Area                                                                                                                   | Status                                                                                                                                                                                                         |
-| ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Shell copy + upgrade/rollback blocks                                                                                   | Present in `usage/HOW_TO_IMPORT.md` § Opt-in work procedures (~L189–231); may include **uncommitted** edits in the working tree                                                                                |
-| Fixture tests SC-001, SC-003, SC-004                                                                                   | `test_opt_in_copy_*`, `test_upgrade_then_rollback_*` — **7/7 OK** (`timeout 120s python3 -m unittest ci.gate_tests.test_work_procedures -v`, Ran 7 tests in ~0.14s)                                            |
-| Phase 0 `research.md`                                                                                                  | All technical unknowns resolved                                                                                                                                                                                |
-| Phase 1 `data-model.md`, `contracts/opt-in-recipe.md`, `quickstart.md`                                                 | Present; contract matches `_copy_procedures` copy set                                                                                                                                                          |
-| FR-005 activation, FR-010 bundle cross-ref, ownership table, minimum baseline, edited-file edge case, SC-005 checklist | **Not yet in normative docs** — no `Activation` / host-vs-kit table in HOW_TO_IMPORT; no Opt-in pointer in `ADOPTION_BUNDLES.md`; `checklists/recipe-readiness.md` **missing** — closure tasks T005–T015, T011 |
-| Native workflow run `c37bf147`, B6/B7, spec-gates, named downstream trial                                              | **Out of feature closure** — [progress.md](./progress.md)                                                                                                                                                      |
+| Area                                                                                                                   | Status                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Shell copy + upgrade/rollback blocks                                                                                   | Present in `usage/HOW_TO_IMPORT.md` § Opt-in work procedures (~L189–231); may include **uncommitted** edits in the working tree                                     |
+| Fixture tests SC-001, SC-003, SC-004                                                                                   | `test_opt_in_copy_*`, `test_upgrade_then_rollback_*` — **7/7 OK** (`timeout 120s python3 -m unittest ci.gate_tests.test_work_procedures -v`, Ran 7 tests in ~0.14s) |
+| Phase 0 `research.md`                                                                                                  | All technical unknowns resolved                                                                                                                                     |
+| Phase 1 `data-model.md`, `contracts/opt-in-recipe.md`, `quickstart.md`                                                 | Present; contract matches `_copy_procedures` copy set                                                                                                               |
+| FR-005 activation, FR-010 bundle cross-ref, ownership table, minimum baseline, edited-file edge case, SC-005 checklist | Present in `usage/HOW_TO_IMPORT.md` and `checklists/recipe-readiness.md`. No reader session.                                                                        |
+| Native workflow run `c37bf147`, B6/B7, spec-gates, named downstream trial                                              | **Out of feature closure** — [progress.md](./progress.md)                                                                                                           |
 
-**Target shape for § Opt-in work procedures (after T005–T013):** keep existing copy/upgrade/rollback blocks; add subsections **Activation**, **Host-owned vs kit-added**, **Minimum kit baseline**, **AGENTS.md merge example**, **Repeat install and operator edits** (idempotency + edited transferred file policy). Do not duplicate bundle import steps from earlier HOW_TO_IMPORT sections.
+**Target shape:** already in `usage/HOW_TO_IMPORT.md` § Opt-in work procedures (copy, preset registration, upgrade, rollback, ownership table, activation, and the one-task merge example). Do not copy that procedure into this directory.
 
 ## Technical Context
 
@@ -105,7 +105,7 @@ No constitution violations requiring justification.
 | FR-009        | Non-mandatory procedures                   | ADR + spec                                     | T011 (checklist item)    |
 | FR-010        | Single source of truth vs bundles          | Generic HOW_TO_IMPORT links only               | T009                     |
 | SC-001–SC-004 | Fixture outcomes                           | Tests pass at plan time                        | T002, T019               |
-| SC-005        | Two readers, ten items                     | Checklist file missing                         | T011 + quickstart §4     |
+| SC-005        | Ten cited items, no reader session         | Checklist cites the recipe                     | T011 + quickstart §4     |
 
 ## User story → phase mapping
 
@@ -121,7 +121,7 @@ No constitution violations requiring justification.
 {
   "schema_version": 1,
   "status": "READY",
-  "objective": "Finish normative recipe documentation and SC-005 checklist so maintainer and adopter readers can close the feature from disposable-fixture evidence alone.",
+  "objective": "Finish normative recipe documentation and the SC-005 checklist from disposable-fixture evidence. No reader session.",
   "discovery": [
     "spec.md and checklists/requirements.md are complete.",
     "HOW_TO_IMPORT § Opt-in work procedures and _copy_procedures agree on pin, entry skill, preset.",
@@ -163,11 +163,11 @@ No constitution violations requiring justification.
   "verification": [
     {"command": "timeout 120s python3 -m unittest ci.gate_tests.test_work_procedures -v", "expected": "Exit 0"},
     {"command": "Manual: specs/002-opt-in-transfer-recipe/quickstart.md §1–3", "expected": "Gate pass; smoke steps match T005 text"},
-    {"command": "Manual: two readers complete checklists/recipe-readiness.md from recipe text only", "expected": "Matching 10/10 for SC-005"}
+    {"command": "Read checklists/recipe-readiness.md", "expected": "Ten items, each citing the recipe. No reader session."}
   ],
   "acceptance": [
     "SC-001 through SC-004 satisfied via gate tests and HOW_TO_IMPORT",
-    "SC-005 satisfied via recipe-readiness checklist with two matching readers",
+    "SC-005 satisfied by the recipe-readiness checklist citing the recipe, with no reader session",
     "progress.md maps FR-001–FR-010 and SC-001–SC-005 to doc sections and test names",
     "Native workflow, B6/B7, spec-gates, named downstream remain explicitly unmet or out of scope"
   ],
@@ -195,4 +195,4 @@ No constitution violations requiring justification.
 1. Run governed-work **executing-plans** against [tasks.md](./tasks.md) in order (Phases 1–2 before US doc bursts).
 2. Prefer **one edit session** on `usage/HOW_TO_IMPORT.md` for T005, T006, T008, T010, T013 to avoid merge conflicts.
 3. Do **not** commit, push, or edit `.specify/workflows/runs/c37bf147/state.json` unless the operator expands mandate.
-4. Record evidence in [progress.md](./progress.md) via T001–T002, T019–T020; SC-005 §4 still needs two human readers after T011.
+4. Record evidence in [progress.md](./progress.md) via T001–T002, T019–T020. SC-005 does not use a reader session.

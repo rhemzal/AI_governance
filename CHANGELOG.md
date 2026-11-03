@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Preset activation (2026-11-03)
+
+- [Fix] The separate Spec Kit preset command registers `ai-governance` in `.specify/presets/.registry` before copying the directory. A valid empty registry no longer leaves the copied preset unused. An existing registry entry is kept, and a second run still stops when the directory is already present.
+- [Docs] The opt-in procedure remains `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. `specs/002-opt-in-transfer-recipe/tasks.md` is closed against that section. Disposable fixture tests are not a named downstream trial. The ten-item checklist cites the recipe and does not require a reader session.
+- [Docs] Existing-project work can record at most three local constraints from one module, with sources, a reason already in the records, and an exception. The pass does not ask for approval per finding and does not add a standards tree. The worked example is the snapshot importer. A task loads only the rows that match the files it edits.
+
 ### Re-adoption guard (2026-11-03)
 
 - [Fix] `ci/import_bundle.py --readopt` joins the new snapshot with rules already in the project. A local difference is kept when the previous revision is unknown or both sides changed, and the report includes the upstream text. A file removed from the active snapshot stays removed when that revision still contains it. An unknown `--previous` SHA fails before any write. Host instructions and a root-layout `constitution/AI_RULES.md` are not overwritten. The active snapshot is not replaced.

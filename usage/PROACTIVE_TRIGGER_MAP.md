@@ -8,31 +8,32 @@ Use this map so agents do not guess which governance mode applies.
 
 ## Trigger table
 
-| Path prefix | Risk mode | Required checks / actions |
-| --- | --- | --- |
-| `constitution/**` | **High-risk** | Load `constitution/AI_ENFORCEMENT.md`; ADR consideration; full `## COMPLIANCE REPORT`; terminology check (`architecture/TERMINOLOGY_GLOSSARY.md`). |
-| `ci/**` | **High-risk** | Adaptive Governance Check (`constitution/ADAPTIVE_GOVERNANCE.md`); CI adoption consistency (`usage/CI_MINIMUM_ADOPTION.md`); verify gate docs align with enforcement level. |
-| `architecture/**` | **Medium** (often ADR-adjacent) | Start at `architecture/README.md`; terminology check; decision consistency (`architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`, `architecture/ARCHITECTURE_DECISION_PROMPT.md` for prechecks); new RAG notes via `architecture/rag/RAG_NOTE_TEMPLATE.md` + taxonomy checklist; confirm `architecture/rag/` edits stay advisory/non-normative. |
-| `interface/**` | **High-risk** | Automation-first check (`adr/ADR_0001_Automation_First_Interfaces.md`); interface gates (`ci/INTERFACE_GATES.md`, `interface/INTERFACE_CI_GATES.md`). |
-| `research/**` | **Low** (advisory) | Advisory/non-normative check — must not override `constitution/` or `ci/`; ambiguous acronym check per `architecture/TERMINOLOGY_GLOSSARY.md`. |
-| `usage/**` | **Medium** | Import/adoption consistency; broken link check; DOC DELTA when behavior guidance changes. |
-| `governance/**` | **High-risk** (local policy) | Overlay precedence check (`usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`); no silent conflict with imported kit rules. |
-| `adr/**` | **Medium → High** | New ADR uses `adr/ADR_TEMPLATE.md`; accepted ADRs are durable decisions — link from affected rules/gates. |
-| `.github/**` | **Medium** | Projection brevity check; no duplicated governance playbooks; point to `constitution/` and `usage/` instead. |
-| `kit-manifest.yml` | **Medium** | Manifest paths exist (doc hygiene review); update `usage/ADOPTION_BUNDLES.md` if bundle purpose changes; **Import bundle change** changelog entry. |
-| Root projections (`AGENTS.md`, `README.md`) | **Medium** | Brevity + link integrity; README must keep top links to core entry points. |
+| Path prefix                                 | Risk mode                       | Required checks / actions                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `constitution/**`                           | **High-risk**                   | Load `constitution/AI_ENFORCEMENT.md`; ADR consideration; full `## COMPLIANCE REPORT`; terminology check (`architecture/TERMINOLOGY_GLOSSARY.md`).                                                                                                                                                                                           |
+| `ci/**`                                     | **High-risk**                   | Adaptive Governance Check (`constitution/ADAPTIVE_GOVERNANCE.md`); CI adoption consistency (`usage/CI_MINIMUM_ADOPTION.md`); verify gate docs align with enforcement level.                                                                                                                                                                  |
+| `architecture/**`                           | **Medium** (often ADR-adjacent) | Start at `architecture/README.md`; terminology check; decision consistency (`architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`, `architecture/ARCHITECTURE_DECISION_PROMPT.md` for prechecks); new RAG notes via `architecture/rag/RAG_NOTE_TEMPLATE.md` + taxonomy checklist; confirm `architecture/rag/` edits stay advisory/non-normative. |
+| `interface/**`                              | **High-risk**                   | Automation-first check (`adr/ADR_0001_Automation_First_Interfaces.md`); interface gates (`ci/INTERFACE_GATES.md`, `interface/INTERFACE_CI_GATES.md`).                                                                                                                                                                                        |
+| `research/**`                               | **Low** (advisory)              | Advisory/non-normative check — must not override `constitution/` or `ci/`; ambiguous acronym check per `architecture/TERMINOLOGY_GLOSSARY.md`.                                                                                                                                                                                               |
+| `usage/**`                                  | **Medium**                      | Import/adoption consistency; broken link check; DOC DELTA when behavior guidance changes.                                                                                                                                                                                                                                                    |
+| `governance/**`                             | **High-risk** (local policy)    | Overlay precedence check (`usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`); no silent conflict with imported kit rules.                                                                                                                                                                                                                              |
+| `adr/**`                                    | **Medium → High**               | New ADR uses `adr/ADR_TEMPLATE.md`; accepted ADRs are durable decisions — link from affected rules/gates.                                                                                                                                                                                                                                    |
+| `.github/**`                                | **Medium**                      | Projection brevity check; no duplicated governance playbooks; point to `constitution/` and `usage/` instead.                                                                                                                                                                                                                                 |
+| `kit-manifest.yml`                          | **Medium**                      | Manifest paths exist (doc hygiene review); update `usage/ADOPTION_BUNDLES.md` if bundle purpose changes; **Import bundle change** changelog entry.                                                                                                                                                                                           |
+| Root projections (`AGENTS.md`, `README.md`) | **Medium**                      | Brevity + link integrity; README must keep top links to core entry points.                                                                                                                                                                                                                                                                   |
 
 ## Event triggers
 
-| Event | Risk mode | Required checks / actions |
-| --- | --- | --- |
-| GUI / interface test failure | Medium → High | Use `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`; capture first failure signal; avoid full rerun until diagnosis. If cause unclear after evidence: **Prompt 7** then **Prompt 6** (`usage/DECISION_PROMPTS_DEBUGGING.md`). |
-| Ambiguous cause / first fix failed | Medium | Use `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 7 then Prompt 6 (`DBG-science-01`); falsify hypotheses before next fix. |
-| Unclear which debug method to use | Medium | `usage/DECISION_PROMPTS_DEBUGGING.md` **Prompt 7** (triage); pattern budget max 3 IDs. |
-| Architecture-impacting change / style selection | Medium → High | `architecture/ARCHITECTURE_DECISION_PROMPT.md` step A then B (RAG triage); consult `architecture/README.md` before loading `architecture/rag/`. |
-| Non-trivial method choice / recurring agent friction | Existing task risk | `AI_RULES.md` §6.5; select from `usage/AI_ENGINEERING_METHODS.md`; use existing AEP/task evidence; no automatic new tool or gate. |
-| Governance pin update / legacy adoption | High for policy changes | `usage/ENGINEERING_METHODS_ADOPTION.md`: reconcile host instructions/overlay, pilot one slice, verify activated controls; no automatic downstream update. |
-| Dependency / security scan failure | Medium → High | `usage/SECURITY_MINIMUM_ADOPTION.md` security finding triage (max 3 actions) before product-code changes. |
+| Event                                                | Risk mode               | Required checks / actions                                                                                                                                                                                                                                     |
+| ---------------------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GUI / interface test failure                         | Medium → High           | Use `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`; capture first failure signal; avoid full rerun until diagnosis. If cause unclear after evidence: **Prompt 7** then **Prompt 6** (`usage/DECISION_PROMPTS_DEBUGGING.md`).                                    |
+| Ambiguous cause / first fix failed                   | Medium                  | Use `usage/DECISION_PROMPTS_DEBUGGING.md` Prompt 7 then Prompt 6 (`DBG-science-01`); falsify hypotheses before next fix.                                                                                                                                      |
+| Unclear which debug method to use                    | Medium                  | `usage/DECISION_PROMPTS_DEBUGGING.md` **Prompt 7** (triage); pattern budget max 3 IDs.                                                                                                                                                                        |
+| Architecture-impacting change / style selection      | Medium → High           | `architecture/ARCHITECTURE_DECISION_PROMPT.md` step A then B (RAG triage); consult `architecture/README.md` before loading `architecture/rag/`.                                                                                                               |
+| Non-trivial method choice / recurring agent friction | Existing task risk      | `AI_RULES.md` §6.5; select from `usage/AI_ENGINEERING_METHODS.md`; use existing AEP/task evidence; no automatic new tool or gate.                                                                                                                             |
+| Task needs a local project convention                | Existing task risk      | Load overlay rows whose paths match the files being edited (`usage/ENGINEERING_METHODS_ADOPTION.md`, Discover local constraints). Do not load the other rows. If no row matches, discover at most three from one module. Do not ask for approval per finding. |
+| Governance pin update / legacy adoption              | High for policy changes | `usage/ENGINEERING_METHODS_ADOPTION.md`: reconcile host instructions/overlay, pilot one slice, verify activated controls; no automatic downstream update.                                                                                                     |
+| Dependency / security scan failure                   | Medium → High           | `usage/SECURITY_MINIMUM_ADOPTION.md` security finding triage (max 3 actions) before product-code changes.                                                                                                                                                     |
 
 ## Multi-prefix changes
 
@@ -42,19 +43,19 @@ Example: `constitution/AI_RULES.md` + `ci/TEST_GATES.md` → high-risk + adaptiv
 
 ## Automation hooks
 
-| Check | Command / doc |
-| --- | --- |
-| Doc hygiene (links, provenance, manifest, bundled cross-refs, D5 error) | Kit repo: `.github/workflows/doc-hygiene.yml`; manual: `DEVELOPMENT.md` |
-| DOC DELTA on behavior-changing PRs | Kit repo: `.github/workflows/doc-delta-advisory.yml`; starter §7 |
-| AEP declaration and applicability | Kit repo: `.github/workflows/aep-advisory.yml`; spec: `usage/AEP_VALIDATION.md` |
-| ADR on governance paths | Kit repo: `.github/workflows/adr-required.yml` |
-| Governance waiver (label + PR body) | Kit repo: `.github/workflows/governance-waiver-advisory.yml`; `usage/GOVERNANCE_WAIVERS.md` |
-| Adopter enforcement defaults | `usage/ADOPTION_ENFORCEMENT_CONTRACT.md` |
-| Boundary stack recipes | `usage/BOUNDARY_GATE_RECIPES.md` |
-| Enforcement map | `usage/ENFORCEMENT_MATRIX.md` |
-| Doc gates (principles) | `ci/DOC_GATES.md` |
-| Boundary integrity (downstream) | `usage/CI_STARTER_WORKFLOWS.md` §3; `ci/ARCHITECTURE_GATES.md` |
-| AVR on verification failure | `constitution/AI_ENFORCEMENT_DAILY.md` |
+| Check                                                                   | Command / doc                                                                               |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Doc hygiene (links, provenance, manifest, bundled cross-refs, D5 error) | Kit repo: `.github/workflows/doc-hygiene.yml`; manual: `DEVELOPMENT.md`                     |
+| DOC DELTA on behavior-changing PRs                                      | Kit repo: `.github/workflows/doc-delta-advisory.yml`; starter §7                            |
+| AEP declaration and applicability                                       | Kit repo: `.github/workflows/aep-advisory.yml`; spec: `usage/AEP_VALIDATION.md`             |
+| ADR on governance paths                                                 | Kit repo: `.github/workflows/adr-required.yml`                                              |
+| Governance waiver (label + PR body)                                     | Kit repo: `.github/workflows/governance-waiver-advisory.yml`; `usage/GOVERNANCE_WAIVERS.md` |
+| Adopter enforcement defaults                                            | `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`                                                    |
+| Boundary stack recipes                                                  | `usage/BOUNDARY_GATE_RECIPES.md`                                                            |
+| Enforcement map                                                         | `usage/ENFORCEMENT_MATRIX.md`                                                               |
+| Doc gates (principles)                                                  | `ci/DOC_GATES.md`                                                                           |
+| Boundary integrity (downstream)                                         | `usage/CI_STARTER_WORKFLOWS.md` §3; `ci/ARCHITECTURE_GATES.md`                              |
+| AVR on verification failure                                             | `constitution/AI_ENFORCEMENT_DAILY.md`                                                      |
 
 ## Related Documents
 

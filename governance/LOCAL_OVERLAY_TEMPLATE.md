@@ -54,6 +54,16 @@ Supporting helpers/tests/docs within the same mandate are permitted; update the 
 - Use isolated working copies or explicit non-overlapping ownership for concurrent writers. Name an integration owner and rerun affected checks after integration.
 - Report task outcome `VERIFIED`, `PARTIAL`, `BLOCKED`, or `CANCELLED`, with evidence tied to revisions/environment (`usage/AI_RUN_EVIDENCE.md`).
 
+### Local constraints
+
+Leave this table empty until a discovery pass writes at most three rows.
+The procedure is `usage/ENGINEERING_METHODS_ADOPTION.md`, Discover local constraints.
+A task loads only the rows whose paths match the files it will edit.
+
+| Constraint | Sources | Reason | Exception | Load when |
+| ---------- | ------- | ------ | --------- | --------- |
+|            |         |        |           |           |
+
 ### Operator Steering
 
 “Continue” or “do not stop” means continue within the existing mandate. It does not expand tool permissions or authorize a new external effect. Prior explicit approval covering an action remains valid; ask only for the missing decision.

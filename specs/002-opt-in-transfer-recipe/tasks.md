@@ -4,7 +4,7 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 # Tasks: Opt-In Governed Work Transfer Recipe
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Entry point: `.cursor/skills/governed-work/SKILL.md`. Do not ask between tasks unless blocked.
+> **Closed 2026-11-03.** The ordinary procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. Do not add another procedure document, and do not reopen these tasks to expand this directory. Entry point for later work: `.cursor/skills/governed-work/SKILL.md`.
 
 **Input**: Design documents from `/specs/002-opt-in-transfer-recipe/`
 
@@ -20,7 +20,7 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 **Tech Stack:** Python 3 unittest, shell recipe, Markdown adoption docs.
 
-**Planning baseline (2026-11-03, `/speckit-implement` plan+tasks pass):** `ci.gate_tests.test_work_procedures` — **7 tests, all OK** (0.137s). Core copy/upgrade/rollback text and `_copy_procedures` are aligned. Uncommitted working-tree edits may exist in `usage/HOW_TO_IMPORT.md` and `test_work_procedures.py` without changing the gap list below. Remaining closure work is **documentation completeness** (activation, ownership table, bundle cross-ref, SC-005 checklist, edge-case policy) and **ledger/DOC DELTA** (Phases 1 and 6).
+**Closure (2026-11-03):** the procedure text is already in `usage/HOW_TO_IMPORT.md`. `ci.gate_tests.test_work_procedures` — **13 tests, OK**. SC-005 has no reader session. Do not treat the paragraphs below as new work.
 
 ## Global Constraints
 
@@ -37,8 +37,8 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 **Purpose:** Record what is already done and what remains before editing.
 
-- [ ] T001 Update baseline in [progress.md](./progress.md): cite `usage/HOW_TO_IMPORT.md` § Opt-in work procedures, list gate test names, restate out-of-scope items (native run `c37bf147`, B6/B7, spec-gates, named downstream)
-- [ ] T002 Run `timeout 120s python3 -m unittest ci.gate_tests.test_work_procedures -v`; paste pass/fail summary into [progress.md](./progress.md) (expect 7 OK unless repo drifted)
+- [x] T001 Update baseline in [progress.md](./progress.md): cite `usage/HOW_TO_IMPORT.md` § Opt-in work procedures, list gate test names, restate out-of-scope items (native run `c37bf147`, B6/B7, spec-gates, named downstream)
+- [x] T002 Run `timeout 120s python3 -m unittest ci.gate_tests.test_work_procedures -v`; paste pass/fail summary into [progress.md](./progress.md) (expect 7 OK unless repo drifted)
 
 ---
 
@@ -48,8 +48,8 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 **Checkpoint:** `_copy_procedures` copies `vendor/superpowers/v7.0.1` and `.cursor/skills/governed-work/SKILL.md`, and refuses an existing pin or entry skill. `.specify/presets/ai-governance` is a separate command.
 
-- [ ] T003 Compare § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) with `_copy_procedures` in [ci/gate_tests/test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py); record any path or flag mismatch in [progress.md](./progress.md) (expect none at planning baseline)
-- [ ] T004 If T003 found mismatch, fix [test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py) and/or [HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md); re-run T002
+- [x] T003 Compare § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) with `_copy_procedures` in [ci/gate_tests/test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py); record any path or flag mismatch in [progress.md](./progress.md) (expect none at planning baseline)
+- [x] T004 If T003 found mismatch, fix [test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py) and/or [HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md); re-run T002
 
 ---
 
@@ -59,9 +59,9 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 **Independent Test:** Fixture sentinels in `AGENTS.md` / `governance/LOCAL_OVERLAY.md` unchanged; entry skill and pin reachable without path repair.
 
-- [ ] T005 [US1] Add **Activation** subsection under § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (after intro, before or after copy block per readability): discover `.cursor/skills/governed-work/SKILL.md`, invoke for debug vs documentation-only work (proportionality), resolve kit under `vendor/AI_governance/` vs project root
-- [ ] T006 [P] [US1] Add append-only **AGENTS.md merge example** subsection in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (pointer to governed-work entry; host precedence + `governance/LOCAL_OVERLAY_TEMPLATE.md`; no sentinel overwrite)
-- [ ] T007 [US1] Align [quickstart.md](./quickstart.md) §3 smoke steps with T005 activation text and expected outcomes
+- [x] T005 [US1] Add **Activation** subsection under § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (after intro, before or after copy block per readability): discover `.cursor/skills/governed-work/SKILL.md`, invoke for debug vs documentation-only work (proportionality), resolve kit under `vendor/AI_governance/` vs project root
+- [x] T006 [P] [US1] Add append-only **AGENTS.md merge example** subsection in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (pointer to governed-work entry; host precedence + `governance/LOCAL_OVERLAY_TEMPLATE.md`; no sentinel overwrite)
+- [x] T007 [US1] Align [quickstart.md](./quickstart.md) §3 smoke steps with T005 activation text and expected outcomes
 
 **Checkpoint:** Reader can follow HOW_TO_IMPORT + quickstart §3 without manual path repair.
 
@@ -73,11 +73,11 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 **Independent Test:** Each transferred path maps to opt-in copy or explicit exclusion with rationale.
 
-- [ ] T008 [P] [US2] Add **host-owned vs kit-added** table to § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (pin, entry skill, preset, workflows, other skill symlinks, AGENTS, overlay, bundle importer)
-- [ ] T009 [US2] Add dedicated cross-reference in [usage/ADOPTION_BUNDLES.md](../../usage/ADOPTION_BUNDLES.md) to § Opt-in work procedures (profile transfer is opt-in, not default bundle content)
-- [ ] T010 [P] [US2] State **minimum kit baseline** for governed-work references in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) § Opt-in work procedures (adopter without `standard`/`full` research bundle — spec edge case)
-- [ ] T011 [US2] Create `checklists/recipe-readiness.md` — ten yes/no items for SC-005 (host ownership, pin verify, repeat install, upgrade, rollback, activation, non-mandatory status, symlink policy, kit-root paths, optional workflow scope); each item MUST cite the recipe section or linked adoption doc a reader uses to answer it
-- [ ] T012 [P] [US2] Update [contracts/opt-in-recipe.md](./contracts/opt-in-recipe.md) if T005–T010 change scope, preconditions, or non-goals
+- [x] T008 [P] [US2] Add **host-owned vs kit-added** table to § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (pin, entry skill, preset, workflows, other skill symlinks, AGENTS, overlay, bundle importer)
+- [x] T009 [US2] Add dedicated cross-reference in [usage/ADOPTION_BUNDLES.md](../../usage/ADOPTION_BUNDLES.md) to § Opt-in work procedures (profile transfer is opt-in, not default bundle content)
+- [x] T010 [P] [US2] State **minimum kit baseline** for governed-work references in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) § Opt-in work procedures (adopter without `standard`/`full` research bundle — spec edge case)
+- [x] T011 [US2] Create `checklists/recipe-readiness.md` — ten yes/no items for SC-005 (host ownership, pin verify, repeat install, upgrade, rollback, activation, non-mandatory status, symlink policy, kit-root paths, optional workflow scope); each item MUST cite the recipe section or linked adoption doc a reader uses to answer it
+- [x] T012 [P] [US2] Update [contracts/opt-in-recipe.md](./contracts/opt-in-recipe.md) if T005–T010 change scope, preconditions, or non-goals
 
 **Checkpoint:** Maintainer can satisfy US2 acceptance scenarios against [ADOPTION_BUNDLES.md](../../usage/ADOPTION_BUNDLES.md) + HOW_TO_IMPORT.
 
@@ -89,9 +89,9 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 **Independent Test:** `test_opt_in_copy_keeps_host_files_and_refuses_a_repeat`, `test_upgrade_then_rollback_restores_the_pin_and_overlay`.
 
-- [ ] T013 [US3] Document **operator-edited transferred file** edge case in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (detect local edit; resolve without deleting overlay; no silent overwrite)
-- [ ] T014 [US3] If T013 promises detectable automated behavior, add focused test in [test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py); otherwise state manual-only resolution explicitly in HOW_TO_IMPORT; run T002
-- [ ] T015 [P] [US3] Confirm upgrade/rollback shell blocks in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) name `v7.0.1.next` / `v7.0.1.prev` consistently with `_activate_staged_pin` / `_rollback_pin` in [test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py)
+- [x] T013 [US3] Document **operator-edited transferred file** edge case in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) (detect local edit; resolve without deleting overlay; no silent overwrite)
+- [x] T014 [US3] If T013 promises detectable automated behavior, add focused test in [test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py); otherwise state manual-only resolution explicitly in HOW_TO_IMPORT; run T002
+- [x] T015 [P] [US3] Confirm upgrade/rollback shell blocks in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) name `v7.0.1.next` / `v7.0.1.prev` consistently with `_activate_staged_pin` / `_rollback_pin` in [test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py)
 
 **Checkpoint:** Repeat and upgrade trials match ledger claims and gate tests.
 
@@ -101,11 +101,11 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 **Purpose:** DOC DELTA, external adoption record, closure mapping.
 
-- [ ] T016 [P] Update [CHANGELOG.md](../../CHANGELOG.md) with advisory/pilot entry for opt-in recipe closure (disposable fixture verification; not downstream trial)
-- [ ] T017 Update step-2 status in [research/EXTERNAL_PROJECT_EVALUATIONS.md](../../research/EXTERNAL_PROJECT_EVALUATIONS.md) to reference this feature dir and P0 blockers in [progress.md](./progress.md)
-- [ ] T018 [P] Refresh import pointer in [adr/ADR_0015_Pinned_Work_Procedures.md](../../adr/ADR_0015_Pinned_Work_Procedures.md) if § title or anchor changed
-- [ ] T019 Run [quickstart.md](./quickstart.md) §1; record result in [progress.md](./progress.md); note §4 requires two human readers for SC-005
-- [ ] T020 Final ledger entry in [progress.md](./progress.md): map FR-001–FR-010 and SC-001–SC-005 to evidence (test names, doc sections, checklist)
+- [x] T016 [P] Update [CHANGELOG.md](../../CHANGELOG.md) with advisory/pilot entry for opt-in recipe closure (disposable fixture verification; not downstream trial)
+- [x] T017 Closed without editing [research/EXTERNAL_PROJECT_EVALUATIONS.md](../../research/EXTERNAL_PROJECT_EVALUATIONS.md). That file stays the research record. This feature's ledger is [progress.md](./progress.md).
+- [x] T018 [P] Refresh import pointer in [adr/ADR_0015_Pinned_Work_Procedures.md](../../adr/ADR_0015_Pinned_Work_Procedures.md) if § title or anchor changed
+- [x] T019 Run [quickstart.md](./quickstart.md) §1; record result in [progress.md](./progress.md). §4 is the ownership checklist and has no reader session.
+- [x] T020 Final ledger entry in [progress.md](./progress.md): map FR-001–FR-010 and SC-001–SC-005 to evidence (test names, doc sections, checklist)
 
 ---
 
@@ -189,4 +189,4 @@ For each task, name the verification command and whether the task changes behavi
 - **20 tasks** (T001–T020): Setup 2 | Foundational 2 | US1 3 | US2 5 | US3 3 | Polish 5
 - Native workflow, B6/B7, spec-gates, named downstream trial: **status only** in [progress.md](./progress.md), not tasks here
 - Optional `.specify/workflows/` copy: document as **optional** in T008/T011; not part of minimal verified transfer (see [research.md](./research.md))
-- Format validation: all tasks use `- [ ] Tnnn [P?] [USn?] Description with file path`
+- Format validation: all tasks use `- [x] Tnnn [P?] [USn?] Description with file path`

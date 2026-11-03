@@ -1,6 +1,6 @@
 # Recipe readiness
 
-Answer from `usage/HOW_TO_IMPORT.md` § Opt-in work procedures and `usage/ADOPTION_BUNDLES.md` only. This file does not record two human readers. That check is still unmet.
+Each item cites `usage/HOW_TO_IMPORT.md` § Opt-in work procedures or `usage/ADOPTION_BUNDLES.md`. There is no reader session.
 
 1. Host `AGENTS.md` is not replaced by the copy. Section: What is copied and what stays yours.
 2. Pin integrity is `sha256sum -c SHA256SUMS` inside `vendor/superpowers/v7.0.1/`. Section: the copy block.

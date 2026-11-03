@@ -2,7 +2,10 @@
 
 This preset is installed in this kit repository at `.specify/presets/ai-governance/`
 and enabled from `.specify/presets/.registry`. It is not a Spec Kit catalog
-entry and it is not part of the minimal or standard copy sets.
+entry and it is not part of the minimal or standard copy sets. The adopter
+command in `usage/HOW_TO_IMPORT.md` copies the directory and adds the registry
+entry. A copied directory with no registry entry is not applied when a valid
+registry already exists.
 
 It appends three sections to the core Spec Kit templates. It does not replace
 those templates and it does not copy rules out of `constitution/`.

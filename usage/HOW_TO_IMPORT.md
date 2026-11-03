@@ -218,12 +218,49 @@ unchanged except for a pointer the adopter reviews and merges. A second copy
 stops when either the pin or the skill file exists. It does not overwrite them.
 
 The Spec Kit preset is separate. Skip it for the one-task trial. Copy it only
-when this project does not already resolve its own Spec Kit templates:
+when this project does not already resolve its own Spec Kit templates.
+
+Copying the directory is not enough when `.specify/presets/.registry` already
+exists. A valid registry lists the presets that are used; an empty `presets`
+object is valid and does not scan the directory. The command below registers
+`ai-governance` before the copy. An existing `ai-governance` entry is left as
+it is. A second run stops because the directory is already there. If an older
+copy left the directory without a registry entry, move that directory aside
+and run the command again.
 
 ```bash
 set -euo pipefail
 test ! -e .specify/presets/ai-governance
 mkdir -p .specify/presets
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+path = Path(".specify/presets/.registry")
+if path.is_symlink() or (path.exists() and not path.is_file()):
+    raise SystemExit("preset registry must be a regular file")
+if path.is_file():
+    data = json.loads(path.read_text(encoding="utf-8"))
+else:
+    data = {"schema_version": "1.0", "presets": {}}
+if not isinstance(data, dict):
+    raise SystemExit("preset registry root must be a mapping")
+presets = data.get("presets", {})
+if presets is None:
+    presets = {}
+if not isinstance(presets, dict):
+    raise SystemExit("preset registry presets must be a mapping")
+data["presets"] = presets
+data.setdefault("schema_version", "1.0")
+if "ai-governance" not in presets:
+    presets["ai-governance"] = {
+        "version": "1.0.0",
+        "enabled": True,
+        "priority": 10,
+        "source": "project",
+    }
+path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+PY
 cp -aL "$KIT/.specify/presets/ai-governance" .specify/presets/ai-governance
 ```
 
@@ -255,14 +292,14 @@ rm -rf vendor/superpowers/v7.0.1.rollback
 
 ### What is copied and what stays yours
 
-| Path                                          | Who owns it                                                 |
-| --------------------------------------------- | ----------------------------------------------------------- |
-| `vendor/superpowers/v7.0.1/`                  | Copied pin. MIT. Do not edit upstream files in place.       |
-| `.cursor/skills/governed-work/SKILL.md`       | Copied entry. A regular file, not a symlink.                |
-| `.specify/presets/ai-governance/`             | Optional preset. Not required for the one-task trial below. |
-| Other `.cursor/skills/*` symlinks in the kit  | Not copied.                                                 |
-| `AGENTS.md`, `governance/LOCAL_OVERLAY.md`    | Host. The copy commands do not change them.                 |
-| spec-gates, Stop hook, `specify workflow run` | Not part of this trial.                                     |
+| Path                                          | Who owns it                                           |
+| --------------------------------------------- | ----------------------------------------------------- |
+| `vendor/superpowers/v7.0.1/`                  | Copied pin. MIT. Do not edit upstream files in place. |
+| `.cursor/skills/governed-work/SKILL.md`       | Copied entry. A regular file, not a symlink.          |
+| `.specify/presets/ai-governance/`             | Optional preset. Its command also registers it.       |
+| Other `.cursor/skills/*` symlinks in the kit  | Not copied.                                           |
+| `AGENTS.md`, `governance/LOCAL_OVERLAY.md`    | Host. The copy commands do not change them.           |
+| spec-gates, Stop hook, `specify workflow run` | Not part of this trial.                               |
 
 The policy snapshot, when you want it, stays a separate import under
 `vendor/AI_governance/` via the sections above. The procedure pin does not

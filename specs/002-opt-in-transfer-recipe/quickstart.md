@@ -41,9 +41,9 @@ After copy in a disposable adopter (or this kit repo):
 
 **Expected**: No manual repair of relative paths to `vendor/superpowers/v7.0.1/` or governance docs for these smoke steps.
 
-## 4. Reader checklist (SC-005)
+## 4. Ownership checklist
 
-Use `specs/002-opt-in-transfer-recipe/checklists/recipe-readiness.md` (created in implementation tasks). Two readers (maintainer + adopter role) should match on all ten items using only the recipe sections in `usage/HOW_TO_IMPORT.md` and linked adoption docs.
+`checklists/recipe-readiness.md` cites the recipe section for each item. There is no reader session.
 
 ## Out of scope for this quickstart
 

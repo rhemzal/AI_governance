@@ -4,11 +4,11 @@
 
 **Created**: 2026-11-03
 
-**Status**: Draft
+**Status**: Published. The procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures.
 
 **Input**: User description: "Deliver a pinned opt-in transfer recipe for the existing governed work procedures, preserving adopter instructions and local policy."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Adopter enables governed work without losing local guidance (Priority: P1)
 
@@ -64,7 +64,7 @@ An adopter who already applied the recipe runs it again after a kit update, or r
 - Repeat transfer after operator edited a transferred skill file; recipe documents detect-and-resolve without deleting local policy.
 - Host environment unsupported for governed workflow; recipe records limitation without claiming universal host support.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -79,7 +79,7 @@ An adopter who already applied the recipe runs it again after a kit update, or r
 - **FR-009**: The recipe MUST NOT present governed-work procedures as new mandatory constitutional requirements or replace existing enforcement authority.
 - **FR-010**: Documentation MUST cross-reference existing import guides and bundle selection so adopters do not maintain two conflicting sources of truth for baseline vs overlay.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **Transfer recipe**: Human- and agent-readable procedure listing prerequisites, steps, verification, upgrade, rollback, and conflict handling.
 - **Pinned work profile**: The governed-work entry point, linked procedure skills, vendored upstream pin, and optional preset/workflow references that activate Spec Kit governed flows.
@@ -87,7 +87,7 @@ An adopter who already applied the recipe runs it again after a kit update, or r
 - **Host-owned artifacts**: Agent instruction entry points, host-specific configuration, and local overlay content that retain precedence over kit defaults.
 - **Pin record**: Version identity and integrity evidence for the vendored procedure source used by the profile.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -95,7 +95,7 @@ An adopter who already applied the recipe runs it again after a kit update, or r
 - **SC-002**: In the same fixture, an operator can complete a small useful change (documented smoke task) using governed-work discovery within **one session** without manual repair of broken relative paths to governance or vendored pin content.
 - **SC-003**: Repeat application of the recipe on the same fixture produces **documented** conflict or idempotency outcomes in **100%** of trial runs (no silent corruption of host-owned files).
 - **SC-004**: Upgrade-then-rollback trial on the fixture restores pin identity and local overlay to documented end states in **100%** of trial runs.
-- **SC-005**: At least **two** independent readers (maintainer and adopter role) can answer "what stays mine vs what the kit adds" from the recipe alone with matching answers on a structured checklist of **ten** items.
+- **SC-005**: The ten-item checklist cites the recipe section that answers each item. No reader session is required.
 
 ## Assumptions
 

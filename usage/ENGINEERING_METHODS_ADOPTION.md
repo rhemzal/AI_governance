@@ -20,13 +20,13 @@ overlay, test commands and workflows. Identify which instructions each enabled a
 actually loads; a nested imported AGENTS file is not automatically an active entry point.
 An agent with no working instruction route needs host integration, not more kit files.
 
-| Existing setup | Smallest safe update |
-| --- | --- |
-| Copy pinned under a kit directory | Prepare and verify a fresh candidate snapshot; compare old/new/local changes; preserve host files and merge the entry-point delta |
-| Git submodule | Review the pin change and host instruction/overlay delta together; preserve declared adoption scope |
-| Fork or modified imported files | Reconcile changes against the recorded upstream ancestor; retain explicit local decisions; do not overwrite them to make a comparison pass |
-| Root-layout copy / unknown provenance | Inventory ownership first; identify conflicting local rules; migrate one reviewed snapshot without deleting unclassified files |
-| Reference URL only | Assess applicability; obtain authorization for a baseline import before presenting it as adopted |
+| Existing setup                        | Smallest safe update                                                                                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Copy pinned under a kit directory     | Prepare and verify a fresh candidate snapshot; compare old/new/local changes; preserve host files and merge the entry-point delta          |
+| Git submodule                         | Review the pin change and host instruction/overlay delta together; preserve declared adoption scope                                        |
+| Fork or modified imported files       | Reconcile changes against the recorded upstream ancestor; retain explicit local decisions; do not overwrite them to make a comparison pass |
+| Root-layout copy / unknown provenance | Inventory ownership first; identify conflicting local rules; migrate one reviewed snapshot without deleting unclassified files             |
+| Reference URL only                    | Assess applicability; obtain authorization for a baseline import before presenting it as adopted                                           |
 
 For copy mechanics use `usage/HOW_TO_IMPORT.md` in standard or the pinned upstream checkout.
 Neither an old version nor a lower CM justifies a whole-project rewrite. An upstream PR
@@ -40,6 +40,7 @@ failure, or one flaky test boundary. Inspect the existing code and command befor
 a wrapper, tool or test framework.
 
 Record in the existing task record/overlay:
+
 - observed failure or friction, starting revision, environment and current verification;
 - one outcome to improve and behavior/contracts that must remain compatible;
 - chosen smallest method, why the existing approach is insufficient, and what is deferred;
@@ -48,19 +49,52 @@ Record in the existing task record/overlay:
 For a small task, a few lines suffice. When the existing approach works, **keep it**.
 No persistent method inventory is needed unless the project is coordinating a rollout.
 
+### Discover local constraints
+
+Adapted from Agent OS `discover-standards` at `e892e61d322759165e7d9173e92c1010406c9f4d` (MIT).
+That command asks for approval on every area, finding, reason, file, and index line.
+Do not copy that pause. The task mandate already authorizes the pass. Stop only for
+the decisions already named in `constitution/AI_ENFORCEMENT.md`.
+
+On one module, read 5–10 representative files. Write at most three constraints
+that are repeated, non-obvious, and useful on a later task. For each one record
+the rule, the source paths, the reason already present in code or an accepted
+decision, and the exception. Do not ask why before using those records. Do not
+promote a recurring bug, a one-off comment, or a stale sentence into a rule.
+Store the rows in the existing `governance/LOCAL_OVERLAY.md` when the project
+has one. Do not add an `agent-os/standards/` tree or a second index.
+
+A later task loads only the rows whose paths match the files it will edit.
+Leave the others unloaded. If the pass only adds a document and no task uses
+a row, the pass is incomplete.
+
+Worked example, this kit's snapshot importer, read from `ci/import_bundle.py`,
+`adr/ADR_0010_Safe_Bundle_Import.md`, and `usage/HOW_TO_IMPORT.md`:
+
+| Constraint                                                                                                                                                                          | Sources                              | Reason                                                                | Exception                                                                                                                             | Load when                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| A first import refuses an existing destination, including an empty directory, and does not delete it.                                                                               | `import_copy`; ADR-0010              | A-01 replaced host files by copying onto an existing tree.            | `--readopt` may remove only the snapshot that the same failed run created, and only when that path did not exist before the run.      | The task edits `ci/import_bundle.py` or the import procedure. |
+| A symlink is not a snapshot, a root-layout directory, or a selected file. Do not relax `no_symlinks` so a copy can succeed.                                                         | `no_symlinks`, `readopt_destination` | The importer rejects links so a copy cannot escape the selected tree. | The opt-in procedure copies the Superpowers pin and entry skill with `cp -aL` / `cp -L`. Those paths are outside the bundle importer. | The task copies kit files or changes symlink checks.          |
+| Re-adoption writes the joined snapshot only. A host file in `HOST_OWNED` stays at the project root. A local rule stays when the previous revision is unknown or both sides changed. | `HOST_OWNED`, `merge_readopt`        | Host instructions and local policy are not kit files.                 | When the previous SHA shows the local bytes still match that revision, the joined snapshot takes the upstream bytes.                  | The task changes re-adoption or host-owned paths.             |
+
+Rejected as a rule: ADR-0010's sentence "The tool never deletes it" is not universal.
+The first-import path still does not delete. The readopt failure path does, for
+the new snapshot only. A recurring incomplete copy is not a reason to add a
+general delete mode.
+
 If the baseline cannot run, record why. Repair the environment or use a bounded, explicitly
 partial observation. Do not label a missing/failed/skipped check as a passing baseline.
 Characterization tests describe current behavior; they do not legitimize a known defect.
 
 ## 3. Pilot, then decide
 
-| State of one selected practice | Evidence / action | Enforcement |
-| --- | --- | --- |
-| Deferred | No current need, or unmet prerequisite; name a revisit trigger | No new obligation; existing rules still apply |
-| Pilot | Use on a real scoped task; preserve before/after evidence and a known-bad control where practical | Existing local checks/review; no new mandatory job |
-| Adopted | Outcome improved or a concrete risk is now detectable; owner accepts maintenance cost | Stable host command and discoverable instructions |
-| Required in a declared scope | Check detects the intended bad case, passes good cases, and has tolerable runtime/noise | Existing verifier/CI invokes it for that scope; missing execution is not success |
-| Retired | Removal trial preserves required outcomes; update references and policy deliberately | Remove redundant scaffolding; retain underlying invariant/control |
+| State of one selected practice | Evidence / action                                                                                 | Enforcement                                                                      |
+| ------------------------------ | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Deferred                       | No current need, or unmet prerequisite; name a revisit trigger                                    | No new obligation; existing rules still apply                                    |
+| Pilot                          | Use on a real scoped task; preserve before/after evidence and a known-bad control where practical | Existing local checks/review; no new mandatory job                               |
+| Adopted                        | Outcome improved or a concrete risk is now detectable; owner accepts maintenance cost             | Stable host command and discoverable instructions                                |
+| Required in a declared scope   | Check detects the intended bad case, passes good cases, and has tolerable runtime/noise           | Existing verifier/CI invokes it for that scope; missing execution is not success |
+| Retired                        | Removal trial preserves required outcomes; update references and policy deliberately              | Remove redundant scaffolding; retain underlying invariant/control                |
 
 These are practice states, **not a third maturity scale** alongside G and CM. Promotion
 does not require advancing an entire repository's CM. Existing normative timing still
@@ -70,8 +104,8 @@ per change. A successful pilot is evidence for that task class, not universal re
 
 Use an optional small table in the **existing** project overlay, not another policy file:
 
-| Outcome / scope | State | Host verification / invocation | Evidence | Owner / review trigger |
-| --- | --- | --- | --- | --- |
+| Outcome / scope                                             | State | Host verification / invocation                                                            | Evidence                               | Owner / review trigger                                   |
+| ----------------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------------------------------------- |
 | Example: preserve stream-reset contract in playback adapter | Pilot | Existing adapter test target; run for changes to implementation **or its callers/config** | Base/head results and fixture revision | Component owner; review after representative reset fixes |
 
 Replace examples with actual paths/commands before activating a requirement. Put persistent
@@ -80,13 +114,13 @@ mandatory invariant. Use the project’s existing decision process, not an extra
 
 ## 4. What actually enforces adoption
 
-| Mechanism | Enforces | Does not prove |
-| --- | --- | --- |
-| Agent instructions + task evidence | Declared method, scope, acceptance and deviations, subject to review | That an agent followed every instruction |
-| Existing local verifier | The properties its executed checks cover | That every contributor ran it |
-| Existing CI / required status when locally authorized | Check execution and selected outcomes on a revision | Correct intent, completeness, or production behavior outside coverage |
-| Tool permissions / isolated environment | Actual access and effect boundaries | Business correctness |
-| Review of artifacts and pilot outcomes | Whether the selected method helps this task class | A universal productivity increase |
+| Mechanism                                             | Enforces                                                             | Does not prove                                                        |
+| ----------------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Agent instructions + task evidence                    | Declared method, scope, acceptance and deviations, subject to review | That an agent followed every instruction                              |
+| Existing local verifier                               | The properties its executed checks cover                             | That every contributor ran it                                         |
+| Existing CI / required status when locally authorized | Check execution and selected outcomes on a revision                  | Correct intent, completeness, or production behavior outside coverage |
+| Tool permissions / isolated environment               | Actual access and effect boundaries                                  | Business correctness                                                  |
+| Review of artifacts and pilot outcomes                | Whether the selected method helps this task class                    | A universal productivity increase                                     |
 
 Use the lightest sufficient combination. For repeatable mandatory invariants, integrate
 with the actual merge/release path only under the project's authority. A local hook is
@@ -166,13 +200,13 @@ A security-critical regression never becomes acceptable just because the total c
 
 ## 6. Worked adoption choices
 
-| Situation | First useful change | Proof / what stays deferred |
-| --- | --- | --- |
-| Legacy backend without reliable unit isolation | Characterize one public boundary using existing fixtures; introduce only the seam needed for the change | Intended change and compatibility controls; whole-core refactor deferred |
-| GUI + backend state disagreement | Correlate one action with backend/session state using existing CLI/socket/log interfaces | Repeat the action and observe both ends; MCP only if it improves access materially |
-| Intermittent device failure | Redacted state capture and one repeatable diagnostic with explicit device ownership | Known-good/bad comparison on representative hardware when needed; fleet platform deferred |
-| Agent repeatedly uses the wrong build command | Fix the active host instruction pointer and verify the command | Fresh task finds and uses it; another wrapper or repository encyclopedia deferred |
-| Boundary violations already exist | Pilot a scoped no-new-findings check with the trusted base protocol above | Replacement violations and scanner failures fail; bulk cleanup separate |
+| Situation                                      | First useful change                                                                                     | Proof / what stays deferred                                                               |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Legacy backend without reliable unit isolation | Characterize one public boundary using existing fixtures; introduce only the seam needed for the change | Intended change and compatibility controls; whole-core refactor deferred                  |
+| GUI + backend state disagreement               | Correlate one action with backend/session state using existing CLI/socket/log interfaces                | Repeat the action and observe both ends; MCP only if it improves access materially        |
+| Intermittent device failure                    | Redacted state capture and one repeatable diagnostic with explicit device ownership                     | Known-good/bad comparison on representative hardware when needed; fleet platform deferred |
+| Agent repeatedly uses the wrong build command  | Fix the active host instruction pointer and verify the command                                          | Fresh task finds and uses it; another wrapper or repository encyclopedia deferred         |
+| Boundary violations already exist              | Pilot a scoped no-new-findings check with the trusted base protocol above                               | Replacement violations and scanner failures fail; bulk cleanup separate                   |
 
 These are illustrative choices, not assessments of any named downstream repository.
 

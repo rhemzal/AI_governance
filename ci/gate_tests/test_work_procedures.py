@@ -5,6 +5,8 @@ These tests do not execute Superpowers and do not run a benchmark trial.
 """
 
 import hashlib
+import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -210,6 +212,121 @@ class WorkProcedures(unittest.TestCase):
                 timeout=30,
             )
             self.assertEqual(restored.returncode, 0, restored.stdout + restored.stderr)
+
+    def test_preset_copy_activates_against_an_empty_registry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            registry = adopter / ".specify/presets/.registry"
+            registry.parent.mkdir(parents=True)
+            registry.write_text(
+                '{"schema_version":"1.0","presets":{}}\n',
+                encoding="utf-8",
+            )
+            _install_core_spec_template(adopter)
+            env = os.environ.copy()
+            env["KIT"] = str(ROOT)
+            copied = _run_preset_copy(adopter, env)
+            self.assertEqual(copied.returncode, 0, copied.stdout + copied.stderr)
+            data = json.loads(registry.read_text(encoding="utf-8"))
+            self.assertTrue(data["presets"]["ai-governance"]["enabled"])
+            resolved = _resolve_spec_template(adopter)
+            self.assertEqual(resolved.returncode, 0, resolved.stdout + resolved.stderr)
+            self.assertIn("# Feature Specification:", resolved.stdout)
+            self.assertIn("## Mandate continuation", resolved.stdout)
+
+    def test_preset_copy_keeps_an_existing_registry_entry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            registry = adopter / ".specify/presets/.registry"
+            registry.parent.mkdir(parents=True)
+            registry.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "1.0",
+                        "presets": {
+                            "local-preset": {
+                                "version": "0.1.0",
+                                "enabled": True,
+                                "priority": 2,
+                                "source": "project",
+                            }
+                        },
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            _install_core_spec_template(adopter)
+            env = os.environ.copy()
+            env["KIT"] = str(ROOT)
+            copied = _run_preset_copy(adopter, env)
+            self.assertEqual(copied.returncode, 0, copied.stdout + copied.stderr)
+            data = json.loads(registry.read_text(encoding="utf-8"))
+            self.assertEqual(data["presets"]["local-preset"]["version"], "0.1.0")
+            self.assertTrue(data["presets"]["ai-governance"]["enabled"])
+            resolved = _resolve_spec_template(adopter)
+            self.assertEqual(resolved.returncode, 0, resolved.stdout + resolved.stderr)
+            self.assertIn("# Feature Specification:", resolved.stdout)
+            self.assertIn("## Mandate continuation", resolved.stdout)
+            again = _run_preset_copy(adopter, env)
+            self.assertNotEqual(again.returncode, 0, again.stdout + again.stderr)
+            self.assertEqual(
+                json.loads(registry.read_text(encoding="utf-8"))["presets"]["local-preset"]["version"],
+                "0.1.0",
+            )
+
+
+def _install_core_spec_template(adopter):
+    templates = adopter / ".specify/templates"
+    templates.mkdir(parents=True)
+    shutil.copyfile(ROOT / ".specify/templates/spec-template.md", templates / "spec-template.md")
+
+
+def _run_preset_copy(adopter, env):
+    return subprocess.run(
+        ["bash", "-c", _preset_copy_block()],
+        cwd=adopter,
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+
+
+def _resolve_spec_template(adopter):
+    return subprocess.run(
+        ["bash", str(ROOT / ".specify/scripts/bash/resolve-template.sh"), "spec-template"],
+        cwd=adopter,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+
+
+def _preset_copy_block():
+    text = (ROOT / "usage/HOW_TO_IMPORT.md").read_text(encoding="utf-8")
+    fences = []
+    inside = False
+    current = []
+    for line in text.splitlines():
+        if line.startswith("```"):
+            if inside:
+                fences.append("\n".join(current))
+                current = []
+            inside = not inside
+            continue
+        if inside:
+            current.append(line)
+    matches = [
+        block
+        for block in fences
+        if 'cp -aL "$KIT/.specify/presets/ai-governance"' in block
+    ]
+    if len(matches) != 1:
+        raise AssertionError("expected one preset copy command")
+    return matches[0]
 
 
 def _rewrite_sums(pin):

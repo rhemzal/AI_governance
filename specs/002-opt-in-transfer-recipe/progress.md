@@ -74,7 +74,13 @@ timeout 600s uvx --from specify-cli==1.2.5 specify workflow run \
 Stdout:
 
 ```json
-{"run_id":"b6a246fd","workflow_id":"ai-governance","status":"completed","current_step_id":"implement","current_step_index":3}
+{
+  "run_id": "b6a246fd",
+  "workflow_id": "ai-governance",
+  "status": "completed",
+  "current_step_id": "implement",
+  "current_step_index": 3
+}
 ```
 
 Exit 0. State file status `completed` for specify, plan, tasks, and implement.
@@ -130,3 +136,42 @@ Speckit `/speckit-tasks` refresh (plan + tasks only; no implementation in this p
 
 Execute remaining recipe-doc tasks with governed-work `executing-plans`.
 The operator authorized commit and push of the evidence gathered through P2.
+
+## Recipe closure (2026-11-03)
+
+The ordinary procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures.
+`tasks.md` T001–T020 are closed. This directory stays the feature record.
+Do not add another procedure document.
+
+`timeout 60s python3 -m unittest ci.gate_tests.test_work_procedures -q`:
+**13 tests, OK**, 0.333s. The earlier baseline of 7 tests is historical.
+The two added tests are `test_preset_copy_activates_against_an_empty_registry`
+and `test_preset_copy_keeps_an_existing_registry_entry`.
+
+T003: `_copy_procedures` copies the pin and the entry skill and refuses an
+existing pin or skill. The preset is a separate command in the same section.
+No path mismatch in that split.
+
+T013/T014: a pin or entry that already exists and differs is a manual stop.
+The text says to diff it and not to delete the overlay. No automated
+local-edit merge was added.
+
+T017: `research/EXTERNAL_PROJECT_EVALUATIONS.md` was not edited. It remains the
+research record.
+
+Out of scope, unchanged: native run `c37bf147`, a gain on B6/B7, spec-gates,
+and a named downstream repository.
+
+| Requirement            | Evidence                                                                                                         |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| FR-001, FR-002, FR-006 | HOW_TO_IMPORT copy block, ownership table, repeat stop. `test_opt_in_copy_keeps_host_files_and_refuses_a_repeat` |
+| FR-003, FR-007         | Pin copy, `sha256sum -c`, upgrade and rollback blocks. `test_upgrade_then_rollback_restores_the_pin_and_overlay` |
+| FR-004                 | ADOPTION_BUNDLES states the procedures are outside every bundle. Symlink rejection is unchanged.                 |
+| FR-005                 | HOW_TO_IMPORT § Activation                                                                                       |
+| FR-008                 | Disposable fixture tests above. No named downstream trial.                                                       |
+| FR-009                 | One live-project trial: not a new constitutional rule.                                                           |
+| FR-010                 | ADOPTION_BUNDLES points at § Opt-in work procedures.                                                             |
+| SC-001, SC-003         | `test_opt_in_copy_keeps_host_files_and_refuses_a_repeat`                                                         |
+| SC-002                 | Activation and quickstart §3 describe the smoke. No new operator session was run for this closure.               |
+| SC-004                 | `test_upgrade_then_rollback_restores_the_pin_and_overlay`                                                        |
+| SC-005                 | Ten cited items in `checklists/recipe-readiness.md`. No reader session.                                          |
