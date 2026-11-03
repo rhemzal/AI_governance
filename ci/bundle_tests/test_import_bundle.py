@@ -212,6 +212,120 @@ class ImportSafetyTests(unittest.TestCase):
             bundle.merge_readopt(self.project, {"AGENTS.md": (b"kit\n", 0o644)}, {})
         self.assertIn("Symlink", str(caught.exception))
 
+    def test_symlink_snapshot_directory_is_refused(self):
+        real = self.project / "real-rules"
+        real.mkdir()
+        (real / "AGENTS.md").write_text("elsewhere")
+        link = self.project / "vendor/AI_governance"
+        link.parent.mkdir()
+        link.symlink_to(real, target_is_directory=True)
+        self.destination = self.project
+        result = self.cli("--readopt")
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("Symlink", result.stderr)
+        self.assertFalse((self.project / "vendor/AI_governance.next").exists())
+        self.assertEqual((real / "AGENTS.md").read_text(), "elsewhere")
+
+    def test_symlink_root_constitution_is_refused(self):
+        outside = self.project / "outside-rules"
+        outside.mkdir()
+        (outside / "AI_RULES.md").write_text("SECRET RULE")
+        (outside / "rules.md").write_text("secret rules")
+        (self.project / "constitution").symlink_to(outside, target_is_directory=True)
+        self.destination = self.project
+        result = self.cli("--readopt")
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("Symlink", result.stderr)
+        self.assertFalse((self.project / "vendor").exists())
+        self.assertEqual((outside / "rules.md").read_text(), "secret rules")
+
+    def test_failed_readopt_removes_only_the_new_snapshot(self):
+        self.assertEqual(self.cli().returncode, 0)
+        active = self.project / "vendor/AI_governance/AGENTS.md"
+        active.write_text("LOCAL SNAPSHOT EDIT")
+        self.destination = self.project
+
+        def fail_after_create(source, destination, files, excludes):
+            destination.mkdir()
+            (destination / "partial.md").write_text("partial")
+            raise OSError("disk full")
+
+        original = bundle.import_copy
+        bundle.import_copy = fail_after_create
+        self.manifest_file.write_text(json.dumps(self.manifest))
+        try:
+            code = bundle.main([
+                "--manifest-json", str(self.manifest_file),
+                "--source", str(self.source),
+                "--destination", str(self.project),
+                "--bundle", "standard",
+                "--readopt",
+            ])
+        finally:
+            bundle.import_copy = original
+        self.assertEqual(code, 1)
+        self.assertEqual(active.read_text(), "LOCAL SNAPSHOT EDIT")
+        self.assertFalse((self.project / "vendor/AI_governance.next").exists())
+
+    def test_failed_root_readopt_retries_against_the_root_rules(self):
+        rules = self.project / "constitution"
+        rules.mkdir()
+        (rules / "AI_RULES.md").write_text("OLD ROOT")
+        (rules / "rules.md").write_text("local rules")
+        git(self.source, "-c", "user.email=test@example.com", "-c", "user.name=test",
+            "commit", "-q", "-m", "pin")
+        revision = git(self.source, "rev-parse", "HEAD").strip()
+        self.destination = self.project
+
+        def fail_after_create(source, destination, files, excludes):
+            destination.mkdir(parents=True)
+            raise OSError("disk full")
+
+        original = bundle.import_copy
+        bundle.import_copy = fail_after_create
+        self.manifest_file.write_text(json.dumps(self.manifest))
+        try:
+            code = bundle.main([
+                "--manifest-json", str(self.manifest_file),
+                "--source", str(self.source),
+                "--destination", str(self.project),
+                "--bundle", "standard",
+                "--readopt",
+                "--previous", revision,
+            ])
+        finally:
+            bundle.import_copy = original
+        self.assertEqual(code, 1)
+        self.assertFalse((self.project / "vendor/AI_governance").exists())
+        result = self.cli("--readopt", "--previous", revision)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        staged = self.project / "vendor/AI_governance/constitution/rules.md"
+        self.assertEqual(staged.read_text(), "local rules")
+        self.assertEqual((rules / "rules.md").read_text(), "local rules")
+
+    def test_matching_bytes_keep_the_local_mode(self):
+        snap = self.project / "vendor/AI_governance"
+        snap.mkdir(parents=True)
+        adopted = snap / "AGENTS.md"
+        adopted.write_text("same\n")
+        adopted.chmod(0o755)
+        merged, _report = bundle.merge_readopt(
+            self.project, {"AGENTS.md": (b"same\n", 0o644)}, None,
+        )
+        self.assertEqual(merged["AGENTS.md"], (b"same\n", 0o755))
+
+    def test_binary_conflict_points_at_the_kit_source(self):
+        snap = self.project / "vendor/AI_governance"
+        snap.mkdir(parents=True)
+        (snap / "AGENTS.md").write_bytes(b"local \xff\n")
+        merged, report = bundle.merge_readopt(
+            self.project,
+            {"AGENTS.md": (b"upstream \xff\n", 0o644)},
+            {"AGENTS.md": b"base\n"},
+        )
+        self.assertEqual(merged["AGENTS.md"][0], b"local \xff\n")
+        self.assertIn("upstream bytes remain in the kit source", report)
+
     def test_merge_keeps_a_changed_local_rule_and_takes_upstream_when_unedited(self):
         snap = self.project / "vendor/AI_governance/constitution"
         snap.mkdir(parents=True)

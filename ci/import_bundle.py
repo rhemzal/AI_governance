@@ -170,6 +170,9 @@ def readopt_destination(project_root):
         raise BundleError(f"Missing project root: {project_root}")
     active = project_root / "vendor" / "AI_governance"
     staged = project_root / "vendor" / "AI_governance.next"
+    if active.is_symlink() or staged.is_symlink():
+        link = active if active.is_symlink() else staged
+        raise BundleError(f"Symlink path is not supported: {link}")
     if active.exists() and not active.is_dir():
         raise BundleError(f"Refusing non-directory snapshot path: {active}")
     chosen = staged if active.exists() else active
@@ -187,17 +190,20 @@ def _root_layout(project_root):
 
 def _adopted_record(project_root, name):
     """Return (bytes, mode) for a rule already in the project, or None when absent."""
-    active = project_root / "vendor" / "AI_governance" / name
+    snapshot = project_root / "vendor" / "AI_governance"
+    if snapshot.is_symlink():
+        raise BundleError(f"Symlink path is not supported: {snapshot}")
+    active = snapshot / name
     if active.is_symlink() or active.exists():
         path = active
-    elif name in HOST_OWNED or (project_root / "vendor" / "AI_governance").is_dir():
+    elif name in HOST_OWNED or snapshot.is_dir():
         return None
     else:
         path = project_root / name
-        if not (path.is_symlink() or path.exists()):
+        if not path.is_symlink() and not path.exists():
+            no_symlinks(path)
             return None
-    if path.is_symlink():
-        raise BundleError(f"Symlink path is not supported: {path}")
+    no_symlinks(path)
     if not path.is_file():
         raise BundleError(f"Adopted path is not a file: {path}")
     return path.read_bytes(), stat.S_IMODE(path.stat().st_mode)
@@ -208,7 +214,10 @@ def _upstream_diff(name, local, upstream):
         local_text = local.decode("utf-8")
         upstream_text = upstream.decode("utf-8")
     except UnicodeDecodeError:
-        return f"  binary differs: local {len(local)} bytes, upstream {len(upstream)} bytes"
+        return (
+            f"  binary differs: local {len(local)} bytes, upstream {len(upstream)} bytes; "
+            "upstream bytes remain in the kit source"
+        )
     text = "".join(difflib.unified_diff(
         local_text.splitlines(keepends=True),
         upstream_text.splitlines(keepends=True),
@@ -259,7 +268,7 @@ def merge_readopt(project_root, new_files, previous=None):
             continue
         local_bytes, local_mode = adopted
         if local_bytes == new_content:
-            merged[name] = (new_content, mode)
+            merged[name] = (new_content, local_mode)
             if name in HOST_OWNED and (project_root / name).is_file():
                 lines.append(f"- merge by hand: kit copy of {name} is in the new snapshot")
             continue
@@ -293,6 +302,8 @@ def merge_readopt(project_root, new_files, previous=None):
         })
         for prefix in prefixes:
             root = project_root / prefix
+            if root.is_symlink():
+                raise BundleError(f"Symlink path is not supported: {root}")
             if not root.is_dir():
                 continue
             for path in root.rglob("*"):
@@ -305,21 +316,24 @@ def merge_readopt(project_root, new_files, previous=None):
     return merged, "\n".join(lines)
 
 
+def _git(source, *args):
+    env = os.environ.copy()
+    env["LC_ALL"] = "C"
+    return subprocess.run(
+        ["git", "-C", str(source), *args],
+        capture_output=True, timeout=15, env=env,
+    )
+
+
 def _previous_files(source, revision, new_files):
     if len(revision) != 40 or any(character not in "0123456789abcdefABCDEF" for character in revision):
         raise BundleError("Previous revision must be a full 40-character SHA")
-    verify = subprocess.run(
-        ["git", "-C", str(source), "rev-parse", "--verify", f"{revision}^{{commit}}"],
-        capture_output=True, timeout=15,
-    )
+    verify = _git(source, "rev-parse", "--verify", f"{revision}^{{commit}}")
     if verify.returncode != 0 or verify.stdout.decode().strip().lower() != revision.lower():
         raise BundleError(f"Previous revision is not a commit in the kit source: {revision}")
     found = {}
     for name in new_files:
-        result = subprocess.run(
-            ["git", "-C", str(source), "show", f"{revision}:{name}"],
-            capture_output=True, timeout=15,
-        )
+        result = _git(source, "show", f"{revision}:{name}")
         if result.returncode == 0:
             found[name] = result.stdout
             continue
@@ -392,8 +406,18 @@ def main(argv=None):
             report_path = project_root / "vendor" / "AI_governance.readopt-report.md"
             if report_path.exists() or report_path.is_symlink():
                 raise BundleError(f"Refusing existing re-adoption report: {report_path}")
-            import_copy(args.source, args.destination, files, excludes)
-            _publish_report(report_path, report, args.destination)
+            destination = args.destination
+            existed = destination.exists() or destination.is_symlink()
+            try:
+                import_copy(args.source, destination, files, excludes)
+                _publish_report(report_path, report, destination)
+            except Exception:
+                if not existed and (destination.exists() or destination.is_symlink()):
+                    if destination.is_dir() and not destination.is_symlink():
+                        shutil.rmtree(destination)
+                    else:
+                        destination.unlink()
+                raise
         elif args.check:
             verify_copy(args.destination, files, excludes)
         else:
