@@ -37,7 +37,7 @@ Requires: Linux, Git, `uv`, Python 3.12, pinned upstream (see script headers).
 
 The script prefers `CURSOR_PROJECT_DIR`, then the git root. It unsets `CLAUDE_PROJECT_DIR` and `CURSOR_PROJECT_DIR` before `verify.sh`, because that entrypoint treats `CLAUDE_PROJECT_DIR` as the project root. Clear those variables when invoking the script from a shell that inherited another project.
 
-A gate failure (`verify.sh` exit 2) emits `followup_message`. A missing runtime or any other exit allows the stop (`{}`) and writes the reason on stderr. That fail-open path does not itself force the agent to report the work as unverified. `ci/gate_tests/test_stop_hook_contract.py` calls the script with a fake verifier. A direct call is not native host dispatch.
+A gate failure (`verify.sh` exit 2) emits `followup_message`. When `verify.sh` is missing or exits with any other code, `loop_count` 0 emits a `followup_message` that tells the agent to report the work as UNVERIFIED. A later `loop_count` allows the stop (`{}`). `stop_hook_active` still allows the stop. The notice does not prove the agent complied. `ci/gate_tests/test_stop_hook_contract.py` calls the script with a fake verifier. A direct call is not native host dispatch.
 
 Cursor IDE 3.27.22 runs `.cursor/hooks.json` and `.claude/settings.json` `Stop` hooks in parallel. For `followup_message`, the later response wins, and the Claude project hook is later than the Cursor project hook. The projected Claude `verify-quality.sh` still uses exit 2, which this host turns into `{}` and therefore does not replace a Cursor `followup_message`. Both hooks can still run `verify.sh` on the same stop. Do not skip git hooks to avoid that overlap.
 

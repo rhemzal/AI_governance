@@ -48,15 +48,70 @@ class StopHookContract(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         return json.loads(result.stdout)
 
-    def test_missing_or_other_verify_exit_allows_stop(self):
+    def test_missing_or_other_verify_exit_asks_once_for_unverified(self):
         missing = self.run_stop()
-        self.assertEqual(self.payload(missing), {})
-        self.assertIn("allowing stop", missing.stderr)
+        notice = self.payload(missing)["followup_message"]
+        self.assertIn("UNVERIFIED", notice)
+        self.assertIn("verify.sh missing", notice)
+        self.assertIn("asking for an unverified report", missing.stderr)
+        again = self.run_stop('{"loop_count": 1}')
+        self.assertEqual(self.payload(again), {})
+        self.assertIn("allowing stop after the unverified notice", again.stderr)
         self.verify(1)
         other = self.run_stop()
-        self.assertEqual(self.payload(other), {})
+        message = self.payload(other)["followup_message"]
+        self.assertIn("UNVERIFIED", message)
+        self.assertIn("verifier exit 1", message)
         self.assertIn("could not run", other.stderr)
-        self.assertNotIn("followup_message", other.stdout)
+
+    def test_passing_verify_allows_stop(self):
+        self.verify(0)
+        result = self.run_stop('{"loop_count": 0}')
+        self.assertEqual(self.payload(result), {})
+
+    def test_followup_keeps_only_the_tail(self):
+        path = self.root / ".specify/gates/verify.sh"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            "#!/bin/sh\n"
+            "printf 'START-'\n"
+            "i=0\n"
+            "while [ \"$i\" -lt 7000 ]; do printf 'A'; i=$((i + 1)); done\n"
+            "printf 'END-MARKER\\n'\n"
+            "exit 2\n"
+        )
+        path.chmod(0o755)
+        message = self.payload(self.run_stop())["followup_message"]
+        self.assertLessEqual(len(message), 6000)
+        self.assertIn("END-MARKER", message)
+        self.assertIn("Quality gate failed", message)
+        self.assertNotIn("START-", message)
+
+    def test_verifier_does_not_inherit_project_dir(self):
+        path = self.root / ".specify/gates/verify.sh"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            "#!/bin/sh\n"
+            "printf 'CLAUDE=%s\\n' \"${CLAUDE_PROJECT_DIR-<unset>}\"\n"
+            "printf 'CURSOR=%s\\n' \"${CURSOR_PROJECT_DIR-<unset>}\"\n"
+            "exit 2\n"
+        )
+        path.chmod(0o755)
+        env = os.environ.copy()
+        env["CURSOR_PROJECT_DIR"] = str(self.root)
+        env["CLAUDE_PROJECT_DIR"] = "/tmp/other-project"
+        result = subprocess.run(
+            ["bash", str(STOP)],
+            input="{}",
+            capture_output=True,
+            text=True,
+            timeout=15,
+            env=env,
+            cwd=self.root,
+        )
+        message = self.payload(result)["followup_message"]
+        self.assertIn("CLAUDE=<unset>", message)
+        self.assertIn("CURSOR=<unset>", message)
 
     def test_verify_exit_two_asks_for_a_followup(self):
         self.verify(2)

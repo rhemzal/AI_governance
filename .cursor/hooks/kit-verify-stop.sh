@@ -14,6 +14,8 @@
 # The hook entry's loop_limit (default 5) skips this script once loop_count
 # reaches it. Each invocation the host still runs re-checks the gate.
 # stop_hook_active is honored only as a Claude-compatible loop guard.
+# A missing verifier or an exit other than 0 or 2 asks once (loop_count 0)
+# for an UNVERIFIED report. A later loop_count allows the stop.
 set -euo pipefail
 
 INPUT="$(cat 2>/dev/null || true)"
@@ -89,15 +91,34 @@ finish() {
   exit 0
 }
 
+loop_count=0
+case "$loop_state" in
+  count:*) loop_count="${loop_state#count:}" ;;
+esac
+
 if [[ "$loop_state" == "claude-active" ]]; then
   printf '%s\n' "gates: stop_hook_active set; allowing stop." >&2
   finish allow 0 "claude-loop-guard" ""
 fi
 
+# The host may stop when the gate cannot run. Say so once, on loop_count 0,
+# so the agent is asked to report UNVERIFIED. A later count allows the stop
+# and does not spend the host's follow-up cap on the same notice.
+ask_unverified() {
+  local why="$1" verify_rc="$2" detail="$3"
+  local msg
+  msg="Quality gate did not run (${why}). Report this work as UNVERIFIED. Do not claim it is verified, and do not change the gate so this stop can succeed."
+  if [[ "$loop_count" != "0" ]]; then
+    printf 'gates: %s; allowing stop after the unverified notice.\n' "$why" >&2
+    finish allow "$verify_rc" "$detail" ""
+  fi
+  printf 'gates: %s; asking for an unverified report.\n' "$why" >&2
+  finish followup "$verify_rc" "$detail" "$msg"
+}
+
 VERIFY="$PROJECT_ROOT/.specify/gates/verify.sh"
 if [[ ! -x "$VERIFY" ]]; then
-  printf '%s\n' "gates: verify.sh missing; allowing stop." >&2
-  finish allow 0 "missing-verify" ""
+  ask_unverified "verify.sh missing" 0 "missing-verify"
 fi
 
 set +e
@@ -119,7 +140,7 @@ case "$RC" in
     finish followup 2 "gate-failed" "$MSG"
     ;;
   *)
-    printf 'gates: verify.sh could not run (exit %s); allowing stop.\n%s\n' "$RC" "$OUTPUT" >&2
-    finish allow "$RC" "unavailable" ""
+    printf 'gates: verify.sh could not run (exit %s).\n%s\n' "$RC" "$OUTPUT" >&2
+    ask_unverified "verifier exit ${RC}" "$RC" "unavailable"
     ;;
 esac
