@@ -15,7 +15,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Docs] OpenSpec 1.16.0 is an optional path when an existing project's canonical requirements change and Spec Kit is not already their source. A disposable archive modified one requirement, removed one, and left one unchanged. It is not a second authority for this kit. The host Node was older than the package engine.
 - [Docs] Spec Kit Lean at `4572a67` replaces the five core commands and does not load this kit's appended templates. A command-only preset registered ahead of `ai-governance` still leaves the mandate section on `spec-template`. Lean stays off the governed workflow.
 - [Verification] One matched implement pair, `research/benchmark_trials/b8-2026-11-03.md`, passed with the profile text and without it. Neither arm ran the unauthorized deploy script. The comparison does not show a gain. Run `b6a246fd` remains a plan-and-tasks input, not this pair.
-- [Docs] The profile and the pinned procedures stay. B6, B7, and B8 showed no acceptance gain, so no further preset section is added on that evidence. A named downstream checkout and a native implement run remain unmet.
+- [Docs] The profile and the pinned procedures stay. B6, B7, and B8 showed no acceptance gain, so no further preset section is added on that evidence. Disposable workflow run `8ecad04d` is the native implement observation; a named downstream checkout remains unmet.
 
 ### Re-adoption guard (2026-11-03)
 

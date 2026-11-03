@@ -18,6 +18,6 @@ A pin or entry that already exists and differs is a manual stop in the recipe. N
 
 ## Unmet
 
-- No operator session ran the activation smoke.
-- No two-reader pass of a checklist. The checklist was a second copy of the recipe and was removed in the shrink.
-- `research/EXTERNAL_PROJECT_EVALUATIONS.md` was not given a separate step-2 edit for this feature. It already points here.
+- No operator session ran the activation smoke after opt-in copy in a real adopter.
+- A named downstream checkout with a useful task was not authorized.
+- Native Cursor Stop dispatch remains unobserved (separate from workflow run `8ecad04d`).
