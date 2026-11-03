@@ -5,6 +5,8 @@ These tests do not execute Superpowers and do not run a benchmark trial.
 """
 
 import hashlib
+import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -113,6 +115,24 @@ class WorkProcedures(unittest.TestCase):
                 _copy_procedures(ROOT, adopter)
             self.assertFalse((adopter / ".specify/presets/ai-governance").exists())
 
+    def test_activation_smoke_after_opt_in_copy(self):
+        """SC-002 disposable adopter: entry, pin, and routing need no path repair."""
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            _copy_procedures(ROOT, adopter)
+            entry = adopter / ".cursor/skills/governed-work/SKILL.md"
+            pin = adopter / "vendor/superpowers/v7.0.1"
+            debug = pin / "skills/systematic-debugging/SKILL.md"
+            self.assertTrue(entry.is_file())
+            self.assertFalse(entry.is_symlink())
+            self.assertTrue(debug.is_file())
+            text = entry.read_text(encoding="utf-8")
+            self.assertIn("documentation or registry-text change does not require", text)
+            self.assertIn("| A failure, unexpected test result", text)
+            self.assertIn("systematic-debugging", text)
+            self.assertIn("vendor/superpowers/v7.0.1/", text)
+            self.assertTrue((pin / "SHA256SUMS").is_file())
+
     def test_copy_refuses_a_dangling_skill_symlink(self):
         with tempfile.TemporaryDirectory() as tmp:
             adopter = Path(tmp)
@@ -210,6 +230,166 @@ class WorkProcedures(unittest.TestCase):
                 timeout=30,
             )
             self.assertEqual(restored.returncode, 0, restored.stdout + restored.stderr)
+
+    def test_preset_copy_activates_against_an_empty_registry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            registry = adopter / ".specify/presets/.registry"
+            registry.parent.mkdir(parents=True)
+            registry.write_text(
+                '{"schema_version":"1.0","presets":{}}\n',
+                encoding="utf-8",
+            )
+            _install_core_spec_template(adopter)
+            env = os.environ.copy()
+            env["KIT"] = str(ROOT)
+            copied = _run_preset_copy(adopter, env)
+            self.assertEqual(copied.returncode, 0, copied.stdout + copied.stderr)
+            data = json.loads(registry.read_text(encoding="utf-8"))
+            self.assertTrue(data["presets"]["ai-governance"]["enabled"])
+            resolved = _resolve_spec_template(adopter)
+            self.assertEqual(resolved.returncode, 0, resolved.stdout + resolved.stderr)
+            self.assertIn("# Feature Specification:", resolved.stdout)
+            self.assertIn("## Mandate continuation", resolved.stdout)
+
+    def test_command_only_preset_does_not_drop_the_governance_template(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            _install_core_spec_template(adopter)
+            shutil.copytree(
+                ROOT / ".specify/presets/ai-governance",
+                adopter / ".specify/presets/ai-governance",
+            )
+            lean = adopter / ".specify/presets/lean"
+            (lean / "commands").mkdir(parents=True)
+            (lean / "preset.yml").write_text(
+                "schema_version: '1.0'\n"
+                "preset:\n"
+                "  id: lean\n"
+                "provides:\n"
+                "  templates:\n"
+                "    - type: command\n"
+                "      name: speckit.specify\n"
+                "      file: commands/speckit.specify.md\n",
+                encoding="utf-8",
+            )
+            (lean / "commands/speckit.specify.md").write_text(
+                "Ask the user for the feature directory.\n",
+                encoding="utf-8",
+            )
+            registry = adopter / ".specify/presets/.registry"
+            registry.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "1.0",
+                        "presets": {
+                            "lean": {"enabled": True, "priority": 1, "version": "1.0.0", "source": "project"},
+                            "ai-governance": {"enabled": True, "priority": 10, "version": "1.0.0", "source": "project"},
+                        },
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            resolved = _resolve_spec_template(adopter)
+            self.assertEqual(resolved.returncode, 0, resolved.stdout + resolved.stderr)
+            self.assertIn("# Feature Specification:", resolved.stdout)
+            self.assertIn("## Mandate continuation", resolved.stdout)
+            self.assertNotIn("Ask the user", resolved.stdout)
+
+    def test_preset_copy_keeps_an_existing_registry_entry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            registry = adopter / ".specify/presets/.registry"
+            registry.parent.mkdir(parents=True)
+            registry.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "1.0",
+                        "presets": {
+                            "local-preset": {
+                                "version": "0.1.0",
+                                "enabled": True,
+                                "priority": 2,
+                                "source": "project",
+                            }
+                        },
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            _install_core_spec_template(adopter)
+            env = os.environ.copy()
+            env["KIT"] = str(ROOT)
+            copied = _run_preset_copy(adopter, env)
+            self.assertEqual(copied.returncode, 0, copied.stdout + copied.stderr)
+            data = json.loads(registry.read_text(encoding="utf-8"))
+            self.assertEqual(data["presets"]["local-preset"]["version"], "0.1.0")
+            self.assertTrue(data["presets"]["ai-governance"]["enabled"])
+            resolved = _resolve_spec_template(adopter)
+            self.assertEqual(resolved.returncode, 0, resolved.stdout + resolved.stderr)
+            self.assertIn("# Feature Specification:", resolved.stdout)
+            self.assertIn("## Mandate continuation", resolved.stdout)
+            again = _run_preset_copy(adopter, env)
+            self.assertNotEqual(again.returncode, 0, again.stdout + again.stderr)
+            self.assertEqual(
+                json.loads(registry.read_text(encoding="utf-8"))["presets"]["local-preset"]["version"],
+                "0.1.0",
+            )
+
+
+def _install_core_spec_template(adopter):
+    templates = adopter / ".specify/templates"
+    templates.mkdir(parents=True)
+    shutil.copyfile(ROOT / ".specify/templates/spec-template.md", templates / "spec-template.md")
+
+
+def _run_preset_copy(adopter, env):
+    return subprocess.run(
+        ["bash", "-c", _preset_copy_block()],
+        cwd=adopter,
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+
+
+def _resolve_spec_template(adopter):
+    return subprocess.run(
+        ["bash", str(ROOT / ".specify/scripts/bash/resolve-template.sh"), "spec-template"],
+        cwd=adopter,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+
+
+def _preset_copy_block():
+    text = (ROOT / "usage/HOW_TO_IMPORT.md").read_text(encoding="utf-8")
+    fences = []
+    inside = False
+    current = []
+    for line in text.splitlines():
+        if line.startswith("```"):
+            if inside:
+                fences.append("\n".join(current))
+                current = []
+            inside = not inside
+            continue
+        if inside:
+            current.append(line)
+    matches = [
+        block
+        for block in fences
+        if 'cp -aL "$KIT/.specify/presets/ai-governance"' in block
+    ]
+    if len(matches) != 1:
+        raise AssertionError("expected one preset copy command")
+    return matches[0]
 
 
 def _rewrite_sums(pin):

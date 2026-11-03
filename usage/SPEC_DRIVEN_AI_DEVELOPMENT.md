@@ -18,17 +18,17 @@ If no credible answer exists, the first engineering change may be a test, probe,
 
 ## Specification ladder
 
-| Need | Candidate form |
-| --- | --- |
-| Pure behavior | Unit/property test |
-| API or adapter boundary | Contract/schema test |
-| User-visible flow | Scenario/E2E acceptance test |
-| Output stability | Golden/snapshot artifact |
-| Time-dependent behavior | Virtual clock / accelerated scenario |
-| Field-only failure | Redacted record/replay fixture |
+| Need                    | Candidate form                          |
+| ----------------------- | --------------------------------------- |
+| Pure behavior           | Unit/property test                      |
+| API or adapter boundary | Contract/schema test                    |
+| User-visible flow       | Scenario/E2E acceptance test            |
+| Output stability        | Golden/snapshot artifact                |
+| Time-dependent behavior | Virtual clock / accelerated scenario    |
+| Field-only failure      | Redacted record/replay fixture          |
 | Performance requirement | Measured budget + reproducible workload |
-| Resilience requirement | Deterministic fault injection |
-| Architecture invariant | Boundary check / static rule |
+| Resilience requirement  | Deterministic fault injection           |
+| Architecture invariant  | Boundary check / static rule            |
 
 ## Good executable intent
 
@@ -66,6 +66,24 @@ a test generated from the new implementation can repeat the same misunderstandin
 
 Preserve existing issue/contract/test sources of truth. A specification framework is a
 candidate implementation, not a prerequisite; review its artifact duplication and update cost.
+
+## Choosing a requirement path
+
+| Shape of the work                                                                                       | Use                                                                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A small reversible edit with an existing check                                                          | The current command and the task record. No new requirement tree.                                                                                                                                |
+| A new authorized outcome in a project that already uses this kit's Spec Kit profile                     | `.specify/workflows/ai-governance/workflow.yml` and the preset registered by `usage/HOW_TO_IMPORT.md`. Do not add the bundled Lean preset. Its commands skip the templates this profile appends. |
+| An existing project's canonical requirements change over time, and Spec Kit is not already their source | OpenSpec `@fission-ai/openspec@1.16.0`, commit `2bd5bc3be964404657439f538857fcdf550f7398` (MIT). One change may modify or remove a requirement and archive it into the canonical spec.           |
+
+Do not give the same change both a Spec Kit feature directory and an OpenSpec change. Stores stay out of this choice. They are beta in that revision.
+
+Set `OPENSPEC_TELEMETRY=0`, `DO_NOT_TRACK=1`, and `OPENSPEC_NO_UPDATE_CHECK=1` for a local run. Initialize with `--tools none` unless the project has asked for agent command files. Archive with the change name and `--yes` when nothing can answer a prompt.
+
+### Qualification, 2026-11-03
+
+A disposable project under `/tmp`, not this repository, started from three copied import rules. `openspec validate revise-import-rules --type change --strict` passed. `openspec archive revise-import-rules --yes` reported one modified requirement, one removed requirement, and moved the change to `openspec/changes/archive/2026-11-03-revise-import-rules`. The archive also printed a non-blocking warning that `proposal.md` lacked `## Why` and `## What Changes`. `openspec validate --archived` passed. The untouched requirement, "First import keeps an existing destination", remained in the canonical spec with the same text. The removed requirement was absent after archive.
+
+This host's Node was v20.19.2. The package asks for Node `>=22.12.0` and printed `EBADENGINE` before the commands ran. The lifecycle above is what ran here. It is not a pass on the declared engine. The sentence written into the disposable modified requirement was trial text. It did not change `ci/import_bundle.py` or the preset command.
 
 ## Relationship to AEP and debugging
 

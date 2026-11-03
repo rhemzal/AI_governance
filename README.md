@@ -143,7 +143,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - ADR index: [adr/README.md](adr/README.md)
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
 - External project evaluations: [research/EXTERNAL_PROJECT_EVALUATIONS.md](research/EXTERNAL_PROJECT_EVALUATIONS.md)
-- Current capability audit and adoption priorities: [Capability audit](research/EXTERNAL_PROJECT_EVALUATIONS.md#capability-audit-after-operational-adoption-2026-11-03); [earlier completion AEP](research/EXTERNAL_PROJECT_EVALUATIONS.md#adoption-completion-aep-2026-11-03)
+- Current adoption audit: [Capability and adoption re-audit](research/EXTERNAL_PROJECT_EVALUATIONS.md#capability-and-adoption-re-audit-2026-11-03) — implemented improvements, reproducible transfer failures and verification limits
 - Spec Kit + spec-gates pilot and local handoff: [research/SPEC_KIT_SPEC_GATES_PILOT.md](research/SPEC_KIT_SPEC_GATES_PILOT.md)
 - In-repo Spec Kit profile and pinned work procedures: [.specify/presets/ai-governance/README.md](.specify/presets/ai-governance/README.md)
 - Experimental spec-gates adapter (opt-in): [governance/experimental/spec_gates/README.md](governance/experimental/spec_gates/README.md)

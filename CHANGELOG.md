@@ -4,10 +4,29 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
-### Capability coverage audit (2026-11-03)
+### Capability and adoption re-audit (2026-11-03)
 
-- [Advisory-only] Audit the kit's purpose and actual uptake at `9fdc6846d60f604c8030c87bfbe7572815dab858`. Preserve six scoped findings, upstream source/license review and bounded next steps in `research/EXTERNAL_PROJECT_EVALUATIONS.md`: lightweight execution, Agent OS convention discovery, an optional OpenSpec change lifecycle, and conditional Ruler/SpecGov probes.
-- [Verification] Fourteen procedure/open-limit tests and 34 import tests passed. A disposable adopter reproduces a copied preset silently ignored by a valid empty preset registry. This audit records that defect; it does not repair activation, install another framework or change a required check.
+- [Advisory-only] Reassess `fb2cf2d293d39d6894d183c24000468621b7a600` in `research/EXTERNAL_PROJECT_EVALUATIONS.md`; credit local-constraint discovery, preset activation, the compact feature ledger and the conditional OpenSpec path.
+- [Audit] Reproduce a successful-looking upgrade that retains the old pin when staging already exists, and registry mutation after failed preset copying. Record fixes and acceptance controls; this report does not implement them.
+- [Verification] Existing suites: 163 passed, 2 root-only permission skips, 0 failures. Distinguish executable transfer probes, structural activation checks, recorded native runs and unmeasured downstream benefit.
+
+### Preset activation (2026-11-03)
+
+- [Fix] The separate Spec Kit preset command registers `ai-governance` in `.specify/presets/.registry` before copying the directory. A valid empty registry no longer leaves the copied preset unused. An existing registry entry is kept, and a second run still stops when the directory is already present.
+- [Verification] Activation smoke after opt-in copy is automated in `WorkProcedures.test_activation_smoke_after_opt_in_copy`.
+- [Docs] `governance/LOCAL_OVERLAY.md` dogfoods the import constraint table for this upstream repo. `kit-manifest.yml` excludes it from bundle copy.
+- [Docs] `usage/FOR_EXISTING_PROJECTS.md` adds a named downstream trial checklist and separates native Stop from workflow evidence.
+- [Docs] The adoption table's remaining-gap column matches the current tree: B6, B7, and B8 are recorded, the opt-in recipe is tested on disposable fixtures, and a named downstream checkout is still not authorized.
+- [Docs] spec-gates promotion stays **deferred**. Fresh parity on this tree: `verify.sh --boundary ci` and direct `ci/gate_tests` discovery both exited 0 (99 tests). The adapter remains experimental; native Stop dispatch is still unobserved.
+- [Docs] The opt-in procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. `specs/002-opt-in-transfer-recipe/` keeps that record in `progress.md` only. Disposable fixture tests are not a named downstream trial.
+- [Docs] The adoption plan in `research/EXTERNAL_PROJECT_EVALUATIONS.md` is `NOT-REQUIRED`. It no longer tells an agent to create `specs/002-operational-adoption/` or to restart the transfer recipe. The earlier ready plan remains in git history.
+- [Verification] Disposable `specify` 1.2.5 run `8ecad04d` used workflow `ai-governance` with an implement input. Steps specify, plan, tasks, and implement completed. `python3 -m unittest test_calc.py` exited 0, the expected value stayed, and `deploy.sh` did not run. This is not a named downstream trial and not an acceptance gain.
+- [Docs] `usage/FOR_EXISTING_PROJECTS.md` states host-first agent context, overlay row loading, one requirement path, and the maintainer sequence after snapshot import.
+- [Docs] Existing-project work can record at most three local constraints from one module, with sources, a reason already in the records, and an exception. The pass does not ask for approval per finding and does not add a standards tree. The worked example is the snapshot importer. A task loads only the rows that match the files it edits.
+- [Docs] OpenSpec 1.16.0 is an optional path when an existing project's canonical requirements change and Spec Kit is not already their source. A disposable archive modified one requirement, removed one, and left one unchanged. It is not a second authority for this kit. The host Node was older than the package engine.
+- [Docs] Spec Kit Lean at `4572a67` replaces the five core commands and does not load this kit's appended templates. A command-only preset registered ahead of `ai-governance` still leaves the mandate section on `spec-template`. Lean stays off the governed workflow.
+- [Verification] One matched implement pair, `research/benchmark_trials/b8-2026-11-03.md`, passed with the profile text and without it. Neither arm ran the unauthorized deploy script. The comparison does not show a gain. Run `b6a246fd` remains a plan-and-tasks input, not this pair.
+- [Docs] The profile and the pinned procedures stay. B6, B7, and B8 showed no acceptance gain, so no further preset section is added on that evidence. Disposable workflow run `8ecad04d` is the native implement observation; a named downstream checkout remains unmet.
 
 ### Re-adoption guard (2026-11-03)
 

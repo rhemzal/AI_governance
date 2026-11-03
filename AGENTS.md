@@ -9,6 +9,8 @@ The source of truth remains the governance kit documents.
 
 Kit-document references are relative to the **kit root** (this file's directory; normally `vendor/AI_governance/` in an adopter). Project code, test commands, task paths, decisions and `governance/LOCAL_OVERLAY.md` belong to the **project root**. Read the host's existing instructions first; importing this projection does not replace them or approve an override. Merge a short entry point as described in the upstream `usage/HOW_TO_IMPORT.md`, never overwrite the host `AGENTS.md`.
 
+In **this upstream repository**, the active overlay is `governance/LOCAL_OVERLAY.md` (excluded from import bundles). Load its constraint rows only when the task matches their **Load when** column.
+
 Consult documents from the declared bundle selection. The manifest lists all available bundles, not which optional bundles were imported. If a referenced path is missing:
 - a required baseline file is an incomplete import: stop the affected task and repair it
 - an optional/add-on or Related Documents reference is upstream-only unless included; skip it without inventing rules
