@@ -112,7 +112,8 @@ or mainly promise capabilities that have not been demonstrated?
 DEFERRED for production adoption. Spec Kit + spec-gates received an isolated
 executable pilot. The 2026-11-03 follow-up added pinned Superpowers procedures,
 a project Spec Kit profile and one recorded feature cycle. The current state and
-remaining work are in the [adoption completion AEP](#adoption-completion-aep-2026-11-03).
+remaining work are in the [capability audit](#capability-audit-after-operational-adoption-2026-11-03);
+the earlier [completion AEP](#adoption-completion-aep-2026-11-03) remains as history.
 
 **Assessment**: No reviewed project demonstrated a complete replacement for this
 kit. Several provide substantially more executable integration infrastructure.
@@ -204,11 +205,11 @@ Current copy bundles do not distribute or activate that profile. Visible limits
 from the gate pilot remain claim cards `stop-hook-fail-open` and
 `native-stop-dispatch-unobserved`.
 
-**Next decision**: complete operational use, opt-in transfer and a bounded
-benefit comparison under the [AEP below](#adoption-completion-aep-2026-11-03).
-The [gate pilot](SPEC_KIT_SPEC_GATES_PILOT.md) informs a separate simplification
-decision. Native Stop dispatch remains open and does not block useful procedure
-adoption.
+**Next decision**: follow the [current capability audit](#capability-audit-after-operational-adoption-2026-11-03)
+for activation repair, proportionate workflows and useful capabilities beyond the
+first two projects. The [earlier AEP](#adoption-completion-aep-2026-11-03) and
+[gate pilot](SPEC_KIT_SPEC_GATES_PILOT.md) retain their execution evidence.
+Native Stop dispatch remains open and does not block useful procedure adoption.
 
 **Re-evaluation triggers**: a change to the pinned integrations/gate runtime,
 failed native-host controls, excessive operator intervention, recurring context
@@ -224,11 +225,295 @@ informative than a GitHub API `NOASSERTION` label. This review is not a legal au
 
 ---
 
+## Capability audit after operational adoption (2026-11-03)
+
+**Scope:** purpose and adoption coverage, using a focused post-import/prefix
+review of the current profile, import recipe, feature evidence, method routing
+and selected upstream capabilities. This is not a full release/security audit.
+Baseline: [`9fdc6846d60f604c8030c87bfbe7572815dab858`](https://github.com/rhemzal/AI_governance/commit/9fdc6846d60f604c8030c87bfbe7572815dab858).
+This section supersedes the older next-action recommendations, not their
+historical evidence. No new framework was installed by this audit.
+
+### Assessment against the kit's purpose
+
+The kit promises reusable, project-agnostic governance that makes AI-assisted
+changes reviewable and enforceable. That requires usable project discovery,
+authority and architecture boundaries, task-specific context, proportionate
+verification, and safe adoption. The number of installed upstream projects is
+not an acceptance criterion.
+
+**The current implementation mainly adopts Spec Kit and selected Superpowers
+procedures.** It also materially improves the kit's own import/re-adoption
+mechanism. spec-gates is implemented experimentally but deliberately deferred
+after a direct-versus-wrapper comparison found no infrastructure reduction.
+The remaining research candidates are largely deferred or inspiration-only.
+
+This is a defensible first increment, but the investigation has not yet
+produced a balanced set of adoption options for existing projects. Several
+useful capabilities were left behind when follow-up work narrowed to workflow
+execution, safe copying and evidence about those two tools. My earlier AEP
+also reinforced that narrow focus.
+
+| Kit outcome | What exists | Current assessment |
+| --- | --- | --- |
+| Preserve policy, local rules and host ownership | Constitution, overlays, scoped import/re-adoption and regression tests | Stronger foundation; do not replace it with an upstream framework's default policy |
+| Execute and resume authorized work | Governed Superpowers entry, durable ledger rules, Spec Kit profile | Operational pilot; real downstream uptake and benefit remain unproved |
+| Understand an existing project's actual conventions | Generic inspection/overlay guidance and method triage | No selected operational procedure comparable to Agent OS discovery plus task-specific retrieval |
+| Maintain requirements through repeated changes | Spec guidance, feature folders and DOC DELTA | No adopted change-delta/canonical-spec/archive lifecycle; doc presence is not currentness |
+| Deliver consistent capabilities to different agents | AGENTS/Copilot projections; new procedure activation is Cursor-oriented | Generic policy portability exists; equivalent automatic procedure discovery across hosts is unverified |
+| Enforce product architecture and test obligations | Existing boundary recipes, evidence assessment, adoption contract | Useful components, but kit self-tests do not prove that a downstream product wired or uses them |
+| Keep maintenance and operator effort proportionate | Normative proportionality and minimal bundles | The adopted full feature workflow and duplicated progress artifacts need practical calibration |
+
+### Findings and evidence
+
+**C-01 — P1, capability gap: existing-project discovery remains mostly prose.**
+`usage/FOR_EXISTING_PROJECTS.md` routes to import and method adoption;
+`governance/LOCAL_OVERLAY_TEMPLATE.md` is a place to record local constraints.
+Neither supplies the selected, repeatable procedure for discovering a few
+non-obvious conventions from representative source, linking their evidence,
+distinguishing intentional rules from legacy defects, and loading them only
+when relevant. This is directly relevant to a reusable governance kit.
+Agent OS offers concrete discovery/index/injection procedures; see the source
+review below. Adapt that capability before adding another orchestrator.
+
+**C-02 — P1, reproduced functional defect: copying a preset can silently leave
+it inactive.** The optional preset recipe in `usage/HOW_TO_IMPORT.md` copies
+`.specify/presets/ai-governance/` but does not register it. The pinned
+`resolve_template_content` in `.specify/scripts/bash/common.sh` enumerates
+directories only when there is no registry; a valid registry is authoritative.
+In a disposable adopter with the kit's scripts/core templates and copied preset:
+
+| Registry state | Resolver exit | Core spec present | Governance addition present |
+| --- | ---: | --- | --- |
+| No registry | 0 | yes | yes |
+| Valid `{"schema_version":"1.0","presets":{}}` | 0 | yes | **no** |
+| Registry contains the enabled `ai-governance` preset | 0 | yes | yes |
+
+The valid empty-registry case does not have its own overriding templates, so it
+is not excluded by the recipe's stated precondition. Existing in-kit resolution
+tests pass because the kit already has the registration. Repair with the
+upstream preset installation interface or a tested registration step that
+preserves other entries; verify composition in the adopter, not file existence.
+Do not overwrite the adopter's registry with the kit's registry.
+
+**C-03 — P1, maintenance risk and record drift: the default workflow is too
+heavy for some kit tasks.** `specs/002-opt-in-transfer-recipe/` contains
+**10 Markdown files / 877 lines**, including a data model, contract and two
+checklists. That count alone does not establish waste, but there is observable
+duplication: T005 (Activation), T006 (AGENTS example), T008 (ownership table)
+and T011 (readiness checklist) remain unchecked although the corresponding
+material exists. T002 still expects seven procedure tests; there are now eleven.
+Reconcile these records against actual changes rather than replaying them.
+
+Use a compact task/AEP and the existing feature ledger for small changes. For
+changes that need structured artifacts, the already pinned Spec Kit includes
+a **Lean** preset. It replaces command prompts and bypasses separate templates:
+blindly enabling it could bypass this kit's template appends. Qualify command
+resolution and authority/acceptance guidance before enabling it. There is no
+need to build another minimal-workflow engine.
+
+**C-04 — P1, evidence limit: workflow completion and adoption benefit are still
+different claims.** The ledger reports native run `b6a246fd` completed through
+the step named `implement`, but its input requested plan/tasks only and it did
+not execute T001–T020. This proves native dispatch of those steps, not end-to-end
+implementation of the transfer feature. Other committed work did implement
+the recipe and safety repairs; do not discount that work.
+
+The B6 and B7 comparisons used small calculator fixtures, both variants passed,
+and the records correctly claim no speed or safety improvement. They do not
+show the profile is useless, but they cannot justify general benefit or further
+investment in the same toy benchmark. Next use should be a real pending
+maintenance task with acceptance and operator interruptions recorded. The
+ledger still identifies no named downstream trial.
+
+**C-05 — P2, capability gap: the next agent has no adopted way to distinguish
+current requirements from historical change artifacts.** The stale task list
+above is a concrete example of lifecycle drift. OpenSpec supplies change deltas,
+canonical specs, synchronization and archive/validation mechanisms. SpecGov
+supplies structural artifact relationships and explicit code-to-artifact domain
+checks. These address different portions of the gap: neither proves semantic
+correctness. Pick a small lifecycle for the host's existing source of truth;
+do not introduce parallel Spec Kit and OpenSpec authorities over the same change.
+
+**C-06 — P2, portability limit: procedure distribution is still host-specific.**
+The opt-in recipe installs `.cursor/skills/governed-work/SKILL.md` plus the
+vendored procedures. A generic AGENTS pointer can be read manually by other
+agents, but that is not evidence of their native skill discovery. Ruler has
+actual rule and skill distribution code and tests. It also writes generated
+instruction files and can propagate MCP configuration. It is a candidate only
+for a host with a concrete multi-agent distribution need and explicit ownership
+of generated paths, not an automatic replacement for the safe snapshot importer.
+
+### Source-reviewed opportunities beyond the two adopted projects
+
+The following four upstream repositories were re-read at exact commits:
+README, license and selected implementation/procedure/test files. Their
+capabilities are source-reviewed, **not executed or qualified in an adopter
+during this audit**. GitHub's latest-release metadata was checked separately;
+a moving main branch is not the same as a published package.
+
+| Source / exact reviewed revision | Useful capability and adoption decision | Cost, boundary and acceptance |
+| --- | --- | --- |
+| [Agent OS](https://github.com/buildermethods/agent-os/tree/e892e61d322759165e7d9173e92c1010406c9f4d); latest GitHub release v3.0.0 | **Adapt next:** discovery of project conventions and selective standards retrieval. Extend existing adoption/overlay guidance with an executable procedure; preserve attribution. | [Discover Standards](https://github.com/buildermethods/agent-os/blob/e892e61d322759165e7d9173e92c1010406c9f4d/commands/agent-os/discover-standards.md) repeatedly asks for approval per finding and file. Adapt those pauses to the existing mandate. On one module, derive at most three useful constraints with source paths, reasons and exceptions; do not promote recurring bugs into policy. A later task must actually use the relevant constraint. |
+| [OpenSpec](https://github.com/Fission-AI/OpenSpec/tree/2bd5bc3be964404657439f538857fcdf550f7398); latest GitHub release v1.16.0 | **Qualify as an optional alternative for existing projects:** delta requirements, canonical specs and archive lifecycle. Give adopters a supported choice based on task shape rather than making Spec Kit universal. | [Sync workflow](https://github.com/Fission-AI/OpenSpec/blob/2bd5bc3be964404657439f538857fcdf550f7398/src/core/templates/workflows/sync-specs.ts) is agent-driven; [archive implementation](https://github.com/Fission-AI/OpenSpec/blob/2bd5bc3be964404657439f538857fcdf550f7398/src/core/archive.ts) and [archived-task tests](https://github.com/Fission-AI/OpenSpec/blob/2bd5bc3be964404657439f538857fcdf550f7398/test/cli-e2e/validate-archived-tasks.test.ts) provide real mechanics. Qualify one modified/removed requirement, preservation of unrelated requirements and post-change canonical state. Do not install both authoring frameworks by default. Keep beta Stores outside the initial scope; disable optional telemetry for the local trial. |
+| [Ruler](https://github.com/intellectronica/ruler/tree/5e551e60952fb1c81c6c5ad6f5fe8b7a412bda87); latest GitHub release v0.3.46 | **Conditional compatibility probe:** one maintained rule/skill source projected to two hosts actually in use. Keep direct pointers when they are sufficient. | README labels it beta; [skill processor](https://github.com/intellectronica/ruler/blob/5e551e60952fb1c81c6c5ad6f5fe8b7a412bda87/src/core/SkillsProcessor.ts) labels skills experimental. [AGENTS writer](https://github.com/intellectronica/ruler/blob/5e551e60952fb1c81c6c5ad6f5fe8b7a412bda87/src/agents/AgentsMdAgent.ts) writes generated content with optional backups. Require sentinel preservation, stable repeated apply, local-edit conflict handling and discovery by both hosts. Disable unrelated MCP/gitignore propagation; do not copy the entire governance corpus into every prompt. |
+| [SpecGov](https://github.com/paladini/specgov/tree/5a59b902639a07fbec1082a4c465aa5d86eadc97); source package 1.0.0-rc.2, latest GitHub release v0.1.0 | **Bounded read-only advisory probe, after a real drift case:** reuse artifact relationships and domain mapping before writing a custom graph/traceability checker. | [Policy code](https://github.com/paladini/specgov/blob/5a59b902639a07fbec1082a4c465aa5d86eadc97/src/policies.ts) and [tests](https://github.com/paladini/specgov/blob/5a59b902639a07fbec1082a4c465aa5d86eadc97/tests/policies.test.ts) show structural checks. Pin and verify the actual v1 source/package; do not assume the v0.1 release or an unqualified install has reviewed v1 behavior. An unrelated artifact change must not satisfy an explicitly mapped code domain. No semantic-auditor service or new required gate in this probe. |
+
+All four inspected source trees carry **MIT licenses**. No paid control-plane
+service is needed for the narrow local capabilities above. Existing agent/model
+execution, compute and maintenance can still have costs; open-source licensing
+does not make those zero. Preserve license notices when adapting/copying.
+Marketing claims, stars and a successful installation were not used as benefit
+evidence. OpenSpec's comparative marketing about Spec Kit is not this audit's
+conclusion.
+
+The existing pin also offers
+[Spec Kit Lean](https://github.com/github/spec-kit/tree/4572a67fe0e72a6837e2d7bb0fda875bc41482e5/presets/lean):
+`specify preset add lean` uses the bundled preset. This is a concrete unused
+option inside a tool already adopted, subject to the compatibility check in C-03.
+
+### Disposition of the rest of the original landscape
+
+These decisions retain the original reviewed evidence; they do not imply a
+fresh implementation review of every upstream project in this pass.
+
+| Candidate | Keep, take, or defer — with a concrete trigger |
+| --- | --- |
+| Spec Kit | Keep the installed profile; repair activation and select compact/Lean/full use by task. Do not require the engine for routine work. |
+| Superpowers | Keep the selected procedures and MIT pin; use them on representative work. No reason yet to install the whole catalog. |
+| spec-gates | Keep the evidence and explicit deferral. Reopen only for an actual dispatch replacement or new native-host evidence. |
+| Agent OS | Take the bounded discovery/retrieval capability next, adapted to existing authority and overlay paths. |
+| OpenSpec | Qualify one optional existing-project change lifecycle; do not make a parallel mandatory artifact tree. |
+| Ruler | Probe only when two actual hosts need equivalent distribution and direct pointers have an observable limitation. |
+| SpecGov | Probe structural drift on one domain with positive/negative controls; release/source mismatch prevents an unqualified production recommendation. |
+| GSD | Defer another execution/state system. Revisit if a representative interrupted task loses intent/state despite the existing ledger and host resume. |
+| Elephant Goldfish Model | Reuse bounded fresh-context review when it detects a real miss; do not install a new architecture/executor hierarchy merely for agent count. |
+| BMAD | Defer the full lifecycle/role system; reconsider only for a real product-analysis/design need not met by current methods. |
+| coding-constitution | Compare individual instruction/hook-verification practices when they fix an observed gap; do not duplicate the kit's constitution. |
+| Ruflo | Defer an orchestration platform absent a demonstrated coordination workload. |
+| Microsoft agent-governance-toolkit | Revisit for deployed-agent runtime identity/permissions/audit needs; these are not the kit's current development-workflow problem. |
+| Autonomous-run governance preset | Retain the implementation reference; current mandate and ledger already cover much of its purpose. Use it only if a native-run/state gap survives the existing mechanisms. |
+| Architecture-governance preset | Prefer the kit's existing framework and ADRs. Borrow packaging only when it simplifies their use without duplicating the policy source. |
+
+### Next work, with bounded outcomes
+
+This is an implementation recommendation, not an installation performed by this
+audit. Keep at most two new practices in one change. Existing gates and authority
+remain in force; no new registry, orchestration service or mandatory adopter
+pipeline is needed.
+
+1. **Repair and simplify the existing path.** Fix C-02 in
+   `usage/HOW_TO_IMPORT.md` and the existing procedure tests with absent,
+   empty and unrelated-entry registries. Reconcile the feature's completed
+   tasks against evidence. Define compact work as the default for small tasks;
+   qualify the bundled Lean commands only where a feature workflow is useful.
+   Acceptance: the intended policy appears in resolved adopter commands/templates,
+   unrelated registry entries survive, and a small documentation task needs
+   neither a data model nor artificial red-green tests.
+
+2. **Add existing-project discovery from Agent OS.** Work in
+   `usage/FOR_EXISTING_PROJECTS.md`, `usage/ENGINEERING_METHODS_ADOPTION.md`,
+   `usage/PROACTIVE_TRIGGER_MAP.md` and the existing overlay mechanism.
+   Use one already authorized project/module and 5–10 representative files.
+   Produce at most three evidence-linked local constraints and one task-scoped
+   retrieval example; use existing decision records before asking for reasons.
+   Acceptance: an agent applies a non-obvious project rule on a real task,
+   preserves explicit exceptions and rejects a planted misleading/legacy example.
+   If it only writes another standards document and never uses it, adoption is
+   incomplete.
+
+3. **Provide a genuine OpenSpec alternative for an existing-project change.**
+   Extend `usage/SPEC_DRIVEN_AI_DEVELOPMENT.md` and the method selector with a
+   concrete choice: compact direct work, the current Spec Kit profile, or
+   OpenSpec when canonical requirements and successive deltas are the need.
+   Qualify one real requirement modification/removal and archive cycle on a
+   pinned version, with an unchanged requirement as a control. Keep the host's
+   existing requirements authoritative. Use upstream commands; do not implement
+   a competing archive/synchronization engine inside this kit.
+
+4. **Run only the triggered compatibility probe.** Use Ruler if equivalent
+   discovery on two hosts is the selected problem, or SpecGov if explicit
+   code/artifact drift is the selected problem. Choose one first. Keep its
+   report in this research record and use one good and one planted-bad fixture.
+   Stop after two evidence-driven repair attempts; document an incompatibility
+   instead of building a general wrapper. Do not promote a dependency solely
+   because its structural check passes.
+
+5. **Close on useful downstream work.** Apply the selected method to one named
+   authorized adopter task with a concrete product acceptance observation, such
+   as an existing boundary/contract regression. Reuse that project's test and
+   dependency tools; the kit already names import-linter, dependency-cruiser and
+   ArchUnit rather than needing a new universal scanner. Record the manual work
+   eliminated or the new failure detected, operator interruptions, any extra
+   artifacts and maintenance owner. A neutral or negative result can justify
+   simplifying/removing the candidate; it must not be hidden by another pilot.
+
+### Verification record and reproducible activation probe
+
+On the audited revision:
+
+- `timeout 60s python3 -m unittest ci.gate_tests.test_work_procedures ci.gate_tests.test_open_claim_limits -v`:
+  **14 passed, no skips**.
+- `timeout 60s python3 -m unittest discover -s ci/bundle_tests -q`:
+  **34 passed, no skips**, with `KIT_MANIFEST_JSON` set to a temporary JSON
+  conversion of the unchanged manifest using local PyYAML. The emitted
+  `FAIL: disk full` lines are expected injected-failure cases, not host disk
+  failures. This local run does not test yq itself.
+- The audited commit's existing [hygiene job](https://github.com/rhemzal/AI_governance/actions/runs/41687092555/job/126095590638)
+  reports success; it uses the workflow's yq and unprivileged runner.
+- The three-case C-02 probe above ran against the actual committed resolver.
+  No code change, native agent run, downstream mutation or new upstream runtime
+  installation was performed.
+
+Run this probe from the kit root; it writes only a disposable directory:
+
+```python
+from pathlib import Path
+import json, shutil, subprocess, tempfile
+
+source = Path.cwd()
+with tempfile.TemporaryDirectory(prefix="governance-preset-audit-") as tmp:
+    host = Path(tmp)
+    subprocess.run(["git", "init", "-q", str(host)], check=True)
+    for relative in (".specify/scripts", ".specify/templates",
+                     ".specify/presets/ai-governance"):
+        shutil.copytree(source / relative, host / relative)
+    registry = host / ".specify/presets/.registry"
+    cases = [
+        ("absent", None),
+        ("empty", {"schema_version": "1.0", "presets": {}}),
+        ("registered", {"schema_version": "1.0", "presets": {
+            "ai-governance": {"version": "1.0.0", "enabled": True,
+                              "priority": 1, "source": "project"}}}),
+    ]
+    for name, value in cases:
+        if value is not None:
+            registry.write_text(json.dumps(value), encoding="utf-8")
+        result = subprocess.run(
+            ["timeout", "30s", "bash",
+             ".specify/scripts/bash/resolve-template.sh", "spec-template"],
+            cwd=host, capture_output=True, text=True, check=True)
+        print(name, "## Mandate continuation" in result.stdout)
+```
+
+Observed output: `absent True`, `empty False`, `registered True`.
+The empty case should contain the governance addition after the documented
+installation procedure is repaired.
+
+GOVERNANCE FIT CHECK
+- Project stage: serious solo, reusable kit; this is a focused capability audit.
+- Recommended Governance Level (G): G2 for these bounded adoption changes.
+- Suggested CI Maturity (CM) if kit adopted: retain the host's declared level.
+- CI/CD needed now: existing tests and scoped local probes; no new mandatory pipeline.
+- Reason: preserve safe governance while adding project discovery and useful change lifecycle options.
+- What to defer: full-framework accumulation, automatic global installation, repeated toy benchmarks and new orchestrators.
+
 ## Adoption completion AEP (2026-11-03)
 
-This is the current follow-up assessment and Autonomous Execution Plan (AEP).
-It supersedes the older **next investment** recommendation above, while retaining
-the dated experiments. Implementation started after this section was committed.
+This is the historical follow-up assessment and Autonomous Execution Plan (AEP)
+prepared against `65fe471`. Current priorities are in the capability audit above.
+The original baseline and dated experiments remain below. Implementation started
+after this section was committed.
 Native run `c37bf147` (`specify` 1.2.5, integration `cursor-agent`) completed
 only `specify` and was killed by a 45 second timeout while `state.json` still
 said `running`. `specify workflow resume c37bf147` answered that a running

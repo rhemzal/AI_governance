@@ -4,6 +4,11 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Capability coverage audit (2026-11-03)
+
+- [Advisory-only] Audit the kit's purpose and actual uptake at `9fdc6846d60f604c8030c87bfbe7572815dab858`. Preserve six scoped findings, upstream source/license review and bounded next steps in `research/EXTERNAL_PROJECT_EVALUATIONS.md`: lightweight execution, Agent OS convention discovery, an optional OpenSpec change lifecycle, and conditional Ruler/SpecGov probes.
+- [Verification] Fourteen procedure/open-limit tests and 34 import tests passed. A disposable adopter reproduces a copied preset silently ignored by a valid empty preset registry. This audit records that defect; it does not repair activation, install another framework or change a required check.
+
 ### Re-adoption guard (2026-11-03)
 
 - [Fix] `ci/import_bundle.py --readopt` joins the new snapshot with rules already in the project. A local difference is kept when the previous revision is unknown or both sides changed, and the report includes the upstream text. A file removed from the active snapshot stays removed when that revision still contains it. An unknown `--previous` SHA fails before any write. Host instructions and a root-layout `constitution/AI_RULES.md` are not overwritten. The active snapshot is not replaced.
