@@ -226,6 +226,26 @@ class ImportSafetyTests(unittest.TestCase):
         self.assertFalse((self.project / "vendor/AI_governance.next").exists())
         self.assertEqual((real / "AGENTS.md").read_text(), "elsewhere")
 
+    def test_orphan_staged_snapshot_without_an_active_tree_is_refused(self):
+        staged = self.project / "vendor/AI_governance.next"
+        staged.mkdir(parents=True)
+        (staged / "AGENTS.md").write_text("stale")
+        self.destination = self.project
+        result = self.cli("--readopt")
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("orphan staged snapshot", result.stderr)
+        self.assertFalse((self.project / "vendor/AI_governance").exists())
+
+    def test_existing_readopt_report_is_refused_before_writing(self):
+        self.assertEqual(self.cli().returncode, 0)
+        report = self.project / "vendor/AI_governance.readopt-report.md"
+        report.write_text("stale report\n", encoding="utf-8")
+        self.destination = self.project
+        result = self.cli("--readopt")
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("Refusing existing re-adoption report", result.stderr)
+        self.assertFalse((self.project / "vendor/AI_governance.next").exists())
+
     def test_symlink_root_constitution_is_refused(self):
         outside = self.project / "outside-rules"
         outside.mkdir()

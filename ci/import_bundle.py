@@ -173,6 +173,10 @@ def readopt_destination(project_root):
     if active.is_symlink() or staged.is_symlink():
         link = active if active.is_symlink() else staged
         raise BundleError(f"Symlink path is not supported: {link}")
+    if staged.exists() and not active.exists():
+        raise BundleError(
+            f"Refusing orphan staged snapshot without an active tree: {staged}"
+        )
     if active.exists() and not active.is_dir():
         raise BundleError(f"Refusing non-directory snapshot path: {active}")
     chosen = staged if active.exists() else active
@@ -397,15 +401,15 @@ def main(argv=None):
             )
         project_root = args.destination
         if args.readopt:
+            report_path = project_root / "vendor" / "AI_governance.readopt-report.md"
+            if report_path.exists() or report_path.is_symlink():
+                raise BundleError(f"Refusing existing re-adoption report: {report_path}")
             args.destination = readopt_destination(args.destination)
         manifest = json.loads(args.manifest_json.read_text(encoding="utf-8"))
         files, excludes = snapshot(args.source, manifest, args.bundle)
         if args.readopt:
             previous = _previous_files(args.source, args.previous, files) if args.previous else None
             files, report = merge_readopt(project_root, files, previous)
-            report_path = project_root / "vendor" / "AI_governance.readopt-report.md"
-            if report_path.exists() or report_path.is_symlink():
-                raise BundleError(f"Refusing existing re-adoption report: {report_path}")
             destination = args.destination
             existed = destination.exists() or destination.is_symlink()
             try:

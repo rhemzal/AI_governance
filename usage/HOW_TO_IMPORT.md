@@ -354,6 +354,10 @@ python3 "$KIT_SOURCE/ci/import_bundle.py" \
 
 `--destination` is the project root in this mode. The tool chooses `vendor/AI_governance` only when that path is absent, and `vendor/AI_governance.next` when a snapshot is already there. It refuses to replace either one. The example selects `standard`. Repeat every `--bundle` argument from the original import, including `architecture` or `research` when that import used them. Without `--previous`, every local difference is kept and the report carries the upstream text. After reading the report, a person switches to the new tree only in a separate reviewed step. Do not `rm -rf` the active snapshot as part of this command.
 
+A second re-adoption run refuses to start when `vendor/AI_governance.readopt-report.md` already exists, when `vendor/AI_governance.next` already exists beside an active snapshot, or when `vendor/AI_governance.next` is present without an active `vendor/AI_governance` tree. Remove or rename the stale report and staged directory in a reviewed change before trying again. If the report could not be written after the snapshot was created, the tool removes that snapshot and nothing is left to switch to; run the command again from a clean state.
+
+When both an active snapshot and legacy kit files still live at the project root, only the snapshot is joined. Root files outside the new bundle selection are not inventoried the way a pure root-layout import is. Move references to the snapshot or reconcile those root copies in a migration change before relying on the report alone.
+
 For work procedures that are already present, do not run the first-copy block. It stops when the pin or the entry skill exists. A pin update uses the upgrade block, and only when `v7.0.1.prev` is absent. Rollback still requires that previous directory.
 
 ### Existing root-layout imports and updates
