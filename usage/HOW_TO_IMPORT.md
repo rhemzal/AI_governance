@@ -80,6 +80,7 @@ Recommended: record the decision as an ADR using `adr/ADR_TEMPLATE.md` (title su
 
 If you want an AI to assess what to adopt (and in what order), see:
 
+- `usage/FOR_EXISTING_PROJECTS.md` (host vs kit paths, agent context, maintainer sequence)
 - `usage/QUICKGUIDE.md` (Recipe D/E: adoption assessment prompts)
 
 ## Governance Versioning (Recommended)
@@ -480,5 +481,6 @@ Enforcement is style-agnostic and expressed as boundary rules (core vs boundary 
 - `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`
 - `usage/GOVERNANCE_WAIVERS.md`
 - `usage/LOCAL_OVERLAY_AND_PRECEDENCE.md`
+- `usage/FOR_EXISTING_PROJECTS.md`
 - `usage/HOW_TO_USE_WITH_COPILOT.md`
 - `adr/ADR_TEMPLATE.md`
