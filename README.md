@@ -59,6 +59,7 @@ The kit draws on established practices — including code health, playbook-drive
 Research and adaptation references (non-normative): [research/RESEARCH_ENGINEERING_PLAYBOOKS.md](research/RESEARCH_ENGINEERING_PLAYBOOKS.md), [research/PLAYBOOK_ADAPTATION_GUIDE.md](research/PLAYBOOK_ADAPTATION_GUIDE.md).
 
 ## Quick use (existing project)
+
 If you’re evaluating this kit for an existing repo, start with an assessment prompt before importing anything.
 
 - For ready-to-use prompt recipes, see `usage/QUICKGUIDE.md` (Recipe D/E).
@@ -90,7 +91,9 @@ Output:
 ```
 
 ## What changes after adoption (expected AI behavior)
+
 If you actually adopt the kit (import + follow the workflows), you should expect the assistant to:
+
 - consult repo sources of truth first (rules/docs/tests/ADRs) before asking basic questions
 - keep scope explicit and diffs small
 - escalate to “high-risk mode” (ADR-first + compliance reporting) for boundary/contract changes
@@ -99,6 +102,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - treat `notes/**` as non-canonical working notes (do not rewrite unless explicitly instructed)
 
 ## Start here (top links)
+
 - Core rules: [constitution/AI_RULES.md](constitution/AI_RULES.md)
 - Daily AI work: [constitution/AI_ENFORCEMENT_DAILY.md](constitution/AI_ENFORCEMENT_DAILY.md)
 - High-risk changes: [constitution/AI_ENFORCEMENT.md](constitution/AI_ENFORCEMENT.md)
@@ -139,11 +143,13 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
 - External project evaluations: [research/EXTERNAL_PROJECT_EVALUATIONS.md](research/EXTERNAL_PROJECT_EVALUATIONS.md)
 - Spec Kit + spec-gates pilot and local handoff: [research/SPEC_KIT_SPEC_GATES_PILOT.md](research/SPEC_KIT_SPEC_GATES_PILOT.md)
+- In-repo Spec Kit profile and pinned work procedures: [.specify/presets/ai-governance/README.md](.specify/presets/ai-governance/README.md)
 - Experimental spec-gates adapter (opt-in): [governance/experimental/spec_gates/README.md](governance/experimental/spec_gates/README.md)
 - Engineering playbook research: [research/RESEARCH_ENGINEERING_PLAYBOOKS.md](research/RESEARCH_ENGINEERING_PLAYBOOKS.md)
 - Playbook adaptation guide: [research/PLAYBOOK_ADAPTATION_GUIDE.md](research/PLAYBOOK_ADAPTATION_GUIDE.md)
 
 ## Repository structure
+
 - `constitution/` — core rules and enforcement contracts
 - `ci/` — CI gate principles (implementation varies by stack)
 - `adr/` — ADR templates and accepted decisions for this kit
@@ -154,24 +160,30 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - `research/` — advisory research notes, engineering playbook research, professional standards references, and external project evaluations
 
 ## PR Habit: “Doc Delta”
+
 When a PR changes behavior, include the `### DOC DELTA` block from [usage/HOW_TO_USE_WITH_COPILOT.md](usage/HOW_TO_USE_WITH_COPILOT.md).
 
 `DOC DELTA` is PR evidence/metadata: reference the source of truth (code/tests/ADRs) and list which docs were updated/removed.
 
 ## Attribution / Traceability
+
 If you copy parts of this kit into another repository, preserve the “Provenance” banner at the top of imported documents so the origin remains traceable.
 
 ## Disclaimer
+
 This repository provides governance guidance and reusable documentation. It is not legal advice and does not guarantee compliance with any standard or regulation.
 
 ## License
+
 This repository is intended to be publishable and reusable.
 
 - Documentation and other non-code content: **CC BY 4.0** (see `LICENSE`).
 - Code (if any): **MIT** (see `LICENSE-CODE`).
 
 ## Contributing
+
 See `CONTRIBUTING.md`.
 
 ## Security
+
 See `SECURITY.md`.

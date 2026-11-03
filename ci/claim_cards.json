@@ -73,17 +73,17 @@
     },
     {
       "id": "benchmark-scenarios-unrun",
-      "statement": "Scenarios B5 through B8 describe governance behavior checks, and this repo has no recorded trial of them.",
+      "statement": "Scenarios B5 through B8 had no recorded trial on 2026-11-02. A later file in research/benchmark_trials is allowed only when it names one scenario, one revision token, and an outcome of pass, fail, cancelled, or blocked.",
       "source": "tooling/BENCHMARK_SCENARIOS.md",
       "layer": "advisory",
       "oracle": "canary",
       "status": "integrated",
-      "positive": "The scenario section still names B5 through B8 as specifications.",
-      "negative": "That section has no trial-result record, and research/benchmark_trials does not exist.",
-      "known_pass_that_is_not_proof": "A missing trial record is not a completed matched trial and is not evidence the scenarios would pass.",
+      "positive": "The dated absence sentence remains, and a complete B5 record with outcome pass is accepted.",
+      "negative": "A missing revision, an outcome outside those four words, or a scenario prefix such as B50 is rejected.",
+      "known_pass_that_is_not_proof": "Accepting a well-formed file does not show that a matched trial ran or that the written outcome is true.",
       "path": "ci/gate_tests/test_open_claim_limits.py",
-      "anchor": "def test_b5_through_b8_have_no_recorded_trial",
-      "rerun_when": "A trial record is added, or the B5 through B8 acceptance text changes."
+      "anchor": "def test_historical_absence_allows_later_trial_files",
+      "rerun_when": "The trial checker, the absence sentence, or the B5 through B8 acceptance text changes."
     },
     {
       "id": "method-rationale-is-unchecked-prose",

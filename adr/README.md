@@ -5,11 +5,13 @@ _Provenance: This document originates from the AI_governance kit (https://github
 This folder contains Architecture Decision Records (ADRs) that define and evolve this governance kit.
 
 ## How to Use ADRs Here
+
 - Use `adr/ADR_TEMPLATE.md` for new decisions.
 - Keep ADRs short and reviewable.
 - If a decision changes governance (rules/gates/overlays) or upgrades an imported kit, fill the “Governance Change” section.
 
 ## ADRs in This Repo
+
 - [ADR_0001_Automation_First_Interfaces.md](ADR_0001_Automation_First_Interfaces.md)
 - [ADR_0002_Architecture_Is_Contextual.md](ADR_0002_Architecture_Is_Contextual.md)
 - [ADR_0003_RAG_Is_Advisory_Not_Normative.md](ADR_0003_RAG_Is_Advisory_Not_Normative.md)
@@ -23,9 +25,12 @@ This folder contains Architecture Decision Records (ADRs) that define and evolve
 
 - [ADR_0013_Test_Evidence_And_Runner_Conformance.md](ADR_0013_Test_Evidence_And_Runner_Conformance.md) — proposed
 - [ADR_0014_Claim_Card_Registry.md](ADR_0014_Claim_Card_Registry.md) — proposed
+- [ADR_0015_Pinned_Work_Procedures.md](ADR_0015_Pinned_Work_Procedures.md) — proposed
 
 ## Status Convention (Recommended)
+
 Use one of:
+
 - Proposed
 - Accepted
 - Superseded

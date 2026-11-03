@@ -1,0 +1,44 @@
+schema_version: "1.0"
+workflow:
+  id: "ai-governance"
+  name: "Governed cycle"
+  version: "1.0.0"
+  author: "AI_governance"
+  description: "specify, plan, tasks, implement. An approved mandate does not stop for review-spec or review-plan."
+
+requires:
+  speckit_version: ">=0.8.5"
+  integrations:
+    any:
+      - "cursor-agent"
+
+inputs:
+  spec:
+    type: string
+    required: true
+    prompt: "Describe the change already authorized by the task mandate"
+
+steps:
+  - id: specify
+    command: speckit.specify
+    integration: "cursor-agent"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: plan
+    command: speckit.plan
+    integration: "cursor-agent"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: tasks
+    command: speckit.tasks
+    integration: "cursor-agent"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: implement
+    command: speckit.implement
+    integration: "cursor-agent"
+    input:
+      args: "{{ inputs.spec }}"

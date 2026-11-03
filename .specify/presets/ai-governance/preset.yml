@@ -1,0 +1,35 @@
+schema_version: "1.0"
+
+preset:
+  id: "ai-governance"
+  name: "AI Governance Spec Kit Profile"
+  version: "1.0.0"
+  description: "Appends this kit's mandate, AEP, and acceptance rules to Spec Kit templates."
+  author: "AI_governance"
+  repository: "https://github.com/rhemzal/AI_governance"
+  license: "CC-BY-4.0"
+
+requires:
+  speckit_version: ">=1.2.5"
+
+provides:
+  templates:
+    - type: "template"
+      name: "spec-template"
+      file: "templates/spec-template.md"
+      description: "Mandate continuation and acceptance observation"
+      strategy: "append"
+    - type: "template"
+      name: "plan-template"
+      file: "templates/plan-template.md"
+      description: "Method selection fields for an authorized plan"
+      strategy: "append"
+    - type: "template"
+      name: "tasks-template"
+      file: "templates/tasks-template.md"
+      description: "Proportional verification for each task"
+      strategy: "append"
+
+tags:
+  - "governance"
+  - "workflow"

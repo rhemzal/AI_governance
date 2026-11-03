@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "presets": {
+    "ai-governance": {
+      "version": "1.0.0",
+      "enabled": true,
+      "priority": 1,
+      "source": "project"
+    }
+  }
+}

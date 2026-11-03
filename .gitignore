@@ -32,3 +32,6 @@ notes/local/**
 .specify/integrations/packages.json
 # Speckit memory scaffold; kit normative sources stay under constitution/ and adr/
 .specify/memory/
+
+# Inline-execution scratch. A kept ledger is copied under specs/.
+.superpowers/

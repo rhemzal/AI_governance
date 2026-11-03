@@ -5,10 +5,19 @@ This project follows a lightweight changelog intended for governance-kit consume
 ## Unreleased
 
 ### Cursor stop notice (2026-11-03)
+
 - [Experimental] When `verify.sh` is missing or exits with a code other than 0 or 2, the stop script asks once, at `loop_count` 0, for an UNVERIFIED report. A later `loop_count` allows the stop. `stop_hook_active` still allows the stop. The contract test calls the script directly and is not native host dispatch. Promotion stays deferred.
 - [Experimental] On this host the Cursor Agent CLI runs a project `sessionStart` hook and does not run `stop`. The spec-gates v0.5.0 zip verifies with cosign. A disposable 0.4.2 to 0.5.0 upgrade keeps policy and a local edit, and removal leaves the projected runtime. With shellcheck, prettier, and markdownlint-cli2 installed, a clean `verify.sh` makes the canary suite 18 blocked and 0 accepted. See the 2026-11-03 host note.
 
+### Pinned work procedures (2026-11-03)
+
+- [Pilot] Pin Superpowers v7.0.1 for systematic debugging, inline plan execution, verification before a completion claim, and a fresh review. The entry point is `.cursor/skills/governed-work/SKILL.md`. A documentation or registry-wording change does not require test-driven development. `subagent-driven-development` is not installed. ADR-0015 records the decision. No constitutional rule change and no new adopter-mandatory workflow.
+- [Pilot] Add a project Spec Kit preset that appends mandate, acceptance, and Autonomous Execution Plan pointers to the core templates. Workflow `ai-governance` runs specify, plan, tasks, and implement with no `review-spec` or `review-plan` gate. The bundled workflow still has those two gates.
+- [Fix] The B5–B8 absence is a dated sentence again. `research/benchmark_trials/` may exist. A later trial file must name one scenario, one revision token, and an outcome of pass, fail, cancelled, or blocked. `README.md` is not a trial. A well-formed file is not a matched trial. Card `benchmark-scenarios-unrun` now states that rule.
+- [Verification] One cycle is in `specs/001-benchmark-trial-records/`. The original directory prohibition failed with `AssertionError: True is not false`. The new test failed with `FileNotFoundError` before the checker existed, then passed. A later session resumed Task 2 without rewriting the checker and marked a changed scenario-file hash stale. Review found `cancelled` was rejected while the suite was green. The assertion failed, then passed after `cancelled` was allowed.
+
 ### Claim cards for absorbed theses (2026-11-02)
+
 - [Advisory-only] Record visible kit limits as claim cards in `ci/claim_cards.json`, with shape and promotion rules in `usage/AGENT_EVALUATION.md`. A normative claim or a new required CI check needs an integrated canary under `ci/gate_tests/`. The checker does not read unregistered `constitution/` prose.
 - [Verification] Add `ci/validate_claim_cards.py` and standing-limit regressions to the existing `ci/gate_tests` job. Extend `doc-hygiene` path filters so registry-only edits run that job. No new workflow or mandatory adopter gate.
 - [Governance] ADR-0014 records the registry, its trust limits, and the constitution blind spot. Constitutional rules and import bundle definitions are unchanged; minimal remains documentation-only.
@@ -33,6 +42,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Verification] Kit `doc-hygiene` fails a pull request that changes `constitution/` unless `ci/claim_cards.json` is added or modified and still present. A paired edit passes. A typo needs the same touch and does not prove a meaningful card. Adopters do not run this step. ADR-0014 records this as the self-test closure criterion and lists the accepted limits.
 
 ### External tooling investigation and isolated pilot (2026-11-01)
+
 - [Advisory-only] Preserve the comparative review of development-agent governance/workflow tools, primary sources, evidence limits and reevaluation triggers in the existing external-project record.
 - [Experimental] Add a reproducible Spec Kit v1.2.5 + spec-gates v0.5.0 pilot, captured positive/negative results and a native-agent handoff. Preserve this kit's policy and test-evidence validator; production adoption remains deferred.
 - [Experimental] PR [#42](https://github.com/rhemzal/AI_governance/pull/42): optional in-repo adapter (`governance/experimental/spec_gates/`), Cursor `stop` wiring, projected spec-gates runtime, and advisory `spec-gates-kit-advisory` workflow. Native Cursor stop dispatch and required-check promotion remain open.
@@ -40,35 +50,41 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Import content] The opt-in experiment and evidence are included through the existing `research/` directory selection in research/full bundles. Minimal/standard selections, manifest definitions, canonical rules and mandatory CI gates are unchanged; importing research does not run the experiment or activate hooks.
 
 ### Test automation and runner evidence (2026-09-30)
+
 - [Advisory-only] Extend existing testing, evidence, adoption and evaluation guides with runner conformance controls, failure-to-regression loops and scoped upstream-first pilots.
 - [Feature] Add optional `ci/validate_test_evidence.py`: assess normalized observations against independently supplied run/state/check expectations; reject empty required coverage, reported failures and incomplete required cleanup.
 - [Verification] Add positive and negative regression controls to the existing `ci/gate_tests` job and include the helper in its existing workflow path filters. No new workflow or mandatory adopter gate.
 - [Governance] ADR-0013 records trust limits, native-runner ownership and adoption after upstream acceptance. Constitutional rules and import bundle definitions are unchanged; minimal remains documentation-only.
 
 ### Evidence-based methods and existing-project adoption (2026-09-28)
+
 - [Governance-impacting] ADR-0012 / AI_RULES §6.5: non-trivial work records baseline/gap, observable acceptance, smallest method and uncertainty in existing AEP/task evidence. Align daily and agent projections; preserve the routine-work exception and authority boundaries.
 - [Advisory-only] Add a primary-source evidence review, strengthen verification/oracle/maintenance reasoning, and add a concrete pinned-upgrade and one-slice pilot path with local promotion/retirement criteria.
 - [Import bundle change] Minimal adds the method selector and rollout guide (14 files, still documentation-only). Standard/full include the optional finding-set comparator and its tests through `ci/`; no new mandatory adopter CI gate or automatic downstream activation.
 - [Feature] Optional read-only `ci/ratchet_findings.py` rejects new finding identities and invalid/incomparable scans; it reports remaining debt, does not run scanners or update baselines, and needs a trusted host integration.
 
 ### Agent-first engineering methods (2026-09-28)
+
 - [Advisory-only] Add `usage/AI_ENGINEERING_METHODS.md` as the method-selection index for harness engineering, agent-legible repositories, executable specifications, verification-first work, runtime interaction, reusable skills/hooks, bounded delegation, isolated parallel execution, evaluation, and failure-to-harness improvement.
 - [Advisory-only] Add focused guides for agent harness engineering, machine-queryable runtime interaction (MCP is one implementation), spec-driven AI development, parallel execution, and agent engineering regression tasks.
 - [Advisory-only] Keep the methods technology-neutral and proportional: no new mandatory orchestration framework, MCP requirement, subagent workflow, hook, or CI gate.
 
 ### Gate input correctness (2026-09-27)
+
 - [Fix] September A-03: Python boundary examples inspect static import syntax, including direct/from/relative/indented forms. Python/Go recipes fail on missing/empty source roots and scanner errors; document the Go text scan and Python name-policy limits.
 - [Governance-impacting] ADR-0011: the ADR check accepts only added/modified numbered regular records at the tested revision. Deleted/template/symlink/type-change/detected-rename records do not satisfy it. Starter §4 fetches full history and matches the kit's governance prefixes (A-04/A-05).
 - [Fix] AEP detection recognizes tilde, longer and up-to-three-space-indented fences, rejects incomplete/multiple declarations, and ignores examples inside ordinary code fences. Schema version and absent-plan advisory behavior stay unchanged (A-07).
 - [Import bundle change] Standard/full gain scoped inline-check regression fixtures through existing `ci/`; the kit runs them in doc hygiene. Minimal stays documentation-only. Copy corrected recipes/workflows and the AEP validator from the same pinned revision; no downstream workflow is activated automatically.
 
 ### Safe bundle import (2026-09-27)
+
 - [Breaking rule change] ADR-0010: copy imports default to a fresh `vendor/AI_governance/` snapshot. Existing destinations are refused; host agent instructions, workflows and metadata are preserved and integrated by a reviewed merge. Existing root-layout imports require a deliberate migration, not an overwrite.
 - [Import bundle change] Minimal adds the manifest catalog, required architecture framework and terminology glossary. Standard/full inherit them and include the scoped importer/checker and separate regression suite through `ci/`. Bundle names and manifest schema remain unchanged.
 - [Governance-impacting] Distinguish kit-document paths from project source/commands/decisions. Optional trigger maps, interface proposals and architecture add-on references no longer masquerade as missing baseline prerequisites.
 - [Fix] Verify the declared bundle selection against a pinned source, including tracked file inventory, exclusions, content and executable bits. Retain kit-wide manifest checks only in the upstream workflow; add import safety/closure regressions. September A-01/A-02 repair evidence is tracked in the audit report.
 
 ### Agent execution update (2026-09-27)
+
 - [Governance-impacting] ADR-0008: bounded task mandates, action-specific authority, repair budgets, revision/environment-bound evidence, resume/handoff, and explicit task outcomes. Align constitution, projections, overlays, and debugging guidance; remove blanket reapproval for already authorized preparation.
 - [Breaking rule change] AEP applicability now follows HIGH risk, dependent non-trivial steps, handoff, or concurrency; routine reversible multi-file edits may use concise scope/verification statements. Review downstream overlays before adopting.
 - [Breaking rule change] ADR-0009: replace whole-PR grep with versioned structured AEP declarations and a standard-library validator. Upgrade workflow, validator, and PR template together; legacy marker-only declarations require migration. Structural validation is not proof of authorization or completion.
@@ -78,12 +94,14 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Fix] Restore the existing documentation gate: use syntax supported by pinned `yq` v4.44.3, resolve Markdown links relative to their source, and match bundle directory prefixes correctly. Detect backticked root-file dependencies without interpreting illustrative filenames as imports. Pin lychee v0.24.2 and replace its removed email-exclusion flag.
 
 ### Added
+
 - [Advisory-only] `usage/AI_PRODUCTIVITY_CALIBRATION.md` — phased planning (cold start → collect → calibrate → ranges); human vs AI methodology.
 - [Advisory-only] `usage/templates/AI_PRODUCTIVITY_LEDGER.template.md` — local gitignored ledger template.
 - [Advisory-only] `governance/AI_CALIBRATION_SUMMARY.template.md` — optional team aggregate summary.
 - [Advisory-only] `usage/QUICKGUIDE.md` Recipe I — Phase 0 scope-only planning + post-task ledger capture.
 
 ### Changed
+
 - [Advisory-only] `usage/HOW_TO_USE_WITH_COPILOT.md` — Time Planning defers to calibration guide; Phase 0 no calendar ETA.
 - [Advisory-only] `tooling/AI_TOOL_OPTIMIZATION.md`, `tooling/BENCHMARK_SCENARIOS.md` — linked to calibration; B1–B4 as Phase 1 starters.
 - [Advisory-only] `usage/GOVERNANCE_SCORECARD.md` — optional AI productivity KPIs.
@@ -97,12 +115,14 @@ This project follows a lightweight changelog intended for governance-kit consume
 Full consistency audit (Waves 0–8). Terminology and gate-timing alignment; minimal bundle expansion; audit closure.
 
 ### Added
+
 - [Governance-impacting] `adr/ADR_0007_Governance_Level_vs_CI_Maturity.md` — G0–G4 vs CM0–CM3 disambiguation.
 - [Advisory-only] `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`, `usage/GOVERNANCE_WAIVERS.md`, `usage/BOUNDARY_GATE_RECIPES.md`, `adr/ADR_0006_Adopter_Enforcement_Contract.md` (shipped post-v0.2.0; recorded here).
 - [Advisory-only] Kit CI: `doc-delta-advisory.yml`, `governance-waiver-advisory.yml`.
 - [Advisory-only] `usage/AUDIT_PLAYBOOK.md` — Full audit waves (0–8) procedure.
 
 ### Changed
+
 - [Import bundle change] `kit-manifest.yml` — `minimal` bundle adds `constitution/AI_ENFORCEMENT.md`, `ADAPTIVE_GOVERNANCE.md`, `usage/AEP_VALIDATION.md`.
 - [Governance-impacting] `architecture/TERMINOLOGY_GLOSSARY.md` — Governance Level (G) and CI Maturity (CM) terms + orientation map.
 - [Governance-impacting] `constitution/ADAPTIVE_GOVERNANCE.md` — Governance Level G0–G4 labels; GOVERNANCE FIT CHECK includes CM hint.
@@ -118,6 +138,7 @@ Full consistency audit (Waves 0–8). Terminology and gate-timing alignment; min
 ## v0.2.0 — 2026-07-05
 
 ### Added
+
 - [Import bundle change] `kit-manifest.yml` — machine-readable adoption bundles (`minimal`, `standard`, `architecture`, `research`, `full`); manifest schema `0.2`.
 - [Import bundle change] `kit-manifest.yml` — `standard` bundle includes `kit-manifest.yml`, `VERSIONING.md`, `DEVELOPMENT.md`, `CHANGELOG.md`.
 - [Advisory-only] `.github/workflows/doc-hygiene.yml` — kit-repo CM0 doc hygiene (shell + `yq` + `lychee`; no Python scripts).
@@ -134,6 +155,7 @@ Full consistency audit (Waves 0–8). Terminology and gate-timing alignment; min
 - [Advisory-only] Full governance audit (`usage/AUDIT_REPORT.md`, `usage/FIX_PLAN.md`) — 2026-07-05.
 
 ### Changed
+
 - [Advisory-only] Agent projections (`AGENTS.md`, `.github/copilot-instructions.md`) — Quick rules summary block; architecture entry point; provenance banners; non-interactive/timeout quick rule.
 - [Advisory-only] Import docs (`usage/HOW_TO_IMPORT.md`, `usage/QUICKGUIDE.md`, `README.md`) — reference manifest and adoption bundles; Option A resolves paths from manifest only.
 - [Advisory-only] `usage/ADOPTION_BUNDLES.md` — documents root meta docs in `standard`.
@@ -148,6 +170,7 @@ Full consistency audit (Waves 0–8). Terminology and gate-timing alignment; min
 - [Advisory-only] `governance/LOCAL_OVERLAY_TEMPLATE.md` — standard provenance banner.
 
 ### Removed
+
 - Docs: remove OS-specific doc-audit script; keep CI guidance tool-agnostic.
 - [Advisory-only] Removed the Python doctor script before release to preserve the kit's documentation-first, tool-agnostic positioning.
 
