@@ -6,7 +6,8 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ### Preset activation (2026-11-03)
 
-- [Fix] The separate Spec Kit preset command registers `ai-governance` in `.specify/presets/.registry` before copying the directory. A valid empty registry no longer leaves the copied preset unused. An existing registry entry is kept, and a second run still stops when the directory is already present.
+- [Fix] The opt-in procedure upgrade refuses an existing or dangling `v7.0.1.next` or `v7.0.1.prev` before copying a new pin, so an interrupted upgrade cannot nest the new pin under a stale staging tree and exit successfully with the old pin still active.
+- [Fix] The Spec Kit preset command validates the kit source and destination (including dangling symlinks), copies the preset, then updates `.specify/presets/.registry`. A failed copy no longer leaves `ai-governance` enabled without an installed directory. An existing registry entry is kept, and a second run still stops when the directory is already present.
 - [Verification] Activation smoke after opt-in copy is automated in `WorkProcedures.test_activation_smoke_after_opt_in_copy`.
 - [Docs] `governance/LOCAL_OVERLAY.md` dogfoods the import constraint table for this upstream repo. `kit-manifest.yml` excludes it from bundle copy.
 - [Docs] `usage/FOR_EXISTING_PROJECTS.md` adds a named downstream trial checklist and separates native Stop from workflow evidence.

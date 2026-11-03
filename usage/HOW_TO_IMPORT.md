@@ -223,16 +223,21 @@ when this project does not already resolve its own Spec Kit templates.
 
 Copying the directory is not enough when `.specify/presets/.registry` already
 exists. A valid registry lists the presets that are used; an empty `presets`
-object is valid and does not scan the directory. The command below registers
-`ai-governance` before the copy. An existing `ai-governance` entry is left as
-it is. A second run stops because the directory is already there. If an older
-copy left the directory without a registry entry, move that directory aside
-and run the command again.
+object is valid and does not scan the directory. The command below checks the
+kit source and destination, copies the preset, then registers `ai-governance`
+when that entry is not already present. A failed copy leaves the registry
+unchanged. An existing `ai-governance` entry is left as it is. A second run
+stops because the directory is already there. If an older copy left the
+directory without a registry entry, move that directory aside and run the
+command again.
 
 ```bash
 set -euo pipefail
+test -d "$KIT/.specify/presets/ai-governance"
 test ! -e .specify/presets/ai-governance
+test ! -L .specify/presets/ai-governance
 mkdir -p .specify/presets
+cp -aL "$KIT/.specify/presets/ai-governance" .specify/presets/ai-governance
 python3 - <<'PY'
 import json
 from pathlib import Path
@@ -262,17 +267,22 @@ if "ai-governance" not in presets:
     }
 path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 PY
-cp -aL "$KIT/.specify/presets/ai-governance" .specify/presets/ai-governance
 ```
 
-Upgrade only after the new pin's own sums check. Stop before replacing the
-active pin when `v7.0.1.prev` already exists:
+Upgrade only after the new pin's own sums check. Stop before copying when
+`v7.0.1.next` or `v7.0.1.prev` already exists, including as a dangling symlink.
+An interrupted attempt that left a staging directory must be reviewed and removed
+in a separate step before retrying:
 
 ```bash
 set -euo pipefail
+test -d "$NEW_KIT/vendor/superpowers/v7.0.1"
+test ! -e vendor/superpowers/v7.0.1.next
+test ! -L vendor/superpowers/v7.0.1.next
+test ! -e vendor/superpowers/v7.0.1.prev
+test ! -L vendor/superpowers/v7.0.1.prev
 cp -aL "$NEW_KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1.next
 ( cd vendor/superpowers/v7.0.1.next && sha256sum -c SHA256SUMS )
-test ! -e vendor/superpowers/v7.0.1.prev
 mv vendor/superpowers/v7.0.1 vendor/superpowers/v7.0.1.prev
 mv vendor/superpowers/v7.0.1.next vendor/superpowers/v7.0.1
 ```
