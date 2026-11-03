@@ -149,6 +149,97 @@ def verify_copy(destination, files, excludes):
             raise BundleError(f"Imported executable bit differs: {name}")
 
 
+HOST_OWNED = (
+    "AGENTS.md",
+    ".github/copilot-instructions.md",
+    "CHANGELOG.md",
+    "DEVELOPMENT.md",
+    "VERSIONING.md",
+    "governance/LOCAL_OVERLAY.md",
+)
+
+
+def readopt_destination(project_root):
+    """Choose a fresh snapshot path. Never replace an active snapshot or the project root."""
+    project_root = Path(os.path.abspath(project_root))
+    if not project_root.is_dir():
+        raise BundleError(f"Missing project root: {project_root}")
+    active = project_root / "vendor" / "AI_governance"
+    staged = project_root / "vendor" / "AI_governance.next"
+    if active.exists() and not active.is_dir():
+        raise BundleError(f"Refusing non-directory snapshot path: {active}")
+    chosen = staged if active.exists() else active
+    if chosen.exists():
+        raise BundleError(f"Refusing existing destination (even if empty): {chosen}")
+    return chosen
+
+
+def _adopted_bytes(project_root, name):
+    active = project_root / "vendor" / "AI_governance" / name
+    if active.is_file():
+        return active.read_bytes()
+    if name in HOST_OWNED or (project_root / "vendor" / "AI_governance").is_dir():
+        return None
+    root_file = project_root / name
+    if root_file.is_file():
+        return root_file.read_bytes()
+    return None
+
+
+def merge_readopt(project_root, new_files, previous=None):
+    """Join a new snapshot with rules already in the project. Do not drop a local rule."""
+    project_root = Path(os.path.abspath(project_root))
+    previous = previous or {}
+    merged = {}
+    lines = ["# Re-adoption report", "",
+             "Host-owned files were not modified. A local rule is kept when it differs",
+             "from the new kit and the previous revision does not show it was unchanged.",
+             ""]
+    for name in HOST_OWNED:
+        if (project_root / name).is_file():
+            lines.append(f"- host file unchanged: {name}")
+    for name, (new_content, mode) in sorted(new_files.items()):
+        adopted = _adopted_bytes(project_root, name)
+        base = previous.get(name)
+        if adopted is None or adopted == new_content:
+            merged[name] = (new_content, mode)
+            if name in HOST_OWNED and (project_root / name).is_file():
+                lines.append(f"- merge by hand: kit copy of {name} is in the new snapshot")
+            continue
+        if base is not None and adopted == base:
+            merged[name] = (new_content, mode)
+            lines.append(f"- took upstream: {name}")
+        else:
+            merged[name] = (adopted, mode)
+            why = "previous revision unknown" if base is None else "both sides changed"
+            lines.append(f"- kept local rule ({why}): {name}")
+    old_root = project_root / "vendor" / "AI_governance"
+    if old_root.is_dir():
+        for path in old_root.rglob("*"):
+            if path.is_file():
+                name = path.relative_to(old_root).as_posix()
+                if name not in new_files:
+                    lines.append(f"- old snapshot file not in the new selection: {name}")
+    elif (project_root / "constitution" / "AI_RULES.md").is_file():
+        lines.append("- root-layout file left unchanged: constitution/AI_RULES.md")
+    lines.append("")
+    return merged, "\n".join(lines)
+
+
+def _previous_files(source, revision, new_files):
+    if len(revision) != 40 or any(character not in "0123456789abcdefABCDEF" for character in revision):
+        raise BundleError("Previous revision must be a full 40-character SHA")
+    found = {}
+    for name in new_files:
+        result = subprocess.run(
+            ["git", "-C", str(source), "show", f"{revision}:{name}"],
+            capture_output=True, timeout=15,
+        )
+        if result.returncode == 0:
+            found[name] = result.stdout
+    return found
+
+
 def import_copy(source, destination, files, excludes):
     source, destination = Path(os.path.abspath(source)), Path(os.path.abspath(destination))
     no_symlinks(destination)
@@ -176,11 +267,27 @@ def main(argv=None):
     parser.add_argument("--destination", required=True, type=Path)
     parser.add_argument("--bundle", action="append", required=True)
     parser.add_argument("--check", action="store_true", help="read-only comparison; do not copy")
+    parser.add_argument("--readopt", action="store_true",
+                        help="destination is the project root; merge into a new snapshot beside any existing one")
+    parser.add_argument("--previous", default="",
+                        help="full SHA of the previously imported kit revision, for a three-way join")
     args = parser.parse_args(argv)
     try:
+        project_root = args.destination
+        if args.readopt:
+            args.destination = readopt_destination(args.destination)
         manifest = json.loads(args.manifest_json.read_text(encoding="utf-8"))
         files, excludes = snapshot(args.source, manifest, args.bundle)
-        if args.check:
+        if args.readopt and not args.check:
+            previous = _previous_files(args.source, args.previous, files) if args.previous else {}
+            files, report = merge_readopt(project_root, files, previous)
+            report_path = project_root / "vendor" / "AI_governance.readopt-report.md"
+            if report_path.exists():
+                raise BundleError(f"Refusing existing re-adoption report: {report_path}")
+            import_copy(args.source, args.destination, files, excludes)
+            report_path.parent.mkdir(parents=True, exist_ok=True)
+            report_path.write_text(report, encoding="utf-8")
+        elif args.check:
             verify_copy(args.destination, files, excludes)
         else:
             import_copy(args.source, args.destination, files, excludes)

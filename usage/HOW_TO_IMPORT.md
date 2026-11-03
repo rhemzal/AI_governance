@@ -121,7 +121,7 @@ A full manifest catalog is included in every baseline. Record the actual selecte
 
 ## Option A: Copy into a fresh kit directory
 
-Choose `minimal` or `standard`, with declared optional add-ons. Use `full` only with the justification in `usage/ADOPTION_BUNDLES.md`. Resolve recursive `extends` / `composes`, union/deduplicate paths, and honor `exclude`. Never recursively copy the kit over the project root or an existing kit directory.
+Choose `minimal` or `standard`, with declared optional add-ons. Use `full` only with the justification in `usage/ADOPTION_BUNDLES.md`. Resolve recursive `extends` / `composes`, union/deduplicate paths, and honor `exclude`. Never recursively copy the kit over the project root or an existing kit directory. If `vendor/AI_governance` already exists, do not delete it to make the command below succeed. Use the re-adoption command instead.
 
 The reference tool `ci/import_bundle.py` is in the **pinned upstream checkout** (and standard/full imports). It requires Python 3.9+ and Git; convert the manifest with yq v4.44.3. Minimal imports remain documentation-only: running the upstream import tool does not add Python scripts to the imported bundle.
 
@@ -194,15 +194,17 @@ rejects symlinks, and the kit's active `.cursor/skills/` entries for those
 procedures are symlinks. Do not put those symlinks in a bundle and do not
 relax that check.
 
-Copy regular files into the adopter project root. Stop if the pin directory
-already exists. From the adopter root, with `KIT` set to a reviewed checkout:
+Copy regular files into the adopter project root. Stop before the copy when
+the pin directory or the entry skill already exists. From the adopter root,
+with `KIT` set to a reviewed checkout:
 
 ```bash
+set -euo pipefail
 test ! -e vendor/superpowers/v7.0.1
-mkdir -p vendor/superpowers .cursor/skills/governed-work .specify/presets
+test ! -e .cursor/skills/governed-work/SKILL.md
+mkdir -p vendor/superpowers .cursor/skills/governed-work
 cp -aL "$KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1
 cp -L "$KIT/.cursor/skills/governed-work/SKILL.md" .cursor/skills/governed-work/SKILL.md
-cp -aL "$KIT/.specify/presets/ai-governance" .specify/presets/ai-governance
 ( cd vendor/superpowers/v7.0.1 && sha256sum -c SHA256SUMS )
 test ! -L .cursor/skills/governed-work/SKILL.md
 ```
@@ -210,20 +212,33 @@ test ! -L .cursor/skills/governed-work/SKILL.md
 Do not copy the other `.cursor/skills/` symlinks. The entry file points at
 `vendor/superpowers/v7.0.1/`. Leave `AGENTS.md` and `governance/LOCAL_OVERLAY.md`
 unchanged except for a pointer the adopter reviews and merges. A second copy
-must see that `vendor/superpowers/v7.0.1` exists and stop, not overwrite it.
+stops when either the pin or the skill file exists. It does not overwrite them.
 
-Upgrade only after the new pin's own sums check. Rollback puts the previous
-directory back and does not touch the overlay:
+The Spec Kit preset is separate. Skip it for the one-task trial. Copy it only
+when this project does not already resolve its own Spec Kit templates:
 
 ```bash
+set -euo pipefail
+test ! -e .specify/presets/ai-governance
+mkdir -p .specify/presets
+cp -aL "$KIT/.specify/presets/ai-governance" .specify/presets/ai-governance
+```
+
+Upgrade only after the new pin's own sums check. Rollback moves the previous
+directory back and deletes the replaced tree only after that move succeeds:
+
+```bash
+set -euo pipefail
 cp -aL "$NEW_KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1.next
 ( cd vendor/superpowers/v7.0.1.next && sha256sum -c SHA256SUMS )
 test ! -e vendor/superpowers/v7.0.1.prev
 mv vendor/superpowers/v7.0.1 vendor/superpowers/v7.0.1.prev
 mv vendor/superpowers/v7.0.1.next vendor/superpowers/v7.0.1
-# rollback, only if that previous directory exists
-rm -rf vendor/superpowers/v7.0.1
+test -d vendor/superpowers/v7.0.1.prev
+test -d vendor/superpowers/v7.0.1
+mv vendor/superpowers/v7.0.1 vendor/superpowers/v7.0.1.rollback
 mv vendor/superpowers/v7.0.1.prev vendor/superpowers/v7.0.1
+rm -rf vendor/superpowers/v7.0.1.rollback
 ```
 
 ### What is copied and what stays yours
@@ -280,6 +295,34 @@ Remove the trial by deleting `vendor/superpowers/v7.0.1`,
 pointer you merged. The disposable copy, repeat refusal, and upgrade/rollback
 checks are `ci/gate_tests/test_work_procedures.py`. They are not a result from
 a named downstream repository.
+
+### Re-adoption
+
+A project that already imported this kit is not a fresh directory. Do not point the first-import destination at the project root, and do not remove `vendor/AI_governance` so the first-import command will run again. Local edits inside that snapshot, host `AGENTS.md`, and `governance/LOCAL_OVERLAY.md` stay where they are.
+
+Re-adoption reads those previous rules and writes a joined snapshot. It does not replace the active tree. A file that differs from the new kit is kept when the previous imported revision is unknown or when both sides changed. A file that matches the previous revision and differs only in the new kit is updated. Host instruction files are listed in `vendor/AI_governance.readopt-report.md` and are not edited. The kit's copy of those files is in the new snapshot so the entry point can be merged by hand.
+
+An older root-layout import, with `constitution/AI_RULES.md` and no `vendor/AI_governance` directory, is joined the same way. The root files stay in place. The joined text goes only into the new snapshot.
+
+```bash
+set -euo pipefail
+: "${KIT_SOURCE:?Set the pinned upstream checkout path}"
+: "${KIT_REVISION:?Set its reviewed full commit SHA}"
+: "${PROJECT_ROOT:?Set the existing target project directory}"
+test -d "$PROJECT_ROOT"
+test "$(git -C "$KIT_SOURCE" rev-parse HEAD)" = "$KIT_REVISION"
+git -C "$KIT_SOURCE" diff --exit-code HEAD --
+KIT_IMPORT_JSON=$(mktemp)
+trap 'rm -f "$KIT_IMPORT_JSON"' EXIT
+yq -o=json '.' "$KIT_SOURCE/kit-manifest.yml" > "$KIT_IMPORT_JSON"
+python3 "$KIT_SOURCE/ci/import_bundle.py" \
+  --manifest-json "$KIT_IMPORT_JSON" --source "$KIT_SOURCE" \
+  --destination "$PROJECT_ROOT" --bundle standard --readopt
+```
+
+`--destination` is the project root in this mode. The tool chooses `vendor/AI_governance` only when that path is absent, and `vendor/AI_governance.next` when a snapshot is already there. It refuses to replace either one. Pass `--previous` with the full SHA of the earlier import when that SHA is known; otherwise every local difference is kept. After reading the report, a person switches to the new tree only in a separate reviewed step. Do not `rm -rf` the active snapshot as part of this command.
+
+For work procedures that are already present, do not run the first-copy block. It stops when the pin or the entry skill exists. A pin update uses the upgrade block, and only when `v7.0.1.prev` is absent. Rollback still requires that previous directory.
 
 ### Existing root-layout imports and updates
 

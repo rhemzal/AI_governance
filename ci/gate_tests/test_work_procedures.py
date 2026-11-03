@@ -111,6 +111,28 @@ class WorkProcedures(unittest.TestCase):
             self.assertEqual(check.returncode, 0, check.stdout + check.stderr)
             with self.assertRaises(FileExistsError):
                 _copy_procedures(ROOT, adopter)
+            self.assertFalse((adopter / ".specify/presets/ai-governance").exists())
+
+    def test_copy_refuses_an_existing_skill_without_a_pin(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            entry = adopter / ".cursor/skills/governed-work/SKILL.md"
+            entry.parent.mkdir(parents=True)
+            entry.write_text("LOCAL-SKILL\n", encoding="utf-8")
+            with self.assertRaises(FileExistsError):
+                _copy_procedures(ROOT, adopter)
+            self.assertEqual(entry.read_text(encoding="utf-8"), "LOCAL-SKILL\n")
+            self.assertFalse((adopter / "vendor/superpowers/v7.0.1").exists())
+
+    def test_rollback_without_a_previous_pin_leaves_the_active_pin(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            _copy_procedures(ROOT, adopter)
+            pin = adopter / "vendor/superpowers/v7.0.1/PIN.md"
+            original = pin.read_bytes()
+            with self.assertRaises(FileNotFoundError):
+                _rollback_pin(adopter)
+            self.assertEqual(pin.read_bytes(), original)
 
     def test_upgrade_then_rollback_restores_the_pin_and_overlay(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -177,29 +199,25 @@ def _rollback_pin(adopter):
     base = adopter / "vendor/superpowers"
     active = base / "v7.0.1"
     previous = base / "v7.0.1.prev"
-    if not previous.is_dir():
+    holding = base / "v7.0.1.rollback"
+    if not previous.is_dir() or not active.is_dir():
         raise FileNotFoundError(previous)
-    if active.exists():
-        shutil.rmtree(active)
+    if holding.exists():
+        raise FileExistsError(holding)
+    active.rename(holding)
     previous.rename(active)
+    shutil.rmtree(holding)
 
 
 def _copy_procedures(kit, adopter):
-    """Regular-file copy used by usage/HOW_TO_IMPORT.md. Refuse an existing pin."""
+    """Regular-file copy used by usage/HOW_TO_IMPORT.md. Refuse an existing pin or skill."""
     pin_dest = adopter / "vendor/superpowers/v7.0.1"
+    entry = adopter / ".cursor/skills/governed-work/SKILL.md"
     if pin_dest.exists():
         raise FileExistsError(pin_dest)
+    if entry.exists():
+        raise FileExistsError(entry)
     pin_dest.parent.mkdir(parents=True, exist_ok=True)
     shutil.copytree(kit / "vendor/superpowers/v7.0.1", pin_dest, symlinks=False)
-    entry_dir = adopter / ".cursor/skills/governed-work"
-    entry_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(
-        kit / ".cursor/skills/governed-work/SKILL.md",
-        entry_dir / "SKILL.md",
-    )
-    preset_dest = adopter / ".specify/presets/ai-governance"
-    shutil.copytree(
-        kit / ".specify/presets/ai-governance",
-        preset_dest,
-        symlinks=False,
-    )
+    entry.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(kit / ".cursor/skills/governed-work/SKILL.md", entry)

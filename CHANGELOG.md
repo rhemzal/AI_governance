@@ -4,6 +4,14 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Re-adoption guard (2026-11-03)
+
+- [Fix] `ci/import_bundle.py --readopt` joins the new snapshot with rules already in the project. A local difference is kept when the previous revision is unknown or both sides changed. Host instructions and a root-layout `constitution/AI_RULES.md` are not overwritten. The active snapshot is not replaced.
+
+### Opt-in copy guards (2026-11-03)
+
+- [Fix] The procedure copy stops when the entry skill already exists, and rollback deletes the active pin only after `v7.0.1.prev` has been moved back. The Spec Kit preset is a separate command, not part of the one-task copy.
+
 ### Live-project procedure trial (2026-11-03)
 
 - [Pilot] The opt-in recipe now says what is copied, what stays host-owned, how to invoke `.cursor/skills/governed-work/SKILL.md`, and how to remove the trial. The entry skill resolves kit policy under `vendor/AI_governance/` when the project root has no `constitution/`. spec-gates, the Stop hook, and `specify workflow run` are outside that trial.

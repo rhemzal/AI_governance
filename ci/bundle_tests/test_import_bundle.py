@@ -85,6 +85,61 @@ class ImportSafetyTests(unittest.TestCase):
         self.assertIn("Refusing existing destination", result.stderr)
         self.assertEqual(list(self.destination.iterdir()), [])
 
+    def test_merge_keeps_a_changed_local_rule_and_takes_upstream_when_unedited(self):
+        snap = self.project / "vendor/AI_governance/constitution"
+        snap.mkdir(parents=True)
+        (snap / "rules.md").write_text("local rule")
+        (self.project / "vendor/AI_governance/CHANGELOG.md").write_text("KIT: CHANGELOG.md\n")
+        new = {
+            "constitution/rules.md": (b"new kit rule\n", 0o644),
+            "CHANGELOG.md": (b"new changelog\n", 0o644),
+        }
+        previous = {
+            "constitution/rules.md": b"base\n",
+            "CHANGELOG.md": b"KIT: CHANGELOG.md\n",
+        }
+        merged, report = bundle.merge_readopt(self.project, new, previous)
+        self.assertEqual(merged["constitution/rules.md"][0], b"local rule")
+        self.assertEqual(merged["CHANGELOG.md"][0], b"new changelog\n")
+        self.assertIn("kept local rule", report)
+        self.assertIn("took upstream: CHANGELOG.md", report)
+
+    def test_readopt_stages_beside_a_previous_snapshot(self):
+        (self.project / "AGENTS.md").write_text("HOST")
+        root_rules = self.project / "constitution" / "AI_RULES.md"
+        root_rules.parent.mkdir()
+        root_rules.write_text("OLD ROOT KIT")
+        self.assertEqual(self.cli().returncode, 0)
+        (self.destination / "AGENTS.md").write_text("LOCAL SNAPSHOT EDIT")
+        self.destination = self.project
+        result = self.cli("--readopt")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        staged = self.project / "vendor/AI_governance.next"
+        self.assertEqual((self.project / "AGENTS.md").read_text(), "HOST")
+        self.assertEqual(root_rules.read_text(), "OLD ROOT KIT")
+        self.assertEqual((self.project / "vendor/AI_governance/AGENTS.md").read_text(), "LOCAL SNAPSHOT EDIT")
+        self.assertEqual((staged / "AGENTS.md").read_text(), "LOCAL SNAPSHOT EDIT")
+        report = (self.project / "vendor" / "AI_governance.readopt-report.md").read_text(encoding="utf-8")
+        self.assertIn("kept local rule", report)
+        self.destination = staged
+        self.assertIn("Refusing existing destination", self.cli().stderr)
+
+    def test_readopt_keeps_root_rules_and_stages_a_snapshot(self):
+        root_rules = self.project / "constitution" / "AI_RULES.md"
+        root_rules.parent.mkdir()
+        root_rules.write_text("OLD ROOT KIT")
+        (self.project / "AGENTS.md").write_text("HOST")
+        self.destination = self.project
+        result = self.cli("--readopt")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(root_rules.read_text(), "OLD ROOT KIT")
+        self.assertEqual((self.project / "AGENTS.md").read_text(), "HOST")
+        staged = self.project / "vendor" / "AI_governance"
+        self.assertTrue((staged / "AGENTS.md").read_text().startswith("KIT:"))
+        report = (self.project / "vendor" / "AI_governance.readopt-report.md").read_text(encoding="utf-8")
+        self.assertIn("constitution/AI_RULES.md", report)
+        self.assertIn("host file unchanged: AGENTS.md", report)
+
     def test_direct_import_into_host_and_repeated_import_are_refused(self):
         self.destination = self.project
         (self.project / "AGENTS.md").write_text("KEEP HOST RULES")
