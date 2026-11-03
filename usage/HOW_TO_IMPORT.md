@@ -317,7 +317,10 @@ block, which keeps the old tree as `v7.0.1.prev`.
 After the copy, the host loads `.cursor/skills/governed-work/SKILL.md`.
 Documentation and registry wording do not require a red-green test. A failing
 check uses `systematic-debugging` from the pin. Paths in the skill are from
-the project root, not from `vendor/AI_governance/`.
+the project root, not from `vendor/AI_governance/`. A disposable adopter can
+check the same paths with
+`WorkProcedures.test_activation_smoke_after_opt_in_copy` in
+`ci/gate_tests/test_work_procedures.py`.
 
 ### One live-project trial
 

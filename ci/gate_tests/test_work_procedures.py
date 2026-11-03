@@ -115,6 +115,24 @@ class WorkProcedures(unittest.TestCase):
                 _copy_procedures(ROOT, adopter)
             self.assertFalse((adopter / ".specify/presets/ai-governance").exists())
 
+    def test_activation_smoke_after_opt_in_copy(self):
+        """SC-002 disposable adopter: entry, pin, and routing need no path repair."""
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            _copy_procedures(ROOT, adopter)
+            entry = adopter / ".cursor/skills/governed-work/SKILL.md"
+            pin = adopter / "vendor/superpowers/v7.0.1"
+            debug = pin / "skills/systematic-debugging/SKILL.md"
+            self.assertTrue(entry.is_file())
+            self.assertFalse(entry.is_symlink())
+            self.assertTrue(debug.is_file())
+            text = entry.read_text(encoding="utf-8")
+            self.assertIn("documentation or registry-text change does not require", text)
+            self.assertIn("| A failure, unexpected test result", text)
+            self.assertIn("systematic-debugging", text)
+            self.assertIn("vendor/superpowers/v7.0.1/", text)
+            self.assertTrue((pin / "SHA256SUMS").is_file())
+
     def test_copy_refuses_a_dangling_skill_symlink(self):
         with tempfile.TemporaryDirectory() as tmp:
             adopter = Path(tmp)

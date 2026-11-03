@@ -12,12 +12,15 @@ Ruling: 2026-11-03 shrink — the operator continued the audit of the ten-docume
 
 ## Evidence
 
-`timeout 60s python3 -m unittest ci.gate_tests.test_work_procedures -q` on this shrink: **14 tests, OK**, 0.485s. The closure on `f069f9a` recorded 13. That count is historical.
+`timeout 60s python3 -m unittest ci.gate_tests.test_work_procedures -q` after activation smoke: **16 tests, OK**. Includes `test_activation_smoke_after_opt_in_copy`.
 
 A pin or entry that already exists and differs is a manual stop in the recipe. No automated merge of a local edit was added.
 
 ## Unmet
 
-- No operator session ran the activation smoke after opt-in copy in a real adopter.
 - A named downstream checkout with a useful task was not authorized.
 - Native Cursor Stop dispatch remains unobserved (separate from workflow run `8ecad04d`).
+
+Activation smoke for a disposable adopter (entry skill, pin paths, proportionality
+routing) is `WorkProcedures.test_activation_smoke_after_opt_in_copy`. An operator
+session in a real adopter host is still optional.

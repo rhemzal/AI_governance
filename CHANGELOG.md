@@ -7,7 +7,8 @@ This project follows a lightweight changelog intended for governance-kit consume
 ### Preset activation (2026-11-03)
 
 - [Fix] The separate Spec Kit preset command registers `ai-governance` in `.specify/presets/.registry` before copying the directory. A valid empty registry no longer leaves the copied preset unused. An existing registry entry is kept, and a second run still stops when the directory is already present.
-- [Docs] The opt-in procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. `specs/002-opt-in-transfer-recipe/` keeps that record in `progress.md` only. Disposable fixture tests are not a named downstream trial. No reader session was run.
+- [Verification] Activation smoke after opt-in copy is automated in `WorkProcedures.test_activation_smoke_after_opt_in_copy`. A real host session remains optional.
+- [Docs] The opt-in procedure is `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. `specs/002-opt-in-transfer-recipe/` keeps that record in `progress.md` only. Disposable fixture tests are not a named downstream trial.
 - [Docs] The adoption plan in `research/EXTERNAL_PROJECT_EVALUATIONS.md` is `NOT-REQUIRED`. It no longer tells an agent to create `specs/002-operational-adoption/` or to restart the transfer recipe. The earlier ready plan remains in git history.
 - [Verification] Disposable `specify` 1.2.5 run `8ecad04d` used workflow `ai-governance` with an implement input. Steps specify, plan, tasks, and implement completed. `python3 -m unittest test_calc.py` exited 0, the expected value stayed, and `deploy.sh` did not run. This is not a named downstream trial and not an acceptance gain.
 - [Docs] `usage/FOR_EXISTING_PROJECTS.md` states host-first agent context, overlay row loading, one requirement path, and the maintainer sequence after snapshot import.
