@@ -85,6 +85,16 @@ class ImportSafetyTests(unittest.TestCase):
         self.assertIn("Refusing existing destination", result.stderr)
         self.assertEqual(list(self.destination.iterdir()), [])
 
+    def test_exclude_drops_governance_local_overlay_from_snapshot(self):
+        self.manifest["exclude"].append("governance/LOCAL_OVERLAY.md")
+        self.manifest["bundles"]["minimal"]["paths"].append("governance/")
+        self.write("governance/LOCAL_OVERLAY.md", "HOST OVERLAY\n")
+        self.write("governance/LOCAL_OVERLAY_TEMPLATE.md", "TEMPLATE\n")
+        git(self.source, "add", "governance")
+        files, _ = bundle.snapshot(self.source, self.manifest, ["minimal"])
+        self.assertIn("governance/LOCAL_OVERLAY_TEMPLATE.md", files)
+        self.assertNotIn("governance/LOCAL_OVERLAY.md", files)
+
     def test_deleted_snapshot_file_is_not_restored_when_the_previous_revision_has_it(self):
         snap = self.project / "vendor/AI_governance/constitution"
         snap.mkdir(parents=True)

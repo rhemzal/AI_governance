@@ -8,7 +8,8 @@ This directory contains local governance overlays and repository-specific policy
 
 ## Contents
 
-- **[LOCAL_OVERLAY_TEMPLATE.md](LOCAL_OVERLAY_TEMPLATE.md)** — Template for creating local governance overlays that extend or override the base governance kit rules. Copy this as `LOCAL_OVERLAY.md` in your target repository and customize it for your organization's needs.
+- **[LOCAL_OVERLAY.md](LOCAL_OVERLAY.md)** — Active overlay for **this upstream repository** only. Listed in `kit-manifest.yml` `exclude` so bundle import does not copy it into an adopter snapshot.
+- **[LOCAL_OVERLAY_TEMPLATE.md](LOCAL_OVERLAY_TEMPLATE.md)** — Template for adopters. Copy to `governance/LOCAL_OVERLAY.md` at the **project root** and customize.
 
 ## Testing
 

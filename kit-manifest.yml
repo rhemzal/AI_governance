@@ -25,6 +25,7 @@ kit:
 
 exclude:
   - notes/local/**
+  - governance/LOCAL_OVERLAY.md
   - .git/
 
 bundles:

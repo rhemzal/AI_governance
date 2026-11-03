@@ -35,6 +35,17 @@ Pinned Superpowers procedures and the project Spec Kit preset are **not** in imp
 
 Product tests start at CI Maturity CM1 when the project already has tests. A CM0 import does not invent them.
 
+## Named downstream trial (operator authorization required)
+
+Do not pick or modify another person's repository without explicit approval. When authorized:
+
+1. Record repository, revision, and one task with acceptance criteria **before** the agent starts.
+2. Use [How to import](HOW_TO_IMPORT.md) and [Opt-in work procedures](HOW_TO_IMPORT.md#opt-in-work-procedures) if the trial needs the procedure pin; use [FOR_EXISTING_PROJECTS](FOR_EXISTING_PROJECTS.md) agent context for overlay rows.
+3. Write outcomes to an existing ledger (`specs/<feature>/progress.md`) or the research record. Do not add a parallel procedure tree.
+4. Treat a disposable fixture or gate test as structural evidence only. Claim real downstream adoption only when the named checkout completes the authorized task.
+
+Native Cursor **Stop** dispatch is separate from workflow runs and opt-in copy. The shell contract is in `ci/gate_tests/test_stop_hook_contract.py`; proving host dispatch needs a wired Cursor session (`research/SPEC_KIT_SPEC_GATES_PILOT.md`, claim card `native-stop-dispatch-unobserved`).
+
 ## Related documents
 
 - [How to import](HOW_TO_IMPORT.md)
