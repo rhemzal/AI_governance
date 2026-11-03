@@ -17,6 +17,7 @@ This document is **advisory**. Normative rules live in `constitution/`.
 - **Before evaluating an external project**: check whether it already has an entry here. If it does, read the existing entry and its re-evaluation trigger before starting a new assessment.
 - **After evaluation**: append a new entry using the template below. Do not remove or overwrite existing entries.
 - **If a previous evaluation is revisited** (new version, changed context, updated requirements): add a **Re-evaluation** sub-entry under the original entry — do not overwrite the original.
+- **Before copying a thesis into `constitution/` or a required CI check**: add or update its card in `ci/claim_cards.json`. Rules and promotion limits are in `usage/AGENT_EVALUATION.md`. A rejected or deferred project that copies no thesis does not need a card.
 
 ---
 
@@ -44,6 +45,12 @@ This document is **advisory**. Normative rules live in `constitution/`.
 **Why rejected / deferred** (if applicable): concrete reasons.
 
 **Re-evaluation trigger**: under what conditions this entry should be revisited.
+
+**Claim card**: id in ci/claim_cards.json, or "none" when the verdict copies no thesis into constitution or required CI.
+
+**Oracle**: canary | declaration | scenario | none
+
+**What a hollow pass would look like**: one sentence. A matching document, a green job, or a starred repository does not by itself prove the thesis.
 ```
 
 ---
@@ -186,6 +193,8 @@ should not be mistaken for abandonment of the successor.
 
 **Concrete adoption from this investigation**: the research record, an opt-in
 experiment and its results. No candidate is activated by importing the kit.
+Visible limits from the pilot are claim cards `stop-hook-fail-open` and
+`native-stop-dispatch-unobserved`.
 
 **Next decision**: use [the Spec Kit + spec-gates pilot](SPEC_KIT_SPEC_GATES_PILOT.md)
 as the first investment. Follow it with a native-agent trial and a narrow

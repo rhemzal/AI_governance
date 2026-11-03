@@ -11,6 +11,8 @@ on:
       - 'ci/bundle_tests/**'
       - 'ci/gate_tests/**'
       - 'ci/validate_test_evidence.py'
+      - 'ci/validate_claim_cards.py'
+      - 'ci/claim_cards.json'
       - 'ci/ratchet_findings.py'
       - 'ci/ratchet_tests/**'
       - '.github/**'
@@ -24,6 +26,8 @@ on:
       - 'ci/bundle_tests/**'
       - 'ci/gate_tests/**'
       - 'ci/validate_test_evidence.py'
+      - 'ci/validate_claim_cards.py'
+      - 'ci/claim_cards.json'
       - 'ci/ratchet_findings.py'
       - 'ci/ratchet_tests/**'
       - '.github/**'
@@ -188,11 +192,14 @@ jobs:
 
       - name: Anti-fragmentation (D5, PR only)
         if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           fail=0
-          BASE="${{ github.event.pull_request.base.sha }}"
-          HEAD="${{ github.sha }}"
+          BASE="$BASE_SHA"
+          HEAD="$HEAD_SHA"
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             base=$(basename "$f")
@@ -202,6 +209,40 @@ jobs:
             fi
           done < <(git diff --name-only --diff-filter=A "$BASE" "$HEAD" | grep -E '^(usage|architecture)/.*\.md$' || true)
           exit "$fail"
+
+      - name: Constitution edits touch the claim-card registry
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          BASE="$BASE_SHA"
+          HEAD="$HEAD_SHA"
+          constitution=0
+          registry=0
+          while IFS=$'\t' read -r status path; do
+            [ -z "${path:-}" ] && continue
+            case "$path" in
+              constitution/*) constitution=1 ;;
+              ci/claim_cards.json)
+                case "$status" in
+                  A|M|T) registry=1 ;;
+                esac
+                ;;
+            esac
+          done < <(git diff --name-status --no-renames "$BASE" "$HEAD")
+          if [ "$constitution" -eq 1 ]; then
+            if ! git cat-file -e "$HEAD:ci/claim_cards.json" 2>/dev/null; then
+              echo "Constitution changed and ci/claim_cards.json is absent at HEAD."
+              exit 1
+            fi
+            if [ "$registry" -ne 1 ]; then
+              echo "Constitution changed without an added or modified ci/claim_cards.json."
+              exit 1
+            fi
+          fi
+          echo "Claim-card registry coupling ok."
 
       - name: Markdown link check (hub docs)
         uses: lycheeverse/lychee-action@v2

@@ -37,7 +37,7 @@ If a PR changes behavior that affects:
 Then require updates to:
 - `usage/` docs and/or ADRs
 
-**Optional automation (CM2+):** PR body check for `DOC DELTA` when non-doc paths change — see `usage/CI_STARTER_WORKFLOWS.md` §7 and kit `.github/workflows/doc-delta-advisory.yml`. Adopters may promote warning to required via `governance/LOCAL_OVERLAY.md`.
+**Optional automation (CM2+):** PR body check for a populated `DOC DELTA` section when non-doc paths change — see `usage/CI_STARTER_WORKFLOWS.md` §7 and kit `.github/workflows/doc-delta-advisory.yml`. A mention outside the section, an empty heading, or placeholder values do not count. The kit check warns and exits 0. Adopters may promote that warning to required via `governance/LOCAL_OVERLAY.md`.
 
 ## Gate: D3 — Broken Links / Missing Files
 

@@ -273,7 +273,7 @@ The checker validates declared data, not authority, feasibility, completion, or 
 
 ## 6) Governance waiver label advisory
 
-When a PR uses label `governance-waiver`, require the waiver block in the PR body (`usage/GOVERNANCE_WAIVERS.md`). Kit repo reference: `.github/workflows/governance-waiver-advisory.yml`.
+When a PR uses label `governance-waiver`, require the waiver block in the PR body (`usage/GOVERNANCE_WAIVERS.md`). The heading must contain a non-placeholder value for each required field, and Expiration must be an ISO date. Field names mentioned outside that section do not count. The check warns and still exits 0. Kit repo reference: `.github/workflows/governance-waiver-advisory.yml`.
 
 ```yaml
 name: governance-waiver-advisory
@@ -291,19 +291,69 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           set -euo pipefail
-          if ! printf '%s' "$PR_BODY" | grep -qi 'Governance waiver'; then
-            echo "::warning::PR has governance-waiver label but no Governance waiver section (see usage/GOVERNANCE_WAIVERS.md)"
-          fi
-          for field in 'Gate ID' Owner Expiration 'Compensating control'; do
-            if ! printf '%s' "$PR_BODY" | grep -qi "$field"; then
-              echo "::warning::Waiver block missing field: $field"
-            fi
-          done
+          python3 - "$PR_BODY" <<'PY'
+          import re
+          import sys
+          from datetime import date
+          body = sys.argv[1]
+          placeholders = {"yes/no", "tbd", "todo", "n/a", "na", "none", "later", "...", "-", "yyyy-mm-dd"}
+          required = (
+              ("gate id", "Gate ID"),
+              ("owner", "Owner"),
+              ("expiration", "Expiration"),
+              ("compensating control", "Compensating control"),
+          )
+          def heading(line):
+              match = re.match(r"^(#{1,6})\s+(.*?)\s*$", line)
+              return (len(match.group(1)), match.group(2)) if match else None
+          def section(pattern):
+              lines = body.splitlines()
+              start = level = None
+              for index, line in enumerate(lines):
+                  found = heading(line)
+                  if found and re.fullmatch(pattern, found[1], re.IGNORECASE):
+                      start, level = index + 1, found[0]
+                      break
+              if start is None:
+                  return None
+              end = len(lines)
+              for index in range(start, len(lines)):
+                  found = heading(lines[index])
+                  if found and found[0] <= level:
+                      end = index
+                      break
+              return lines[start:end]
+          def meaningful(raw):
+              return "" if raw.casefold().rstrip(".") in placeholders else raw
+          lines = section(r"Governance waiver(?:\s+\([^)]*\))?")
+          if lines is None:
+              print("::warning::PR has governance-waiver label but no Governance waiver section (see usage/GOVERNANCE_WAIVERS.md)")
+              raise SystemExit(0)
+          found = {}
+          for line in lines:
+              text = re.sub(r"^\s*[-*]\s*", "", line).strip().replace("**", "")
+              if ":" not in text:
+                  continue
+              label, raw = text.split(":", 1)
+              found[label.strip().casefold()] = raw.strip()
+          for key, label in required:
+              raw = found.get(key, "")
+              if key == "expiration":
+                  try:
+                      date.fromisoformat(raw)
+                      ok = True
+                  except ValueError:
+                      ok = False
+              else:
+                  ok = bool(meaningful(raw))
+              if not ok:
+                  print(f"::warning::Waiver block missing value: {label}")
+          PY
 ```
 
 ## 7) DOC DELTA advisory (behavior-changing PRs)
 
-Warn when non-documentation paths change without a `DOC DELTA` block in the PR body. CM2+ adopters may promote to `exit 1` via overlay. Kit repo: `.github/workflows/doc-delta-advisory.yml`.
+Warn when non-documentation paths change without a populated `DOC DELTA` section in the PR body. A mention outside the section, an empty heading, or a template whose values are blank or placeholders does not count. CM2+ adopters may promote the warning to `exit 1` via overlay. Kit repo: `.github/workflows/doc-delta-advisory.yml`. Doc-only path prefixes in the starter are the small default; the kit workflow also treats `.github/workflows/` and `governance/` as doc-only.
 
 ```yaml
 name: doc-delta-advisory
@@ -321,15 +371,61 @@ jobs:
       - name: Warn when code paths change without DOC DELTA
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          BASE="${{ github.event.pull_request.base.sha }}"
-          HEAD="${{ github.sha }}"
+          BASE="$BASE_SHA"
+          HEAD="$HEAD_SHA"
           CHANGED="$(git diff --name-only "$BASE" "$HEAD")"
           NON_DOC="$(echo "$CHANGED" | grep -Ev '^(.*\.md$|docs/|usage/|adr/)' || true)"
           if [ -z "$NON_DOC" ]; then exit 0; fi
-          if printf '%s' "$PR_BODY" | grep -qiE 'DOC DELTA|### DOC DELTA'; then exit 0; fi
-          echo "::warning::Non-doc paths changed without DOC DELTA (ci/DOC_GATES.md D2)"
+          if python3 - "$PR_BODY" <<'PY'
+          import re
+          import sys
+          body = sys.argv[1]
+          placeholders = {"yes/no", "tbd", "todo", "n/a", "na", "none", "later", "...", "-", "yyyy-mm-dd"}
+          def heading(line):
+              match = re.match(r"^(#{1,6})\s+(.*?)\s*$", line)
+              return (len(match.group(1)), match.group(2)) if match else None
+          def section(pattern):
+              lines = body.splitlines()
+              start = level = None
+              for index, line in enumerate(lines):
+                  found = heading(line)
+                  if found and re.fullmatch(pattern, found[1], re.IGNORECASE):
+                      start, level = index + 1, found[0]
+                      break
+              if start is None:
+                  return None
+              end = len(lines)
+              for index in range(start, len(lines)):
+                  found = heading(lines[index])
+                  if found and found[0] <= level:
+                      end = index
+                      break
+              return lines[start:end]
+          def value(line):
+              text = re.sub(r"^\s*[-*]\s*", "", line).strip().replace("**", "")
+              if not text:
+                  return ""
+              if ":" in text:
+                  content = text.split(":", 1)[1].strip()
+              elif text.endswith("?"):
+                  return ""
+              else:
+                  content = text
+              if content.casefold().rstrip(".") in placeholders:
+                  return ""
+              return content
+          lines = section(r"DOC DELTA")
+          raise SystemExit(0 if lines and any(value(line) for line in lines) else 1)
+          PY
+          then
+            echo "DOC DELTA present."
+            exit 0
+          fi
+          echo "::warning::Non-doc paths changed without a populated DOC DELTA section (ci/DOC_GATES.md D2)"
 ```
 
 ## Notes for adopters

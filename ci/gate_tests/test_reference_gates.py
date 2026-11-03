@@ -227,6 +227,19 @@ class AdrGate(unittest.TestCase):
                 self.git("mv", "adr/ADR_0001_Existing.md", target)
                 self.check(False)
 
+    def test_placeholder_rationale_still_satisfies_presence_check(self):
+        self.write("constitution/RULES.md", "Changed rule\n")
+        placeholder = "# ADR 0002\n\nTODO\n"
+        self.write("adr/ADR_0002_Placeholder.md", placeholder)
+        env = {**os.environ, "BASE_SHA": self.base, "HEAD_SHA": self.commit()}
+        for script in ADR_CHECKS:
+            result = shell(script, self.root, env=env)
+            message = result.stdout + result.stderr
+            with self.subTest(script=script[:60]):
+                self.assertEqual(result.returncode, 0, message)
+                self.assertIn("content still needs review", message)
+        self.assertEqual((self.root / "adr/ADR_0002_Placeholder.md").read_text(), placeholder)
+
     def test_added_and_updated_numbered_regular_records_pass(self):
         for target in ("adr/ADR_0002_New.md", "adr/ADR_0001_Existing.md"):
             with self.subTest(target=target):
