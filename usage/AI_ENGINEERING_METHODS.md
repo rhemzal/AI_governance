@@ -86,4 +86,5 @@ behavior and verified outcomes, not imported files, an adoption badge or a self-
   `usage/DEBUGGING_INDEX.md`, `usage/AI_RUN_EVIDENCE.md`,
   `usage/AI_PRODUCTIVITY_CALIBRATION.md`
 - Optional research: `research/AI_ENGINEERING_METHODS_EVIDENCE.md`
+- Absorbed theses: `ci/claim_cards.json`, rules in `usage/AGENT_EVALUATION.md`
 - Upstream-only: `tooling/BENCHMARK_SCENARIOS.md`

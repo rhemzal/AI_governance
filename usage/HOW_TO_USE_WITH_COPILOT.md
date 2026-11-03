@@ -153,6 +153,8 @@ When a PR changes behavior, paste this block into the PR description.
   - No overlapping docs introduced: yes/no
   - Links valid: yes/no
 
+An empty copy of this block does not satisfy the kit advisory. At least one line needs a value other than a blank field, `yes/no`, or `TBD`.
+
 ## Related Documents
 - `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
 - `usage/DEBUGGING_ACCELERATION_PLAYBOOK.md`

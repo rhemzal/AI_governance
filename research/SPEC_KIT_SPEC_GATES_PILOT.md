@@ -289,6 +289,8 @@ Cleaned notes for the dispatch attempts are in [cursor_native_2026-11-01](experi
 }
 ```
 
+Visible limits from this pilot are claim cards `stop-hook-fail-open` and `native-stop-dispatch-unobserved` in `ci/claim_cards.json`.
+
 ## Related Documents
 
 - [External project evaluations](EXTERNAL_PROJECT_EVALUATIONS.md)

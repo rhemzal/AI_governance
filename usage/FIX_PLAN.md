@@ -8,7 +8,7 @@ _Provenance: This document originates from the AI_governance kit (https://github
 
 **Report:** [AUDIT_REPORT.md](AUDIT_REPORT.md), current September audit.
 
-**State:** A-01/A-02 are merged in PR #36. A-03/A-04/A-05/A-07 are implemented and regression-verified in PR #37 (effective on merge). **11 findings remain unaddressed: 8 Medium, 3 Low (A-06 and A-08–A-17).** See the report's repair follow-ups for exact implementation/CI revisions and tests. The original audit and July closure are historical evidence; release closure is still not established.
+**State:** A-01/A-02 are merged in PR #36. A-03/A-04/A-05/A-07 are implemented and regression-verified in PR #37 (effective on merge). A-06 advisory-evidence repair is regression-verified with the claim-card registry. **10 findings remain unaddressed: 7 Medium, 3 Low (A-08–A-17).** See the report's repair follow-ups for exact implementation/CI revisions and tests. The original audit and July closure are historical evidence; release closure is still not established.
 
 Prioritize safe adoption and truthful verification before adding enforcement. Fix existing checks with small negative fixtures; do not introduce a general script pack, agent orchestrator, mandatory extra reviewers, or broad new process. Existing tests passing is compatible with uncovered defects.
 
@@ -22,7 +22,7 @@ Each row is a focused repair theme with acceptance criteria, not a new workflow 
 | P1 — implemented | Reliable boundary recipes — A-03 | `usage/BOUNDARY_GATE_RECIPES.md`, starter §3 | Detect path/scanner errors and ordinary forbidden imports; state limits | Missing paths and direct/from/indented/relative forbidden imports fail; allowed dependencies pass |
 | P1 — implemented | AEP declaration detection — A-07 | `ci/validate_aep.py`, `ci/tests/test_validate_aep.py`, `usage/AEP_VALIDATION.md`, related guidance if needed | Recognize or explicitly reject alternate fences; keep absent plans advisory | Existing 12 tests plus canonical/indented/tilde/longer/multiple/unfinished-fence regressions; valid recognized plans pass |
 | P1 — implemented | ADR correctness and starter parity — A-04, A-05 | `.github/workflows/adr-required.yml`, starter §4 | Require an existing eligible added/updated record; fetch comparison revisions; exclude deletion/template loopholes | PR-style checkout works; no-ADR/deleted-ADR/rename-away/template-only negatives fail; qualifying decision passes |
-| P2 | Useful advisory evidence — A-06 | Waiver and DOC DELTA workflows, PR template, waiver guide | Inspect section-local non-placeholder values; retain advisory severity | Empty templates warn; unrelated matching prose does not suppress warnings; populated sections and exemptions work |
+| P2 — implemented | Useful advisory evidence — A-06 | Waiver and DOC DELTA workflows, starter §6 and §7 | Inspect section-local non-placeholder values; retain advisory severity | Empty templates warn; unrelated matching prose does not suppress warnings; populated sections and doc-only changes stay quiet; both checks exit 0 |
 | P2 | One applicability and gate contract — A-09, A-10, A-16 | Constitution/daily enforcement, architecture/interface gates, matrix, contributing/import/overlay projections | Decide A3 timing; enumerate A4/A5/I5; qualify G/CM; reconcile reporting, ADR/test applicability, interface authority and automation scope | Complete gate-ID/timing comparison; G0, reversible G1, CM0 without tests, and high-risk scenarios agree; interactive and automation modes have consistent rules |
 | P2 | Architecture selection examples — A-11, A-12 | Quality-attributes RAG note, architecture style matrix, corresponding framework references | Correct dependency prohibition; make exactly-once requirement-dependent | Core-to-adapter violation rejected, inward dependency allowed; suitable at-least-once/idempotent streaming remains eligible |
 | P2 | Accurate enforcement status — A-08 | Enforcement matrix and trigger guidance; workflow implementation only if required statuses are selected | Separate policy, check execution, and branch enforcement; prevent path-filter pending checks before a required-status rollout | Dated metadata matches docs; governance, usage-only and Python-only PRs get intended status; no automatic protection change |
@@ -30,7 +30,7 @@ Each row is a focused repair theme with acceptance criteria, not a new workflow 
 
 ### Ordering and decisions
 
-- Safe imports are merged; P1 boundary/AEP/ADR input repairs are verified. Next themes are useful advisory evidence (A-06) and reconciliation of canonical applicability/gate mappings (A-09/A-10/A-16), followed by the remaining P2/P3 rows.
+- Safe imports are merged; P1 boundary/AEP/ADR input repairs are verified. A-06 advisory evidence now warns on empty templates and ignores mentions outside the section. Next themes are reconciliation of canonical applicability/gate mappings (A-09/A-10/A-16), followed by the remaining P2/P3 rows.
 - Repair demonstrated detection gaps before presenting green checks as substantive evidence. A populated plan or ADR still needs review of meaning and authority.
 - Resolve canonical applicability before copying more quick rules. Decide A3 timing explicitly; this audit does not silently choose G3 or G4.
 - Branch protection is **not** a prerequisite for repairs. If the maintainer wants required checks, prepare compatible statuses first and make that policy decision separately. Preserve adaptive governance for solo use.
@@ -40,7 +40,7 @@ Each row is a focused repair theme with acceptance criteria, not a new workflow 
 
 | Checkpoint | Required evidence | Current state |
 | --- | --- | --- |
-| Finding remediated | Implemented repair; original failing scenario now behaves correctly; unaffected control still works | A-01–A-05 and A-07 verified; A-06 and A-08–A-17 unaddressed |
+| Finding remediated | Implemented repair; original failing scenario now behaves correctly; unaffected control still works | A-01–A-07 verified; A-08–A-17 unaddressed |
 | Wave 7 closure | At least three distinct drift scenarios recorded; no open High finding | High A-01 has a verified repair; full wave/release closure is not claimed by the scoped retest |
 | Clean release audit | Material findings repaired or explicitly dispositioned with rationale; applicable wave exit criteria rechecked against an exact revision | Not established |
 | Stable bundle contract | Selected-bundle adoption works; one tagged stable cycle; release mapping and remaining checklist conditions satisfied | Not established |
