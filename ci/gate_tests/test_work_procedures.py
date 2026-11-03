@@ -113,6 +113,44 @@ class WorkProcedures(unittest.TestCase):
                 _copy_procedures(ROOT, adopter)
             self.assertFalse((adopter / ".specify/presets/ai-governance").exists())
 
+    def test_copy_refuses_a_dangling_skill_symlink(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            entry = adopter / ".cursor/skills/governed-work/SKILL.md"
+            entry.parent.mkdir(parents=True)
+            entry.symlink_to("missing")
+            with self.assertRaises(FileExistsError):
+                _copy_procedures(ROOT, adopter)
+            self.assertTrue(entry.is_symlink())
+            self.assertFalse((adopter / "vendor/superpowers/v7.0.1").exists())
+
+    def test_upgrade_and_rollback_are_separate_commands(self):
+        text = (ROOT / "usage/HOW_TO_IMPORT.md").read_text(encoding="utf-8")
+        fences = []
+        inside = False
+        current = []
+        for line in text.splitlines():
+            if line.startswith("```"):
+                if inside:
+                    fences.append("\n".join(current))
+                    current = []
+                inside = not inside
+                continue
+            if inside:
+                current.append(line)
+        upgrade = [block for block in fences if "v7.0.1.next" in block]
+        rollback = [block for block in fences if "v7.0.1.rollback" in block]
+        self.assertEqual(len(upgrade), 1)
+        self.assertEqual(len(rollback), 1)
+        self.assertNotIn("rollback", upgrade[0])
+        self.assertNotIn("rm -rf", upgrade[0])
+        self.assertIn("test ! -e vendor/superpowers/v7.0.1.rollback", rollback[0])
+        self.assertIn("test ! -L vendor/superpowers/v7.0.1.rollback", rollback[0])
+        self.assertIn("rm -rf vendor/superpowers/v7.0.1.rollback", rollback[0])
+        copy = [block for block in fences if "cp -L" in block and "governed-work/SKILL.md" in block]
+        self.assertEqual(len(copy), 1)
+        self.assertIn("test ! -L .cursor/skills/governed-work/SKILL.md", copy[0])
+
     def test_copy_refuses_an_existing_skill_without_a_pin(self):
         with tempfile.TemporaryDirectory() as tmp:
             adopter = Path(tmp)
@@ -202,20 +240,24 @@ def _rollback_pin(adopter):
     holding = base / "v7.0.1.rollback"
     if not previous.is_dir() or not active.is_dir():
         raise FileNotFoundError(previous)
-    if holding.exists():
+    if _path_present(holding):
         raise FileExistsError(holding)
     active.rename(holding)
     previous.rename(active)
     shutil.rmtree(holding)
 
 
+def _path_present(path):
+    return path.is_symlink() or path.exists()
+
+
 def _copy_procedures(kit, adopter):
     """Regular-file copy used by usage/HOW_TO_IMPORT.md. Refuse an existing pin or skill."""
     pin_dest = adopter / "vendor/superpowers/v7.0.1"
     entry = adopter / ".cursor/skills/governed-work/SKILL.md"
-    if pin_dest.exists():
+    if _path_present(pin_dest):
         raise FileExistsError(pin_dest)
-    if entry.exists():
+    if _path_present(entry):
         raise FileExistsError(entry)
     pin_dest.parent.mkdir(parents=True, exist_ok=True)
     shutil.copytree(kit / "vendor/superpowers/v7.0.1", pin_dest, symlinks=False)

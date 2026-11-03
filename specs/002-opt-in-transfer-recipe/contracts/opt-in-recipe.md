@@ -17,7 +17,7 @@
 
 1. Copy `vendor/superpowers/v7.0.1` as regular files.
 2. Copy `.cursor/skills/governed-work/SKILL.md` as a regular file (not symlink).
-3. Copy `.specify/presets/ai-governance/` as regular files (optional but included in verified fixture).
+3. Do not copy `.specify/presets/ai-governance/`. That preset is a separate command in `usage/HOW_TO_IMPORT.md` and is not part of this verified copy.
 4. MUST NOT modify `AGENTS.md` or `governance/LOCAL_OVERLAY.md`.
 
 **Postconditions**:

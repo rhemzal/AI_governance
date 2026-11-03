@@ -6,7 +6,8 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ### Re-adoption guard (2026-11-03)
 
-- [Fix] `ci/import_bundle.py --readopt` joins the new snapshot with rules already in the project. A local difference is kept when the previous revision is unknown or both sides changed. Host instructions and a root-layout `constitution/AI_RULES.md` are not overwritten. The active snapshot is not replaced.
+- [Fix] `ci/import_bundle.py --readopt` joins the new snapshot with rules already in the project. A local difference is kept when the previous revision is unknown or both sides changed, and the report includes the upstream text. A file removed from the active snapshot stays removed when that revision still contains it. An unknown `--previous` SHA fails before any write. Host instructions and a root-layout `constitution/AI_RULES.md` are not overwritten. The active snapshot is not replaced.
+- [Fix] The procedure upgrade command and the rollback command are separate. Rollback refuses to run when `v7.0.1.rollback` already exists. The first copy also stops when the pin or the entry skill is a dangling symlink.
 
 ### Opt-in copy guards (2026-11-03)
 

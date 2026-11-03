@@ -195,13 +195,16 @@ procedures are symlinks. Do not put those symlinks in a bundle and do not
 relax that check.
 
 Copy regular files into the adopter project root. Stop before the copy when
-the pin directory or the entry skill already exists. From the adopter root,
+the pin directory or the entry skill already exists, including when either
+path is a dangling symlink. From the adopter root,
 with `KIT` set to a reviewed checkout:
 
 ```bash
 set -euo pipefail
 test ! -e vendor/superpowers/v7.0.1
+test ! -L vendor/superpowers/v7.0.1
 test ! -e .cursor/skills/governed-work/SKILL.md
+test ! -L .cursor/skills/governed-work/SKILL.md
 mkdir -p vendor/superpowers .cursor/skills/governed-work
 cp -aL "$KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1
 cp -L "$KIT/.cursor/skills/governed-work/SKILL.md" .cursor/skills/governed-work/SKILL.md
@@ -224,8 +227,8 @@ mkdir -p .specify/presets
 cp -aL "$KIT/.specify/presets/ai-governance" .specify/presets/ai-governance
 ```
 
-Upgrade only after the new pin's own sums check. Rollback moves the previous
-directory back and deletes the replaced tree only after that move succeeds:
+Upgrade only after the new pin's own sums check. Stop before replacing the
+active pin when `v7.0.1.prev` already exists:
 
 ```bash
 set -euo pipefail
@@ -234,8 +237,17 @@ cp -aL "$NEW_KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1.next
 test ! -e vendor/superpowers/v7.0.1.prev
 mv vendor/superpowers/v7.0.1 vendor/superpowers/v7.0.1.prev
 mv vendor/superpowers/v7.0.1.next vendor/superpowers/v7.0.1
+```
+
+Rollback is a separate command. Run it only when the previous pin is present.
+It deletes the replaced tree only after that pin is back in place:
+
+```bash
+set -euo pipefail
 test -d vendor/superpowers/v7.0.1.prev
 test -d vendor/superpowers/v7.0.1
+test ! -e vendor/superpowers/v7.0.1.rollback
+test ! -L vendor/superpowers/v7.0.1.rollback
 mv vendor/superpowers/v7.0.1 vendor/superpowers/v7.0.1.rollback
 mv vendor/superpowers/v7.0.1.prev vendor/superpowers/v7.0.1
 rm -rf vendor/superpowers/v7.0.1.rollback
@@ -300,9 +312,9 @@ a named downstream repository.
 
 A project that already imported this kit is not a fresh directory. Do not point the first-import destination at the project root, and do not remove `vendor/AI_governance` so the first-import command will run again. Local edits inside that snapshot, host `AGENTS.md`, and `governance/LOCAL_OVERLAY.md` stay where they are.
 
-Re-adoption reads those previous rules and writes a joined snapshot. It does not replace the active tree. A file that differs from the new kit is kept when the previous imported revision is unknown or when both sides changed. A file that matches the previous revision and differs only in the new kit is updated. Host instruction files are listed in `vendor/AI_governance.readopt-report.md` and are not edited. The kit's copy of those files is in the new snapshot so the entry point can be merged by hand.
+Re-adoption reads those previous rules and writes a joined snapshot. It does not replace the active tree. A file that differs from the new kit is kept when the previous imported revision is unknown or when both sides changed. The kept bytes stay in the snapshot, and `vendor/AI_governance.readopt-report.md` includes the upstream text for that file. A file that matches the previous revision and differs only in the new kit is updated. A file that was removed from the active snapshot stays removed when that previous revision still contains it. Without the previous revision, the report names every selected file the active snapshot no longer has, and the new snapshot contains the kit copy. Host instruction files are listed in the report and are not edited.
 
-An older root-layout import, with `constitution/AI_RULES.md` and no `vendor/AI_governance` directory, is joined the same way. The root files stay in place. The joined text goes only into the new snapshot.
+An older root-layout import, with `constitution/AI_RULES.md` and no `vendor/AI_governance` directory, keeps its root files in place. A selected file that still exists at the project root is joined into the snapshot. A selected file that is not at the project root is not treated as a deletion: the snapshot receives the kit copy. The report lists root files under the selected directories that are outside the new selection. `--readopt` does not accept `--check`. The check compares a directory with the kit source, so a kept local rule would look like a bad copy.
 
 ```bash
 set -euo pipefail
@@ -320,7 +332,27 @@ python3 "$KIT_SOURCE/ci/import_bundle.py" \
   --destination "$PROJECT_ROOT" --bundle standard --readopt
 ```
 
-`--destination` is the project root in this mode. The tool chooses `vendor/AI_governance` only when that path is absent, and `vendor/AI_governance.next` when a snapshot is already there. It refuses to replace either one. Pass `--previous` with the full SHA of the earlier import when that SHA is known; otherwise every local difference is kept. After reading the report, a person switches to the new tree only in a separate reviewed step. Do not `rm -rf` the active snapshot as part of this command.
+When the full SHA of the earlier import is known, use this command instead of the one above. A SHA that is not a commit in the kit source stops the command before it writes:
+
+```bash
+set -euo pipefail
+: "${KIT_SOURCE:?Set the pinned upstream checkout path}"
+: "${KIT_REVISION:?Set its reviewed full commit SHA}"
+: "${PREVIOUS_KIT_SHA:?Set the full SHA of the earlier imported kit revision}"
+: "${PROJECT_ROOT:?Set the existing target project directory}"
+test -d "$PROJECT_ROOT"
+test "$(git -C "$KIT_SOURCE" rev-parse HEAD)" = "$KIT_REVISION"
+git -C "$KIT_SOURCE" diff --exit-code HEAD --
+KIT_IMPORT_JSON=$(mktemp)
+trap 'rm -f "$KIT_IMPORT_JSON"' EXIT
+yq -o=json '.' "$KIT_SOURCE/kit-manifest.yml" > "$KIT_IMPORT_JSON"
+python3 "$KIT_SOURCE/ci/import_bundle.py" \
+  --manifest-json "$KIT_IMPORT_JSON" --source "$KIT_SOURCE" \
+  --destination "$PROJECT_ROOT" --bundle standard --readopt \
+  --previous "$PREVIOUS_KIT_SHA"
+```
+
+`--destination` is the project root in this mode. The tool chooses `vendor/AI_governance` only when that path is absent, and `vendor/AI_governance.next` when a snapshot is already there. It refuses to replace either one. Without `--previous`, every local difference is kept and the report carries the upstream text. After reading the report, a person switches to the new tree only in a separate reviewed step. Do not `rm -rf` the active snapshot as part of this command.
 
 For work procedures that are already present, do not run the first-copy block. It stops when the pin or the entry skill exists. A pin update uses the upgrade block, and only when `v7.0.1.prev` is absent. Rollback still requires that previous directory.
 

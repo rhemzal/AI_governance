@@ -46,7 +46,7 @@ description: "Task list for opt-in governed work transfer recipe closure"
 
 **Purpose:** Confirm verified helper and documented shell recipe stay in sync before expanding docs.
 
-**Checkpoint:** `_copy_procedures` copies `vendor/superpowers/v7.0.1`, `.cursor/skills/governed-work/SKILL.md`, `.specify/presets/ai-governance`; refuses existing pin.
+**Checkpoint:** `_copy_procedures` copies `vendor/superpowers/v7.0.1` and `.cursor/skills/governed-work/SKILL.md`, and refuses an existing pin or entry skill. `.specify/presets/ai-governance` is a separate command.
 
 - [ ] T003 Compare § Opt-in work procedures in [usage/HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md) with `_copy_procedures` in [ci/gate_tests/test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py); record any path or flag mismatch in [progress.md](./progress.md) (expect none at planning baseline)
 - [ ] T004 If T003 found mismatch, fix [test_work_procedures.py](../../ci/gate_tests/test_work_procedures.py) and/or [HOW_TO_IMPORT.md](../../usage/HOW_TO_IMPORT.md); re-run T002

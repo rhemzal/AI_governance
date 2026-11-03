@@ -6,12 +6,16 @@ Use a clean pinned checkout for an adoption record. Python standard library only
 """
 
 import argparse
+import difflib
 import fnmatch
 import json
 import os
 from pathlib import Path, PurePosixPath
+import shutil
+import stat
 import subprocess
 import sys
+import tempfile
 
 
 class BundleError(ValueError):
@@ -174,54 +178,129 @@ def readopt_destination(project_root):
     return chosen
 
 
-def _adopted_bytes(project_root, name):
+def _root_layout(project_root):
+    return (
+        not (project_root / "vendor" / "AI_governance").is_dir()
+        and (project_root / "constitution" / "AI_RULES.md").is_file()
+    )
+
+
+def _adopted_record(project_root, name):
+    """Return (bytes, mode) for a rule already in the project, or None when absent."""
     active = project_root / "vendor" / "AI_governance" / name
-    if active.is_file():
-        return active.read_bytes()
-    if name in HOST_OWNED or (project_root / "vendor" / "AI_governance").is_dir():
+    if active.is_symlink() or active.exists():
+        path = active
+    elif name in HOST_OWNED or (project_root / "vendor" / "AI_governance").is_dir():
         return None
-    root_file = project_root / name
-    if root_file.is_file():
-        return root_file.read_bytes()
-    return None
+    else:
+        path = project_root / name
+        if not (path.is_symlink() or path.exists()):
+            return None
+    if path.is_symlink():
+        raise BundleError(f"Symlink path is not supported: {path}")
+    if not path.is_file():
+        raise BundleError(f"Adopted path is not a file: {path}")
+    return path.read_bytes(), stat.S_IMODE(path.stat().st_mode)
+
+
+def _upstream_diff(name, local, upstream):
+    try:
+        local_text = local.decode("utf-8")
+        upstream_text = upstream.decode("utf-8")
+    except UnicodeDecodeError:
+        return f"  binary differs: local {len(local)} bytes, upstream {len(upstream)} bytes"
+    text = "".join(difflib.unified_diff(
+        local_text.splitlines(keepends=True),
+        upstream_text.splitlines(keepends=True),
+        fromfile=f"local/{name}",
+        tofile=f"upstream/{name}",
+    ))
+    return text.rstrip("\n")
+
+
+def _refuse_snapshot_symlink(path):
+    if path.is_symlink():
+        raise BundleError(f"Symlink path is not supported: {path}")
 
 
 def merge_readopt(project_root, new_files, previous=None):
     """Join a new snapshot with rules already in the project. Do not drop a local rule."""
     project_root = Path(os.path.abspath(project_root))
+    previous_resolved = previous is not None
     previous = previous or {}
     merged = {}
     lines = ["# Re-adoption report", "",
-             "Host-owned files were not modified. A local rule is kept when it differs",
-             "from the new kit and the previous revision does not show it was unchanged.",
+             "Host-owned files were not modified. A local rule stays in the new snapshot",
+             "when the previous revision is unknown or both sides changed. The upstream",
+             "text for that file is in this report. A file removed from the active snapshot",
+             "stays removed when the previous revision still contains it.",
              ""]
     for name in HOST_OWNED:
         if (project_root / name).is_file():
             lines.append(f"- host file unchanged: {name}")
+    snapshot_root = project_root / "vendor" / "AI_governance"
+    has_snapshot = snapshot_root.is_dir()
+    root_layout = _root_layout(project_root)
     for name, (new_content, mode) in sorted(new_files.items()):
-        adopted = _adopted_bytes(project_root, name)
-        base = previous.get(name)
-        if adopted is None or adopted == new_content:
+        adopted = _adopted_record(project_root, name)
+        in_previous = name in previous
+        if adopted is None:
+            if has_snapshot and previous_resolved and in_previous:
+                lines.append(f"- kept deletion: {name}")
+                continue
+            merged[name] = (new_content, mode)
+            if root_layout and previous_resolved and in_previous:
+                lines.append(f"- not in the root layout, took upstream: {name}")
+            elif has_snapshot:
+                why = "not in previous revision" if previous_resolved else "previous revision unknown"
+                lines.append(f"- absent from the active snapshot ({why}): {name}")
+            elif name in HOST_OWNED and (project_root / name).is_file():
+                lines.append(f"- merge by hand: kit copy of {name} is in the new snapshot")
+            continue
+        local_bytes, local_mode = adopted
+        if local_bytes == new_content:
             merged[name] = (new_content, mode)
             if name in HOST_OWNED and (project_root / name).is_file():
                 lines.append(f"- merge by hand: kit copy of {name} is in the new snapshot")
             continue
-        if base is not None and adopted == base:
+        if previous_resolved and in_previous and local_bytes == previous[name]:
             merged[name] = (new_content, mode)
             lines.append(f"- took upstream: {name}")
+            continue
+        merged[name] = (local_bytes, local_mode)
+        if previous_resolved and in_previous:
+            why = "both sides changed"
+        elif previous_resolved:
+            why = "not in previous revision"
         else:
-            merged[name] = (adopted, mode)
-            why = "previous revision unknown" if base is None else "both sides changed"
-            lines.append(f"- kept local rule ({why}): {name}")
-    old_root = project_root / "vendor" / "AI_governance"
-    if old_root.is_dir():
-        for path in old_root.rglob("*"):
+            why = "previous revision unknown"
+        lines.append(f"- kept local rule ({why}): {name}")
+        diff = _upstream_diff(name, local_bytes, new_content)
+        if diff:
+            lines.append(diff)
+    if has_snapshot:
+        for path in snapshot_root.rglob("*"):
+            _refuse_snapshot_symlink(path)
             if path.is_file():
-                name = path.relative_to(old_root).as_posix()
+                name = path.relative_to(snapshot_root).as_posix()
                 if name not in new_files:
                     lines.append(f"- old snapshot file not in the new selection: {name}")
-    elif (project_root / "constitution" / "AI_RULES.md").is_file():
-        lines.append("- root-layout file left unchanged: constitution/AI_RULES.md")
+    elif root_layout:
+        prefixes = sorted({
+            PurePosixPath(name).parts[0]
+            for name in new_files
+            if len(PurePosixPath(name).parts) > 1
+        })
+        for prefix in prefixes:
+            root = project_root / prefix
+            if not root.is_dir():
+                continue
+            for path in root.rglob("*"):
+                _refuse_snapshot_symlink(path)
+                if path.is_file():
+                    name = path.relative_to(project_root).as_posix()
+                    if name not in new_files:
+                        lines.append(f"- root-layout file not in the new selection: {name}")
     lines.append("")
     return merged, "\n".join(lines)
 
@@ -229,6 +308,12 @@ def merge_readopt(project_root, new_files, previous=None):
 def _previous_files(source, revision, new_files):
     if len(revision) != 40 or any(character not in "0123456789abcdefABCDEF" for character in revision):
         raise BundleError("Previous revision must be a full 40-character SHA")
+    verify = subprocess.run(
+        ["git", "-C", str(source), "rev-parse", "--verify", f"{revision}^{{commit}}"],
+        capture_output=True, timeout=15,
+    )
+    if verify.returncode != 0 or verify.stdout.decode().strip().lower() != revision.lower():
+        raise BundleError(f"Previous revision is not a commit in the kit source: {revision}")
     found = {}
     for name in new_files:
         result = subprocess.run(
@@ -237,7 +322,26 @@ def _previous_files(source, revision, new_files):
         )
         if result.returncode == 0:
             found[name] = result.stdout
+            continue
+        detail = result.stderr.decode("utf-8", "replace")
+        missing = "does not exist" in detail or "exists on disk, but not" in detail
+        if result.returncode == 128 and missing:
+            continue
+        raise BundleError(f"Cannot read {name} at {revision}: {detail.strip()}")
     return found
+
+
+def _publish_report(report_path, report, snapshot):
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary = tempfile.mkstemp(prefix=".readopt-report.", dir=report_path.parent)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            stream.write(report)
+        os.replace(temporary, report_path)
+    except Exception:
+        Path(temporary).unlink(missing_ok=True)
+        shutil.rmtree(snapshot)
+        raise
 
 
 def import_copy(source, destination, files, excludes):
@@ -273,20 +377,23 @@ def main(argv=None):
                         help="full SHA of the previously imported kit revision, for a three-way join")
     args = parser.parse_args(argv)
     try:
+        if args.readopt and args.check:
+            raise BundleError(
+                "--readopt does not support --check; read the re-adoption report after a join"
+            )
         project_root = args.destination
         if args.readopt:
             args.destination = readopt_destination(args.destination)
         manifest = json.loads(args.manifest_json.read_text(encoding="utf-8"))
         files, excludes = snapshot(args.source, manifest, args.bundle)
-        if args.readopt and not args.check:
-            previous = _previous_files(args.source, args.previous, files) if args.previous else {}
+        if args.readopt:
+            previous = _previous_files(args.source, args.previous, files) if args.previous else None
             files, report = merge_readopt(project_root, files, previous)
             report_path = project_root / "vendor" / "AI_governance.readopt-report.md"
-            if report_path.exists():
+            if report_path.exists() or report_path.is_symlink():
                 raise BundleError(f"Refusing existing re-adoption report: {report_path}")
             import_copy(args.source, args.destination, files, excludes)
-            report_path.parent.mkdir(parents=True, exist_ok=True)
-            report_path.write_text(report, encoding="utf-8")
+            _publish_report(report_path, report, args.destination)
         elif args.check:
             verify_copy(args.destination, files, excludes)
         else:

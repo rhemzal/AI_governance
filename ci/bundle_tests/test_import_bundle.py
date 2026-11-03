@@ -85,6 +85,133 @@ class ImportSafetyTests(unittest.TestCase):
         self.assertIn("Refusing existing destination", result.stderr)
         self.assertEqual(list(self.destination.iterdir()), [])
 
+    def test_deleted_snapshot_file_is_not_restored_when_the_previous_revision_has_it(self):
+        snap = self.project / "vendor/AI_governance/constitution"
+        snap.mkdir(parents=True)
+        other = snap / "other.md"
+        other.write_text("local other\n")
+        other.chmod(0o640)
+        new = {
+            "constitution/rules.md": (b"new rules\n", 0o755),
+            "constitution/other.md": (b"new other\n", 0o755),
+        }
+        previous = {
+            "constitution/rules.md": b"old rules\n",
+            "constitution/other.md": b"base other\n",
+        }
+        merged, report = bundle.merge_readopt(self.project, new, previous)
+        self.assertNotIn("constitution/rules.md", merged)
+        self.assertIn("kept deletion: constitution/rules.md", report)
+        self.assertEqual(merged["constitution/other.md"][0], b"local other\n")
+        self.assertEqual(merged["constitution/other.md"][1], 0o640)
+
+    def test_absent_snapshot_file_is_reported_when_the_previous_revision_is_unknown(self):
+        snap = self.project / "vendor/AI_governance/constitution"
+        snap.mkdir(parents=True)
+        (snap / "other.md").write_text("kept body")
+        new = {
+            "constitution/rules.md": (b"new rules\n", 0o644),
+            "constitution/other.md": (b"kept body", 0o644),
+        }
+        merged, report = bundle.merge_readopt(self.project, new, None)
+        self.assertEqual(merged["constitution/rules.md"][0], b"new rules\n")
+        self.assertIn("absent from the active snapshot (previous revision unknown): constitution/rules.md", report)
+
+    def test_unknown_previous_revision_is_refused(self):
+        names = {"AGENTS.md": (b"kit\n", 0o644)}
+        with self.assertRaises(bundle.BundleError):
+            bundle._previous_files(self.source, "not-a-sha", names)
+        with self.assertRaises(bundle.BundleError):
+            bundle._previous_files(self.source, "deadbeef" * 5, names)
+
+    def test_missing_path_in_a_real_previous_commit_is_not_an_unknown_revision(self):
+        git(self.source, "-c", "user.email=test@example.com", "-c", "user.name=test",
+            "commit", "-q", "-m", "pin")
+        revision = git(self.source, "rev-parse", "HEAD").strip()
+        found = bundle._previous_files(self.source, revision, {"constitution/rules.md": (b"x", 0o644),
+                                                                "not/in/commit.md": (b"x", 0o644)})
+        self.assertIn("constitution/rules.md", found)
+        self.assertNotIn("not/in/commit.md", found)
+        snap = self.project / "vendor/AI_governance"
+        snap.mkdir(parents=True)
+        (snap / "AGENTS.md").write_text("local agents")
+        new = {"not/in/commit.md": (b"brand new\n", 0o644), "AGENTS.md": (b"kit agents\n", 0o644)}
+        merged, report = bundle.merge_readopt(self.project, new, found)
+        self.assertEqual(merged["not/in/commit.md"][0], b"brand new\n")
+        self.assertIn("not in previous revision", report)
+        self.assertNotIn("previous revision unknown", report)
+
+    def test_conflict_report_keeps_the_upstream_text(self):
+        snap = self.project / "vendor/AI_governance"
+        snap.mkdir(parents=True)
+        adopted = snap / "AGENTS.md"
+        adopted.write_text("local agents\n")
+        adopted.chmod(0o644)
+        new = {"AGENTS.md": (b"upstream agents\n", 0o755)}
+        merged, report = bundle.merge_readopt(self.project, new, {"AGENTS.md": b"base agents\n"})
+        self.assertEqual(merged["AGENTS.md"], (b"local agents\n", 0o644))
+        self.assertIn("local agents", report)
+        self.assertIn("upstream agents", report)
+
+    def test_root_layout_lists_a_file_outside_the_selection(self):
+        rules = self.project / "constitution"
+        rules.mkdir()
+        (rules / "AI_RULES.md").write_text("OLD ROOT KIT")
+        (rules / "rules.md").write_text("local rules")
+        (rules / "LOCAL_ONLY.md").write_text("project only\n")
+        (self.project / "AGENTS.md").write_text("HOST")
+        self.destination = self.project
+        result = self.cli("--readopt")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((rules / "rules.md").read_text(), "local rules")
+        self.assertEqual((rules / "AI_RULES.md").read_text(), "OLD ROOT KIT")
+        staged = self.project / "vendor/AI_governance/constitution/rules.md"
+        self.assertEqual(staged.read_text(), "local rules")
+        report = (self.project / "vendor/AI_governance.readopt-report.md").read_text(encoding="utf-8")
+        self.assertIn("constitution/LOCAL_ONLY.md", report)
+        self.assertIn("upstream", report)
+
+    def test_root_layout_absence_takes_upstream_instead_of_a_deletion(self):
+        rules = self.project / "constitution"
+        rules.mkdir()
+        (rules / "AI_RULES.md").write_text("OLD")
+        new = {
+            "constitution/rules.md": (b"new rules\n", 0o644),
+            "constitution/other.md": (b"other\n", 0o644),
+        }
+        previous = {
+            "constitution/rules.md": b"old rules\n",
+            "constitution/other.md": b"old other\n",
+        }
+        merged, report = bundle.merge_readopt(self.project, new, previous)
+        self.assertEqual(merged["constitution/rules.md"][0], b"new rules\n")
+        self.assertIn("not in the root layout, took upstream: constitution/rules.md", report)
+        self.assertNotIn("kept deletion", report)
+
+    def test_readopt_rejects_an_unknown_previous_sha(self):
+        self.destination = self.project
+        result = self.cli("--readopt", "--previous", "deadbeef" * 5)
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn("not a commit", result.stderr)
+        self.assertFalse((self.project / "vendor").exists())
+
+    def test_readopt_check_is_refused(self):
+        self.destination = self.project
+        result = self.cli("--readopt", "--check")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("does not support --check", result.stderr)
+        self.assertFalse((self.project / "vendor").exists())
+
+    def test_symlink_in_the_active_snapshot_is_refused(self):
+        snap = self.project / "vendor/AI_governance"
+        snap.mkdir(parents=True)
+        outside = self.project / "outside.txt"
+        outside.write_text("secret")
+        (snap / "AGENTS.md").symlink_to(outside)
+        with self.assertRaises(bundle.BundleError) as caught:
+            bundle.merge_readopt(self.project, {"AGENTS.md": (b"kit\n", 0o644)}, {})
+        self.assertIn("Symlink", str(caught.exception))
+
     def test_merge_keeps_a_changed_local_rule_and_takes_upstream_when_unedited(self):
         snap = self.project / "vendor/AI_governance/constitution"
         snap.mkdir(parents=True)
