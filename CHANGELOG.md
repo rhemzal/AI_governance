@@ -6,7 +6,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ### Cursor stop notice (2026-11-03)
 - [Experimental] When `verify.sh` is missing or exits with a code other than 0 or 2, the stop script asks once, at `loop_count` 0, for an UNVERIFIED report. A later `loop_count` allows the stop. `stop_hook_active` still allows the stop. The contract test calls the script directly and is not native host dispatch. Promotion stays deferred.
-- [Experimental] On this host the Cursor Agent CLI runs a project `sessionStart` hook and does not run `stop`. The spec-gates v0.5.0 zip verifies with cosign. A disposable 0.4.2 to 0.5.0 upgrade keeps policy and a local edit, and removal leaves the projected runtime. See the 2026-11-03 host note.
+- [Experimental] On this host the Cursor Agent CLI runs a project `sessionStart` hook and does not run `stop`. The spec-gates v0.5.0 zip verifies with cosign. A disposable 0.4.2 to 0.5.0 upgrade keeps policy and a local edit, and removal leaves the projected runtime. With shellcheck, prettier, and markdownlint-cli2 installed, a clean `verify.sh` makes the canary suite 18 blocked and 0 accepted. See the 2026-11-03 host note.
 
 ### Claim cards for absorbed theses (2026-11-02)
 - [Advisory-only] Record visible kit limits as claim cards in `ci/claim_cards.json`, with shape and promotion rules in `usage/AGENT_EVALUATION.md`. A normative claim or a new required CI check needs an integrated canary under `ci/gate_tests/`. The checker does not read unregistered `constitution/` prose.

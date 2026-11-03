@@ -66,10 +66,18 @@ Disposable git repository, Spec Kit CLI 1.2.5 built from
 | Local edit | Appended `# LOCAL-SENTINEL` to `.specify/gates/verify.sh`. The file still parses. |
 | `extension remove --keep-config`, then add the verified 0.5.0 zip | Remove exited 0. Add exited 0. `diff -rq` against the verified zip was clean. `policy.json` stayed. |
 | `project.sh` with the sentinel and no decision | Exit 3. Wrote nothing. Version stayed 0.4.2. Sentinel stayed. |
-| `project.sh --keep-local .specify/gates/verify.sh` | Recorded version 0.5.0. Sentinel stayed. Canaries: 18 run, 13 blocked, 2 accepted, 3 skipped. Exit 1. Accepted: the project-gate canary (`verify.sh` exit 0 at ci) and the covered-script canary. |
+| `project.sh --keep-local .specify/gates/verify.sh` | Recorded version 0.5.0. Sentinel stayed. Canaries: 18 run, 13 blocked, 2 accepted, 3 skipped. Exit 1. The three skips are prettier, markdownlint-cli2, and shellcheck. The two accepted canaries used the locally edited `verify.sh`. |
 | `extension remove --force` | Exit 0. `.specify/extensions/gates` was removed. `.specify/gates/verify.sh` and `policy.json` remained. |
 | Add 0.5.0 again and `project.sh` | Add exited 0. Project exited 3 again because the sentinel was still a local edit. |
 
 The upgrade path keeps policy and a local runtime edit, and it refuses to
 overwrite that edit until `--keep-local` or `--take-upstream`. Removal does
-not delete the projected runtime. The canary suite did not pass on this host.
+not delete the projected runtime.
+
+After this host gained shellcheck 0.10.0, prettier 3.9.10, and
+markdownlint-cli2 0.24.0, `project.sh --take-upstream .specify/gates/verify.sh`
+replaced the local line and the canary suite reported 18 run, 18 blocked,
+0 accepted, 0 skipped. `project.sh` exited 0. The earlier accepted canaries
+were the edited `verify.sh`, not a failure of the 0.5.0 runtime. No install
+on this machine makes the Cursor Agent CLI invoke `stop`; that turn still
+ends on the NAL loop.
