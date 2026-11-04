@@ -351,6 +351,8 @@ this kit, not a general judgment of project quality.
 
 Kit upstream **Experiment A** (2026-11-04, `specs/003-task-scoped-overlay-trial/`): B1 passed C1–C4; partial PASS — mandate text in governed-work reduces unrelated overlay noise (C4); C1 B0 miss not shown on maintainer-familiar host. Not an Agent OS product install.
 | **Elephant Goldfish Model** | **Next bounded review-pattern candidate**, B procedure or separately qualified host add-on | A fresh-context design reviewer finds independently confirmed defects missed by current review, with controlled noise and cost | Low/medium for one review; high for adopting the full multi-stage protocol by default |
+
+Kit upstream **Experiment B** (2026-11-04, `specs/004-fresh-context-review-trial/`): separated review packet on `#53` identity helper — B1 found symlink test gap and doc gaps B0 skim missed; screening PASS; not an EGM install.
 | **Ruler** | **Conditional new distribution pilot** for A/B entry points on two actually used hosts | A real projection drift or repeated duplicate edit; one-source update reaches both hosts and preserves host-owned instructions | Medium; not worthwhile for one host |
 | **OpenSpec** | **Conditional A/B alternative** in a brownfield adopter whose requirements are not owned by Spec Kit | Correct modify/remove/rename/archive cycle preserving unrelated requirements, with fewer manual mistakes than direct/current editing | Medium; high if it creates two requirement authorities |
 | **SpecGov** | **Defer installation; narrow structural pilot if drift occurs**, host CI alongside A/B/C | One real code-to-spec mapping gap, unrelated-spec negative control, known-good change. No semantic-correctness claim | Medium; avoid a graph/metadata program without a recurring problem |

@@ -6,7 +6,8 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ### Task-scoped overlay trial (2026-11-04)
 
-- [Advisory-only] Experiment A on kit upstream (`specs/003-task-scoped-overlay-trial/`): task-scoped `LOCAL_OVERLAY.md` **Load when** loading (≤3 rows) vs undirected overlay habit. Screening PASS on C1–C4 under B1; partial benefit on unrelated edits (C4 context noise). Mandate text added to `governed-work` and `ENGINEERING_METHODS_ADOPTION.md`. Not an Agent OS install.
+- [Advisory-only] Experiment A (`specs/003-task-scoped-overlay-trial/`): task-scoped **Load when** mandate in `governed-work` and `ENGINEERING_METHODS_ADOPTION.md`; partial PASS (C4 noise reduction).
+- [Advisory-only] Experiment B (`specs/004-fresh-context-review-trial/`): separated review packet on acceptance identity helper; B1 found test/doc gaps B0 missed; screening PASS; not EGM.
 
 ### Superpowers procedure pin (2026-11-04)
 
