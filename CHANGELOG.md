@@ -4,15 +4,16 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
-### Capability and adoption re-audit (2026-11-03)
+### Agent runtime and evidence analysis (2026-11-04)
 
-- [Advisory-only] Reassess `fb2cf2d293d39d6894d183c24000468621b7a600` in `research/EXTERNAL_PROJECT_EVALUATIONS.md`; credit local-constraint discovery, preset activation, the compact feature ledger and the conditional OpenSpec path.
-- [Audit] Reproduce a successful-looking upgrade that retains the old pin when staging already exists, and registry mutation after failed preset copying. Record fixes and acceptance controls; this report does not implement them.
-- [Verification] Existing suites: 163 passed, 2 root-only permission skips, 0 failures. Distinguish executable transfer probes, structural activation checks, recorded native runs and unmeasured downstream benefit.
+- [Advisory-only] Analyze `52f9c26f342b3517384e96f7d289bb300a72aaa4`: distinguish instruction loading, actual command execution, evidence validation and CI. Original upgrade/preset failure reproductions now pass their regressions.
+- [Verification] 43 focused tests passed. Disposable probes demonstrate the already-pinned Spec Kit shell step, Superpowers completion limits and spec-gates v0.5.0's inherited-Git-environment issue. Review upstream v0.5.1's fix; no runtime upgrade performed.
+- [Recommendation] Connect existing verification to workflow completion and state-bound native evidence before adding frameworks. Preserve native-host and downstream evidence limits; no policy or CI activation change.
 
 ### Preset activation (2026-11-03)
 
-- [Fix] The separate Spec Kit preset command registers `ai-governance` in `.specify/presets/.registry` before copying the directory. A valid empty registry no longer leaves the copied preset unused. An existing registry entry is kept, and a second run still stops when the directory is already present.
+- [Fix] The opt-in procedure upgrade refuses an existing or dangling `v7.0.1.next` or `v7.0.1.prev` before copying a new pin, so an interrupted upgrade cannot nest the new pin under a stale staging tree and exit successfully with the old pin still active.
+- [Fix] The Spec Kit preset command validates the kit source and destination (including dangling symlinks), copies the preset, then updates `.specify/presets/.registry`. A failed copy no longer leaves `ai-governance` enabled without an installed directory. An existing registry entry is kept, and a second run still stops when the directory is already present.
 - [Verification] Activation smoke after opt-in copy is automated in `WorkProcedures.test_activation_smoke_after_opt_in_copy`.
 - [Docs] `governance/LOCAL_OVERLAY.md` dogfoods the import constraint table for this upstream repo. `kit-manifest.yml` excludes it from bundle copy.
 - [Docs] `usage/FOR_EXISTING_PROJECTS.md` adds a named downstream trial checklist and separates native Stop from workflow evidence.

@@ -164,6 +164,10 @@ class WorkProcedures(unittest.TestCase):
         self.assertEqual(len(rollback), 1)
         self.assertNotIn("rollback", upgrade[0])
         self.assertNotIn("rm -rf", upgrade[0])
+        self.assertIn("test ! -e vendor/superpowers/v7.0.1.next", upgrade[0])
+        self.assertIn("test ! -L vendor/superpowers/v7.0.1.next", upgrade[0])
+        self.assertIn("test ! -e vendor/superpowers/v7.0.1.prev", upgrade[0])
+        self.assertIn("test ! -L vendor/superpowers/v7.0.1.prev", upgrade[0])
         self.assertIn("test ! -e vendor/superpowers/v7.0.1.rollback", rollback[0])
         self.assertIn("test ! -L vendor/superpowers/v7.0.1.rollback", rollback[0])
         self.assertIn("rm -rf vendor/superpowers/v7.0.1.rollback", rollback[0])
@@ -201,21 +205,16 @@ class WorkProcedures(unittest.TestCase):
             _copy_procedures(ROOT, adopter)
             active = adopter / "vendor/superpowers/v7.0.1"
             original = (active / "PIN.md").read_bytes()
-            staged = adopter / "vendor/superpowers/v7.0.1.next"
-            shutil.copytree(active, staged, symlinks=False)
-            pin_md = staged / "PIN.md"
+            new_kit = Path(tmp) / "new-kit"
+            candidate = new_kit / "vendor/superpowers/v7.0.1"
+            shutil.copytree(active, candidate, symlinks=False)
+            pin_md = candidate / "PIN.md"
             pin_md.write_text(pin_md.read_text(encoding="utf-8") + "\nupgrade-marker\n", encoding="utf-8")
-            _rewrite_sums(staged)
-            check = subprocess.run(
-                ["sha256sum", "-c", "SHA256SUMS"],
-                cwd=staged,
-                check=False,
-                capture_output=True,
-                text=True,
-                timeout=30,
-            )
-            self.assertEqual(check.returncode, 0, check.stdout + check.stderr)
-            _activate_staged_pin(adopter)
+            _rewrite_sums(candidate)
+            env = os.environ.copy()
+            env["NEW_KIT"] = str(new_kit)
+            upgraded = _run_upgrade_block(adopter, env)
+            self.assertEqual(upgraded.returncode, 0, upgraded.stdout + upgraded.stderr)
             self.assertIn("upgrade-marker", (active / "PIN.md").read_text(encoding="utf-8"))
             self.assertEqual(overlay.read_text(encoding="utf-8"), "OVERLAY-SENTINEL\n")
             _rollback_pin(adopter)
@@ -230,6 +229,71 @@ class WorkProcedures(unittest.TestCase):
                 timeout=30,
             )
             self.assertEqual(restored.returncode, 0, restored.stdout + restored.stderr)
+
+    def test_upgrade_refuses_a_stale_staging_directory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            _copy_procedures(ROOT, adopter)
+            active = adopter / "vendor/superpowers/v7.0.1"
+            original = (active / "PIN.md").read_bytes()
+            shutil.copytree(active, adopter / "vendor/superpowers/v7.0.1.next", symlinks=False)
+            new_kit = Path(tmp) / "new-kit"
+            candidate = new_kit / "vendor/superpowers/v7.0.1"
+            shutil.copytree(active, candidate, symlinks=False)
+            pin_md = candidate / "PIN.md"
+            pin_md.write_text(pin_md.read_text(encoding="utf-8") + "\nupgrade-marker\n", encoding="utf-8")
+            _rewrite_sums(candidate)
+            env = os.environ.copy()
+            env["NEW_KIT"] = str(new_kit)
+            upgraded = _run_upgrade_block(adopter, env)
+            self.assertNotEqual(upgraded.returncode, 0, upgraded.stdout + upgraded.stderr)
+            self.assertEqual((active / "PIN.md").read_bytes(), original)
+            nested = active / "v7.0.1"
+            self.assertFalse(nested.is_dir(), "upgrade must not nest the new pin under the active tree")
+
+    def test_preset_copy_leaves_registry_unchanged_when_destination_is_a_dangling_symlink(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            registry = adopter / ".specify/presets/.registry"
+            registry.parent.mkdir(parents=True)
+            original = '{"schema_version":"1.0","presets":{}}\n'
+            registry.write_text(original, encoding="utf-8")
+            dest = adopter / ".specify/presets/ai-governance"
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.symlink_to("missing-preset")
+            env = os.environ.copy()
+            env["KIT"] = str(ROOT)
+            copied = _run_preset_copy(adopter, env)
+            self.assertNotEqual(copied.returncode, 0, copied.stdout + copied.stderr)
+            self.assertEqual(registry.read_text(encoding="utf-8"), original)
+            self.assertTrue(dest.is_symlink())
+
+    def test_preset_copy_leaves_registry_unchanged_when_copy_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            registry = adopter / ".specify/presets/.registry"
+            registry.parent.mkdir(parents=True)
+            original = '{"schema_version":"1.0","presets":{}}\n'
+            registry.write_text(original, encoding="utf-8")
+            _install_core_spec_template(adopter)
+            fake_bin = Path(tmp) / "bin"
+            fake_bin.mkdir()
+            (fake_bin / "cp").write_text(
+                "#!/bin/sh\n"
+                'case "$*" in\n'
+                '  *ai-governance*) exit 28 ;;\n'
+                'esac\n'
+                'exec /bin/cp "$@"\n',
+                encoding="utf-8",
+            )
+            (fake_bin / "cp").chmod(0o755)
+            env = os.environ.copy()
+            env["KIT"] = str(ROOT)
+            env["PATH"] = f"{fake_bin}:{env['PATH']}"
+            copied = _run_preset_copy(adopter, env)
+            self.assertEqual(copied.returncode, 28, copied.stdout + copied.stderr)
+            self.assertEqual(registry.read_text(encoding="utf-8"), original)
+            self.assertFalse((adopter / ".specify/presets/ai-governance").exists())
 
     def test_preset_copy_activates_against_an_empty_registry(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -357,6 +421,38 @@ def _run_preset_copy(adopter, env):
     )
 
 
+def _run_upgrade_block(adopter, env):
+    return subprocess.run(
+        ["bash", "-c", _upgrade_block()],
+        cwd=adopter,
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+
+
+def _upgrade_block():
+    text = (ROOT / "usage/HOW_TO_IMPORT.md").read_text(encoding="utf-8")
+    fences = []
+    inside = False
+    current = []
+    for line in text.splitlines():
+        if line.startswith("```"):
+            if inside:
+                fences.append("\n".join(current))
+                current = []
+            inside = not inside
+            continue
+        if inside:
+            current.append(line)
+    matches = [block for block in fences if "v7.0.1.next" in block and "NEW_KIT" in block]
+    if len(matches) != 1:
+        raise AssertionError("expected one upgrade command")
+    return matches[0]
+
+
 def _resolve_spec_template(adopter):
     return subprocess.run(
         ["bash", str(ROOT / ".specify/scripts/bash/resolve-template.sh"), "spec-template"],
@@ -398,19 +494,6 @@ def _rewrite_sums(pin):
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
         lines.append(f"{digest}  {path.relative_to(pin).as_posix()}")
     (pin / "SHA256SUMS").write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
-def _activate_staged_pin(adopter):
-    base = adopter / "vendor/superpowers"
-    active = base / "v7.0.1"
-    staged = base / "v7.0.1.next"
-    previous = base / "v7.0.1.prev"
-    if not staged.is_dir():
-        raise FileNotFoundError(staged)
-    if previous.exists():
-        raise FileExistsError(previous)
-    active.rename(previous)
-    staged.rename(active)
 
 
 def _rollback_pin(adopter):
