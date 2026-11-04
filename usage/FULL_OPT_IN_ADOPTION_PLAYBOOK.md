@@ -8,7 +8,7 @@ This playbook is the **single end-to-end path** from zero (or legacy layout) to:
 - Superpowers pin + governed-work + always-on AEP Cursor rule,
 - **full experimental stack**: spec-gates 0.5.1, Cursor Stop hook, Spec Kit workflow with post-implement acceptance, `specify` venv.
 
-Normative detail stays in `usage/HOW_TO_IMPORT.md`, `governance/experimental/spec_gates/OPT_IN_STACK.md`, and `usage/FOR_EXISTING_PROJECTS.md`. This document **orders** those steps and records safe defaults.
+Normative detail stays in `usage/HOW_TO_IMPORT.md`, `governance/experimental/spec_gates/OPT_IN_STACK.md`, and `usage/FOR_EXISTING_PROJECTS.md`. **Eligibility (which repo/host/tier):** [ADOPTION_SCOPE_AND_HOSTS.md](./ADOPTION_SCOPE_AND_HOSTS.md). This document **orders** those steps and records safe defaults.
 
 ---
 
@@ -43,25 +43,25 @@ Normative detail stays in `usage/HOW_TO_IMPORT.md`, `governance/experimental/spe
 
 ### Before you start
 
-| Decision | Record where |
-| --- | --- |
-| Kit pin (`KIT_REVISION` full SHA) | ADR, `governance/LOCAL_OVERLAY.md` |
-| Bundles (default **standard + research**) | overlay |
-| **Acceptance command** (one shell pipeline) | overlay + `ADOPTER_VERIFY_COMMAND` |
-| CI Maturity (usually **CM0** first) | overlay |
-| Full opt-in authorized? (spec-gates + Stop hook) | ADR |
+| Decision                                         | Record where                       |
+| ------------------------------------------------ | ---------------------------------- |
+| Kit pin (`KIT_REVISION` full SHA)                | ADR, `governance/LOCAL_OVERLAY.md` |
+| Bundles (default **standard + research**)        | overlay                            |
+| **Acceptance command** (one shell pipeline)      | overlay + `ADOPTER_VERIFY_COMMAND` |
+| CI Maturity (usually **CM0** first)              | overlay                            |
+| Full opt-in authorized? (spec-gates + Stop hook) | ADR                                |
 
 **Acceptance must be real:** e.g. `timeout 600s make test`, not `true`.
 
 ### Phase map
 
-| Phase | You get | Common mistake |
-| --- | --- | --- |
-| A — Bundle import | `vendor/AI_governance/` | Importing only submodule or root `constitution/` without snapshot |
-| B — Superpowers pin | `vendor/superpowers/v7.0.1/` | Expecting stack installer to copy pin (it does **not**) |
-| C — Host files | `AGENTS.md`, overlay, AEP rule | Relying on `/governed-work` instead of always-on rule |
-| D — Stack install | gates, Stop, workflow, venv | Running install without `ADOPTER_VERIFY_COMMAND` |
-| E — Verify | `check-opt-in-stack.sh` green on required rows | Declaring done after import only |
+| Phase               | You get                                        | Common mistake                                                    |
+| ------------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
+| A — Bundle import   | `vendor/AI_governance/`                        | Importing only submodule or root `constitution/` without snapshot |
+| B — Superpowers pin | `vendor/superpowers/v7.0.1/`                   | Expecting stack installer to copy pin (it does **not**)           |
+| C — Host files      | `AGENTS.md`, overlay, AEP rule                 | Relying on `/governed-work` instead of always-on rule             |
+| D — Stack install   | gates, Stop, workflow, venv                    | Running install without `ADOPTER_VERIFY_COMMAND`                  |
+| E — Verify          | `check-opt-in-stack.sh` green on required rows | Declaring done after import only                                  |
 
 ### One-command stack refresh (after A–C)
 
@@ -103,16 +103,17 @@ Reload Cursor after rule changes.
 
 ### Downstream examples (dogfood)
 
-| Repository | Notes |
-| --- | --- |
+| Repository                                        | Notes                                              |
+| ------------------------------------------------- | -------------------------------------------------- |
 | [mechweave](https://github.com/rhemzal/mechweave) | Full trial ADR 0023, `docs/GOVERNANCE_OPERATOR.md` |
-| nvrm-ptzsim | .NET `make test` acceptance |
-| ipcsim | Readopt from 873df7e; `make check-go` acceptance |
+| nvrm-ptzsim                                       | .NET `make test` acceptance                        |
+| ipcsim                                            | Readopt from 873df7e; `make check-go` acceptance   |
 
 ---
 
 ## Related
 
+- [ADOPTION_SCOPE_AND_HOSTS.md](./ADOPTION_SCOPE_AND_HOSTS.md)
 - [HOW_TO_IMPORT.md](./HOW_TO_IMPORT.md)
 - [FOR_EXISTING_PROJECTS.md](./FOR_EXISTING_PROJECTS.md)
 - [OPT_IN_STACK.md](../governance/experimental/spec_gates/OPT_IN_STACK.md)

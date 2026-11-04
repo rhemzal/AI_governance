@@ -4,6 +4,10 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Adoption scope documentation (2026-11-04)
+
+- [Docs] Add `usage/ADOPTION_SCOPE_AND_HOSTS.md` — tier A/B/C adoption, repository authorization for full opt-in, capability-based hosts (not a hostname allowlist), and agent stop conditions. Linked from README, `HOW_TO_IMPORT.md`, `FOR_EXISTING_PROJECTS.md`, and `FULL_OPT_IN_ADOPTION_PLAYBOOK.md`.
+
 ### Agent runtime and evidence analysis (2026-11-04)
 
 - [Advisory-only] Analyze `52f9c26f342b3517384e96f7d289bb300a72aaa4`: distinguish instruction loading, actual command execution, evidence validation and CI. Original upgrade/preset failure reproductions now pass their regressions.

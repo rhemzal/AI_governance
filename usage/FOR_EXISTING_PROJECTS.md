@@ -57,6 +57,8 @@ reported gaps. Details: [`OPT_IN_STACK.md`](../governance/experimental/spec_gate
 
 ## Named downstream trial (operator authorization required)
 
+**Scope and hosts:** Before tier C (full opt-in stack), read [Adoption scope, authorization, and hosts](./ADOPTION_SCOPE_AND_HOSTS.md). Default adoption is tier A (agnostic snapshot); tier B adds procedures without spec-gates.
+
 Do not pick or modify another person's repository without explicit approval. When authorized:
 
 1. Record repository, revision, and one task with acceptance criteria **before** the agent starts.

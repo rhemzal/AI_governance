@@ -7,6 +7,8 @@ spec-gates **0.5.1**, Cursor Stop hook, and a local `specify` venv.
 This material is **not** in import bundles. Copy scripts from a pinned kit checkout or
 run them from `KIT_SOURCE` after authorization (ADR + overlay acceptance command).
 
+**Before tier C:** [Adoption scope, authorization, and hosts](../../../usage/ADOPTION_SCOPE_AND_HOSTS.md).
+
 ## Before you start
 
 1. Choose **`ADOPTER_VERIFY_COMMAND`** — the shell command that checks task acceptance
