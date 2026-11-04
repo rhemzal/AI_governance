@@ -35,6 +35,26 @@ Pinned Superpowers procedures and the project Spec Kit preset are **not** in imp
 
 Product tests start at CI Maturity CM1 when the project already has tests. A CM0 import does not invent them.
 
+## Intuitive agent execution and install completeness
+
+Importing the kit snapshot or copying `governed-work` does **not** make Cursor load skills on every
+chat. For operators who already granted autonomous AEP completion in host `AGENTS.md`:
+
+1. Install **`.cursor/rules/autonomous-aep-execution.mdc`** (`alwaysApply: true`) from
+   [`templates/autonomous-aep-execution.mdc.template`](../governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template)
+   (the full-stack installer copies it when absent).
+2. Merge one sentence in `AGENTS.md` that natural-language requests to finish the plan are sufficient.
+3. Ensure **`vendor/superpowers/v7.0.1/`** exists (procedure pin; not copied by the stack installer alone).
+
+After any partial install, run
+**[`check-opt-in-stack.sh`](../governance/experimental/spec_gates/check-opt-in-stack.sh)** and fix
+reported gaps. Details: [`OPT_IN_STACK.md`](../governance/experimental/spec_gates/OPT_IN_STACK.md)
+§ Intuitive agent execution and § Installation completeness; [`HOW_TO_IMPORT.md`](HOW_TO_IMPORT.md)
+§ Activation.
+
+**Named downstream example:** MechWeave documents operator practice in
+`docs/GOVERNANCE_OPERATOR.md` (trial merged on `main`, workflow run `eeb22cb0`, always-on AEP rule).
+
 ## Named downstream trial (operator authorization required)
 
 Do not pick or modify another person's repository without explicit approval. When authorized:

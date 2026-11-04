@@ -556,8 +556,22 @@ Tracks proposals from PR #49 (`research/kit-capability-audit-20261103`) against 
 | Evidence validator missing-artifact advisories                      | Implemented                                                          | `validate_test_evidence.py`, `test_hand_written_report_is_verified_without_a_runner` |
 | Superpowers `task-done` disposable limits                           | Implemented                                                          | `test_superpowers_task_done.py`                                                      |
 | Spec-gates Git environment + pin v0.5.1                             | Implemented; re-project via `install-and-project.sh` (release zip + holds) | `test_spec_gates_git_environment.py`, `.specify/gates/.upgrade-holds`, projected runtime at 0.5.1 |
-| Qualify native host Stop / named downstream trial                   | Still open                                                           | structural smoke only; no new native observation claimed                             |
+| Qualify native host Stop / named downstream trial                   | Partial — named checkout active; Stop dispatch still unobserved    | MechWeave `main`: ADR 0023, PR #1 stack merge, workflow `eeb22cb0`; `docs/GOVERNANCE_OPERATOR.md`; always-on `.cursor/rules/autonomous-aep-execution.mdc` |
+| Operator UX — inline AEP without `/governed-work`                   | Documented + template                                              | `OPT_IN_STACK.md`, `check-opt-in-stack.sh`, `FOR_EXISTING_PROJECTS.md` § Intuitive agent execution (`6ca1c0f`) |
 | Productivity / benefit trial                                        | Not claimed                                                          | B6–B8 records show matched acceptance, not a gain                                    |
+
+### Downstream operator UX (2026-11-04)
+
+MechWeave completed an authorized full opt-in trial on `main` (kit pin readopt through
+**32e601e**, later kit docs at **6ca1c0f**). Disposable workflow run **`eeb22cb0`**
+completed specify→verify-acceptance. Operators reported that requiring **`/governed-work`**
+felt like a second startup ritual despite an existing autonomous mandate in host `AGENTS.md`.
+
+**Recorded fix:** always-on Cursor project rule
+(`.cursor/rules/autonomous-aep-execution.mdc`, `alwaysApply: true`) plus host mandate text;
+optional skill entry remains for routing documentation. **`check-opt-in-stack.sh`** warns when
+install phases are incomplete (missing Superpowers pin, rule, venv, gates). This does not
+close native Stop observation or productivity claims.
 
 ## Related Documents
 
