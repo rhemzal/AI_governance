@@ -122,6 +122,7 @@ Treat **`[missing]`** lines before expecting production-like governance UX.
 
 ## Related
 
+- [**Full opt-in adoption playbook** (humans + agents)](../../../usage/FULL_OPT_IN_ADOPTION_PLAYBOOK.md)
 - [HOW_TO_IMPORT.md](../../../usage/HOW_TO_IMPORT.md) § Opt-in work procedures
 - [FOR_EXISTING_PROJECTS.md](../../../usage/FOR_EXISTING_PROJECTS.md) named downstream trial
 - [README.md](./README.md) adapter details

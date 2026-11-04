@@ -313,9 +313,10 @@ rm -rf vendor/superpowers/v7.0.1.rollback
 | spec-gates, Stop hook, `specify workflow run` | Not part of the **procedure-only** copy block; see full stack below. |
 
 **Full stack (readopt + procedures + spec-gates + Stop + specify venv):** when an authorized
-adopter trial needs all opt-in layers, use
+adopter trial needs all opt-in layers, follow
+[`usage/FULL_OPT_IN_ADOPTION_PLAYBOOK.md`](../usage/FULL_OPT_IN_ADOPTION_PLAYBOOK.md) and
 [`governance/experimental/spec_gates/OPT_IN_STACK.md`](../governance/experimental/spec_gates/OPT_IN_STACK.md)
-and `install-opt-in-stack.sh` with host **`ADOPTER_VERIFY_COMMAND`**. That script is
+with `install-opt-in-stack.sh` and host **`ADOPTER_VERIFY_COMMAND`**. That script is
 experimental and not in import bundles.
 
 The policy snapshot, when you want it, stays a separate import under
