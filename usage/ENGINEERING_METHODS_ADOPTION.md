@@ -68,6 +68,12 @@ A later task loads only the rows whose paths match the files it will edit.
 Leave the others unloaded. If the pass only adds a document and no task uses
 a row, the pass is incomplete.
 
+**Task-scoped loading (mandate text):** before editing, list the overlay rows you
+load (≤3) and skip the rest. Kit maintainer screening on 2026-11-04 passed safety
+controls C1–C3 and reduced irrelevant overlay noise on unrelated edits (C4); see
+`specs/003-task-scoped-overlay-trial/progress.md`. That is not an Agent OS install
+and does not prove benefit on every host without a local overlay table.
+
 Worked example, this kit's snapshot importer, read from `ci/import_bundle.py`,
 `adr/ADR_0010_Safe_Bundle_Import.md`, and `usage/HOW_TO_IMPORT.md`:
 

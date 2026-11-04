@@ -4,6 +4,10 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Task-scoped overlay trial (2026-11-04)
+
+- [Advisory-only] Experiment A on kit upstream (`specs/003-task-scoped-overlay-trial/`): task-scoped `LOCAL_OVERLAY.md` **Load when** loading (≤3 rows) vs undirected overlay habit. Screening PASS on C1–C4 under B1; partial benefit on unrelated edits (C4 context noise). Mandate text added to `governed-work` and `ENGINEERING_METHODS_ADOPTION.md`. Not an Agent OS install.
+
 ### Superpowers procedure pin (2026-11-04)
 
 - [Fix] Move the Tier B/C pin to Superpowers **v7.0.2** (`vendor/superpowers/v7.0.2/`), including `sdd-repo` and updated helper scripts. Copy/upgrade/rollback blocks in `usage/HOW_TO_IMPORT.md` use `v7.0.2.*` staging names.
