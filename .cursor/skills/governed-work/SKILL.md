@@ -31,6 +31,16 @@ The pin is Superpowers v7.0.2, commit `22f0b463e7a5e579904dd6211a520321035526f7`
 under `vendor/superpowers/v7.0.2/` (MIT). Active skill directories in
 `.cursor/skills/` point at that pin. Hashes are `vendor/superpowers/v7.0.2/SHA256SUMS`.
 
+## Local overlay loading
+
+When the project has `governance/LOCAL_OVERLAY.md` with **Load when** rows, load
+**only** rows whose column matches the paths this task will edit. Cite at most
+three, each with source (`LOCAL_OVERLAY.md` and the constraint). Do not load
+unrelated rows for convenience. If no row matches and the module is unfamiliar,
+follow Discover local constraints in `usage/ENGINEERING_METHODS_ADOPTION.md` (at
+most one pass, at most three new rows). Kit upstream screening:
+`specs/003-task-scoped-overlay-trial/progress.md`.
+
 ## Which procedure
 
 | Observed need                                                            | Read and follow                                            | Skip it when                                            |
