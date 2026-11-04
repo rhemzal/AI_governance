@@ -143,7 +143,8 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - ADR index: [adr/README.md](adr/README.md)
 - Local overlays & precedence: [usage/LOCAL_OVERLAY_AND_PRECEDENCE.md](usage/LOCAL_OVERLAY_AND_PRECEDENCE.md)
 - External project evaluations: [research/EXTERNAL_PROJECT_EVALUATIONS.md](research/EXTERNAL_PROJECT_EVALUATIONS.md)
-- Current runtime assessment: [Agent runtime and evidence analysis](research/EXTERNAL_PROJECT_EVALUATIONS.md#agent-runtime-and-evidence-analysis-2026-11-04) — actual execution, evidence limits and the smallest useful integration
+- Current adoption assessment: [Tier-aware reassessment](research/EXTERNAL_PROJECT_EVALUATIONS.md#re-evaluation-tier-aware-adoption-2026-11-04) — selected upgrades, measurable optional pilots and overengineering limits
+- Runtime assessment and implementation record: [Agent runtime and evidence analysis](research/EXTERNAL_PROJECT_EVALUATIONS.md#agent-runtime-and-evidence-analysis-2026-11-04) — actual execution and remaining evidence limits
 - Spec Kit + spec-gates pilot and local handoff: [research/SPEC_KIT_SPEC_GATES_PILOT.md](research/SPEC_KIT_SPEC_GATES_PILOT.md)
 - In-repo Spec Kit profile and pinned work procedures: [.specify/presets/ai-governance/README.md](.specify/presets/ai-governance/README.md)
 - Experimental spec-gates adapter (opt-in): [governance/experimental/spec_gates/README.md](governance/experimental/spec_gates/README.md)

@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Tier-aware adoption reassessment (2026-11-04)
+
+- [Advisory-only] Reassess the 15 landscape candidates plus the earlier agent catalog against Tier A/B/C at `9d262a0`; retain current integration gains and define bounded benefit/removal criteria for additional capabilities.
+- [Verification] 34 focused current-integration tests passed without skips. Four disposable helper comparisons distinguish vendored Superpowers 7.0.1 from upstream 7.0.2; a separate control shows the current acceptance report gives different file contents the same status-based identity.
+- [Recommendation] Qualify the selected Superpowers update and repair content identity; deepen task-scoped context or fresh-context review on an appropriate real task. Ruler/OpenSpec remain conditional; no new runtime, pin, policy or CI requirement is activated by this assessment.
+
 ### Adoption scope documentation (2026-11-04)
 
 - [Docs] Add `usage/ADOPTION_SCOPE_AND_HOSTS.md` — tier A/B/C adoption, repository authorization for full opt-in, capability-based hosts (not a hostname allowlist), and agent stop conditions. Linked from README, `HOW_TO_IMPORT.md`, `FOR_EXISTING_PROJECTS.md`, and `FULL_OPT_IN_ADOPTION_PLAYBOOK.md`.
