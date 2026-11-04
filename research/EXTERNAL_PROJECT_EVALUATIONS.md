@@ -228,6 +228,244 @@ informative than a GitHub API `NOASSERTION` label. This review is not a legal au
 
 ---
 
+#### Re-evaluation: tier-aware adoption (2026-11-04)
+
+**Verdict:** deepen the existing integrations, qualify a few narrowly selected
+capabilities, and keep whole-framework adoption conditional. Tier A/B/C makes
+optional host-specific trials easier to contain; it does not establish benefit,
+compatibility, or authorization for another runtime.
+
+**Baseline:** this assessment inspected kit commit
+[`9d262a051926ed90ddff96576c74e45e2c7aefb0`](https://github.com/rhemzal/AI_governance/tree/9d262a051926ed90ddff96576c74e45e2c7aefb0).
+It re-evaluates the landscape entry above and supersedes its next-action
+recommendations, while preserving the dated observations below.
+**Claim card:** none; advisory assessment only, no new normative thesis or CI gate.
+**Oracle:** targeted executable controls for the two findings below; proposed
+scenario comparisons for the remaining candidates. A hollow pass would be an
+installed package, a generated document, or a successful command without a
+demonstrated improvement in the relevant task.
+
+##### What the new tiers change
+
+The [scope and host rules](../usage/ADOPTION_SCOPE_AND_HOSTS.md) define A as the
+agnostic snapshot, B as optional work procedures/preset, and C as the specific
+experimental Spec Kit/spec-gates/Cursor stack. They are not a ranking of quality
+and are separate from Governance Level and CI Maturity.
+
+- Portable guidance can improve A/B without installing another product.
+- B can gain selected procedures with a small, reviewed dependency surface.
+- C enables authorized native workflow/hook trials on capable hosts, with one
+  real adopter acceptance command.
+- C is **not** a generic compatibility certification for Ruler, GSD, or another
+  orchestrator. A proposed add-on still needs its own host/scope decision.
+  OpenSpec remains an alternative requirement path, not an automatic extension
+  of the Spec Kit-based C stack.
+
+The kit now has post-implement shell acceptance, a native execution report,
+spec-gates 0.5.1, and a parameterized installer. Its downstream record reports
+MechWeave adoption and workflow `eeb22cb0`; this assessment did not independently
+rerun that checkout. Native Cursor Stop dispatch and net productivity benefit
+remain unproved. B6–B8's equal acceptance results do not justify another generic
+calculator trial. They also do not prove that the tools cannot help other tasks.
+
+##### Executed checks and two concrete next changes
+
+**Current integration regressions:** Python 3.12 with Spec Kit CLI 1.2.5;
+34 tests passed, no skips, at the baseline above:
+
+```bash
+timeout 60s python -m unittest \
+  ci.gate_tests.test_workflow_acceptance \
+  ci.gate_tests.test_superpowers_task_done \
+  ci.gate_tests.test_spec_gates_git_environment \
+  ci.gate_tests.test_test_evidence -q
+```
+
+Here `python` was the existing isolated pilot environment containing
+`specify-cli==1.2.5`, not an assumed global installation. These tests include
+actual Spec Kit shell-engine pass/fail controls; they do not exercise native
+Cursor Stop or measure an agent's task quality.
+
+**1. Update the selected Superpowers pin after integration qualification.**
+The kit currently vendors 7.0.1. Upstream
+[7.0.2](https://github.com/obra/superpowers/releases/tag/v7.0.2),
+commit `22f0b463e7a5e579904dd6211a520321035526f7`, fixes helpers that this
+kit actually includes. On Linux, the existing 7.0.1 helpers were compared with
+the exact upstream 7.0.2 `task-brief`, `sdd-workspace`, and new `sdd-repo`
+in disposable directories:
+
+| Control | Vendored 7.0.1 | Upstream 7.0.2 |
+| --- | --- | --- |
+| Same-depth headings `## Task 6`, then `## Task 6b`; request 6 | Exit 0; includes the other task | Exit 0; only task 6 |
+| Same-depth `Task A1`, then `Task A2`; request A1 | Exit 3; task not found | Exit 0; only A1 |
+| Task 6 opens a code fence that never closes before Task 7 | Exit 0; includes task 7 | Exit 4; rejects malformed brief |
+| Invoke `sdd-workspace PLAN_FILE` outside any Git repository | Exit 0; creates `.superpowers/` despite Git's error | Exit 2; creates no workspace |
+
+To reproduce the extraction controls, place distinct marker lines below each
+heading and run `bash ABSOLUTE_TASK_BRIEF PLAN_FILE TASK_ID OUTFILE`; inspect
+exit code and whether the next task's marker leaked into OUTFILE. For the fence
+case, insert an opening triple-backtick line after the first marker and omit its
+closing fence. Run the workspace control in a new temporary non-repository
+directory with an absolute plan path.
+
+This is a demonstrated helper improvement, **not** a completed pin upgrade or
+evidence for upstream brainstorming claims. Retain the same selected procedures;
+update dependent helper files, hashes, active links and copy/upgrade/rollback
+references together. Verify the four controls above, a valid Git/worktree
+positive control, task completion failure handling, and existing import/rollback
+regressions. The new `sdd-repo` dependency must accompany the updated helpers.
+Do not install the full skill catalog merely to obtain these fixes.
+
+**2. Strengthen the existing acceptance report's state identity.**
+The runner hashes `git status --porcelain`, which identifies changed paths and
+statuses, not their contents. In one disposable Git repository, commit
+`payload.txt`, change its contents twice without changing its status, and invoke
+`ci/run_task_acceptance_check.sh` after each edit with
+`TASK_ACCEPTANCE_CMD='test -s payload.txt'`. Put evidence/log paths outside that
+repository so they do not alter the control. Both invocations exited 0 and
+reported the same uncommitted identity:
+`1e412246145f975d001c989931afa593faa4beba6adb76faa9cf80aac19164f7`.
+
+Both commands really ran; the report cannot distinguish their different input
+bytes. Fix this before treating the field as a content identity. Use the smallest
+explicit tested-input identity: a documented clean-commit contract, or a
+deterministic identity covering relevant tracked and untracked input contents,
+path/type changes and deletions. Exclude only declared generated evidence outputs;
+detect mutation during the check or label the identity as pre-run only. Controls
+should distinguish different bytes at the same path and preserve identity for
+unchanged inputs. Do not promise authenticated provenance from a local hash.
+
+The autonomous-run preset's exact-byte/staged-state discipline is useful
+[inspiration](https://github.com/hindermath/spec-kit-preset-autonomous-run-governance/blob/5d7a4419345f510961d92792a46e11e8466581f5/README.md)
+for these controls. It does not require installing that preset's second run
+lifecycle. The previously implemented acceptance step itself remains useful.
+
+##### Disposition of every previously considered solution
+
+“Placement” below means a proposed fit, not a new shipped tier or a claim of
+tested compatibility. Risk is the incremental maintenance/process burden for
+this kit, not a general judgment of project quality.
+
+| Solution | Placement and decision | Benefit to verify / revisit trigger | Overengineering risk |
+| --- | --- | --- | --- |
+| **Superpowers** | **Deepen B/C now:** qualify selected 7.0.2 pin | Four observed helper defects above; preserve existing task execution and rollback behavior | Low for selected update; higher for the full catalog |
+| **Spec Kit** | **Deepen existing B/C**, keep current pin unless a needed fix justifies moving it | Real task acceptance and restart behavior. 1.3.0 exists, but the required shell step already works in 1.2.5 | Low for current workflow; medium for more presets/artifacts |
+| **spec-gates** | **Keep C experimental; deepen native evidence** | One authorized native Stop pass/fail observation when a capable host is available; same host acceptance through workflow/Git/CI where configured; count false blocks | Medium; do not repeat hook setup without new host evidence |
+| **Agent OS** | **Deepen the already adapted A/B pattern** | Task-scoped discovery/injection of up to three sourced local constraints; fewer concrete violations without loading more irrelevant context | Low for existing overlay; medium for a second standards tree |
+| **Elephant Goldfish Model** | **Next bounded review-pattern candidate**, B procedure or separately qualified host add-on | A fresh-context design reviewer finds independently confirmed defects missed by current review, with controlled noise and cost | Low/medium for one review; high for adopting the full multi-stage protocol by default |
+| **Ruler** | **Conditional new distribution pilot** for A/B entry points on two actually used hosts | A real projection drift or repeated duplicate edit; one-source update reaches both hosts and preserves host-owned instructions | Medium; not worthwhile for one host |
+| **OpenSpec** | **Conditional A/B alternative** in a brownfield adopter whose requirements are not owned by Spec Kit | Correct modify/remove/rename/archive cycle preserving unrelated requirements, with fewer manual mistakes than direct/current editing | Medium; high if it creates two requirement authorities |
+| **SpecGov** | **Defer installation; narrow structural pilot if drift occurs**, host CI alongside A/B/C | One real code-to-spec mapping gap, unrelated-spec negative control, known-good change. No semantic-correctness claim | Medium; avoid a graph/metadata program without a recurring problem |
+| **GSD Core** | **Defer whole framework**; reconsider a separate authorized host trial | Repeated real resume/context-loss failures despite current ledger; compare recovery from changed tree, stale evidence and completed work | High overlap with current state/plan/workflow |
+| **BMAD-METHOD** | **Defer** | Repeated product-discovery or role-coordination gaps on a real task; compare its smallest path with current process | High if installed as a second lifecycle; stable v6 and preview v7 must remain distinct |
+| **Ruflo** | **Defer** | An actual parallel scheduling/resource problem; integrated correctness and net coordination cost beat simpler execution | High; tiers alone do not establish an orchestration need |
+| **Microsoft agent-governance-toolkit** | **Outside the present development-kit adoption scope** | A deployed agent needs runtime tool authorization/audit; test real denied/allowed calls and bypasses in that application | High here; potentially relevant in a separate runtime project |
+| **coding-constitution** | **Retain inspiration only** | Borrow a specific hook-fire/context-resume test when it closes an observed host gap; retain one policy authority | Low for a test idea; high for a second constitution |
+| **hindermath autonomous-run governance** | **Use state/evidence ideas; defer full preset** | Current state-identity finding above; require a residual lifecycle gap before adding the preset | Low for focused controls; high for duplicate lifecycle/state |
+| **hindermath architecture governance** | **Inspiration only** | Repeated missing threat-boundary/decision reasoning not already caught by the kit's architecture guidance and ADRs | Low for a focused question; medium/high for duplicate templates |
+| **contains-studio/agents** (earlier entry) | **Retain inspiration only** | A specific technology recipe with executable acceptance, not a general role catalog | Low for one recipe; high/no demonstrated value for bulk agent installation |
+
+##### How to qualify the short list without a new evaluation platform
+
+Use the existing task record and [evaluation guidance](../usage/AGENT_EVALUATION.md).
+There are two decisions, not a score based on stars:
+
+1. **Does it work in the intended host?** Deterministic positive/negative controls,
+   pin identity, bounded write surface, repeat/upgrade/removal behavior.
+2. **Does it improve our work?** Compare against the current kit on equivalent
+   tasks with acceptance fixed before running. Keep model, permissions and
+   starting state equivalent; isolate sessions and alternate variant order.
+   Record acceptance failures, false blocks/findings, repair loops, operator
+   interventions, measured usage, and maintenance steps.
+
+The Superpowers controls already justify a focused integration update. A new
+procedural capability needs a small representative comparison: start with three
+preselected tasks and two independent attempts per variant when model variability
+matters. This is a screening budget, not statistical proof. Preserve every
+attempt, including failures. For a deterministic distributor, use file/host
+controls rather than unnecessary repeated agent benchmarks.
+
+| Candidate slice | Concrete comparison and acceptance | Stop / rollback |
+| --- | --- | --- |
+| **Agent OS-derived context selection** | Use the existing overlay on an importer or comparable module task. Compare current loading with task-scoped sourced constraints; include a permitted exception and an unrelated task. Known-bad output must violate a specific constraint; known-good output must remain accepted. Retain only if it removes observed misses or reduces irrelevant context with unchanged correctness and no extra operator ritual. | Remove added guidance if it merely repeats the current pointer, increases missed exceptions, or has no observed benefit. No standards database/index service. |
+| **Fresh-context design review** | First test one reviewer reading only the design, required sources and acceptance criteria; exclude the author's discussion and proposed verdict. Compare with the current review, including Superpowers' existing review path, on a known defect and a clean control before representative tasks. Count confirmed findings, misses, false positives and total review/rework cost. Retain only an incremental detection benefit within the agreed attention/usage budget. | No verified context isolation means no EGM claim. Stop if the reviewer merely repeats findings or costs more without a useful detection difference. One review and one repair/recheck cycle initially; no automatic persona swarm. |
+| **Ruler** | In a disposable copy of a real two-host setup: one rule update, dry-run, apply, second apply, rollback. Require correct content at both intended entry points, no second-run changes, no lost host sentinel/override, no writes outside selected paths, and a fresh session on each host demonstrating correct rule discovery. Compare with the existing short-pointer approach. | Stop on host-file replacement or if the pointer approach solves the drift more simply. Disable unrelated MCP and gitignore propagation. No subagent/catalog rollout. |
+| **OpenSpec** | Use a supported runtime: Node >=22.12.0 for 1.16.0 npm, or the pinned standalone release. Compare a real canonical-requirement change with the existing method: modify/remove/rename, preserve unrelated requirement, reject malformed delta, verify implementation against independently chosen acceptance. | No measurable requirements-maintenance benefit, unsupported runtime, or two authorities for the same requirement: retain current method. Stores/cross-repo rollout is outside this slice. |
+
+For Ruler, the inspected
+[`AgentsMdAgent`](https://github.com/intellectronica/ruler/blob/5e551e60952fb1c81c6c5ad6f5fe8b7a412bda87/src/agents/AgentsMdAgent.ts)
+writes a generated whole file and can back up the old file; this is **not** a
+preserving merge of arbitrary host instructions. A safe pilot must establish
+file ownership/output paths first. Its README documents `--dry-run`,
+`--no-mcp`, `--no-gitignore` and revert; those options still need local controls.
+
+The full EGM review is materially larger than “ask another agent”: the inspected
+skill has multiple review stages and its release notes retain exact-artifact and
+host-isolation limits. Start with the transferable review principle using
+existing review infrastructure; do not call a simplified adaptation a validated
+EGM installation. This assessment spawned no reviewer and measured no detection
+gain. Native Stop evidence is not a prerequisite for these separate B-level
+experiments.
+
+##### Order, cost and source limits
+
+Recommended next work:
+
+1. **Two bounded kit changes:** qualify the selected Superpowers update and repair
+   the acceptance report's content identity. Each can be reviewed independently;
+   neither needs another framework.
+2. On the next suitable real task, qualify **one** context/review improvement:
+   Agent OS-derived loading when local-rule misses are observed, or fresh-context
+   design review when review quality is the gap. Do not activate both variables
+   in the same comparison.
+3. Choose **Ruler or OpenSpec only when its trigger is present**. Otherwise stop
+   at the useful current kit. SpecGov/GSD remain deferred until their named gap
+   is observed. A newly available native Cursor host justifies finishing the
+   existing Stop experiment, not restarting unrelated pilots.
+
+This is an advisory queue, not an authorization to install on another repository.
+No new service, universal mandatory gate, benchmark dashboard, policy authority,
+or process form is proposed. Use at most two implementation/repair attempts per
+selected slice before recording the blocker and retaining the baseline.
+
+The shortlisted upstream projects are available under MIT (Superpowers, Spec Kit,
+spec-gates, Agent OS, Ruler, OpenSpec) or Apache-2.0 (EGM). Check exact files/notices
+when copying. A free software license does not make model calls, host subscriptions
+or maintenance free. Prefer existing local commands and accounts; record real
+usage if available instead of estimating a productivity multiplier.
+
+Source refresh on 2026-11-04 used primary repository metadata, release notes and
+selected source files. Main-head timestamps/README claims are not installed-release
+evidence. Relevant review anchors:
+
+- [Spec Kit 1.3.0 release](https://github.com/github/spec-kit/releases/tag/v1.3.0);
+  installed pilot remains 1.2.5. [spec-gates 0.5.1 release](https://github.com/schwichtgit/spec-gates/releases/tag/v0.5.1).
+- [Superpowers exact change](https://github.com/obra/superpowers/compare/v7.0.1...v7.0.2);
+  executable controls above cover only the selected helper sources.
+- [Agent OS](https://github.com/buildermethods/agent-os/tree/e892e61d322759165e7d9173e92c1010406c9f4d);
+  [Ruler](https://github.com/intellectronica/ruler/tree/5e551e60952fb1c81c6c5ad6f5fe8b7a412bda87),
+  latest release inspected 0.3.46; reviewed main is not assumed identical.
+- [EGM review source](https://github.com/google/elephant-goldfish-model/blob/113a3afc44e8f4f54722d7150d5701f65cc8ef7f/skills/egm-review/SKILL.md)
+  and [0.1.0 release limitations](https://github.com/google/elephant-goldfish-model/releases/tag/v0.1.0).
+- [OpenSpec 1.16.0](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.16.0).
+  The earlier local trial's unsupported Node version is not closed by this review.
+- [SpecGov reviewed source](https://github.com/paladini/specgov/tree/5a59b902639a07fbec1082a4c465aa5d86eadc97)
+  declares package 1.0.0-rc.2; latest GitHub release inspected is 0.1.0 and its
+  old manifest is unsupported by current source. Select and qualify one exact
+  package before a pilot; do not install `latest` based on a v1 README.
+- [GSD Core](https://github.com/open-gsd/gsd-core/tree/4dce9e859ba11e1eb687aaa9855487a5595c276e),
+  latest release inspected 1.20.0; [BMAD](https://github.com/bmad-code-org/BMAD-METHOD/tree/022be9314e4facd16826104a9f8033e1c5ed4fdc),
+  [Ruflo](https://github.com/ruvnet/ruflo/tree/d10b6585f719be6787f88cad2f70879564520e24),
+  and [Microsoft toolkit](https://github.com/microsoft/agent-governance-toolkit/tree/a918f7634123b5b78e292302195260f786e69130)
+  received source/README scope review, not local runtime qualification.
+- [coding-constitution](https://github.com/pdewost/coding-constitution/tree/9a0cc778061d610ca2cc1b0c739d33564de95839),
+  [architecture preset](https://github.com/hindermath/spec-kit-preset-architecture-governance/tree/9aa8d8e7c4231e753985835fe39eca42611457cd),
+  and [contains-studio](https://github.com/contains-studio/agents/tree/a5a480c324cac64b9c569bca0b2f297d517240cb)
+  retain the limited dispositions above. No claim that they are universally
+  ineffective or that popularity proves effectiveness is made.
+
+---
+
 ## Adoption completion AEP (2026-11-03)
 
 This is the current follow-up assessment and Autonomous Execution Plan (AEP).
