@@ -44,6 +44,8 @@ Do not pick or modify another person's repository without explicit approval. Whe
 3. Write outcomes to an existing ledger (`specs/<feature>/progress.md`) or the research record. Do not add a parallel procedure tree.
 4. Treat a disposable fixture or gate test as structural evidence only. Claim real downstream adoption only when the named checkout completes the authorized task.
 
+Full opt-in stack installer (experimental): [`governance/experimental/spec_gates/OPT_IN_STACK.md`](../governance/experimental/spec_gates/OPT_IN_STACK.md).
+
 When using workflow `ai-governance`, supply the task's pre-selected shell verification in
 the workflow `verify` input or set `TASK_ACCEPTANCE_CMD` before calling
 `bash ci/run_task_acceptance_check.sh` directly. Read `specs/<feature>/acceptance-run-evidence.md`
