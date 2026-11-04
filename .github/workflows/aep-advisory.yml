@@ -1,10 +1,18 @@
 # Missing declarations are advisory; declared plans receive structural validation.
 # Copy the validator and workflow from the same kit revision (usage/AEP_VALIDATION.md).
+# paths-ignore: skip doc-only PRs (same exemptions as doc-delta run block); see DEVELOPMENT.md.
 name: aep-advisory
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - "usage/**"
+      - "adr/**"
+      - "governance/**"
+      - ".github/workflows/**"
 
 permissions:
   contents: read
@@ -23,9 +31,6 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Test the reference validator
-        run: timeout 60s python3 -m unittest discover -s ci/tests -v
-
       - name: Count changed files
         id: diff
         env:
@@ -33,8 +38,18 @@ jobs:
           HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          COUNT="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | wc -l | tr -d ' ')"
+          CHANGED="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          COUNT="$(printf '%s\n' "$CHANGED" | sed '/^$/d' | wc -l | tr -d ' ')"
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          if printf '%s\n' "$CHANGED" | grep -qE '^ci/(validate_aep\.py|tests/)'; then
+            echo "run_validator_tests=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_validator_tests=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Test the reference validator
+        if: steps.diff.outputs.run_validator_tests == 'true'
+        run: timeout 60s python3 -m unittest discover -s ci/tests -v
 
       - name: Validate AEP declaration (all PRs)
         env:

@@ -1,41 +1,28 @@
 # Kit-repo reference implementation for ci/DOC_GATES.md (CM0 doc hygiene; maintainer dogfood).
 # Upstream catalog checks stay here; adopters verify their declared selected snapshot (ADR-0010).
+# No push-on-main: the same job runs on the PR before merge (Actions budget; see DEVELOPMENT.md).
 name: doc-hygiene
 
 on:
   pull_request:
     paths:
-      - '**.md'
-      - 'kit-manifest.yml'
-      - 'ci/import_bundle.py'
-      - 'ci/bundle_tests/**'
-      - 'ci/gate_tests/**'
-      - 'ci/validate_test_evidence.py'
-      - 'ci/validate_claim_cards.py'
-      - 'ci/claim_cards.json'
-      - 'ci/ratchet_findings.py'
-      - 'ci/ratchet_tests/**'
-      - '.github/**'
-      - 'governance/**'
-  push:
-    branches: [main]
-    paths:
-      - '**.md'
-      - 'kit-manifest.yml'
-      - 'ci/import_bundle.py'
-      - 'ci/bundle_tests/**'
-      - 'ci/gate_tests/**'
-      - 'ci/validate_test_evidence.py'
-      - 'ci/validate_claim_cards.py'
-      - 'ci/claim_cards.json'
-      - 'ci/ratchet_findings.py'
-      - 'ci/ratchet_tests/**'
-      - '.github/**'
-      - 'governance/**'
+      - "**.md"
+      - "kit-manifest.yml"
+      - "ci/import_bundle.py"
+      - "ci/bundle_tests/**"
+      - "ci/gate_tests/**"
+      - "ci/validate_test_evidence.py"
+      - "ci/validate_claim_cards.py"
+      - "ci/claim_cards.json"
+      - "ci/ratchet_findings.py"
+      - "ci/ratchet_tests/**"
+      - ".github/**"
+      - "governance/**"
+  workflow_dispatch:
 
 concurrency:
   group: doc-hygiene-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  cancel-in-progress: true
 
 jobs:
   hygiene:

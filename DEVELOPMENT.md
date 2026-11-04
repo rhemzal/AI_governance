@@ -25,6 +25,20 @@ See `ci/DOC_GATES.md` for gate principles, `usage/ENFORCEMENT_MATRIX.md` for wha
 
 **Other kit workflows:** `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml`.
 
+### GitHub Actions budget (kit repo)
+
+Maintainer CI is stricter than adopter **CM0**, but workflows are tuned to avoid redundant minutes:
+
+| Pattern                                     | Where                                | Why                                                                                                                              |
+| ------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `paths-ignore` on doc-only prefixes         | `aep-advisory`, `doc-delta-advisory` | Pure Markdown / `usage/` / `governance/` / workflow YAML PRs skip advisory jobs (same exemptions as the doc-delta `run:` block). |
+| No `edited` on PR triggers                  | Advisories, waiver                   | Editing the PR description alone does not re-run CI; push `synchronize` after a commit when validation must refresh.             |
+| PR-only `doc-hygiene` + `workflow_dispatch` | `doc-hygiene`                        | No duplicate full hygiene run on every `main` push after merge.                                                                  |
+| Conditional AEP unittest                    | `aep-advisory`                       | `ci/tests` runs only when `ci/validate_aep.py` or `ci/tests/**` changed.                                                         |
+| Narrow `spec-gates-kit-advisory` paths      | `spec-gates-kit-advisory`            | `ci/gate_tests` regressions stay on `doc-hygiene` only.                                                                          |
+
+Adopters copying starters from `usage/CI_STARTER_WORKFLOWS.md` may add the same `paths-ignore` block if Actions minutes matter; the starter blocks stay minimal by default.
+
 ### Local verification (tool-agnostic)
 
 Run the reference-validator regression tests before changing its code, workflow, or schema:

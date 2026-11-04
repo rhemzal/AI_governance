@@ -4,7 +4,11 @@ name: governance-waiver-advisory
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, labeled]
+    types: [opened, synchronize, reopened, labeled]
+
+concurrency:
+  group: governance-waiver-advisory-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   waiver:

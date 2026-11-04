@@ -1,10 +1,18 @@
 # Kit-repo dogfood: DOC DELTA advisory for non-doc-only PRs.
 # Adopters: copy/adapt from usage/CI_STARTER_WORKFLOWS.md §7 — inline CI only.
+# paths-ignore: skip doc-only PRs; PR description edits use synchronize after a push.
 name: doc-delta-advisory
 
 on:
   pull_request:
-    types: [opened, edited, synchronize]
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - "usage/**"
+      - "adr/**"
+      - "governance/**"
+      - ".github/workflows/**"
 
 concurrency:
   group: doc-delta-advisory-${{ github.ref }}
