@@ -26,6 +26,7 @@ This folder contains Architecture Decision Records (ADRs) that define and evolve
 - [ADR_0013_Test_Evidence_And_Runner_Conformance.md](ADR_0013_Test_Evidence_And_Runner_Conformance.md) — proposed
 - [ADR_0014_Claim_Card_Registry.md](ADR_0014_Claim_Card_Registry.md) — proposed
 - [ADR_0015_Pinned_Work_Procedures.md](ADR_0015_Pinned_Work_Procedures.md) — proposed
+- [ADR_0016_Workflow_Post_Implement_Acceptance.md](ADR_0016_Workflow_Post_Implement_Acceptance.md) — accepted
 
 ## Status Convention (Recommended)
 
