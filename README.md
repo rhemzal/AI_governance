@@ -9,7 +9,7 @@ Normative sources live in `constitution/` and `ci/`. Advisory reasoning notes li
 ## I am…
 
 - **Kit maintainer** — [DEVELOPMENT.md](DEVELOPMENT.md), [Audit playbook](usage/AUDIT_PLAYBOOK.md), kit CI workflows (`.github/workflows/`), [Release readiness](usage/RELEASE_READINESS.md)
-- **Adopter** — [Adoption bundles](usage/ADOPTION_BUNDLES.md), [Enforcement contract](usage/ADOPTION_ENFORCEMENT_CONTRACT.md), [How to import](usage/HOW_TO_IMPORT.md), [Existing project](usage/FOR_EXISTING_PROJECTS.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes D/E
+- **Adopter** — [Adoption bundles](usage/ADOPTION_BUNDLES.md), [Enforcement contract](usage/ADOPTION_ENFORCEMENT_CONTRACT.md), [How to import](usage/HOW_TO_IMPORT.md), [**Full opt-in playbook**](usage/FULL_OPT_IN_ADOPTION_PLAYBOOK.md) (humans + agents), [Existing project](usage/FOR_EXISTING_PROJECTS.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes D/E
 - **AI agent** — [AGENTS.md](AGENTS.md), [QUICKGUIDE](usage/QUICKGUIDE.md) Recipes A/B, [Enforcement matrix](usage/ENFORCEMENT_MATRIX.md)
 
 ## Choose your path (evaluate / import / extend)
