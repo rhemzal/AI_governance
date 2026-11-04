@@ -52,7 +52,7 @@ Root `.gitignore` excludes machine-local Spec Kit state (`.specify-dev/`, `featu
 **Suggested commits (review order):**
 
 1. **Adapter** — `governance/experimental/spec_gates/**`, `.cursor/hooks.json`, `.cursor/hooks/kit-verify-stop.sh`, `.github/workflows/spec-gates-kit-advisory.yml`, `.gitignore` updates.
-2. **Projected runtime** — `.specify/**`, `.claude/**`, `.cursor/skills/**` from `install-and-project.sh` (regenerate after pinned upstream bumps; do not hand-edit projected copies).
+2. **Projected runtime** — `.specify/gates/**`, `.specify/extensions/gates/{extension.yml,runtime/**}`, registry, and integration manifest from `install-and-project.sh` (regenerate after pinned upstream bumps; do not hand-edit projected copies). Do not commit upstream `README.md` / `LICENSE` / `CHANGELOG.md` under the extension tree (kit link gate); they stay gitignored.
 
 Re-run `sync-policy.sh` after changing `policy.kit.json`; never treat `.specify/gates/policy.json` as the source of truth.
 
