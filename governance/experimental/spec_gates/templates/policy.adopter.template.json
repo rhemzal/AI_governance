@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "verify-quality": {
+      "orchestrator": "none",
+      "severity": "error",
+      "gates": {
+        "__GATE_ID__": {
+          "command": "__VERIFY_COMMAND__",
+          "timeout_s": __TIMEOUT_S__
+        }
+      }
+    }
+  },
+  "git": {
+    "block_main_commits": false,
+    "conventional_commits": false,
+    "forbid_ai_isms": false,
+    "protected_change_trailer": false
+  },
+  "spec": {
+    "enabled": false
+  },
+  "attestation": {
+    "enabled": true,
+    "parity": "error"
+  }
+}

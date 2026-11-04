@@ -20,7 +20,11 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Governance] ADR-0016 records the workflow acceptance runner and related `ci/` controls.
 - [Docs] Audit implementation status is recorded in `research/EXTERNAL_PROJECT_EVALUATIONS.md`. `DEVELOPMENT.md` dates the B6–B8 trial records; `usage/AI_RUN_EVIDENCE.md` adds CI revision guidance.
 
-### Preset activation (2026-11-03)
+### Opt-in stack installer template (2026-11-04)
+
+- [Experimental] Add `governance/experimental/spec_gates/install-opt-in-stack.sh`, `OPT_IN_STACK.md`, and adopter policy/acceptance templates driven by **`ADOPTER_VERIFY_COMMAND`** (no project-specific policy baked in).
+- [Governance] ADR-0017 records the experimental opt-in stack installer template.
+- [Verification] `ci/gate_tests/test_install_opt_in_stack.py` checks installer bash syntax and policy shape.
 
 - [Fix] The opt-in procedure upgrade refuses an existing or dangling `v7.0.1.next` or `v7.0.1.prev` before copying a new pin, so an interrupted upgrade cannot nest the new pin under a stale staging tree and exit successfully with the old pin still active.
 - [Fix] The Spec Kit preset command validates the kit source and destination (including dangling symlinks), copies the preset, then updates `.specify/presets/.registry`. A failed copy no longer leaves `ai-governance` enabled without an installed directory. An existing registry entry is kept, and a second run still stops when the directory is already present.

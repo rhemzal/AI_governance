@@ -303,14 +303,20 @@ rm -rf vendor/superpowers/v7.0.1.rollback
 
 ### What is copied and what stays yours
 
-| Path                                          | Who owns it                                           |
-| --------------------------------------------- | ----------------------------------------------------- |
-| `vendor/superpowers/v7.0.1/`                  | Copied pin. MIT. Do not edit upstream files in place. |
-| `.cursor/skills/governed-work/SKILL.md`       | Copied entry. A regular file, not a symlink.          |
-| `.specify/presets/ai-governance/`             | Optional preset. Its command also registers it.       |
-| Other `.cursor/skills/*` symlinks in the kit  | Not copied.                                           |
-| `AGENTS.md`, `governance/LOCAL_OVERLAY.md`    | Host. The copy commands do not change them.           |
-| spec-gates, Stop hook, `specify workflow run` | Not part of this trial.                               |
+| Path                                          | Who owns it                                                          |
+| --------------------------------------------- | -------------------------------------------------------------------- |
+| `vendor/superpowers/v7.0.1/`                  | Copied pin. MIT. Do not edit upstream files in place.                |
+| `.cursor/skills/governed-work/SKILL.md`       | Copied entry. A regular file, not a symlink.                         |
+| `.specify/presets/ai-governance/`             | Optional preset. Its command also registers it.                      |
+| Other `.cursor/skills/*` symlinks in the kit  | Not copied.                                                          |
+| `AGENTS.md`, `governance/LOCAL_OVERLAY.md`    | Host. The copy commands do not change them.                          |
+| spec-gates, Stop hook, `specify workflow run` | Not part of the **procedure-only** copy block; see full stack below. |
+
+**Full stack (readopt + procedures + spec-gates + Stop + specify venv):** when an authorized
+adopter trial needs all opt-in layers, use
+[`governance/experimental/spec_gates/OPT_IN_STACK.md`](../governance/experimental/spec_gates/OPT_IN_STACK.md)
+and `install-opt-in-stack.sh` with host **`ADOPTER_VERIFY_COMMAND`**. That script is
+experimental and not in import bundles.
 
 The policy snapshot, when you want it, stays a separate import under
 `vendor/AI_governance/` via the sections above. The procedure pin does not

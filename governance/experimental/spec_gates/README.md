@@ -57,3 +57,7 @@ Root `.gitignore` excludes machine-local Spec Kit state (`.specify-dev/`, `featu
 Re-run `sync-policy.sh` after changing `policy.kit.json`; never treat `.specify/gates/policy.json` as the source of truth.
 
 **Local git hooks:** after the projected runtime is installed, `project.sh` installs spec-gates into `.git/hooks/`. The commit-msg gate rejects `Co-Authored-By:` trailers (spec-gates default). Pass a message file that does not contain that trailer (`git commit -F file`). Skipping the git hook is not the way to resolve that conflict.
+
+## Full opt-in stack (adopter template)
+
+For readopt + procedures + spec-gates + Stop hook + specify venv in one reviewed flow, see **[OPT_IN_STACK.md](./OPT_IN_STACK.md)** and run **`install-opt-in-stack.sh`** with host **`ADOPTER_VERIFY_COMMAND`** (not MechWeave- or kit-specific unless you choose that command).

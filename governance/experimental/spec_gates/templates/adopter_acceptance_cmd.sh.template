@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Adopter task acceptance command for ci/run_task_acceptance_check.sh and workflow verify input.
+# Regenerate with governance/experimental/spec_gates/install-opt-in-stack.sh — do not hand-edit
+# unless the project's selected verification command changed (record in overlay / ADR).
+set -euo pipefail
+__VERIFY_EXEC_LINE__
