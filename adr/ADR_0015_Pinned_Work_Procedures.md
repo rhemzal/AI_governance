@@ -16,7 +16,8 @@ outcome. Separately, `test_b5_through_b8_have_no_recorded_trial` treated the
 absence of `research/benchmark_trials` as a permanent invariant, so a later
 trial record could not be added without failing the suite.
 
-Superpowers v7.0.1 already contains procedures for those gaps.
+Superpowers v7.0.1 already contained procedures for those gaps; upstream
+v7.0.2 fixes helper extraction and workspace guards in the same selected slice.
 `executing-plans` continues through authorized tasks and keeps a ledger that
 a later session can resume. Copying the whole catalog, or adding another
 orchestrator, was not justified.
@@ -28,6 +29,11 @@ orchestrator, was not justified.
    `executing-plans`, and the plan, test, review, and script files those
    procedures call. Leave the texts under their MIT license. Do not install
    `subagent-driven-development` as a skill.
+   **Amendment (2026-11-04):** move the active kit pin to Superpowers v7.0.2,
+   commit `22f0b463e7a5e579904dd6211a520321035526f7`, including `sdd-repo` and
+   the updated `task-brief` / `sdd-workspace` helpers. Scope stays the selected
+   procedures only; upgrade and rollback staging names use `v7.0.2.next`,
+   `v7.0.2.prev`, and `v7.0.2.rollback`.
 2. Route use through `.cursor/skills/governed-work/SKILL.md` and the method
    selector. Constitution authority wins. A documentation or registry-wording
    change does not require test-driven development. A behavior change does.
@@ -93,6 +99,8 @@ called. Both were fixed in this change: the new assertion failed, then passed.
 
 - `ci/gate_tests/test_work_procedures.py` checks the pin hashes, the preset
   append, and that the governed workflow has no approval gate.
+- `ci/gate_tests/test_superpowers_helper_controls.py` records the v7.0.2 helper
+  controls from the tier adoption reassessment.
 - `ci/gate_tests/test_open_claim_limits.py` checks the absence sentence and
   trial records.
 - The claim card `benchmark-scenarios-unrun` points at that test. Accepting a
@@ -125,6 +133,6 @@ called. Both were fixed in this change: the new assertion failed, then passed.
 
 ## References
 
-- Superpowers v7.0.1 `skills/executing-plans/SKILL.md`
+- Superpowers v7.0.2 `skills/executing-plans/SKILL.md` (pin under `vendor/superpowers/v7.0.2/`)
 - Spec Kit v1.2.5 preset resolution in `.specify/scripts/bash/common.sh`
 - `adr/ADR_0012_Outcome_Based_Method_Adoption.md`

@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PIN = ROOT / "vendor/superpowers/v7.0.1"
+PIN = ROOT / "vendor/superpowers/v7.0.2"
 ACTIVE = (
     "systematic-debugging",
     "verification-before-completion",
@@ -59,7 +59,7 @@ class WorkProcedures(unittest.TestCase):
     def test_documentation_exception_is_in_the_entry_point(self):
         text = (ROOT / ".cursor/skills/governed-work/SKILL.md").read_text(encoding="utf-8")
         self.assertIn("documentation or registry-text change does not require", text)
-        self.assertIn("2ce8aa15d05bd57213e6f746f953aafb7ded7a8b", text)
+        self.assertIn("22f0b463e7a5e579904dd6211a520321035526f7", text)
 
     def test_governed_workflow_has_no_approval_gate(self):
         governed = (
@@ -98,11 +98,11 @@ class WorkProcedures(unittest.TestCase):
             self.assertEqual(agents.read_text(encoding="utf-8"), "HOST-SENTINEL\n")
             self.assertEqual(overlay.read_text(encoding="utf-8"), "OVERLAY-SENTINEL\n")
             entry = adopter / ".cursor/skills/governed-work/SKILL.md"
-            pin = adopter / "vendor/superpowers/v7.0.1"
+            pin = adopter / "vendor/superpowers/v7.0.2"
             self.assertFalse(entry.is_symlink())
             self.assertFalse((pin / "skills/executing-plans/SKILL.md").is_symlink())
             entry_text = entry.read_text(encoding="utf-8")
-            self.assertIn("2ce8aa15d05bd57213e6f746f953aafb7ded7a8b", entry_text)
+            self.assertIn("22f0b463e7a5e579904dd6211a520321035526f7", entry_text)
             self.assertIn("vendor/AI_governance/constitution/AI_ENFORCEMENT.md", entry_text)
             self.assertIn("install spec-gates or a Stop hook", entry_text)
             check = subprocess.run(
@@ -124,7 +124,7 @@ class WorkProcedures(unittest.TestCase):
             adopter = Path(tmp)
             _copy_procedures(ROOT, adopter)
             entry = adopter / ".cursor/skills/governed-work/SKILL.md"
-            pin = adopter / "vendor/superpowers/v7.0.1"
+            pin = adopter / "vendor/superpowers/v7.0.2"
             debug = pin / "skills/systematic-debugging/SKILL.md"
             self.assertTrue(entry.is_file())
             self.assertFalse(entry.is_symlink())
@@ -133,7 +133,7 @@ class WorkProcedures(unittest.TestCase):
             self.assertIn("documentation or registry-text change does not require", text)
             self.assertIn("| A failure, unexpected test result", text)
             self.assertIn("systematic-debugging", text)
-            self.assertIn("vendor/superpowers/v7.0.1/", text)
+            self.assertIn("vendor/superpowers/v7.0.2/", text)
             self.assertTrue((pin / "SHA256SUMS").is_file())
 
     def test_copy_refuses_a_dangling_skill_symlink(self):
@@ -145,7 +145,7 @@ class WorkProcedures(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 _copy_procedures(ROOT, adopter)
             self.assertTrue(entry.is_symlink())
-            self.assertFalse((adopter / "vendor/superpowers/v7.0.1").exists())
+            self.assertFalse((adopter / "vendor/superpowers/v7.0.2").exists())
 
     def test_upgrade_and_rollback_are_separate_commands(self):
         text = (ROOT / "usage/HOW_TO_IMPORT.md").read_text(encoding="utf-8")
@@ -161,19 +161,19 @@ class WorkProcedures(unittest.TestCase):
                 continue
             if inside:
                 current.append(line)
-        upgrade = [block for block in fences if "v7.0.1.next" in block]
-        rollback = [block for block in fences if "v7.0.1.rollback" in block]
+        upgrade = [block for block in fences if "v7.0.2.next" in block]
+        rollback = [block for block in fences if "v7.0.2.rollback" in block]
         self.assertEqual(len(upgrade), 1)
         self.assertEqual(len(rollback), 1)
         self.assertNotIn("rollback", upgrade[0])
         self.assertNotIn("rm -rf", upgrade[0])
-        self.assertIn("test ! -e vendor/superpowers/v7.0.1.next", upgrade[0])
-        self.assertIn("test ! -L vendor/superpowers/v7.0.1.next", upgrade[0])
-        self.assertIn("test ! -e vendor/superpowers/v7.0.1.prev", upgrade[0])
-        self.assertIn("test ! -L vendor/superpowers/v7.0.1.prev", upgrade[0])
-        self.assertIn("test ! -e vendor/superpowers/v7.0.1.rollback", rollback[0])
-        self.assertIn("test ! -L vendor/superpowers/v7.0.1.rollback", rollback[0])
-        self.assertIn("rm -rf vendor/superpowers/v7.0.1.rollback", rollback[0])
+        self.assertIn("test ! -e vendor/superpowers/v7.0.2.next", upgrade[0])
+        self.assertIn("test ! -L vendor/superpowers/v7.0.2.next", upgrade[0])
+        self.assertIn("test ! -e vendor/superpowers/v7.0.2.prev", upgrade[0])
+        self.assertIn("test ! -L vendor/superpowers/v7.0.2.prev", upgrade[0])
+        self.assertIn("test ! -e vendor/superpowers/v7.0.2.rollback", rollback[0])
+        self.assertIn("test ! -L vendor/superpowers/v7.0.2.rollback", rollback[0])
+        self.assertIn("rm -rf vendor/superpowers/v7.0.2.rollback", rollback[0])
         copy = [block for block in fences if "cp -L" in block and "governed-work/SKILL.md" in block]
         self.assertEqual(len(copy), 1)
         self.assertIn("test ! -L .cursor/skills/governed-work/SKILL.md", copy[0])
@@ -187,13 +187,13 @@ class WorkProcedures(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 _copy_procedures(ROOT, adopter)
             self.assertEqual(entry.read_text(encoding="utf-8"), "LOCAL-SKILL\n")
-            self.assertFalse((adopter / "vendor/superpowers/v7.0.1").exists())
+            self.assertFalse((adopter / "vendor/superpowers/v7.0.2").exists())
 
     def test_rollback_without_a_previous_pin_leaves_the_active_pin(self):
         with tempfile.TemporaryDirectory() as tmp:
             adopter = Path(tmp)
             _copy_procedures(ROOT, adopter)
-            pin = adopter / "vendor/superpowers/v7.0.1/PIN.md"
+            pin = adopter / "vendor/superpowers/v7.0.2/PIN.md"
             original = pin.read_bytes()
             with self.assertRaises(FileNotFoundError):
                 _rollback_pin(adopter)
@@ -206,10 +206,10 @@ class WorkProcedures(unittest.TestCase):
             overlay.parent.mkdir()
             overlay.write_text("OVERLAY-SENTINEL\n", encoding="utf-8")
             _copy_procedures(ROOT, adopter)
-            active = adopter / "vendor/superpowers/v7.0.1"
+            active = adopter / "vendor/superpowers/v7.0.2"
             original = (active / "PIN.md").read_bytes()
             new_kit = Path(tmp) / "new-kit"
-            candidate = new_kit / "vendor/superpowers/v7.0.1"
+            candidate = new_kit / "vendor/superpowers/v7.0.2"
             shutil.copytree(active, candidate, symlinks=False)
             pin_md = candidate / "PIN.md"
             pin_md.write_text(pin_md.read_text(encoding="utf-8") + "\nupgrade-marker\n", encoding="utf-8")
@@ -237,11 +237,11 @@ class WorkProcedures(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             adopter = Path(tmp)
             _copy_procedures(ROOT, adopter)
-            active = adopter / "vendor/superpowers/v7.0.1"
+            active = adopter / "vendor/superpowers/v7.0.2"
             original = (active / "PIN.md").read_bytes()
-            shutil.copytree(active, adopter / "vendor/superpowers/v7.0.1.next", symlinks=False)
+            shutil.copytree(active, adopter / "vendor/superpowers/v7.0.2.next", symlinks=False)
             new_kit = Path(tmp) / "new-kit"
-            candidate = new_kit / "vendor/superpowers/v7.0.1"
+            candidate = new_kit / "vendor/superpowers/v7.0.2"
             shutil.copytree(active, candidate, symlinks=False)
             pin_md = candidate / "PIN.md"
             pin_md.write_text(pin_md.read_text(encoding="utf-8") + "\nupgrade-marker\n", encoding="utf-8")
@@ -251,7 +251,7 @@ class WorkProcedures(unittest.TestCase):
             upgraded = _run_upgrade_block(adopter, env)
             self.assertNotEqual(upgraded.returncode, 0, upgraded.stdout + upgraded.stderr)
             self.assertEqual((active / "PIN.md").read_bytes(), original)
-            nested = active / "v7.0.1"
+            nested = active / "v7.0.2"
             self.assertFalse(nested.is_dir(), "upgrade must not nest the new pin under the active tree")
 
     def test_preset_copy_leaves_registry_unchanged_when_destination_is_a_dangling_symlink(self):
@@ -450,7 +450,7 @@ def _upgrade_block():
             continue
         if inside:
             current.append(line)
-    matches = [block for block in fences if "v7.0.1.next" in block and "NEW_KIT" in block]
+    matches = [block for block in fences if "v7.0.2.next" in block and "NEW_KIT" in block]
     if len(matches) != 1:
         raise AssertionError("expected one upgrade command")
     return matches[0]
@@ -501,9 +501,9 @@ def _rewrite_sums(pin):
 
 def _rollback_pin(adopter):
     base = adopter / "vendor/superpowers"
-    active = base / "v7.0.1"
-    previous = base / "v7.0.1.prev"
-    holding = base / "v7.0.1.rollback"
+    active = base / "v7.0.2"
+    previous = base / "v7.0.2.prev"
+    holding = base / "v7.0.2.rollback"
     if not previous.is_dir() or not active.is_dir():
         raise FileNotFoundError(previous)
     if _path_present(holding):
@@ -519,13 +519,13 @@ def _path_present(path):
 
 def _copy_procedures(kit, adopter):
     """Regular-file copy used by usage/HOW_TO_IMPORT.md. Refuse an existing pin or skill."""
-    pin_dest = adopter / "vendor/superpowers/v7.0.1"
+    pin_dest = adopter / "vendor/superpowers/v7.0.2"
     entry = adopter / ".cursor/skills/governed-work/SKILL.md"
     if _path_present(pin_dest):
         raise FileExistsError(pin_dest)
     if _path_present(entry):
         raise FileExistsError(entry)
     pin_dest.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(kit / "vendor/superpowers/v7.0.1", pin_dest, symlinks=False)
+    shutil.copytree(kit / "vendor/superpowers/v7.0.2", pin_dest, symlinks=False)
     entry.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(kit / ".cursor/skills/governed-work/SKILL.md", entry)

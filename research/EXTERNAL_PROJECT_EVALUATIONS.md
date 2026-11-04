@@ -287,37 +287,33 @@ actual Spec Kit shell-engine pass/fail controls; they do not exercise native
 Cursor Stop or measure an agent's task quality.
 
 **1. Update the selected Superpowers pin after integration qualification.**
-The kit currently vendors 7.0.1. Upstream
-[7.0.2](https://github.com/obra/superpowers/releases/tag/v7.0.2),
-commit `22f0b463e7a5e579904dd6211a520321035526f7`, fixes helpers that this
-kit actually includes. On Linux, the existing 7.0.1 helpers were compared with
-the exact upstream 7.0.2 `task-brief`, `sdd-workspace`, and new `sdd-repo`
+The kit vendors **7.0.2** (commit `22f0b463e7a5e579904dd6211a520321035526f7`)
+after the controls below passed on the pinned helpers. Upstream
+[7.0.2](https://github.com/obra/superpowers/releases/tag/v7.0.2) fixes helpers
+this kit includes. On Linux, vendored 7.0.1 helpers were compared with the
+exact upstream 7.0.2 `task-brief`, `sdd-workspace`, and new `sdd-repo`
 in disposable directories:
 
-| Control | Vendored 7.0.1 | Upstream 7.0.2 |
+| Control | Vendored 7.0.1 (historical) | Vendored 7.0.2 |
 | --- | --- | --- |
 | Same-depth headings `## Task 6`, then `## Task 6b`; request 6 | Exit 0; includes the other task | Exit 0; only task 6 |
 | Same-depth `Task A1`, then `Task A2`; request A1 | Exit 3; task not found | Exit 0; only A1 |
 | Task 6 opens a code fence that never closes before Task 7 | Exit 0; includes task 7 | Exit 4; rejects malformed brief |
 | Invoke `sdd-workspace PLAN_FILE` outside any Git repository | Exit 0; creates `.superpowers/` despite Git's error | Exit 2; creates no workspace |
 
-To reproduce the extraction controls, place distinct marker lines below each
-heading and run `bash ABSOLUTE_TASK_BRIEF PLAN_FILE TASK_ID OUTFILE`; inspect
-exit code and whether the next task's marker leaked into OUTFILE. For the fence
-case, insert an opening triple-backtick line after the first marker and omit its
-closing fence. Run the workspace control in a new temporary non-repository
-directory with an absolute plan path.
-
-This is a demonstrated helper improvement, **not** a completed pin upgrade or
-evidence for upstream brainstorming claims. Retain the same selected procedures;
-update dependent helper files, hashes, active links and copy/upgrade/rollback
-references together. Verify the four controls above, a valid Git/worktree
-positive control, task completion failure handling, and existing import/rollback
-regressions. The new `sdd-repo` dependency must accompany the updated helpers.
-Do not install the full skill catalog merely to obtain these fixes.
+Integrated regressions: `ci/gate_tests/test_superpowers_helper_controls.py`.
+Upgrade and rollback copy blocks in `usage/HOW_TO_IMPORT.md` use `v7.0.2.next`,
+`v7.0.2.prev`, and `v7.0.2.rollback`. Retain the same selected procedures; the
+new `sdd-repo` dependency ships with the updated helpers. Do not install the full
+skill catalog merely to obtain these fixes.
 
 **2. Strengthen the existing acceptance report's state identity.**
-The runner hashes `git status --porcelain`, which identifies changed paths and
+**Implemented (2026-11-04):** `ci/uncommitted_diff_identity.py` hashes porcelain
+status together with blob identities; see ADR-0016 amendment and
+`test_dirty_tree_identity_reflects_file_content`. The disposable control below
+describes the pre-fix gap:
+
+The runner previously hashed `git status --porcelain`, which identifies changed paths and
 statuses, not their contents. In one disposable Git repository, commit
 `payload.txt`, change its contents twice without changing its status, and invoke
 `ci/run_task_acceptance_check.sh` after each edit with
@@ -500,7 +496,7 @@ the permanent benchmark-directory prohibition: both have been implemented.
 
 | Capability                      | Evidence at the reviewed revision                                                                                                                                                                               | Remaining gap                                                                                                                                                                                                                             |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Selected Superpowers procedures | v7.0.1 pinned with MIT license, hashes, six skill links and a governed entry point; `specs/001-benchmark-trial-records/progress.md` records debugging, continuation, stale-result handling and a review finding | One recorded use; host discovery and repeatable use beyond that slice have not been independently demonstrated here                                                                                                                       |
+| Selected Superpowers procedures | v7.0.2 pinned with MIT license, hashes, selected skill links, `sdd-repo`, and a governed entry point; `specs/001-benchmark-trial-records/progress.md` records debugging, continuation, stale-result handling and a review finding | One recorded use; host discovery and repeatable use beyond that slice have not been independently demonstrated here                                                                                                                       |
 | Spec Kit profile                | Three appended templates, registered `ai-governance` workflow, disposable run `8ecad04d` through `implement`, and feature ledgers                                                                               | No named downstream trial; native Stop hook still unobserved; B6/B7/B8 show no acceptance gain from the profile text                                                                                                                      |
 | Resume and review               | The ledger records a resumed Task 2, a changed hash and rerun; review found rejection of `cancelled` and missing coverage of an absent directory                                                                | Matched B6 and B7 records are in `research/benchmark_trials/`. The durable ledger is `specs/<feature>/progress.md`. Scratch under `.superpowers/` and `.specify/workflows/runs/` does not replace it.                                     |
 | Later benchmark evidence        | Historical absence remains dated; the new checker accepts later records and rejects malformed fields                                                                                                            | `b6-2026-11-03.md`, `b7-2026-11-03.md`, and `b8-2026-11-03.md` are recorded. Checker acceptance is not a gain.                                                                                                                            |
@@ -653,7 +649,7 @@ an arbitrary success command as the completion check. Shell execution alone stil
 does not prove that a meaningful/non-empty test selection ran.
 
 **Superpowers already captures some real execution, but not the full evidence
-contract.** The vendored v7.0.1 `executing-plans/scripts/task-done` runs its supplied
+contract.** The vendored v7.0.2 `executing-plans/scripts/task-done` runs its supplied
 command, writes a log, and appends completion only for exit zero. Disposable probes
 observed exit 7 keeping the log without a completion line, and exit 0 adding one.
 However, `true` also added completion with no output. After a tracked file changed
@@ -768,7 +764,7 @@ telemetry service, new mandatory form, repeated approval gate or CM increase.
   reports success. CI regression execution is not downstream activation.
 - Spec Kit source: [shell step](https://github.com/github/spec-kit/blob/4572a67fe0e72a6837e2d7bb0fda875bc41482e5/src/specify_cli/workflows/step/shell/__init__.py)
   and [agent-command step](https://github.com/github/spec-kit/blob/4572a67fe0e72a6837e2d7bb0fda875bc41482e5/src/specify_cli/workflows/step/command/__init__.py).
-- Superpowers source: `vendor/superpowers/v7.0.1/skills/executing-plans/scripts/task-done`,
+- Superpowers source: `vendor/superpowers/v7.0.2/skills/executing-plans/scripts/task-done`,
   pinned to `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b`.
 - Spec-gates source: `.specify/gates/verify.sh`, `lib/watch.sh`, `lib/attest.sh`,
   and the [v0.5.0 to v0.5.1 diff](https://github.com/schwichtgit/spec-gates/compare/v0.5.0...v0.5.1).

@@ -18,10 +18,10 @@ References to the active AEP, execution ledger, wave packages, or `specs/*/tasks
 
 1. Read the host mandate (`AGENTS.md`, overlay), the execution ledger (for example
    `docs/EXECUTION_STATE.md` or `specs/*/progress.md`), and the cited AEP or `tasks.md`.
-2. Execute inline per `vendor/superpowers/v7.0.1/skills/executing-plans/SKILL.md` when
+2. Execute inline per `vendor/superpowers/v7.0.2/skills/executing-plans/SKILL.md` when
    that pin is present (all remaining tasks; no checkpoint questions between tasks).
 3. Route debugging, TDD, and completion checks through other pinned Superpowers under
-   `vendor/superpowers/v7.0.1/skills/` — same routing as
+   `vendor/superpowers/v7.0.2/skills/` — same routing as
    `.cursor/skills/governed-work/SKILL.md`, without requiring that skill to be invoked.
 4. Update the host ledger on each meaningful slice.
 5. Ambiguity: decide from spec/plan; log `Ruling:` in the ledger; collect

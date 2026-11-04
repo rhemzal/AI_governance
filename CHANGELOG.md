@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Superpowers procedure pin (2026-11-04)
+
+- [Fix] Move the Tier B/C pin to Superpowers **v7.0.2** (`vendor/superpowers/v7.0.2/`), including `sdd-repo` and updated helper scripts. Copy/upgrade/rollback blocks in `usage/HOW_TO_IMPORT.md` use `v7.0.2.*` staging names.
+- [Verification] `test_superpowers_helper_controls.py` records the four helper controls from the tier reassessment; `test_work_procedures.py` upgrade/rollback regressions updated for the new pin path.
+- [Governance] ADR-0015 amended for the pin move; governed-work and adoption docs reference v7.0.2.
+
 ### Tier-aware adoption reassessment (2026-11-04)
 
 - [Advisory-only] Reassess the 15 landscape candidates plus the earlier agent catalog against Tier A/B/C at `9d262a0`; retain current integration gains and define bounded benefit/removal criteria for additional capabilities.
