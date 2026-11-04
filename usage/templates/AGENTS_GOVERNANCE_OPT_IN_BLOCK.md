@@ -1,5 +1,7 @@
 ## Governance baseline
 
+_Provenance: This block originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If copied, preserve this line._
+
 - Kit root: `vendor/AI_governance/`.
 - Bundles: **standard**, **research** (adjust if your ADR differs).
 - Upstream commit: `<KIT_REVISION>` (full SHA).

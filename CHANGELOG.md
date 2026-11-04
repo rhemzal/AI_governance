@@ -6,7 +6,8 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ### Workflow acceptance verification (2026-11-04)
 
-- [Fix] `ci/uncommitted_diff_identity.py` binds acceptance evidence to uncommitted **content** (status plus `git hash-object`), not to `git status` text alone. `test_dirty_tree_identity_reflects_file_content` guards the regression.
+- [Fix] `ci/uncommitted_diff_identity.py` binds acceptance evidence to uncommitted **content** (status plus `git hash-object`), not to `git status` text alone. `test_dirty_tree_identity_reflects_file_content` guards the regression. ADR-0016 amended.
+- [Fix] Restore provenance banner on `usage/templates/AGENTS_GOVERNANCE_OPT_IN_BLOCK.md` (doc-hygiene on `main`).
 
 ### Adoption scope documentation (2026-11-04)
 
