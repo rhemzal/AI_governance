@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Agent runtime and evidence analysis (2026-11-04)
+
+- [Advisory-only] Analyze `52f9c26f342b3517384e96f7d289bb300a72aaa4`: distinguish instruction loading, actual command execution, evidence validation and CI. Original upgrade/preset failure reproductions now pass their regressions.
+- [Verification] 43 focused tests passed. Disposable probes demonstrate the already-pinned Spec Kit shell step, Superpowers completion limits and spec-gates v0.5.0's inherited-Git-environment issue. Review upstream v0.5.1's fix; no runtime upgrade performed.
+- [Recommendation] Connect existing verification to workflow completion and state-bound native evidence before adding frameworks. Preserve native-host and downstream evidence limits; no policy or CI activation change.
+
 ### Preset activation (2026-11-03)
 
 - [Fix] The opt-in procedure upgrade refuses an existing or dangling `v7.0.1.next` or `v7.0.1.prev` before copying a new pin, so an interrupted upgrade cannot nest the new pin under a stale staging tree and exit successfully with the old pin still active.

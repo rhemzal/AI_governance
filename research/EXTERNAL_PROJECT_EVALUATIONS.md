@@ -352,6 +352,194 @@ GOVERNANCE FIT CHECK
 - Reason: the concrete risks are inactive instructions, unsafe transfer, stale progress and maintenance without benefit.
 - What to defer: additional frameworks, mandatory reviewer processes, native Stop retries without new evidence, global installation and general rollout.
 
+## Agent runtime and evidence analysis (2026-11-04)
+
+Reviewed [`52f9c26f342b3517384e96f7d289bb300a72aaa4`](https://github.com/rhemzal/AI_governance/commit/52f9c26f342b3517384e96f7d289bb300a72aaa4).
+This is the current analysis of the connection between policy and everyday agent
+execution. The earlier capability audit remains in PR #49 history at
+`6158284e66c242e88e6fbc4dc44d3a16e843128b`. Its original R1/R2 reproductions are
+now covered by passing regressions: stale upgrade staging is refused, and the
+dangling-destination/injected-copy-failure cases preserve the preset registry.
+This does not claim every possible installer failure is transactional.
+
+**Assessment:** the weak point is an incomplete connection from the selected
+acceptance check to actual execution, fresh state identity, and durable completion
+evidence. The kit has useful instructions, executable checks, CI and some runtime
+adapters; it lacks a consistently used connection between them. Reference-only or
+manual controls are not inherently defects. Architecture rationale and method
+suitability still need judgment, and an adopter must supply its product checks.
+
+### What happens at each boundary today
+
+| Boundary | Current mechanism | Actual limit |
+| --- | --- | --- |
+| Load applicable policy | Host AGENTS pointer, kit projection, local overlay, governed-work skill | A nested submodule or copied skill is not proof that the host loaded it. The activation smoke checks files and text, not native agent selection. |
+| Choose work and checks | AEP/task mandate, method selector, local test command | These are instructions. The agent can omit a relevant check or select a weak one; schema validation does not decide adequacy. |
+| Execute a governed workflow | Spec Kit specify → plan → tasks → implement | The shipped workflow contains four agent-command steps and no final deterministic shell verification step. Successful command dispatch is not product acceptance. |
+| Run checks locally | Direct commands; Superpowers task-done; optional spec-gates verify.sh | These really execute commands, but must be invoked and supplied with the right checks. They do not independently define acceptance. |
+| Assess supplied evidence | ci/validate_test_evidence.py | Validates two supplied records. It neither opens evidence references nor derives the current source/build identity nor authenticates the producer. |
+| Finish, resume and integrate | Feature ledger, experimental Cursor Stop, kit CI | Ledger transfer is partly manual; Stop dispatch remains unobserved. CI is stronger evidence of its own executed steps, but does not automatically validate the whole task or impose branch protection. |
+
+The cited historical enforcement matrix at `873df7e...` should not be treated as
+the current tree. The current matrix explicitly separates kit CI and adopter
+wiring. `usage/AI_RUN_EVIDENCE.md` already describes the missing host normalizer
+and independent expectation selection; this analysis identifies an implementation
+gap in that documented contract, not a need for another evidence schema.
+
+### Direct observations and useful upstream capabilities
+
+**The evidence-validator limit is reproducible and intentional.** The existing
+`test_hand_written_report_is_verified_without_a_runner` passed: both JSON inputs
+were hand-written, the referenced `result.json` did not exist, and the CLI still
+returned exit 0 / VERIFIED. That verdict means the supplied records agree and
+satisfy the schema. It must not be promoted into a claim that a runner executed
+the required tests. Renaming fields or demanding more agent-written JSON would
+not supply the missing provenance.
+
+**Spec Kit already has the smallest missing execution primitive.** At the pinned
+v1.2.5 source `4572a67fe0e72a6837e2d7bb0fda875bc41482e5`, a workflow `type: shell`
+step executes a command, captures its output/exit code, and fails on nonzero exit.
+It can follow `implement` without another agent, package or orchestrator. A real
+local `WorkflowEngine` probe used that exact source and disposable two-step
+workflows, with the second step writing a marker:
+
+| Verification command | Workflow outcome | Captured exit/output | Later marker step |
+| --- | --- | --- | --- |
+| Print runner-output; exit 0 | completed | 0 / runner-output | Executed |
+| Print runner-output; exit 7 | failed | 7 / runner-output | Not executed |
+
+These are engine controls, not a native Cursor session or a product-benefit trial.
+The command must come from the project's accepted verification, selected before
+its outcome is known. Do not use `continue_on_error: true`, an agent's summary, or
+an arbitrary success command as the completion check. Shell execution alone still
+does not prove that a meaningful/non-empty test selection ran.
+
+**Superpowers already captures some real execution, but not the full evidence
+contract.** The vendored v7.0.1 `executing-plans/scripts/task-done` runs its supplied
+command, writes a log, and appends completion only for exit zero. Disposable probes
+observed exit 7 keeping the log without a completion line, and exit 0 adding one.
+However, `true` also added completion with no output. After a tracked file changed
+without a commit, the ledger still reported the same BASE..HEAD range. This is an
+execution helper, not an independent test selector or a dirty-state receipt.
+Reuse it for plans that already use it; do not force tiny edits into a plan just
+to obtain a log. Its scratch ledger is not the durable feature record.
+
+**Spec-gates supplies real command execution and structured gate observations.**
+The installed v0.5.0 `verify.sh` produces policy hash, runtime version, gate result,
+duration and applicable tool metadata. For the custom project-gate probe,
+`candidates` and `checked` were null. The basic attestation had no source commit,
+dirty-tree identity, required-test IDs or artifact digest. It is an unsigned local
+record; `attestation` is not a promise of authenticated task evidence. Its write
+failure is a warning and does not change the gate result. Preserve useful native
+observations instead of assuming this object satisfies the kit's full evidence contract.
+
+There is also a newly relevant upstream correction. [Spec-gates v0.5.1](https://github.com/schwichtgit/spec-gates/releases/tag/v0.5.1),
+released 2026-11-03 at `a42f1f7d34c6e190b5a640d67244cf6f071d07e7`, fixes inherited
+Git repository variables for gate commands and false timeout reporting. A safe
+v0.5.0 probe used two disposable Git repositories and a project gate that only
+ran `git rev-parse --absolute-git-dir` inside the child and saved that text:
+
+| Gate environment | Repository reported by the child command | Gate exit |
+| --- | --- | --- |
+| No inherited GIT_DIR/GIT_INDEX_FILE | Child | 0 |
+| GIT_DIR/GIT_INDEX_FILE point at the caller | Caller | 0 |
+
+This reproduces misdirected repository identity, not destructive corruption or a
+native Git-hook invocation. The reviewed v0.5.1 diff clears those variables and
+exports the commit index separately as `GATES_GIT_INDEX_FILE`. Before further
+linked-worktree Git-hook use, qualify that pinned upgrade with existing upgrade
+controls and the Git-environment case. v0.5.1 was source-reviewed, not installed
+or executed here. This does not reopen the native Stop retry budget or justify
+promoting spec-gates to required checks.
+
+**Native host hooks are useful at different boundaries.** Current [Cursor hook
+documentation](https://cursor.com/docs/hooks) describes context injection at
+sessionStart, permission decisions before tool use, and follow-up messages at
+Stop. These are not interchangeable: sessionStart does not block session creation,
+and Stop requests another turn. Permission-hook failures can default to allowing
+the action unless configured otherwise. Availability differs between IDE, CLI
+and cloud; documentation is not a successful observation on the pinned host.
+Keep the original unobserved-Stop finding. Use actual host permission boundaries
+for unauthorized effects; more Stop prompts are not a substitute.
+
+### Which external capability closes which gap
+
+| Capability | What to reuse | What it does not solve |
+| --- | --- | --- |
+| Spec Kit shell step, already pinned | Deterministic verification after implementation when that workflow is used | Automatic invocation in ordinary chats; adequate test selection; fresh artifact identity |
+| Superpowers task-done, already vendored | Real command log and failure-sensitive task completion | Test sufficiency, dirty/untracked identity, durable publication, authenticity |
+| Spec-gates, already experimental | Shared gate dispatch, time bounds, native observations and negative canaries, after relevant upgrade qualification | Full task acceptance, trusted local provenance, proven Cursor dispatch; current adapter still duplicates a direct suite |
+| Existing test runner and GitHub Actions | Native results, run/job links and execution tied to the checked-out revision | Correct oracle, required execution of skipped tests, or an uncommitted local tree |
+| Previously reviewed Agent OS / Ruler / OpenSpec | Context selection / instruction distribution / specification lifecycle respectively | None supplies the missing execution-and-evidence connection by itself |
+
+No new framework is required for the first useful change. Reuse the existing
+runner's output format and CI before introducing a custom result normalizer.
+Local capture improves accidental omissions and stale reports; it is not a security
+boundary against an agent that can edit both checks and records. Stronger assurance
+comes from independently executed CI and the project's existing review/permission
+controls, rather than signing self-authored local assertions.
+
+### Recommended next slice, not yet activated
+
+1. **Connect execution to completion.** In `.specify/workflows/ai-governance/workflow.yml`,
+   add a final native shell verification step for the host-selected command. Keep
+   direct verification available for ordinary chats and small edits through the
+   existing governed-work/host entry point. Do not require Spec Kit for every task.
+   Use one implementation of each check; workflow, local invocation and CI should
+   call it. Begin with a real kit maintenance task and its existing applicable
+   checks, rather than another calculator comparison or a new downstream prerequisite.
+2. **Connect results to the tested state.** Populate the existing `AI RUN EVIDENCE`
+   block from the command result or native CI run: command/selection, executed
+   revision, dirty and relevant untracked identities when local, configuration,
+   exit/status and resolvable log/result reference. Record a failed/missing run as
+   such. Retain native reports; only add a small format adapter if a concrete runner
+   cannot supply what is needed. A report-shaped pass must not upgrade a task to
+   VERIFIED. A later relevant edit makes the previous result historical.
+3. **Qualify only the host automation actually needed.** Observe one fresh session
+   finding the active policy and using the canonical check on a real scoped task.
+   Validate negative cases at the boundary claimed: failure, omitted required
+   check, stale state, timeout/cancellation where supported. Only then count a
+   native hook as active. Fix/qualify the spec-gates Git-environment issue before
+   further linked-worktree hook use; direct verification does not depend on that upgrade.
+
+For CI evidence, distinguish PR head from the actual tested merge commit, and
+record the run attempt/job. A green badge alone can include skipped/neutral
+checks; inspect the required step and native result. [GitHub documents both
+revision and skipped-check behavior](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks),
+and [pull_request checkout semantics](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request).
+Changing branch protection is a separate adoption decision, not part of this analysis.
+
+The outcome to measure is narrower than general productivity: an authorized task
+cannot be recorded as verified when the selected check was omitted, failed, or
+belongs to an older relevant state. Preserve normal successful completion, bounded
+repair and the host's current authorization. Do not add a universal orchestrator,
+telemetry service, new mandatory form, repeated approval gate or CM increase.
+
+### Verification and primary-source trace
+
+- On the clean reviewed revision, `timeout 60s python3 -m unittest
+  ci.gate_tests.test_work_procedures ci.gate_tests.test_test_evidence
+  ci.gate_tests.test_stop_hook_contract ci.gate_tests.test_open_claim_limits -v`
+  passed **43 tests, 0 skips**. This includes the original R1/R2 failure controls
+  and the hand-written-evidence limitation. Python 3.12.14, Linux; no native agent run.
+- Additional disposable observations: Spec Kit engine pass/fail (2 cases),
+  Superpowers command/log/completion/dirty-state behavior (4 cases), and spec-gates
+  inherited-Git-environment control (2 cases). These are bounded execution probes,
+  not a repeat of full upstream suites or a measurement of agent benefit.
+- The reviewed main's [hygiene job](https://github.com/rhemzal/AI_governance/actions/runs/41726325714/job/126231926055)
+  reports success. CI regression execution is not downstream activation.
+- Spec Kit source: [shell step](https://github.com/github/spec-kit/blob/4572a67fe0e72a6837e2d7bb0fda875bc41482e5/src/specify_cli/workflows/step/shell/__init__.py)
+  and [agent-command step](https://github.com/github/spec-kit/blob/4572a67fe0e72a6837e2d7bb0fda875bc41482e5/src/specify_cli/workflows/step/command/__init__.py).
+- Superpowers source: `vendor/superpowers/v7.0.1/skills/executing-plans/scripts/task-done`,
+  pinned to `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b`.
+- Spec-gates source: `.specify/gates/verify.sh`, `lib/watch.sh`, `lib/attest.sh`,
+  and the [v0.5.0 to v0.5.1 diff](https://github.com/schwichtgit/spec-gates/compare/v0.5.0...v0.5.1).
+
+Disposition: analysis only. The proposed workflow/evidence connection and runtime
+upgrade are not implemented by this report. Changes are limited to this research
+record, README navigation and CHANGELOG. Existing CI is sufficient; no canonical
+policy, adopter selection, permission setting or required check is changed.
+
 ## Related Documents
 
 - `research/PROFESSIONAL_STANDARDS_AND_REFERENCES.md`
