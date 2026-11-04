@@ -1,0 +1,12 @@
+schema_version: "1.0"
+workflow:
+  id: "disposable-shell-pass"
+  name: "Disposable shell pass probe"
+  version: "0.0.0"
+steps:
+  - id: verify
+    type: shell
+    run: "echo runner-output; exit 0"
+  - id: marker
+    type: shell
+    run: "echo Executed > marker.txt"

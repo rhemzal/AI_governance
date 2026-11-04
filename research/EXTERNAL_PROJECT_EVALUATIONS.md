@@ -535,10 +535,29 @@ telemetry service, new mandatory form, repeated approval gate or CM increase.
 - Spec-gates source: `.specify/gates/verify.sh`, `lib/watch.sh`, `lib/attest.sh`,
   and the [v0.5.0 to v0.5.1 diff](https://github.com/schwichtgit/spec-gates/compare/v0.5.0...v0.5.1).
 
-Disposition: analysis only. The proposed workflow/evidence connection and runtime
-upgrade are not implemented by this report. Changes are limited to this research
-record, README navigation and CHANGELOG. Existing CI is sufficient; no canonical
-policy, adopter selection, permission setting or required check is changed.
+Disposition: analysis merged in PR #49. The recommended workflow/evidence
+connection and spec-gates qualification are implemented on this kit tree per
+`## Audit implementation status` below and `adr/ADR_0016_Workflow_Post_Implement_Acceptance.md`.
+The analysis section above remains the reviewed snapshot; it does not re-run after
+each implementation commit.
+
+## Audit implementation status (2026-11-04)
+
+Tracks proposals from PR #49 (`research/kit-capability-audit-20261103`) against this tree.
+
+| Audit item                                                          | Status                                                               | Evidence                                                                             |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| R1 — refuse stale upgrade staging                                   | Implemented on `main` (`52f9c26`)                                    | `test_work_procedures.test_upgrade_refuses_a_stale_staging_directory`                |
+| R2 — preset copy failure leaves registry consistent                 | Implemented on `main` (`52f9c26`)                                    | preset failure controls in `test_work_procedures`                                    |
+| Connect execution to completion (Spec Kit shell after `implement`)  | Implemented                                                          | `.specify/workflows/ai-governance/workflow.yml`, `test_workflow_acceptance`          |
+| Connect results to tested state (`AI RUN EVIDENCE` from native run) | Implemented                                                          | `ci/run_task_acceptance_check.sh`, `usage/AI_RUN_EVIDENCE.md`                        |
+| Kit maintenance default acceptance command                          | Implemented                                                          | `ci/kit_maintenance_acceptance_cmd.sh`                                               |
+| Refuse no-op acceptance commands                                    | Implemented                                                          | runner guard + `test_runner_refuses_a_no_op_acceptance_command`                      |
+| Evidence validator missing-artifact advisories                      | Implemented                                                          | `validate_test_evidence.py`, `test_hand_written_report_is_verified_without_a_runner` |
+| Superpowers `task-done` disposable limits                           | Implemented                                                          | `test_superpowers_task_done.py`                                                      |
+| Spec-gates Git environment + pin v0.5.1                             | Implemented; re-project via `install-and-project.sh` (release zip + holds) | `test_spec_gates_git_environment.py`, `.specify/gates/.upgrade-holds`, projected runtime at 0.5.1 |
+| Qualify native host Stop / named downstream trial                   | Still open                                                           | structural smoke only; no new native observation claimed                             |
+| Productivity / benefit trial                                        | Not claimed                                                          | B6–B8 records show matched acceptance, not a gain                                    |
 
 ## Related Documents
 

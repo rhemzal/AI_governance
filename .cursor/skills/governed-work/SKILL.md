@@ -59,7 +59,10 @@ A Spec Kit completion report is not a question. After `speckit-specify`,
 phase, start that next phase in the same session when the mandate already
 covers it. `.specify/workflows/ai-governance/workflow.yml` is the order. The
 file is not a host engine, and a completion report does not replace the next
-command.
+command. After `speckit.implement`, that workflow runs
+`ci/run_task_acceptance_check.sh` as a native shell step. Use the task's
+pre-selected verification through the workflow `verify` input, or run the same
+script directly with `TASK_ACCEPTANCE_CMD` for small edits outside the engine.
 
 The pinned `writing-plans` Execution Handoff does not apply once this profile
 is loaded and execution was already authorized. Do not wait for a plan review

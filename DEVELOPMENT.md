@@ -12,16 +12,16 @@ See `ci/DOC_GATES.md` for gate principles, `usage/ENFORCEMENT_MATRIX.md` for wha
 
 ### CI vs manual checklist (kit repo)
 
-| Checklist item | Kit CI (`doc-hygiene`) | Manual / other CI |
-| --- | --- | --- |
+| Checklist item                               | Kit CI (`doc-hygiene`)                              | Manual / other CI                              |
+| -------------------------------------------- | --------------------------------------------------- | ---------------------------------------------- |
 | 1. Manifest paths and selected import safety | Yes (upstream catalog + bundle regression fixtures) | Adopters compare only their declared selection |
-| 2. Hub links | Yes (lychee) | — |
-| 3. Bundled cross-refs | Yes (inline shell) | — |
-| 4. Provenance | Yes | — |
-| 5. Terminology | — | Review |
-| 6. Related Documents | — | Review |
-| 7. Import bundle change | — | Review + `CHANGELOG.md` |
-| D5 anti-fragmentation | Error (PR, new `usage/` / `architecture/` docs) | — |
+| 2. Hub links                                 | Yes (lychee)                                        | —                                              |
+| 3. Bundled cross-refs                        | Yes (inline shell)                                  | —                                              |
+| 4. Provenance                                | Yes                                                 | —                                              |
+| 5. Terminology                               | —                                                   | Review                                         |
+| 6. Related Documents                         | —                                                   | Review                                         |
+| 7. Import bundle change                      | —                                                   | Review + `CHANGELOG.md`                        |
+| D5 anti-fragmentation                        | Error (PR, new `usage/` / `architecture/` docs)     | —                                              |
 
 **Other kit workflows:** `aep-advisory.yml`, `adr-required.yml`, `doc-delta-advisory.yml`, `governance-waiver-advisory.yml`.
 
@@ -39,7 +39,13 @@ The AEP suite uses the Python standard library only. Changes to the boundary rec
 timeout 60s python3 -m unittest discover -s ci/gate_tests -v
 ```
 
-These fixtures execute the published inline blocks, compare starter/reference parity, and exercise disposable repositories including a shallow PR merge. Filesystem permission cases require an unprivileged POSIX runner (the kit CI runner); they are explicitly skipped under root, which bypasses `chmod`. A separate injected scanner-error case runs under either identity. Kit `doc-hygiene` runs this suite without adding a product boundary gate. The same suite checks `ci/claim_cards.json` (ADR-0014) and executes the DOC DELTA and governance-waiver advisory blocks against empty and populated fixtures. Those advisories warn and exit 0. A registry-only edit is on the `doc-hygiene` path filters. The claim-card checker does not grade whether a thesis is true. An integrated card must name a `def test_` line that unittest discovery collects and that asserts a runtime value. A literal, or a name assigned from a literal in that straight-line block, does not count. The checker does not run that test. The same suite plants failures for the doc-hygiene root-file, Provenance header, new-doc link, bundled cross-ref, and manifest path steps. Stub fixtures supply yq's path list. One canary runs the yq release named in the workflow against this repo. One runs the named lychee release offline against the hub files. Offline mode does not prove remote URLs. The suite also calls the experimental Cursor stop script with a fake verifier. That is the script contract, not a native host dispatch. It also shows that a numbered ADR whose body is only TODO still satisfies the presence check, and that hand-written test evidence can assess as VERIFIED without a runner. A READY plan with no method field still passes schema version 1. Hand-written finding reports with no new identity pass the comparator without a scanner. A constitution file that no card names does not fail the claim-card checker. A passing doc-hygiene root-file step does not close an open finding. The recorded native stop log is empty, B5–B8 have no trial record, and the provable-enforcement fragment is not wired into kit gates. On kit pull requests, a `constitution/` change fails `doc-hygiene` unless `ci/claim_cards.json` is added or modified and still present. A typo needs that touch. Adopters do not run this coupling. ADR-0014 records the closure criterion and the accepted limits.
+After a governed Spec Kit workflow run, read `specs/<feature>/acceptance-run-evidence.md`
+(or `.specify/acceptance-run-evidence.latest.md` when no feature is selected). The
+workflow's final shell step and direct `bash ci/run_task_acceptance_check.sh` share
+that runner. Set `TASK_ACCEPTANCE_CMD` to the task's pre-selected check before
+claiming verification outside the workflow.
+
+These fixtures execute the published inline blocks, compare starter/reference parity, and exercise disposable repositories including a shallow PR merge. Filesystem permission cases require an unprivileged POSIX runner (the kit CI runner); they are explicitly skipped under root, which bypasses `chmod`. A separate injected scanner-error case runs under either identity. Kit `doc-hygiene` runs this suite without adding a product boundary gate. The same suite checks `ci/claim_cards.json` (ADR-0014) and executes the DOC DELTA and governance-waiver advisory blocks against empty and populated fixtures. Those advisories warn and exit 0. A registry-only edit is on the `doc-hygiene` path filters. The claim-card checker does not grade whether a thesis is true. An integrated card must name a `def test_` line that unittest discovery collects and that asserts a runtime value. A literal, or a name assigned from a literal in that straight-line block, does not count. The checker does not run that test. The same suite plants failures for the doc-hygiene root-file, Provenance header, new-doc link, bundled cross-ref, and manifest path steps. Stub fixtures supply yq's path list. One canary runs the yq release named in the workflow against this repo. One runs the named lychee release offline against the hub files. Offline mode does not prove remote URLs. The suite also calls the experimental Cursor stop script with a fake verifier. That is the script contract, not a native host dispatch. It also shows that a numbered ADR whose body is only TODO still satisfies the presence check, and that hand-written test evidence can assess as VERIFIED without a runner while emitting ADVISORY stderr for missing artifact paths. A READY plan with no method field still passes schema version 1. Hand-written finding reports with no new identity pass the comparator without a scanner. A constitution file that no card names does not fail the claim-card checker. A passing doc-hygiene root-file step does not close an open finding. The recorded native stop log is empty. As of 2026-11-03, B6–B8 trial records exist under `research/benchmark_trials/`; B5 still has no record. The provable-enforcement fragment is not wired into kit gates. On kit pull requests, a `constitution/` change fails `doc-hygiene` unless `ci/claim_cards.json` is added or modified and still present. A typo needs that touch. Adopters do not run this coupling. ADR-0014 records the closure criterion and the accepted limits.
 
 Import-tool or bundle changes also require the separate bundle suite (Python 3.9+, Git, yq v4.44.3). Run in a tracked checkout; include newly added source files in the Git index before testing directory expansion:
 
@@ -85,8 +91,10 @@ Complete all steps; record **PASS / FAIL** and any failed paths.
 
 ```markdown
 ## Doc Hygiene Checklist
+
 - Date:
 - Commit/PR:
+
 1. Manifest paths: PASS / FAIL — notes:
 2. Hub links: PASS / FAIL — notes:
 3. Bundled cross-refs: PASS / FAIL — notes:
@@ -126,6 +134,7 @@ pip install -e .[dev]      # or pip install -r requirements-dev.txt
 Use these commands in order of preference:
 
 1. **Make targets** (if available):
+
    ```bash
    make test              # Run all tests
    make test-unit         # Run unit tests only
@@ -133,6 +142,7 @@ Use these commands in order of preference:
    ```
 
 2. **Repo-local virtual environment** (Python projects):
+
    ```bash
    .venv/bin/python -m pytest           # Run all tests
    .venv/bin/python -m pytest tests/    # Run specific directory
@@ -153,12 +163,14 @@ Use these commands in order of preference:
 ### For More Details
 
 For detailed testing guidance, architecture gates, and enforcement principles, see:
+
 - [usage/HOW_TO_USE_WITH_COPILOT.md](usage/HOW_TO_USE_WITH_COPILOT.md) — Test execution canonical path
 - [usage/AI_PRODUCTIVITY_CALIBRATION.md](usage/AI_PRODUCTIVITY_CALIBRATION.md) — AI productivity phases and ledger (advisory)
 - [ci/TEST_GATES.md](ci/TEST_GATES.md) — Test CI gates and principles
 - [constitution/AI_ENFORCEMENT_DAILY.md](constitution/AI_ENFORCEMENT_DAILY.md) — Daily AI enforcement checklist
 
 ## Related Documents
+
 - `.github/workflows/doc-hygiene.yml`
 - `.github/workflows/aep-advisory.yml`
 - `.github/workflows/adr-required.yml`

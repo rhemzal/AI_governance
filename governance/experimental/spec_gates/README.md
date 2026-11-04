@@ -14,8 +14,8 @@ Never weaken gates in `.specify/gates/policy.json` without a human policy decisi
 
 ## Approved checks wired today
 
-| Gate id | Command | Matches |
-| --- | --- | --- |
+| Gate id          | Command                                                         | Matches                                               |
+| ---------------- | --------------------------------------------------------------- | ----------------------------------------------------- |
 | `kit-gate-tests` | `timeout 120s python3 -m unittest discover -s ci/gate_tests -v` | `DEVELOPMENT.md` / `doc-hygiene` reference gate suite |
 
 Attestation parity remains enabled; optional upstream formatters stay disabled until explicitly added to `policy.kit.json`.
@@ -27,7 +27,7 @@ bash governance/experimental/spec_gates/install-and-project.sh
 bash governance/experimental/spec_gates/sync-policy.sh
 ```
 
-Requires: Linux, Git, `uv`, Python 3.12, pinned upstream (see script headers).
+Requires: Linux, Git, `curl`, `jq`, `uv`, Python 3.12, pinned upstream **v0.5.1** (see script headers). The script verifies the release zip checksum, runs `specify extension remove/add` from that zip (confirm the untrusted-source prompt), then `project.sh`. After install, `.specify/gates/.runtime-version` should read `0.5.1`. `.specify/gates/.upgrade-holds` records deliberate omissions of upstream `ci:canary` and `ci:pr` template steps in the advisory workflow. Qualify with `ci/gate_tests/test_spec_gates_git_environment.py` before linked-worktree Git-hook use.
 
 ## Cursor
 

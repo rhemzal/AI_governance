@@ -68,6 +68,9 @@ class WorkProcedures(unittest.TestCase):
         bundled = (ROOT / ".specify/workflows/speckit/workflow.yml").read_text(encoding="utf-8")
         self.assertNotIn("type: gate", governed)
         self.assertEqual(bundled.count("type: gate"), 2)
+        self.assertIn("verify-acceptance", governed)
+        self.assertIn("bash ci/run_task_acceptance_check.sh", governed)
+        self.assertRegex(governed, r"id: implement[\s\S]*id: verify-acceptance")
         self.assertIn("ai-governance", (ROOT / ".specify/workflows/workflow-registry.json").read_text(encoding="utf-8"))
 
     def test_preset_appends_continuation_to_the_core_spec_template(self):
