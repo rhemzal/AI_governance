@@ -46,10 +46,10 @@ fi
 
 echo
 echo "Phase B — Superpowers pin (required for executing-plans / governed procedures)"
-if [[ -d vendor/superpowers/v7.0.1 ]]; then
-  note "vendor/superpowers/v7.0.1 present"
-  if [[ -f vendor/superpowers/v7.0.1/SHA256SUMS ]]; then
-    if ( cd vendor/superpowers/v7.0.1 && sha256sum -c SHA256SUMS >/dev/null 2>&1 ); then
+if [[ -d vendor/superpowers/v7.0.2 ]]; then
+  note "vendor/superpowers/v7.0.2 present"
+  if [[ -f vendor/superpowers/v7.0.2/SHA256SUMS ]]; then
+    if ( cd vendor/superpowers/v7.0.2 && sha256sum -c SHA256SUMS >/dev/null 2>&1 ); then
       note "Superpowers SHA256SUMS verify"
     else
       warn "Superpowers SHA256SUMS failed — pin may be corrupt; re-copy from kit HOW_TO_IMPORT"
@@ -58,7 +58,7 @@ if [[ -d vendor/superpowers/v7.0.1 ]]; then
     warn "no SHA256SUMS in pin"
   fi
 else
-  fail "no vendor/superpowers/v7.0.1 — copy pin per usage/HOW_TO_IMPORT.md § Opt-in work procedures (install-opt-in-stack does not copy it)"
+  fail "no vendor/superpowers/v7.0.2 — copy pin per usage/HOW_TO_IMPORT.md § Opt-in work procedures (install-opt-in-stack does not copy it)"
 fi
 
 echo

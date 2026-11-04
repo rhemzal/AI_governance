@@ -37,7 +37,7 @@ The executable steps are `tasks.md`. This file is the design record and the Auto
       "tooling/BENCHMARK_SCENARIOS.md",
       "research/benchmark_trials/README.md",
       "specs/001-benchmark-trial-records/**",
-      "vendor/superpowers/v7.0.1/**",
+      "vendor/superpowers/v7.0.2/**",
       ".cursor/skills/**",
       ".specify/presets/**",
       ".specify/workflows/ai-governance/**",

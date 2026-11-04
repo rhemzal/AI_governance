@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-TASK_DONE = ROOT / "vendor/superpowers/v7.0.1/skills/executing-plans/scripts/task-done"
+TASK_DONE = ROOT / "vendor/superpowers/v7.0.2/skills/executing-plans/scripts/task-done"
 
 
 class SuperpowersTaskDoneLimits(unittest.TestCase):

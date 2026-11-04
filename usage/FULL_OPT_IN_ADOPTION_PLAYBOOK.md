@@ -58,7 +58,7 @@ Normative detail stays in `usage/HOW_TO_IMPORT.md`, `governance/experimental/spe
 | Phase               | You get                                        | Common mistake                                                    |
 | ------------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
 | A — Bundle import   | `vendor/AI_governance/`                        | Importing only submodule or root `constitution/` without snapshot |
-| B — Superpowers pin | `vendor/superpowers/v7.0.1/`                   | Expecting stack installer to copy pin (it does **not**)           |
+| B — Superpowers pin | `vendor/superpowers/v7.0.2/`                   | Expecting stack installer to copy pin (it does **not**)           |
 | C — Host files      | `AGENTS.md`, overlay, AEP rule                 | Relying on `/governed-work` instead of always-on rule             |
 | D — Stack install   | gates, Stop, workflow, venv                    | Running install without `ADOPTER_VERIFY_COMMAND`                  |
 | E — Verify          | `check-opt-in-stack.sh` green on required rows | Declaring done after import only                                  |

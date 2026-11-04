@@ -202,19 +202,19 @@ with `KIT` set to a reviewed checkout:
 
 ```bash
 set -euo pipefail
-test ! -e vendor/superpowers/v7.0.1
-test ! -L vendor/superpowers/v7.0.1
+test ! -e vendor/superpowers/v7.0.2
+test ! -L vendor/superpowers/v7.0.2
 test ! -e .cursor/skills/governed-work/SKILL.md
 test ! -L .cursor/skills/governed-work/SKILL.md
 mkdir -p vendor/superpowers .cursor/skills/governed-work
-cp -aL "$KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1
+cp -aL "$KIT/vendor/superpowers/v7.0.2" vendor/superpowers/v7.0.2
 cp -L "$KIT/.cursor/skills/governed-work/SKILL.md" .cursor/skills/governed-work/SKILL.md
-( cd vendor/superpowers/v7.0.1 && sha256sum -c SHA256SUMS )
+( cd vendor/superpowers/v7.0.2 && sha256sum -c SHA256SUMS )
 test ! -L .cursor/skills/governed-work/SKILL.md
 ```
 
 Do not copy the other `.cursor/skills/` symlinks. The entry file points at
-`vendor/superpowers/v7.0.1/`. Leave `AGENTS.md` and `governance/LOCAL_OVERLAY.md`
+`vendor/superpowers/v7.0.2/`. Leave `AGENTS.md` and `governance/LOCAL_OVERLAY.md`
 unchanged except for a pointer the adopter reviews and merges. A second copy
 stops when either the pin or the skill file exists. It does not overwrite them.
 
@@ -270,21 +270,21 @@ PY
 ```
 
 Upgrade only after the new pin's own sums check. Stop before copying when
-`v7.0.1.next` or `v7.0.1.prev` already exists, including as a dangling symlink.
+`v7.0.2.next` or `v7.0.2.prev` already exists, including as a dangling symlink.
 An interrupted attempt that left a staging directory must be reviewed and removed
 in a separate step before retrying:
 
 ```bash
 set -euo pipefail
-test -d "$NEW_KIT/vendor/superpowers/v7.0.1"
-test ! -e vendor/superpowers/v7.0.1.next
-test ! -L vendor/superpowers/v7.0.1.next
-test ! -e vendor/superpowers/v7.0.1.prev
-test ! -L vendor/superpowers/v7.0.1.prev
-cp -aL "$NEW_KIT/vendor/superpowers/v7.0.1" vendor/superpowers/v7.0.1.next
-( cd vendor/superpowers/v7.0.1.next && sha256sum -c SHA256SUMS )
-mv vendor/superpowers/v7.0.1 vendor/superpowers/v7.0.1.prev
-mv vendor/superpowers/v7.0.1.next vendor/superpowers/v7.0.1
+test -d "$NEW_KIT/vendor/superpowers/v7.0.2"
+test ! -e vendor/superpowers/v7.0.2.next
+test ! -L vendor/superpowers/v7.0.2.next
+test ! -e vendor/superpowers/v7.0.2.prev
+test ! -L vendor/superpowers/v7.0.2.prev
+cp -aL "$NEW_KIT/vendor/superpowers/v7.0.2" vendor/superpowers/v7.0.2.next
+( cd vendor/superpowers/v7.0.2.next && sha256sum -c SHA256SUMS )
+mv vendor/superpowers/v7.0.2 vendor/superpowers/v7.0.2.prev
+mv vendor/superpowers/v7.0.2.next vendor/superpowers/v7.0.2
 ```
 
 Rollback is a separate command. Run it only when the previous pin is present.
@@ -292,20 +292,20 @@ It deletes the replaced tree only after that pin is back in place:
 
 ```bash
 set -euo pipefail
-test -d vendor/superpowers/v7.0.1.prev
-test -d vendor/superpowers/v7.0.1
-test ! -e vendor/superpowers/v7.0.1.rollback
-test ! -L vendor/superpowers/v7.0.1.rollback
-mv vendor/superpowers/v7.0.1 vendor/superpowers/v7.0.1.rollback
-mv vendor/superpowers/v7.0.1.prev vendor/superpowers/v7.0.1
-rm -rf vendor/superpowers/v7.0.1.rollback
+test -d vendor/superpowers/v7.0.2.prev
+test -d vendor/superpowers/v7.0.2
+test ! -e vendor/superpowers/v7.0.2.rollback
+test ! -L vendor/superpowers/v7.0.2.rollback
+mv vendor/superpowers/v7.0.2 vendor/superpowers/v7.0.2.rollback
+mv vendor/superpowers/v7.0.2.prev vendor/superpowers/v7.0.2
+rm -rf vendor/superpowers/v7.0.2.rollback
 ```
 
 ### What is copied and what stays yours
 
 | Path                                          | Who owns it                                                          |
 | --------------------------------------------- | -------------------------------------------------------------------- |
-| `vendor/superpowers/v7.0.1/`                  | Copied pin. MIT. Do not edit upstream files in place.                |
+| `vendor/superpowers/v7.0.2/`                  | Copied pin. MIT. Do not edit upstream files in place.                |
 | `.cursor/skills/governed-work/SKILL.md`       | Copied entry. A regular file, not a symlink.                         |
 | `.specify/presets/ai-governance/`             | Optional preset. Its command also registers it.                      |
 | Other `.cursor/skills/*` symlinks in the kit  | Not copied.                                                          |
@@ -324,10 +324,10 @@ The policy snapshot, when you want it, stays a separate import under
 bring that snapshot with it. A project with no kit snapshot can still run the
 procedures. It does not gain the kit's rules by copying the pin.
 
-If `vendor/superpowers/v7.0.1` or `.cursor/skills/governed-work/SKILL.md`
+If `vendor/superpowers/v7.0.2` or `.cursor/skills/governed-work/SKILL.md`
 already exists and differs from the kit, stop. Diff it. Do not delete the
 overlay to make the copy succeed. Replace the pin only through the upgrade
-block, which keeps the old tree as `v7.0.1.prev`.
+block, which keeps the old tree as `v7.0.2.prev`.
 
 ### Activation
 
@@ -351,7 +351,7 @@ paths and merge one sentence into `AGENTS.md`. See
 
 **Incomplete install:** Importing the kit bundle alone does not copy Superpowers,
 spec-gates, Stop hooks, or the specify venv. Procedure-only copy without the pin
-leaves `vendor/superpowers/v7.0.1` missing. After any partial step, run
+leaves `vendor/superpowers/v7.0.2` missing. After any partial step, run
 `bash governance/experimental/spec_gates/check-opt-in-stack.sh` (from a checkout
 that includes the experimental scripts, or copy the script from the kit) and fix
 every `[missing]` / `[gap]` line before expecting workflow or inline-AEP behavior.
@@ -368,7 +368,7 @@ Merge this into the existing `AGENTS.md`. Do not replace that file:
 ```markdown
 ## Governed work trial
 
-- Pin: `vendor/superpowers/v7.0.1/` (MIT).
+- Pin: `vendor/superpowers/v7.0.2/` (MIT).
 - Entry: `.cursor/skills/governed-work/SKILL.md`.
 - Kit policy, if present: `vendor/AI_governance/` or `constitution/`. This file and `governance/LOCAL_OVERLAY.md` stay in force.
 - One task. Do not commit, push, or deploy unless the task says so.
@@ -378,7 +378,7 @@ Ask the agent to load that skill and do the one task. Stop the trial if it
 asks to continue work the task already allowed, repeats a finished edit, or
 reviews `HEAD~1` while the change is still uncommitted.
 
-Remove the trial by deleting `vendor/superpowers/v7.0.1`,
+Remove the trial by deleting `vendor/superpowers/v7.0.2`,
 `.cursor/skills/governed-work/`, `.specify/presets/ai-governance/`, and the
 pointer you merged. The disposable copy, repeat refusal, and upgrade/rollback
 checks are `ci/gate_tests/test_work_procedures.py`. They are not a result from
@@ -434,7 +434,7 @@ A second re-adoption run refuses to start when `vendor/AI_governance.readopt-rep
 
 When both an active snapshot and legacy kit files still live at the project root, only the snapshot is joined. Root files outside the new bundle selection are not inventoried the way a pure root-layout import is. Move references to the snapshot or reconcile those root copies in a migration change before relying on the report alone.
 
-For work procedures that are already present, do not run the first-copy block. It stops when the pin or the entry skill exists. A pin update uses the upgrade block, and only when `v7.0.1.prev` is absent. Rollback still requires that previous directory.
+For work procedures that are already present, do not run the first-copy block. It stops when the pin or the entry skill exists. A pin update uses the upgrade block, and only when `v7.0.2.prev` is absent. Rollback still requires that previous directory.
 
 ### Existing root-layout imports and updates
 

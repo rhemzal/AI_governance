@@ -75,7 +75,7 @@ a skill.
 | `AGENTS.md` + overlay                                              | **Authority** — what the operator already authorized                                                         |
 | `.cursor/rules/autonomous-aep-execution.mdc` (`alwaysApply: true`) | **Behavior** — phrases like “finish all AEP items” run inline via `executing-plans`                          |
 | `.cursor/skills/governed-work/SKILL.md`                            | **Optional** routing doc; not required when the rule is present                                              |
-| `vendor/superpowers/v7.0.1/`                                       | **Procedures** — `executing-plans`, TDD, debugging (installer does **not** copy this pin; see Phase B below) |
+| `vendor/superpowers/v7.0.2/`                                       | **Procedures** — `executing-plans`, TDD, debugging (installer does **not** copy this pin; see Phase B below) |
 
 The stack installer copies
 [`templates/autonomous-aep-execution.mdc.template`](./templates/autonomous-aep-execution.mdc.template)
@@ -108,7 +108,7 @@ bash governance/experimental/spec_gates/check-opt-in-stack.sh --strict   # exit 
 
 | Gap                                             | Typical symptom                                                                 |
 | ----------------------------------------------- | ------------------------------------------------------------------------------- |
-| No `vendor/superpowers/v7.0.1`                  | Inline AEP / `executing-plans` paths missing; governed-work points at empty pin |
+| No `vendor/superpowers/v7.0.2`                  | Inline AEP / `executing-plans` paths missing; governed-work points at empty pin |
 | No `.cursor/rules/autonomous-aep-execution.mdc` | You must invoke `/governed-work`; “udělej AEP” behaves like normal chat         |
 | No `AGENTS.md` mandate merge                    | Agent has no standing authority to run the full chain                           |
 | `vendor/AI_governance.next` not switched        | Policy snapshot stale; readopt incomplete                                       |

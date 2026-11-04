@@ -22,14 +22,14 @@ Policy, in order: `constitution/AI_ENFORCEMENT.md`, then
 If neither constitution file exists, these procedures still apply and the host
 instructions are the authority.
 
-The pin path is `vendor/superpowers/v7.0.1/` from the project root. Do not
+The pin path is `vendor/superpowers/v7.0.2/` from the project root. Do not
 install spec-gates or a Stop hook to use this skill. Do not start
 `specify workflow run` unless the operator asked for that engine. A killed
 run left `running` is not resumed.
 
-The pin is Superpowers v7.0.1, commit `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b`,
-under `vendor/superpowers/v7.0.1/` (MIT). Active skill directories in
-`.cursor/skills/` point at that pin. Hashes are `vendor/superpowers/v7.0.1/SHA256SUMS`.
+The pin is Superpowers v7.0.2, commit `22f0b463e7a5e579904dd6211a520321035526f7`,
+under `vendor/superpowers/v7.0.2/` (MIT). Active skill directories in
+`.cursor/skills/` point at that pin. Hashes are `vendor/superpowers/v7.0.2/SHA256SUMS`.
 
 ## Which procedure
 

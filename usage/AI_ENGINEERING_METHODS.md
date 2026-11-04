@@ -52,8 +52,8 @@ only the existing concise scope/verification statement. No reasoning transcript 
 
 ## Pinned routine procedures
 
-For a repeated procedure, this kit repository pins Superpowers v7.0.1 at
-commit `2ce8aa15d05bd57213e6f746f953aafb7ded7a8b` under `vendor/superpowers/v7.0.1/`
+For a repeated procedure, this kit repository pins Superpowers v7.0.2 at
+commit `22f0b463e7a5e579904dd6211a520321035526f7` under `vendor/superpowers/v7.0.2/`
 (MIT). The entry point is `.cursor/skills/governed-work/SKILL.md`. These paths
 are not in the minimal or standard copy sets. A missing pin means the
 procedure was not imported. It does not change `constitution/`.
