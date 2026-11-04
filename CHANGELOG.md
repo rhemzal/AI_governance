@@ -4,6 +4,10 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Workflow acceptance verification (2026-11-04)
+
+- [Fix] `ci/uncommitted_diff_identity.py` binds acceptance evidence to uncommitted **content** (status plus `git hash-object`), not to `git status` text alone. `test_dirty_tree_identity_reflects_file_content` guards the regression.
+
 ### Adoption scope documentation (2026-11-04)
 
 - [Docs] Add `usage/ADOPTION_SCOPE_AND_HOSTS.md` — tier A/B/C adoption, repository authorization for full opt-in, capability-based hosts (not a hostname allowlist), and agent stop conditions. Linked from README, `HOW_TO_IMPORT.md`, `FOR_EXISTING_PROJECTS.md`, and `FULL_OPT_IN_ADOPTION_PLAYBOOK.md`.

@@ -51,11 +51,7 @@ mkdir -p "$(dirname "$EVIDENCE_PATH")" "$(dirname "$LOG_FILE")"
 
 COMMIT="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
 REMOTE="$(git config --get remote.origin.url 2>/dev/null || echo unknown)"
-PORCELAIN="$(git status --porcelain 2>/dev/null || true)"
-DIRTY_ID="clean"
-if [[ -n "$PORCELAIN" ]]; then
-  DIRTY_ID="$(printf '%s' "$PORCELAIN" | sha256sum | awk '{print $1}')"
-fi
+DIRTY_ID="$(python3 "$SCRIPT_DIR/uncommitted_diff_identity.py" "$ROOT")"
 
 set +e
 bash -lc "$CMD" >"$LOG_FILE" 2>&1
