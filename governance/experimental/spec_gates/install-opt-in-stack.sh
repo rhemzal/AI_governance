@@ -24,6 +24,7 @@
 #   …/install-opt-in-stack.sh              # readopt then stop for report review
 #   …/install-opt-in-stack.sh --switch-snapshot
 #   …/install-opt-in-stack.sh --stack-only # refresh stack without readopt
+#   …/check-opt-in-stack.sh [--strict]     # report gaps (see OPT_IN_STACK.md)
 set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
@@ -212,6 +213,14 @@ install_procedures_and_ci() {
   mkdir -p "$ROOT/scripts" "$ROOT/.cursor/skills/governed-work" "$ROOT/.specify/presets" \
     "$ROOT/.specify/workflows/ai-governance" "$ROOT/.specify/scripts/bash" "$ROOT/ci" "$ROOT/.cursor/hooks"
   cp -L "$KIT_SOURCE/.cursor/skills/governed-work/SKILL.md" "$ROOT/.cursor/skills/governed-work/"
+  mkdir -p "$ROOT/.cursor/rules"
+  if [[ ! -f "$ROOT/.cursor/rules/autonomous-aep-execution.mdc" ]]; then
+    cp -L "$SCRIPT_DIR/templates/autonomous-aep-execution.mdc.template" \
+      "$ROOT/.cursor/rules/autonomous-aep-execution.mdc"
+    echo "install-opt-in-stack: installed .cursor/rules/autonomous-aep-execution.mdc (alwaysApply)"
+  else
+    echo "install-opt-in-stack: keeping existing .cursor/rules/autonomous-aep-execution.mdc"
+  fi
   if [[ -d "$KIT_SOURCE/.specify/presets/ai-governance" ]]; then
     cp -aL "$KIT_SOURCE/.specify/presets/ai-governance" "$ROOT/.specify/presets/"
   fi
@@ -279,6 +288,8 @@ configure_agent_cli() {
 verify_stack() {
   ( cd "$ROOT" && timeout 180s bash .specify/gates/verify.sh --boundary git )
   ( cd "$ROOT" && export TASK_ACCEPTANCE_CMD="bash ci/adopter_task_acceptance_cmd.sh" && bash ci/run_task_acceptance_check.sh )
+  echo
+  bash "$SCRIPT_DIR/check-opt-in-stack.sh" || true
 }
 
 MODE=full

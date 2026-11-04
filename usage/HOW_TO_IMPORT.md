@@ -338,6 +338,24 @@ check the same paths with
 `WorkProcedures.test_activation_smoke_after_opt_in_copy` in
 `ci/gate_tests/test_work_procedures.py`.
 
+**Intuitive execution (autonomous mandate adopters):** Cursor skills are not
+always loaded. If the operator already authorized inline AEP completion in
+`AGENTS.md`, add an **always-on** project rule
+(`.cursor/rules/autonomous-aep-execution.mdc`, `alwaysApply: true`) so requests
+like “finish all open AEP items” run the chain without `/governed-work`. The
+full-stack installer copies a kit template when that file is absent; customize
+paths and merge one sentence into `AGENTS.md`. See
+[`OPT_IN_STACK.md`](../governance/experimental/spec_gates/OPT_IN_STACK.md)
+§ Intuitive agent execution.
+
+**Incomplete install:** Importing the kit bundle alone does not copy Superpowers,
+spec-gates, Stop hooks, or the specify venv. Procedure-only copy without the pin
+leaves `vendor/superpowers/v7.0.1` missing. After any partial step, run
+`bash governance/experimental/spec_gates/check-opt-in-stack.sh` (from a checkout
+that includes the experimental scripts, or copy the script from the kit) and fix
+every `[missing]` / `[gap]` line before expecting workflow or inline-AEP behavior.
+The installer prints the same report after a successful stack install.
+
 ### One live-project trial
 
 Use a repository you are allowed to edit. Write the task and the acceptance

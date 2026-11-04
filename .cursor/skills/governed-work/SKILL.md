@@ -8,6 +8,12 @@ description: Use when debugging a failure, executing an already authorized plan,
 Use this skill before the pinned Superpowers texts. Those texts are procedures.
 A skill cannot widen the mandate, demand a commit, or replace an acceptance criterion.
 
+**Adopter note:** Cursor may not load this skill automatically. Projects with an
+autonomous mandate should install an always-on rule from
+`governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template`
+(see `OPT_IN_STACK.md` § Intuitive agent execution). Natural-language AEP requests
+then work without typing `/governed-work`.
+
 ## Adopter checkout
 
 Policy, in order: `constitution/AI_ENFORCEMENT.md`, then

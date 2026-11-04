@@ -1,0 +1,38 @@
+---
+description: When the user asks to complete AEP or plan items, run the full authorized chain inline without extra startup rituals
+alwaysApply: true
+---
+
+# Autonomous AEP execution (when mandated)
+
+If the host `AGENTS.md` and/or `governance/LOCAL_OVERLAY.md` grant inline completion of an
+AEP, wave, or task list without per-step confirmation, **natural-language requests are
+enough** (e.g. “finish all open AEP items”, “udělej všechny body z AEP”). Do not require
+`/governed-work` or any second startup ritual.
+
+## Triggers (non-exhaustive)
+
+References to the active AEP, execution ledger, wave packages, or `specs/*/tasks.md`.
+
+## What to do
+
+1. Read the host mandate (`AGENTS.md`, overlay), the execution ledger (for example
+   `docs/EXECUTION_STATE.md` or `specs/*/progress.md`), and the cited AEP or `tasks.md`.
+2. Execute inline per `vendor/superpowers/v7.0.1/skills/executing-plans/SKILL.md` when
+   that pin is present (all remaining tasks; no checkpoint questions between tasks).
+3. Route debugging, TDD, and completion checks through other pinned Superpowers under
+   `vendor/superpowers/v7.0.1/skills/` — same routing as
+   `.cursor/skills/governed-work/SKILL.md`, without requiring that skill to be invoked.
+4. Update the host ledger on each meaningful slice.
+5. Ambiguity: decide from spec/plan; log `Ruling:` in the ledger; collect
+   `Open questions (post-run)` — do not block the chain unless every path is a guess
+   (AEP BLOCKED).
+6. Stop only for: security-sensitive action, destructive/irreversible effect outside
+   mandate, merge/push/deploy without explicit permission, or exhausted repair budget on
+   a blocked chain.
+
+Spec Kit `review-spec` / `review-plan` gates do not apply to authorized wave work unless
+the operator asked for a review stop.
+
+Customize paths and ADR references in this file after copy if your project uses different
+ledger or mandate locations.

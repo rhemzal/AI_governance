@@ -23,6 +23,8 @@ This project follows a lightweight changelog intended for governance-kit consume
 ### Opt-in stack installer template (2026-11-04)
 
 - [Experimental] Add `governance/experimental/spec_gates/install-opt-in-stack.sh`, `OPT_IN_STACK.md`, and adopter policy/acceptance templates driven by **`ADOPTER_VERIFY_COMMAND`** (no project-specific policy baked in).
+- [Experimental] Add `check-opt-in-stack.sh` and `templates/autonomous-aep-execution.mdc.template`; document intuitive inline AEP execution (alwaysApply Cursor rule vs optional `/governed-work`) and installation-gap symptoms in `OPT_IN_STACK.md` and `usage/HOW_TO_IMPORT.md`.
+- [Fix] Stack installer copies the AEP rule template when absent and runs the completeness check after verify.
 - [Governance] ADR-0017 records the experimental opt-in stack installer template.
 - [Verification] `ci/gate_tests/test_install_opt_in_stack.py` checks installer bash syntax and policy shape.
 

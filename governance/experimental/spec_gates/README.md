@@ -60,4 +60,4 @@ Re-run `sync-policy.sh` after changing `policy.kit.json`; never treat `.specify/
 
 ## Full opt-in stack (adopter template)
 
-For readopt + procedures + spec-gates + Stop hook + specify venv in one reviewed flow, see **[OPT_IN_STACK.md](./OPT_IN_STACK.md)** and run **`install-opt-in-stack.sh`** with host **`ADOPTER_VERIFY_COMMAND`** (not MechWeave- or kit-specific unless you choose that command).
+For readopt + procedures + spec-gates + Stop hook + specify venv in one reviewed flow, see **[OPT_IN_STACK.md](./OPT_IN_STACK.md)** and run **`install-opt-in-stack.sh`** with host **`ADOPTER_VERIFY_COMMAND`**. After install, run **`check-opt-in-stack.sh`** for gaps. Intuitive inline AEP execution uses **`.cursor/rules/autonomous-aep-execution.mdc`** (see OPT_IN_STACK § Intuitive agent execution).

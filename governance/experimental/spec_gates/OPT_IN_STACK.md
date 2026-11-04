@@ -49,6 +49,7 @@ source scripts/activate-governance-specify-env.sh
 export TASK_ACCEPTANCE_CMD="bash ci/adopter_task_acceptance_cmd.sh"
 
 bash .specify/gates/verify.sh --boundary git
+bash governance/experimental/spec_gates/check-opt-in-stack.sh
 specify workflow run ai-governance \
   --input spec="…" \
   --input verify="bash ci/adopter_task_acceptance_cmd.sh"
@@ -57,6 +58,55 @@ specify workflow run ai-governance \
 On headless Linux, the installer runs `agent sandbox disable` when `agent` is on PATH.
 
 Git commits with projected hooks: `git commit -F msg.txt` (no `Co-Authored-By` trailer).
+
+## Intuitive agent execution (no `/governed-work` ritual)
+
+Skills under `.cursor/skills/` are **optional** in Cursor: the model may never load
+`governed-work` unless you type `/governed-work`. That feels like a second “start AEP”
+step even when `AGENTS.md` already grants an autonomous mandate.
+
+**Principle:** put the execution contract in an **always-on project rule**, not only in
+a skill.
+
+| Mechanism | Role |
+| --- | --- |
+| `AGENTS.md` + overlay | **Authority** — what the operator already authorized |
+| `.cursor/rules/autonomous-aep-execution.mdc` (`alwaysApply: true`) | **Behavior** — phrases like “finish all AEP items” run inline via `executing-plans` |
+| `.cursor/skills/governed-work/SKILL.md` | **Optional** routing doc; not required when the rule is present |
+| `vendor/superpowers/v7.0.1/` | **Procedures** — `executing-plans`, TDD, debugging (installer does **not** copy this pin; see Phase B below) |
+
+The stack installer copies
+[`templates/autonomous-aep-execution.mdc.template`](./templates/autonomous-aep-execution.mdc.template)
+to `.cursor/rules/autonomous-aep-execution.mdc` when that file does not exist. Customize
+ledger paths and ADR references for your project, then add one sentence in `AGENTS.md`
+that natural-language AEP requests are sufficient (see mechweave dogfood).
+
+Reload the Cursor workspace after adding or changing rules.
+
+## Installation completeness
+
+Install phases are **not** one button unless you completed every prerequisite. Partial
+install is common (readopt stopped for review, bundle imported without procedures, stack
+refreshed without Superpowers pin). **`check-opt-in-stack.sh`** prints what is missing and
+what will not work:
+
+```bash
+bash governance/experimental/spec_gates/check-opt-in-stack.sh
+bash governance/experimental/spec_gates/check-opt-in-stack.sh --strict   # exit 1 on any gap
+```
+
+| Gap | Typical symptom |
+| --- | --- |
+| No `vendor/superpowers/v7.0.1` | Inline AEP / `executing-plans` paths missing; governed-work points at empty pin |
+| No `.cursor/rules/autonomous-aep-execution.mdc` | You must invoke `/governed-work`; “udělej AEP” behaves like normal chat |
+| No `AGENTS.md` mandate merge | Agent has no standing authority to run the full chain |
+| `vendor/AI_governance.next` not switched | Policy snapshot stale; readopt incomplete |
+| No `.tools/specify-venv` | `specify workflow run` fails |
+| No projected `.specify/gates/` | Pre-commit / Stop verify missing |
+| No acceptance wrapper in `ci/` | Workflow `verify-acceptance` and gates `adopter-verify` fail |
+
+The installer runs this check after a successful `--stack-only` / full install (non-strict).
+Treat **`[missing]`** lines before expecting production-like governance UX.
 
 ## Files produced in the host repo
 
@@ -68,6 +118,7 @@ Git commits with projected hooks: `git commit -F msg.txt` (no `Co-Authored-By` t
 | `.specify/gates/` | Projected spec-gates runtime |
 | `.tools/specify-venv/` | Pinned Spec Kit CLI |
 | `scripts/activate-governance-specify-env.sh` | PATH helper |
+| `.cursor/rules/autonomous-aep-execution.mdc` | Optional alwaysApply rule (template; customize mandate paths) |
 
 ## Related
 

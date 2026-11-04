@@ -62,3 +62,14 @@ Path(out).write_text(json.dumps(data, indent=2) + "\\n", encoding="utf-8")
         text = text.replace('"__VERIFY_COMMAND__"', '"echo ok"')
         text = text.replace("__TIMEOUT_S__", "130")
         json.loads(text)
+
+    def test_check_script_and_aep_rule_template_exist(self):
+        check = ROOT / "governance/experimental/spec_gates/check-opt-in-stack.sh"
+        rule = (
+            ROOT
+            / "governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template"
+        )
+        self.assertTrue(check.is_file())
+        self.assertTrue(rule.is_file())
+        subprocess.run(["bash", "-n", str(check)], check=True, cwd=ROOT)
+        self.assertIn("alwaysApply: true", rule.read_text(encoding="utf-8"))
