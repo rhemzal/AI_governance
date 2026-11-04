@@ -31,6 +31,9 @@ schema, orchestrator, or mandatory adopter gate.
    host-selected command, propagates its exit code, and writes an `AI RUN EVIDENCE`
    markdown block with commit and dirty-tree identity. The workflow input `verify`
    supplies the command when present; direct invocation uses `TASK_ACCEPTANCE_CMD`.
+   **Amendment (2026-11-04):** dirty-tree identity must incorporate uncommitted file
+   content (porcelain status plus blob hashes via `ci/uncommitted_diff_identity.py`),
+   not `git status` text alone, so distinct edits to the same path do not collide.
 2. Introduce `ci/kit_maintenance_acceptance_cmd.sh` as the kit-repo default command
    for maintenance tasks, shared by the runner, workflow examples, and gate tests.
 3. Extend `ci/validate_test_evidence.py` with non-blocking `advisories` and stderr
@@ -71,6 +74,9 @@ native Cursor Stop proof, productivity claims, and replacing host test runners.
   remain necessary.
 - Local evidence blocks are not authenticated. CI and host review supply stronger
   assurance.
+- Porcelain-only dirty identity (pre-amendment) could not distinguish two different
+  edits to the same path; content-aware hashing closes that audit gap without changing
+  the evidence schema.
 - Adopters must wire their own acceptance command when copying the workflow; the
   kit default applies to kit maintenance only.
 
@@ -89,6 +95,7 @@ in downstream repositories. Named downstream trials remain a separate host decis
 ## Enforcement
 
 - `ci/gate_tests/test_workflow_acceptance.py` — runner, workflow, disposable engine probes.
+- `ci/uncommitted_diff_identity.py` — content-aware uncommitted diff identity for the runner.
 - `ci/gate_tests/test_superpowers_task_done.py` — vendored completion limits.
 - `ci/gate_tests/test_spec_gates_git_environment.py` — install pin and Git-env controls.
 - `ci/gate_tests/test_test_evidence.py` — advisory behavior on missing paths.

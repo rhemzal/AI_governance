@@ -23,6 +23,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ### Workflow acceptance verification (2026-11-04)
 
+- [Fix] `ci/uncommitted_diff_identity.py` binds acceptance evidence to uncommitted **content** (status plus `git hash-object`), not to `git status` text alone. `test_dirty_tree_identity_reflects_file_content` guards the regression. ADR-0016 amended.
 - [Fix] Workflow `ai-governance` adds a final native `type: shell` step after `speckit.implement`. It runs `ci/run_task_acceptance_check.sh`, which executes the pre-selected acceptance command, exits with that command's code, and writes an `AI RUN EVIDENCE` block bound to commit and dirty-tree identity. The optional workflow input `verify` supplies the command; adopters must set `TASK_ACCEPTANCE_CMD` when invoking the script directly. The runner refuses no-op commands such as `true`.
 - [Fix] `ci/kit_maintenance_acceptance_cmd.sh` is the single kit-repo default command shared by the runner, workflow, and maintenance tasks (scoped gate suites from the 2026-11-04 audit).
 - [Fix] `ci/validate_test_evidence.py` emits `advisories` and stderr `ADVISORY:` lines for missing on-disk artifact paths without changing schema agreement outcomes.

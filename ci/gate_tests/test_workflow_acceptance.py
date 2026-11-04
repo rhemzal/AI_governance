@@ -115,6 +115,41 @@ class RunTaskAcceptanceCheck(unittest.TestCase):
             text = (adopter / "evidence.md").read_text(encoding="utf-8")
             self.assertNotIn("Uncommitted diff identity (if any): clean", text)
 
+    def test_dirty_tree_identity_reflects_file_content(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            _init_git(adopter)
+            path = adopter / "dirty.txt"
+            env_base = os.environ.copy()
+            env_base["TASK_ACCEPTANCE_CMD"] = "printf 'ok\\n'"
+            env_base["TASK_ACCEPTANCE_EVIDENCE"] = str(adopter / "evidence.md")
+
+            def run_and_dirty_id(content: str) -> str:
+                path.write_text(content, encoding="utf-8")
+                env = env_base.copy()
+                subprocess.run(
+                    ["bash", str(RUNNER)],
+                    cwd=adopter,
+                    env=env,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                )
+                text = (adopter / "evidence.md").read_text(encoding="utf-8")
+                match = re.search(
+                    r"Uncommitted diff identity \(if any\): ([0-9a-f]{64}|clean|unknown)",
+                    text,
+                )
+                self.assertIsNotNone(match, text)
+                return match.group(1)  # type: ignore[union-attr]
+
+            first = run_and_dirty_id("alpha\n")
+            second = run_and_dirty_id("beta\n")
+            self.assertNotEqual(first, second)
+            self.assertNotEqual(first, "clean")
+            self.assertNotEqual(second, "clean")
+
 
 class GovernedWorkflowDefinition(unittest.TestCase):
     def test_verify_shell_step_follows_implement(self):
