@@ -263,7 +263,7 @@ install_spec_gates() {
 install_specify_venv() {
   local constraint
   constraint="$(dependencies_constraint_path)"
-  uv venv --python 3.12 "$ROOT/.tools/specify-venv"
+  UV_VENV_CLEAR=1 uv venv --python 3.12 "$ROOT/.tools/specify-venv"
   uv pip install --python "$ROOT/.tools/specify-venv/bin/python" \
     --constraint "$constraint" \
     "git+https://github.com/github/spec-kit.git@v1.2.5"
