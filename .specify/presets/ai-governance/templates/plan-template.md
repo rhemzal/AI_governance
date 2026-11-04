@@ -5,7 +5,9 @@ add a new form.
 
 - **Baseline:** what fails or what evidence is missing, and on which revision.
 - **Acceptance observation:** the command and result that would show the fix,
-  including a known-bad case when a passing run could be misleading.
+  including a known-bad case when a passing run could be misleading. On this kit repo,
+  record native output from `bash ci/run_task_acceptance_check.sh` or the workflow
+  `verify` input after `implement`; do not use `true` or an agent summary as the check.
 - **Smallest method:** the pinned procedure from `.cursor/skills/governed-work/SKILL.md`,
   or the current check if it is enough.
 - **Uncertainty:** what evidence would change that choice.

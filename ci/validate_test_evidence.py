@@ -49,7 +49,31 @@ def _version(value):
         raise EvidenceError("schema_version: expected integer 1")
 
 
-def assess(expected, report):
+def _artifact_advisories(report, base_dir):
+    advisories = []
+    for check in report.get("checks", []):
+        if not isinstance(check, dict):
+            continue
+        for reference in check.get("evidence", []) or []:
+            if not isinstance(reference, str):
+                continue
+            path_part = reference.split("#", 1)[0].strip()
+            if not path_part or "://" in path_part:
+                continue
+            candidate = (base_dir / path_part).resolve()
+            try:
+                candidate.relative_to(base_dir.resolve())
+            except ValueError:
+                advisories.append(
+                    f"evidence reference outside report directory: {reference}"
+                )
+                continue
+            if not candidate.is_file():
+                advisories.append(f"evidence artifact missing on disk: {reference}")
+    return advisories
+
+
+def assess(expected, report, *, report_dir=None):
     """Return an assessment of supplied data, not proof that a test really ran."""
     _object(expected, ("schema_version", "run_id", "tested_state",
                        "required_checks", "cleanup_required"), "expected")
@@ -114,10 +138,12 @@ def assess(expected, report):
     outcome = "PARTIAL" if reasons else "VERIFIED"
     if status == "cancelled":
         outcome = "CANCELLED"
+    advisories = _artifact_advisories(report, report_dir) if report_dir is not None else []
     return {
         "outcome": outcome,
         "run_id": report["run_id"],
         "reasons": reasons,
+        "advisories": advisories,
         "optional_skipped_checks": [
             key for key, check in checks.items()
             if key not in required and check["status"] in {"skipped", "not_run"}
@@ -155,10 +181,13 @@ def main(argv=None):
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
-        result = assess(read_json(args.expected), read_json(args.report))
+        report_data = read_json(args.report)
+        result = assess(read_json(args.expected), report_data, report_dir=args.report.parent)
     except (EvidenceError, OSError, UnicodeError, ValueError, RecursionError) as error:
         print(json.dumps({"outcome": "BLOCKED", "reasons": [str(error)]}))
         return 2
+    for note in result.get("advisories", []):
+        print(f"ADVISORY: {note}", file=sys.stderr)
     print(json.dumps(result, sort_keys=True))
     return 0 if result["outcome"] == "VERIFIED" else 1
 

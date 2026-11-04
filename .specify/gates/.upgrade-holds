@@ -1,0 +1,5 @@
+# Deliberate omissions recorded for project.sh / doctor (spec-gates upgrade holds).
+# The kit advisory workflow runs verify.sh --boundary ci only; it does not copy
+# the full upstream canary/pr CI template blocks from .specify/extensions/gates/ci/.
+ci:canary
+ci:pr

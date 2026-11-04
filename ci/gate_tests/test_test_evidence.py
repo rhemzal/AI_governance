@@ -48,7 +48,10 @@ class TestEvidenceAssessment(unittest.TestCase):
                 capture_output=True, text=True, timeout=10, check=False,
             )
             self.assertEqual(0, result.returncode, result.stderr)
-            self.assertEqual("VERIFIED", json.loads(result.stdout)["outcome"])
+            payload = json.loads(result.stdout)
+            self.assertEqual("VERIFIED", payload["outcome"])
+            self.assertTrue(payload.get("advisories"))
+            self.assertIn("ADVISORY:", result.stderr)
             self.assertFalse(evidence.exists())
 
     def test_known_good_and_no_input_mutation(self):

@@ -11,6 +11,7 @@ This block complements (not replaces) `### DOC DELTA`.
 
 ```markdown
 ### AI RUN EVIDENCE
+
 - Model/tooling context (high level, no secrets):
   - Assistant/tool:
   - Execution mode (interactive/agent/CI assist):
@@ -29,20 +30,23 @@ This block complements (not replaces) `### DOC DELTA`.
   - Relevant job/log URL(s):
   - Local evidence (if any):
 - Assumptions:
-  - 
+  -
 - Known limitations:
-  - 
+  -
 - Unverified or stale checks, and why:
 - Merge/deployment authorization (separate from verification):
 ```
 
 ## Practical rules
+
 - Do not include tokens, secrets, private prompts, or sensitive raw logs.
 - Prefer links to CI artifacts/logs over large pasted output.
 - Keep assumptions explicit so reviewers can challenge them quickly.
 - Bind every check to the state it tested. A later commit, configuration change, or integration may invalidate evidence; rerun affected checks and preserve the earlier result as historical.
+- On this kit repo, `ci/run_task_acceptance_check.sh` (also invoked by workflow `ai-governance` after `implement`) runs the selected command and writes a starter `AI RUN EVIDENCE` block with commit, dirty-tree identity, exit code, and log path. It does not authenticate the producer or replace independent review.
 - Report `VERIFIED` only when all agreed acceptance criteria have supporting evidence. Missing device access or a running soak is `PARTIAL`/`BLOCKED`, not a pass.
 - Capture outputs that can be independently checked. Do not rely solely on an author's self-assessment or another agent's agreement.
+- For CI-backed checks, record the workflow run URL and the job that executed the command. On pull requests, distinguish the PR head SHA from the merge commit GitHub Actions actually tested; a green conclusion can still include skipped or neutral checks — inspect the required step and native log, not only the badge.
 
 ## Optional machine-readable test assessment
 
@@ -50,6 +54,9 @@ This block complements (not replaces) `### DOC DELTA`.
 the standard/full bundle through `ci/`. It assesses declared observations against a
 separate expectation file. It does not run tests, inspect artifacts, authenticate reports,
 grant permissions or install an adopter gate. Existing native formats remain authoritative.
+When invoked from the CLI, missing on-disk artifact paths referenced in a report emit
+`ADVISORY:` lines on stderr and an `advisories` field in the JSON result. The outcome can
+still be `VERIFIED` when the declared records agree; that verdict is not proof a runner executed.
 
 A host integration resolves the expected run, tested identities and required behavior
 checks independently, before execution. It normalizes native observations into the report.
@@ -63,7 +70,12 @@ Example `expected.json` (illustrative identities, not evidence of a real run):
 {
   "schema_version": 1,
   "run_id": "fixture-run-1",
-  "tested_state": {"source": "commit-a", "build": "binary-a", "fixture": "seek-fixture-v1", "oracle": "seek-contract-v1"},
+  "tested_state": {
+    "source": "commit-a",
+    "build": "binary-a",
+    "fixture": "seek-fixture-v1",
+    "oracle": "seek-contract-v1"
+  },
   "required_checks": ["seek.click", "seek.frame"],
   "cleanup_required": true
 }
@@ -75,11 +87,24 @@ Matching `report.json`:
 {
   "schema_version": 1,
   "run_id": "fixture-run-1",
-  "tested_state": {"source": "commit-a", "build": "binary-a", "fixture": "seek-fixture-v1", "oracle": "seek-contract-v1"},
-  "execution": {"status": "completed", "exit_code": 0},
+  "tested_state": {
+    "source": "commit-a",
+    "build": "binary-a",
+    "fixture": "seek-fixture-v1",
+    "oracle": "seek-contract-v1"
+  },
+  "execution": { "status": "completed", "exit_code": 0 },
   "checks": [
-    {"id": "seek.click", "status": "passed", "evidence": ["native-result.json#seek.click"]},
-    {"id": "seek.frame", "status": "passed", "evidence": ["native-result.json#seek.frame"]}
+    {
+      "id": "seek.click",
+      "status": "passed",
+      "evidence": ["native-result.json#seek.click"]
+    },
+    {
+      "id": "seek.frame",
+      "status": "passed",
+      "evidence": ["native-result.json#seek.frame"]
+    }
   ],
   "cleanup": "complete"
 }
@@ -130,6 +155,7 @@ For long-running, resumed, or concurrent work, keep this compact record in the t
 
 ```markdown
 ### TASK STATE
+
 - Objective and acceptance criteria:
 - Mandate: allowed repositories/environments/effects; approval still required:
 - Task owner; integration owner (if concurrent):
@@ -150,5 +176,6 @@ On resume, reconcile this record with the actual repository, jobs, and resource 
 For a test spanning a backend, GUI, and shared embedded device, record each tested commit, deployed build/configuration, fixture or video identity, device ownership, command, and observed result. A local unit-test pass does not establish that the device scenario passed. Keep device credentials and sensitive logs out of the record.
 
 ## Related Documents
+
 - `usage/HOW_TO_USE_WITH_COPILOT.md`
 - `constitution/AI_ENFORCEMENT.md`

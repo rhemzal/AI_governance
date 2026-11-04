@@ -7,8 +7,18 @@ This project follows a lightweight changelog intended for governance-kit consume
 ### Agent runtime and evidence analysis (2026-11-04)
 
 - [Advisory-only] Analyze `52f9c26f342b3517384e96f7d289bb300a72aaa4`: distinguish instruction loading, actual command execution, evidence validation and CI. Original upgrade/preset failure reproductions now pass their regressions.
-- [Verification] 43 focused tests passed. Disposable probes demonstrate the already-pinned Spec Kit shell step, Superpowers completion limits and spec-gates v0.5.0's inherited-Git-environment issue. Review upstream v0.5.1's fix; no runtime upgrade performed.
+- [Verification] 43 focused tests passed. Disposable probes demonstrate the already-pinned Spec Kit shell step, Superpowers completion limits and spec-gates v0.5.0's inherited-Git-environment issue. Review upstream v0.5.1's fix; no runtime upgrade performed in the analysis pass alone.
 - [Recommendation] Connect existing verification to workflow completion and state-bound native evidence before adding frameworks. Preserve native-host and downstream evidence limits; no policy or CI activation change.
+
+### Workflow acceptance verification (2026-11-04)
+
+- [Fix] Workflow `ai-governance` adds a final native `type: shell` step after `speckit.implement`. It runs `ci/run_task_acceptance_check.sh`, which executes the pre-selected acceptance command, exits with that command's code, and writes an `AI RUN EVIDENCE` block bound to commit and dirty-tree identity. The optional workflow input `verify` supplies the command; adopters must set `TASK_ACCEPTANCE_CMD` when invoking the script directly. The runner refuses no-op commands such as `true`.
+- [Fix] `ci/kit_maintenance_acceptance_cmd.sh` is the single kit-repo default command shared by the runner, workflow, and maintenance tasks (scoped gate suites from the 2026-11-04 audit).
+- [Fix] `ci/validate_test_evidence.py` emits `advisories` and stderr `ADVISORY:` lines for missing on-disk artifact paths without changing schema agreement outcomes.
+- [Fix] Experimental spec-gates install pin moves to **v0.5.1**; `test_spec_gates_git_environment.py` records inherited-`GIT_DIR` misdirection and the projected block's `env -u GIT_DIR` control.
+- [Verification] `test_superpowers_task_done.py` records vendored `task-done` pass/fail/`true`/dirty-tree limits from the audit. `test_workflow_acceptance.py` covers the runner, governed workflow wiring, disposable shell probes, and Spec Kit 1.2.5 `WorkflowEngine` controls when installable.
+- [Governance] ADR-0016 records the workflow acceptance runner and related `ci/` controls.
+- [Docs] Audit implementation status is recorded in `research/EXTERNAL_PROJECT_EVALUATIONS.md`. `DEVELOPMENT.md` dates the B6–B8 trial records; `usage/AI_RUN_EVIDENCE.md` adds CI revision guidance.
 
 ### Preset activation (2026-11-03)
 
