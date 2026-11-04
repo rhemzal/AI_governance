@@ -68,12 +68,12 @@ step even when `AGENTS.md` already grants an autonomous mandate.
 **Principle:** put the execution contract in an **always-on project rule**, not only in
 a skill.
 
-| Mechanism | Role |
-| --- | --- |
-| `AGENTS.md` + overlay | **Authority** — what the operator already authorized |
-| `.cursor/rules/autonomous-aep-execution.mdc` (`alwaysApply: true`) | **Behavior** — phrases like “finish all AEP items” run inline via `executing-plans` |
-| `.cursor/skills/governed-work/SKILL.md` | **Optional** routing doc; not required when the rule is present |
-| `vendor/superpowers/v7.0.1/` | **Procedures** — `executing-plans`, TDD, debugging (installer does **not** copy this pin; see Phase B below) |
+| Mechanism                                                          | Role                                                                                                         |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `AGENTS.md` + overlay                                              | **Authority** — what the operator already authorized                                                         |
+| `.cursor/rules/autonomous-aep-execution.mdc` (`alwaysApply: true`) | **Behavior** — phrases like “finish all AEP items” run inline via `executing-plans`                          |
+| `.cursor/skills/governed-work/SKILL.md`                            | **Optional** routing doc; not required when the rule is present                                              |
+| `vendor/superpowers/v7.0.1/`                                       | **Procedures** — `executing-plans`, TDD, debugging (installer does **not** copy this pin; see Phase B below) |
 
 The stack installer copies
 [`templates/autonomous-aep-execution.mdc.template`](./templates/autonomous-aep-execution.mdc.template)
@@ -82,6 +82,15 @@ ledger paths and ADR references for your project, then add one sentence in `AGEN
 that natural-language AEP requests are sufficient (see mechweave dogfood).
 
 Reload the Cursor workspace after adding or changing rules.
+
+### Cursor warning on `speckit-checklist` (5000+ tokens)
+
+`specify init --integration cursor-agent` installs a monolithic `SKILL.md` (~22 KB) from
+upstream Spec Kit. Cursor flags skills whose **SKILL.md** exceeds ~5000 tokens. The kit
+ships a split skill (`SKILL.md` + `checklist-full-procedure.md`) and
+`install-opt-in-stack.sh` **overlays** it after spec-gates install. Refresh an existing
+repo with `--stack-only` and `SKIP_READOPT=1` / `SKIP_SPEC_GATES=1` if you only need the
+skill fix, or copy the two files from `KIT_SOURCE/.cursor/skills/speckit-checklist/`.
 
 ## Installation completeness
 
@@ -95,29 +104,29 @@ bash governance/experimental/spec_gates/check-opt-in-stack.sh
 bash governance/experimental/spec_gates/check-opt-in-stack.sh --strict   # exit 1 on any gap
 ```
 
-| Gap | Typical symptom |
-| --- | --- |
-| No `vendor/superpowers/v7.0.1` | Inline AEP / `executing-plans` paths missing; governed-work points at empty pin |
-| No `.cursor/rules/autonomous-aep-execution.mdc` | You must invoke `/governed-work`; “udělej AEP” behaves like normal chat |
-| No `AGENTS.md` mandate merge | Agent has no standing authority to run the full chain |
-| `vendor/AI_governance.next` not switched | Policy snapshot stale; readopt incomplete |
-| No `.tools/specify-venv` | `specify workflow run` fails |
-| No projected `.specify/gates/` | Pre-commit / Stop verify missing |
-| No acceptance wrapper in `ci/` | Workflow `verify-acceptance` and gates `adopter-verify` fail |
+| Gap                                             | Typical symptom                                                                 |
+| ----------------------------------------------- | ------------------------------------------------------------------------------- |
+| No `vendor/superpowers/v7.0.1`                  | Inline AEP / `executing-plans` paths missing; governed-work points at empty pin |
+| No `.cursor/rules/autonomous-aep-execution.mdc` | You must invoke `/governed-work`; “udělej AEP” behaves like normal chat         |
+| No `AGENTS.md` mandate merge                    | Agent has no standing authority to run the full chain                           |
+| `vendor/AI_governance.next` not switched        | Policy snapshot stale; readopt incomplete                                       |
+| No `.tools/specify-venv`                        | `specify workflow run` fails                                                    |
+| No projected `.specify/gates/`                  | Pre-commit / Stop verify missing                                                |
+| No acceptance wrapper in `ci/`                  | Workflow `verify-acceptance` and gates `adopter-verify` fail                    |
 
 The installer runs this check after a successful `--stack-only` / full install (non-strict).
 Treat **`[missing]`** lines before expecting production-like governance UX.
 
 ## Files produced in the host repo
 
-| Path | Role |
-| --- | --- |
-| `governance/experimental/spec_gates/` | Adapter copy + `policy.adopter.json` |
-| `ci/adopter_task_acceptance_cmd.sh` | Generated wrapper for `ADOPTER_VERIFY_COMMAND` |
-| `ci/run_task_acceptance_check.sh` | Evidence runner (from kit) |
-| `.specify/gates/` | Projected spec-gates runtime |
-| `.tools/specify-venv/` | Pinned Spec Kit CLI |
-| `scripts/activate-governance-specify-env.sh` | PATH helper |
+| Path                                         | Role                                                          |
+| -------------------------------------------- | ------------------------------------------------------------- |
+| `governance/experimental/spec_gates/`        | Adapter copy + `policy.adopter.json`                          |
+| `ci/adopter_task_acceptance_cmd.sh`          | Generated wrapper for `ADOPTER_VERIFY_COMMAND`                |
+| `ci/run_task_acceptance_check.sh`            | Evidence runner (from kit)                                    |
+| `.specify/gates/`                            | Projected spec-gates runtime                                  |
+| `.tools/specify-venv/`                       | Pinned Spec Kit CLI                                           |
+| `scripts/activate-governance-specify-env.sh` | PATH helper                                                   |
 | `.cursor/rules/autonomous-aep-execution.mdc` | Optional alwaysApply rule (template; customize mandate paths) |
 
 ## Related

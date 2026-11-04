@@ -269,6 +269,10 @@ install_spec_gates() {
   ( cd "$ROOT" && bash governance/experimental/spec_gates/sync-policy.sh )
 }
 
+overlay_kit_slim_speckit_skills() {
+  KIT_SOURCE="$KIT_SOURCE" bash "$SCRIPT_DIR/overlay-speckit-checklist-skill.sh"
+}
+
 install_specify_venv() {
   local constraint
   constraint="$(dependencies_constraint_path)"
@@ -319,6 +323,7 @@ case "$MODE" in
     if [[ "${SKIP_SPEC_GATES:-}" != 1 ]]; then
       install_spec_gates
     fi
+    overlay_kit_slim_speckit_skills
     install_specify_venv
     configure_agent_cli
     verify_stack
@@ -336,6 +341,7 @@ case "$MODE" in
     install_host_adapter
     install_procedures_and_ci
     install_spec_gates
+    overlay_kit_slim_speckit_skills
     install_specify_venv
     configure_agent_cli
     verify_stack
