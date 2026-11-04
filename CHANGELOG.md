@@ -4,10 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
-### Workflow acceptance verification (2026-11-04)
+### Tier-aware adoption reassessment (2026-11-04)
 
-- [Fix] `ci/uncommitted_diff_identity.py` binds acceptance evidence to uncommitted **content** (status plus `git hash-object`), not to `git status` text alone. `test_dirty_tree_identity_reflects_file_content` guards the regression. ADR-0016 amended.
-- [Fix] Restore provenance banner on `usage/templates/AGENTS_GOVERNANCE_OPT_IN_BLOCK.md` (doc-hygiene on `main`).
+- [Advisory-only] Reassess the 15 landscape candidates plus the earlier agent catalog against Tier A/B/C at `9d262a0`; retain current integration gains and define bounded benefit/removal criteria for additional capabilities.
+- [Verification] 34 focused current-integration tests passed without skips. Four disposable helper comparisons distinguish vendored Superpowers 7.0.1 from upstream 7.0.2; a separate control shows the current acceptance report gives different file contents the same status-based identity.
+- [Recommendation] Qualify the selected Superpowers update and repair content identity; deepen task-scoped context or fresh-context review on an appropriate real task. Ruler/OpenSpec remain conditional; no new runtime, pin, policy or CI requirement is activated by this assessment.
+- [Fix] Restore the required provenance banner on `usage/templates/AGENTS_GOVERNANCE_OPT_IN_BLOCK.md`; its absence on the assessed baseline blocked the first doc-hygiene run.
 
 ### Adoption scope documentation (2026-11-04)
 
@@ -21,6 +23,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ### Workflow acceptance verification (2026-11-04)
 
+- [Fix] `ci/uncommitted_diff_identity.py` binds acceptance evidence to uncommitted **content** (status plus `git hash-object`), not to `git status` text alone. `test_dirty_tree_identity_reflects_file_content` guards the regression. ADR-0016 amended.
 - [Fix] Workflow `ai-governance` adds a final native `type: shell` step after `speckit.implement`. It runs `ci/run_task_acceptance_check.sh`, which executes the pre-selected acceptance command, exits with that command's code, and writes an `AI RUN EVIDENCE` block bound to commit and dirty-tree identity. The optional workflow input `verify` supplies the command; adopters must set `TASK_ACCEPTANCE_CMD` when invoking the script directly. The runner refuses no-op commands such as `true`.
 - [Fix] `ci/kit_maintenance_acceptance_cmd.sh` is the single kit-repo default command shared by the runner, workflow, and maintenance tasks (scoped gate suites from the 2026-11-04 audit).
 - [Fix] `ci/validate_test_evidence.py` emits `advisories` and stderr `ADVISORY:` lines for missing on-disk artifact paths without changing schema agreement outcomes.
