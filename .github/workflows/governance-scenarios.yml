@@ -1,0 +1,116 @@
+# Maintainer-only Harbor qualification. Not required kit CI on pull requests.
+# See research/experiments/governance-scenarios/README.md and ADR-0018.
+name: governance-scenarios
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: Maintainer Harbor scenario to run
+        required: true
+        default: oracle-nop
+        type: choice
+        options:
+          - oracle-nop
+          - cursor-matrix
+
+permissions:
+  contents: read
+
+concurrency:
+  group: governance-scenarios
+  cancel-in-progress: false
+
+jobs:
+  oracle-nop:
+    if: inputs.scenario == 'oracle-nop'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Harbor 0.25.0
+        run: |
+          set -euo pipefail
+          python -m venv /tmp/harbor-venv
+          /tmp/harbor-venv/bin/pip install -q "harbor==0.25.0"
+          echo "/tmp/harbor-venv/bin" >> "$GITHUB_PATH"
+
+      - name: Build Harbor tasks
+        run: python3 research/experiments/harbor/build_tasks.py
+
+      - name: Run oracle job
+        env:
+          HARBOR_TELEMETRY: "0"
+        run: harbor run --config research/experiments/harbor/job.oracle.yaml -y
+
+      - name: Result gate accepts oracle
+        run: |
+          set -euo pipefail
+          python3 ci/check_harbor_results.py \
+            --job jobs/c1-c4-oracle \
+            --expected research/experiments/harbor/expect-oracle.json \
+            | tee /tmp/oracle-gate.json
+          grep -q '"outcome": "ACCEPT"' /tmp/oracle-gate.json
+
+      - name: Run nop job
+        env:
+          HARBOR_TELEMETRY: "0"
+        run: harbor run --config research/experiments/harbor/job.nop.yaml -y
+
+      - name: Result gate rejects nop (expected)
+        run: |
+          set -euo pipefail
+          python3 ci/check_harbor_results.py \
+            --job jobs/c1-c4-nop \
+            --expected research/experiments/harbor/expect-oracle.json \
+            | tee /tmp/nop-gate.json
+          grep -q '"outcome": "REJECT"' /tmp/nop-gate.json
+
+  cursor-matrix:
+    if: inputs.scenario == 'cursor-matrix'
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Require CURSOR_API_KEY secret
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$CURSOR_API_KEY" || {
+            echo "Missing repository secret CURSOR_API_KEY for paid cursor-cli matrix."
+            exit 1
+          }
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Harbor 0.25.0
+        run: |
+          set -euo pipefail
+          python -m venv /tmp/harbor-venv
+          /tmp/harbor-venv/bin/pip install -q "harbor==0.25.0"
+          echo "/tmp/harbor-venv/bin" >> "$GITHUB_PATH"
+
+      - name: Build Harbor tasks
+        run: python3 research/experiments/harbor/build_tasks.py
+
+      - name: Run cursor-cli matrix (paid)
+        env:
+          HARBOR_TELEMETRY: "0"
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+        run: harbor run --config research/experiments/harbor/job.cursor.yaml -y
+
+      - name: Result gate (candidate matrix)
+        run: |
+          set -euo pipefail
+          python3 ci/check_harbor_results.py \
+            --job jobs/c1-c4-cursor \
+            --expected research/experiments/harbor/expect-candidate.json

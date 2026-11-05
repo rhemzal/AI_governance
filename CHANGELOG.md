@@ -10,6 +10,9 @@ This project follows a lightweight changelog intended for governance-kit consume
 - [Verification] Harbor 0.25.0 package, native Cursor adapter import, CLI options and separate-verifier configuration checked in an isolated environment. No Docker or live agent trial ran; no runner, gate or adopter dependency is activated.
 - [Verification] **Docker maintainer run** (2026-11-05): `harbor run` oracle mean reward 1.0 on four C1/C2 tasks; `ci/check_harbor_results.py` ACCEPT. Nop mean 0.0; gate REJECT vs oracle expect. Ledger `specs/005-harbor-docker-qualification/progress.md`. Still not adopter CI or import.
 - [Optional] Add maintainer C1/C2 Harbor tasks and `ci/check_harbor_results.py` ([ADR 0018](adr/ADR_0018_Optional_Harbor_Result_Gate.md)). Oracle reward was 1.0 on four trials. Nop reward was 0.0 and the Harbor CLI still exited 0; the result gate rejected that job. No Cursor model run and no required CI gate.
+- [Optional] Extend Harbor to eight C1–C4 tasks (specs/006); Docker oracle/nop on maintainer host (`specs/006-harbor-scenario-backlog/progress.md`).
+- [Optional] Paid `cursor-cli` matrix 8×3 with merged result gate ACCEPT; retry/merge helper (PR #62).
+- [Optional] Post-qualification closure: governance-scenarios `workflow_dispatch`, `ci/select_overlay_rows.py`, research DOC DELTA (specs/007).
 
 ### Workflow acceptance verification (2026-11-04)
 

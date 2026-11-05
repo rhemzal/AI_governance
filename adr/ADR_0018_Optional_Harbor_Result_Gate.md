@@ -4,7 +4,7 @@ _Provenance: This ADR originates from the AI_governance kit (https://github.com/
 
 ## Status
 
-Accepted (2026-11-05 amendments: C3/C4 maintainer tasks; H5 cursor-cli qualification and job merge helper). Required kit CI still does not call Harbor.
+Accepted (2026-11-05 amendments: C3/C4; H5 qualification; specs/007 workflow and overlay helper). Required kit CI still does not call Harbor on every pull request.
 
 ## Context
 
@@ -36,6 +36,12 @@ This repository is the kit source, with maintainer doc-hygiene already in CI. Ad
 - Add maintainer job configs `job.cursor-mini.yaml`, `job.cursor-retry.yaml`, and matching `expect-candidate-*.json` files; pin `composer-2.5` on `job.cursor.yaml`.
 - Add `research/experiments/harbor/merge_harbor_jobs.py` to replace failed trial directories with retry trials and write `merge-provenance.json`; the result gate still reads only trial `result.json` files and does not validate provenance.
 - Add `ci/gate_tests/test_merge_harbor_jobs.py` for the merge helper against the existing gate assessor.
+
+## Amendment (2026-11-05) — Post-qualification closure (specs/007)
+
+- Add `.github/workflows/governance-scenarios.yml` with `workflow_dispatch` only (`oracle-nop` default; optional paid `cursor-matrix` when `CURSOR_API_KEY` is configured). Not a required pull-request gate.
+- Add optional `ci/select_overlay_rows.py` and `ci/gate_tests/test_select_overlay_rows.py` to filter LOCAL_OVERLAY **Load when** rows by touched paths; the helper does not load model context.
+- Document image digest capture and Cursor CLI install limits in research assessment and harbor README; publish manual scaffolds for Experiment B and native Stop under `research/experiments/fresh-context-review/` and `research/experiments/cursor-stop/`.
 
 ## Alternatives Considered
 

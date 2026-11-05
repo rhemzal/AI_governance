@@ -55,14 +55,27 @@ Record policy revision, model/tool configuration, task class, success/unmet crit
 
 Adopt the candidate when acceptance and authority boundaries hold while the targeted friction improves. Report a small pilot as preliminary, not proof of a universal gain. Re-evaluate changed models, tools, or rules; remove one redundant scaffold at a time and measure the effect. An evaluator or extra agent is optional and must demonstrate value for the task class.
 
-### Automated execution (proposed, not activated)
+### Automated execution (qualified maintainer pilot)
 
-Use an existing agent-evaluation runner to execute fixtures and collect native
-results, with independently maintained deterministic checks for acceptance.
-The [2026-11-05 assessment and local handoff](../research/EXTERNAL_PROJECT_EVALUATIONS.md#automated-control-scenarios-2026-11-05)
-selects a bounded Harbor pilot for the current Cursor-oriented host and explains
-why Promptfoo/Inspect AI remain alternatives. It starts with Experiment A's C1/C2
-controls; these are distinct from benchmark IDs B1-B8 above.
+Use Harbor to execute fixtures and collect native results, with independently
+maintained deterministic checks for acceptance. The
+[2026-11-05 assessment and handoff](../research/EXTERNAL_PROJECT_EVALUATIONS.md#automated-control-scenarios-2026-11-05)
+records eight C1–C4 controls, Docker oracle/nop qualification, and the paid
+`cursor-cli` matrix (merged result gate ACCEPT on the maintainer host).
+
+| Step | Command / artifact |
+| --- | --- |
+| Regenerate tasks | `python3 research/experiments/harbor/build_tasks.py` |
+| Docker oracle/nop | `harbor run --config research/experiments/harbor/job.oracle.yaml` then `job.nop.yaml`; gate with `ci/check_harbor_results.py` |
+| Paid matrix | `harbor run --config research/experiments/harbor/job.cursor.yaml`; optional retry/merge per [`harbor/README.md`](../research/experiments/harbor/README.md) |
+| Maintainer CI | `workflow_dispatch` workflow [`.github/workflows/governance-scenarios.yml`](../.github/workflows/governance-scenarios.yml) (`oracle-nop` default; `cursor-matrix` needs `CURSOR_API_KEY`) |
+| Overlay helper | `python3 ci/select_overlay_rows.py --overlay governance/LOCAL_OVERLAY.md --path <file>` (optional; not a context loader) |
+
+Ledger: [`specs/006-harbor-scenario-backlog/progress.md`](../specs/006-harbor-scenario-backlog/progress.md),
+closure: [`specs/007-automated-scenarios-closure/progress.md`](../specs/007-automated-scenarios-closure/progress.md).
+
+Experiment B fresh-context review and native Stop observation remain **manual scaffolds**
+under `research/experiments/fresh-context-review/` and `research/experiments/cursor-stop/`.
 
 Binary acceptance applies to completed, valid scenarios. Missing runs, errors and
 unobserved criteria are not PASS. A valid record, an agent-authored completion
@@ -70,7 +83,7 @@ statement or a successful runner exit alone does not prove scenario acceptance.
 Native Cursor CLI execution also does not establish IDE Stop or resume behavior.
 Maintainer tasks and the optional result gate live under
 [`research/experiments/harbor/`](../research/experiments/harbor/README.md).
-Required CI does not run Harbor, and no additional adopter requirement is activated.
+Required CI does not run Harbor on every pull request, and no adopter requirement is activated.
 
 ## Related Documents
 

@@ -162,6 +162,4 @@ Result: **OK** (22 tests).
 ## Backlog remainder (not in this change)
 
 - **H5:** paid cursor-cli matrix — done 2026-11-05 (raw job REJECT; merged gate ACCEPT; see above)
-- **H6:** optional `workflow_dispatch` workflow
-- **H7–H8:** fresh-context review, native Stop (out of Harbor)
-- **H9:** `ci/select_overlay_rows.py` optional helper
+- **H6–H9 closure:** see [`specs/007-automated-scenarios-closure/progress.md`](../007-automated-scenarios-closure/progress.md)
