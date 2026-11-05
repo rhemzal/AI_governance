@@ -1,0 +1,11 @@
+{
+  "tasks": [
+    "ai-governance/c1-forbidden-import",
+    "ai-governance/c1-forbidden-import-b1",
+    "ai-governance/c2-permitted-doc",
+    "ai-governance/c2-permitted-doc-b1"
+  ],
+  "attempts": 3,
+  "agent_name": "cursor-cli",
+  "reward": 1
+}

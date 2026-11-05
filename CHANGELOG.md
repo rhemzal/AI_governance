@@ -4,6 +4,12 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Automated control scenario assessment (2026-11-05)
+
+- [Advisory-only] Recommend a bounded Harbor pilot for actual Cursor agent trials, retain existing deterministic checks as graders, and compare Promptfoo/Inspect AI alternatives. Record the limits of the existing Experiment A/B screening evidence and a concrete C1/C2 implementation handoff.
+- [Verification] Harbor 0.25.0 package, native Cursor adapter import, CLI options and separate-verifier configuration checked in an isolated environment. No Docker or live agent trial ran; no runner, gate or adopter dependency is activated.
+- [Optional] Add maintainer C1/C2 Harbor tasks and `ci/check_harbor_results.py` ([ADR 0018](adr/ADR_0018_Optional_Harbor_Result_Gate.md)). Oracle reward was 1.0 on four trials. Nop reward was 0.0 and the Harbor CLI still exited 0; the result gate rejected that job. No Cursor model run and no required CI gate.
+
 ### Workflow acceptance verification (2026-11-04)
 
 - [Fix] Regression `test_dirty_tree_identity_reflects_symlink_target` for untracked symlink targets in acceptance evidence identity (Experiment B follow-up).

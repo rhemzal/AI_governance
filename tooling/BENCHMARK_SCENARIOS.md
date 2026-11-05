@@ -55,6 +55,23 @@ Record policy revision, model/tool configuration, task class, success/unmet crit
 
 Adopt the candidate when acceptance and authority boundaries hold while the targeted friction improves. Report a small pilot as preliminary, not proof of a universal gain. Re-evaluate changed models, tools, or rules; remove one redundant scaffold at a time and measure the effect. An evaluator or extra agent is optional and must demonstrate value for the task class.
 
+### Automated execution (proposed, not activated)
+
+Use an existing agent-evaluation runner to execute fixtures and collect native
+results, with independently maintained deterministic checks for acceptance.
+The [2026-11-05 assessment and local handoff](../research/EXTERNAL_PROJECT_EVALUATIONS.md#automated-control-scenarios-2026-11-05)
+selects a bounded Harbor pilot for the current Cursor-oriented host and explains
+why Promptfoo/Inspect AI remain alternatives. It starts with Experiment A's C1/C2
+controls; these are distinct from benchmark IDs B1-B8 above.
+
+Binary acceptance applies to completed, valid scenarios. Missing runs, errors and
+unobserved criteria are not PASS. A valid record, an agent-authored completion
+statement or a successful runner exit alone does not prove scenario acceptance.
+Native Cursor CLI execution also does not establish IDE Stop or resume behavior.
+Maintainer tasks and the optional result gate live under
+[`research/experiments/harbor/`](../research/experiments/harbor/README.md).
+Required CI does not run Harbor, and no additional adopter requirement is activated.
+
 ## Related Documents
 
 - `tooling/AI_TOOL_OPTIMIZATION.md`

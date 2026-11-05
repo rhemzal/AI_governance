@@ -294,12 +294,12 @@ this kit includes. On Linux, vendored 7.0.1 helpers were compared with the
 exact upstream 7.0.2 `task-brief`, `sdd-workspace`, and new `sdd-repo`
 in disposable directories:
 
-| Control | Vendored 7.0.1 (historical) | Vendored 7.0.2 |
-| --- | --- | --- |
-| Same-depth headings `## Task 6`, then `## Task 6b`; request 6 | Exit 0; includes the other task | Exit 0; only task 6 |
-| Same-depth `Task A1`, then `Task A2`; request A1 | Exit 3; task not found | Exit 0; only A1 |
-| Task 6 opens a code fence that never closes before Task 7 | Exit 0; includes task 7 | Exit 4; rejects malformed brief |
-| Invoke `sdd-workspace PLAN_FILE` outside any Git repository | Exit 0; creates `.superpowers/` despite Git's error | Exit 2; creates no workspace |
+| Control                                                       | Vendored 7.0.1 (historical)                         | Vendored 7.0.2                  |
+| ------------------------------------------------------------- | --------------------------------------------------- | ------------------------------- |
+| Same-depth headings `## Task 6`, then `## Task 6b`; request 6 | Exit 0; includes the other task                     | Exit 0; only task 6             |
+| Same-depth `Task A1`, then `Task A2`; request A1              | Exit 3; task not found                              | Exit 0; only A1                 |
+| Task 6 opens a code fence that never closes before Task 7     | Exit 0; includes task 7                             | Exit 4; rejects malformed brief |
+| Invoke `sdd-workspace PLAN_FILE` outside any Git repository   | Exit 0; creates `.superpowers/` despite Git's error | Exit 2; creates no workspace    |
 
 Integrated regressions: `ci/gate_tests/test_superpowers_helper_controls.py`.
 Upgrade and rollback copy blocks in `usage/HOW_TO_IMPORT.md` use `v7.0.2.next`,
@@ -342,12 +342,12 @@ lifecycle. The previously implemented acceptance step itself remains useful.
 tested compatibility. Risk is the incremental maintenance/process burden for
 this kit, not a general judgment of project quality.
 
-| Solution | Placement and decision | Benefit to verify / revisit trigger | Overengineering risk |
-| --- | --- | --- | --- |
-| **Superpowers** | **Deepen B/C now:** qualify selected 7.0.2 pin | Four observed helper defects above; preserve existing task execution and rollback behavior | Low for selected update; higher for the full catalog |
-| **Spec Kit** | **Deepen existing B/C**, keep current pin unless a needed fix justifies moving it | Real task acceptance and restart behavior. 1.3.0 exists, but the required shell step already works in 1.2.5 | Low for current workflow; medium for more presets/artifacts |
-| **spec-gates** | **Keep C experimental; deepen native evidence** | One authorized native Stop pass/fail observation when a capable host is available; same host acceptance through workflow/Git/CI where configured; count false blocks | Medium; do not repeat hook setup without new host evidence |
-| **Agent OS** | **Deepen the already adapted A/B pattern** | Task-scoped discovery/injection of up to three sourced local constraints; fewer concrete violations without loading more irrelevant context | Low for existing overlay; medium for a second standards tree |
+| Solution        | Placement and decision                                                            | Benefit to verify / revisit trigger                                                                                                                                  | Overengineering risk                                         |
+| --------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Superpowers** | **Deepen B/C now:** qualify selected 7.0.2 pin                                    | Four observed helper defects above; preserve existing task execution and rollback behavior                                                                           | Low for selected update; higher for the full catalog         |
+| **Spec Kit**    | **Deepen existing B/C**, keep current pin unless a needed fix justifies moving it | Real task acceptance and restart behavior. 1.3.0 exists, but the required shell step already works in 1.2.5                                                          | Low for current workflow; medium for more presets/artifacts  |
+| **spec-gates**  | **Keep C experimental; deepen native evidence**                                   | One authorized native Stop pass/fail observation when a capable host is available; same host acceptance through workflow/Git/CI where configured; count false blocks | Medium; do not repeat hook setup without new host evidence   |
+| **Agent OS**    | **Deepen the already adapted A/B pattern**                                        | Task-scoped discovery/injection of up to three sourced local constraints; fewer concrete violations without loading more irrelevant context                          | Low for existing overlay; medium for a second standards tree |
 
 Kit upstream **Experiment A** (2026-11-04, `specs/003-task-scoped-overlay-trial/`): B1 passed C1–C4; partial PASS — mandate text in governed-work reduces unrelated overlay noise (C4); C1 B0 miss not shown on maintainer-familiar host. Not an Agent OS product install.
 | **Elephant Goldfish Model** | **Next bounded review-pattern candidate**, B procedure or separately qualified host add-on | A fresh-context design reviewer finds independently confirmed defects missed by current review, with controlled noise and cost | Low/medium for one review; high for adopting the full multi-stage protocol by default |
@@ -385,12 +385,12 @@ matters. This is a screening budget, not statistical proof. Preserve every
 attempt, including failures. For a deterministic distributor, use file/host
 controls rather than unnecessary repeated agent benchmarks.
 
-| Candidate slice | Concrete comparison and acceptance | Stop / rollback |
-| --- | --- | --- |
-| **Agent OS-derived context selection** | Use the existing overlay on an importer or comparable module task. Compare current loading with task-scoped sourced constraints; include a permitted exception and an unrelated task. Known-bad output must violate a specific constraint; known-good output must remain accepted. Retain only if it removes observed misses or reduces irrelevant context with unchanged correctness and no extra operator ritual. | Remove added guidance if it merely repeats the current pointer, increases missed exceptions, or has no observed benefit. No standards database/index service. |
-| **Fresh-context design review** | First test one reviewer reading only the design, required sources and acceptance criteria; exclude the author's discussion and proposed verdict. Compare with the current review, including Superpowers' existing review path, on a known defect and a clean control before representative tasks. Count confirmed findings, misses, false positives and total review/rework cost. Retain only an incremental detection benefit within the agreed attention/usage budget. | No verified context isolation means no EGM claim. Stop if the reviewer merely repeats findings or costs more without a useful detection difference. One review and one repair/recheck cycle initially; no automatic persona swarm. |
-| **Ruler** | In a disposable copy of a real two-host setup: one rule update, dry-run, apply, second apply, rollback. Require correct content at both intended entry points, no second-run changes, no lost host sentinel/override, no writes outside selected paths, and a fresh session on each host demonstrating correct rule discovery. Compare with the existing short-pointer approach. | Stop on host-file replacement or if the pointer approach solves the drift more simply. Disable unrelated MCP and gitignore propagation. No subagent/catalog rollout. |
-| **OpenSpec** | Use a supported runtime: Node >=22.12.0 for 1.16.0 npm, or the pinned standalone release. Compare a real canonical-requirement change with the existing method: modify/remove/rename, preserve unrelated requirement, reject malformed delta, verify implementation against independently chosen acceptance. | No measurable requirements-maintenance benefit, unsupported runtime, or two authorities for the same requirement: retain current method. Stores/cross-repo rollout is outside this slice. |
+| Candidate slice                        | Concrete comparison and acceptance                                                                                                                                                                                                                                                                                                                                                                                                                                       | Stop / rollback                                                                                                                                                                                                                    |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Agent OS-derived context selection** | Use the existing overlay on an importer or comparable module task. Compare current loading with task-scoped sourced constraints; include a permitted exception and an unrelated task. Known-bad output must violate a specific constraint; known-good output must remain accepted. Retain only if it removes observed misses or reduces irrelevant context with unchanged correctness and no extra operator ritual.                                                      | Remove added guidance if it merely repeats the current pointer, increases missed exceptions, or has no observed benefit. No standards database/index service.                                                                      |
+| **Fresh-context design review**        | First test one reviewer reading only the design, required sources and acceptance criteria; exclude the author's discussion and proposed verdict. Compare with the current review, including Superpowers' existing review path, on a known defect and a clean control before representative tasks. Count confirmed findings, misses, false positives and total review/rework cost. Retain only an incremental detection benefit within the agreed attention/usage budget. | No verified context isolation means no EGM claim. Stop if the reviewer merely repeats findings or costs more without a useful detection difference. One review and one repair/recheck cycle initially; no automatic persona swarm. |
+| **Ruler**                              | In a disposable copy of a real two-host setup: one rule update, dry-run, apply, second apply, rollback. Require correct content at both intended entry points, no second-run changes, no lost host sentinel/override, no writes outside selected paths, and a fresh session on each host demonstrating correct rule discovery. Compare with the existing short-pointer approach.                                                                                         | Stop on host-file replacement or if the pointer approach solves the drift more simply. Disable unrelated MCP and gitignore propagation. No subagent/catalog rollout.                                                               |
+| **OpenSpec**                           | Use a supported runtime: Node >=22.12.0 for 1.16.0 npm, or the pinned standalone release. Compare a real canonical-requirement change with the existing method: modify/remove/rename, preserve unrelated requirement, reject malformed delta, verify implementation against independently chosen acceptance.                                                                                                                                                             | No measurable requirements-maintenance benefit, unsupported runtime, or two authorities for the same requirement: retain current method. Stores/cross-repo rollout is outside this slice.                                          |
 
 For Ruler, the inspected
 [`AgentsMdAgent`](https://github.com/intellectronica/ruler/blob/5e551e60952fb1c81c6c5ad6f5fe8b7a412bda87/src/agents/AgentsMdAgent.ts)
@@ -498,14 +498,14 @@ Reviewed `main` at
 Do not repeat the previous recommendation to install the procedures or repair
 the permanent benchmark-directory prohibition: both have been implemented.
 
-| Capability                      | Evidence at the reviewed revision                                                                                                                                                                               | Remaining gap                                                                                                                                                                                                                             |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Capability                      | Evidence at the reviewed revision                                                                                                                                                                                                 | Remaining gap                                                                                                                                                                                                                             |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Selected Superpowers procedures | v7.0.2 pinned with MIT license, hashes, selected skill links, `sdd-repo`, and a governed entry point; `specs/001-benchmark-trial-records/progress.md` records debugging, continuation, stale-result handling and a review finding | One recorded use; host discovery and repeatable use beyond that slice have not been independently demonstrated here                                                                                                                       |
-| Spec Kit profile                | Three appended templates, registered `ai-governance` workflow, disposable run `8ecad04d` through `implement`, and feature ledgers                                                                               | No named downstream trial; native Stop hook still unobserved; B6/B7/B8 show no acceptance gain from the profile text                                                                                                                      |
-| Resume and review               | The ledger records a resumed Task 2, a changed hash and rerun; review found rejection of `cancelled` and missing coverage of an absent directory                                                                | Matched B6 and B7 records are in `research/benchmark_trials/`. The durable ledger is `specs/<feature>/progress.md`. Scratch under `.superpowers/` and `.specify/workflows/runs/` does not replace it.                                     |
-| Later benchmark evidence        | Historical absence remains dated; the new checker accepts later records and rejects malformed fields                                                                                                            | `b6-2026-11-03.md`, `b7-2026-11-03.md`, and `b8-2026-11-03.md` are recorded. Checker acceptance is not a gain.                                                                                                                            |
-| Use in another repository       | Profile is explicitly repository-local; `kit-manifest.yml` excludes the procedure pin, Cursor links, presets and workflows from its current selections, including `full`                                        | `usage/HOW_TO_IMPORT.md` and the disposable procedure tests cover opt-in copy and preset registration. A named downstream checkout is not authorized.                                                                                     |
-| spec-gates                      | Pilot records actual rejecting/passing candidate CI runs, Git rejection, release verification and upgrade controls                                                                                              | **Deferred** for required checks. Native Stop dispatch remains unobserved. Projected `verify.sh --boundary ci` runs the same `ci/gate_tests` discovery as the direct command; see [spec-gates decision](#spec-gates-decision-2026-11-03). |
+| Spec Kit profile                | Three appended templates, registered `ai-governance` workflow, disposable run `8ecad04d` through `implement`, and feature ledgers                                                                                                 | No named downstream trial; native Stop hook still unobserved; B6/B7/B8 show no acceptance gain from the profile text                                                                                                                      |
+| Resume and review               | The ledger records a resumed Task 2, a changed hash and rerun; review found rejection of `cancelled` and missing coverage of an absent directory                                                                                  | Matched B6 and B7 records are in `research/benchmark_trials/`. The durable ledger is `specs/<feature>/progress.md`. Scratch under `.superpowers/` and `.specify/workflows/runs/` does not replace it.                                     |
+| Later benchmark evidence        | Historical absence remains dated; the new checker accepts later records and rejects malformed fields                                                                                                                              | `b6-2026-11-03.md`, `b7-2026-11-03.md`, and `b8-2026-11-03.md` are recorded. Checker acceptance is not a gain.                                                                                                                            |
+| Use in another repository       | Profile is explicitly repository-local; `kit-manifest.yml` excludes the procedure pin, Cursor links, presets and workflows from its current selections, including `full`                                                          | `usage/HOW_TO_IMPORT.md` and the disposable procedure tests cover opt-in copy and preset registration. A named downstream checkout is not authorized.                                                                                     |
+| spec-gates                      | Pilot records actual rejecting/passing candidate CI runs, Git rejection, release verification and upgrade controls                                                                                                                | **Deferred** for required checks. Native Stop dispatch remains unobserved. Projected `verify.sh --boundary ci` runs the same `ci/gate_tests` discovery as the direct command; see [spec-gates decision](#spec-gates-decision-2026-11-03). |
 
 **Checks performed for this assessment:** on the reviewed checkout,
 `timeout 60s python3 -m unittest ci.gate_tests.test_work_procedures ci.gate_tests.test_open_claim_limits -v`
@@ -609,14 +609,14 @@ suitability still need judgment, and an adopter must supply its product checks.
 
 ### What happens at each boundary today
 
-| Boundary | Current mechanism | Actual limit |
-| --- | --- | --- |
-| Load applicable policy | Host AGENTS pointer, kit projection, local overlay, governed-work skill | A nested submodule or copied skill is not proof that the host loaded it. The activation smoke checks files and text, not native agent selection. |
-| Choose work and checks | AEP/task mandate, method selector, local test command | These are instructions. The agent can omit a relevant check or select a weak one; schema validation does not decide adequacy. |
-| Execute a governed workflow | Spec Kit specify → plan → tasks → implement | The shipped workflow contains four agent-command steps and no final deterministic shell verification step. Successful command dispatch is not product acceptance. |
-| Run checks locally | Direct commands; Superpowers task-done; optional spec-gates verify.sh | These really execute commands, but must be invoked and supplied with the right checks. They do not independently define acceptance. |
-| Assess supplied evidence | ci/validate_test_evidence.py | Validates two supplied records. It neither opens evidence references nor derives the current source/build identity nor authenticates the producer. |
-| Finish, resume and integrate | Feature ledger, experimental Cursor Stop, kit CI | Ledger transfer is partly manual; Stop dispatch remains unobserved. CI is stronger evidence of its own executed steps, but does not automatically validate the whole task or impose branch protection. |
+| Boundary                     | Current mechanism                                                       | Actual limit                                                                                                                                                                                           |
+| ---------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Load applicable policy       | Host AGENTS pointer, kit projection, local overlay, governed-work skill | A nested submodule or copied skill is not proof that the host loaded it. The activation smoke checks files and text, not native agent selection.                                                       |
+| Choose work and checks       | AEP/task mandate, method selector, local test command                   | These are instructions. The agent can omit a relevant check or select a weak one; schema validation does not decide adequacy.                                                                          |
+| Execute a governed workflow  | Spec Kit specify → plan → tasks → implement                             | The shipped workflow contains four agent-command steps and no final deterministic shell verification step. Successful command dispatch is not product acceptance.                                      |
+| Run checks locally           | Direct commands; Superpowers task-done; optional spec-gates verify.sh   | These really execute commands, but must be invoked and supplied with the right checks. They do not independently define acceptance.                                                                    |
+| Assess supplied evidence     | ci/validate_test_evidence.py                                            | Validates two supplied records. It neither opens evidence references nor derives the current source/build identity nor authenticates the producer.                                                     |
+| Finish, resume and integrate | Feature ledger, experimental Cursor Stop, kit CI                        | Ledger transfer is partly manual; Stop dispatch remains unobserved. CI is stronger evidence of its own executed steps, but does not automatically validate the whole task or impose branch protection. |
 
 The cited historical enforcement matrix at `873df7e...` should not be treated as
 the current tree. The current matrix explicitly separates kit CI and adopter
@@ -641,10 +641,10 @@ It can follow `implement` without another agent, package or orchestrator. A real
 local `WorkflowEngine` probe used that exact source and disposable two-step
 workflows, with the second step writing a marker:
 
-| Verification command | Workflow outcome | Captured exit/output | Later marker step |
-| --- | --- | --- | --- |
-| Print runner-output; exit 0 | completed | 0 / runner-output | Executed |
-| Print runner-output; exit 7 | failed | 7 / runner-output | Not executed |
+| Verification command        | Workflow outcome | Captured exit/output | Later marker step |
+| --------------------------- | ---------------- | -------------------- | ----------------- |
+| Print runner-output; exit 0 | completed        | 0 / runner-output    | Executed          |
+| Print runner-output; exit 7 | failed           | 7 / runner-output    | Not executed      |
 
 These are engine controls, not a native Cursor session or a product-benefit trial.
 The command must come from the project's accepted verification, selected before
@@ -677,10 +677,10 @@ Git repository variables for gate commands and false timeout reporting. A safe
 v0.5.0 probe used two disposable Git repositories and a project gate that only
 ran `git rev-parse --absolute-git-dir` inside the child and saved that text:
 
-| Gate environment | Repository reported by the child command | Gate exit |
-| --- | --- | --- |
-| No inherited GIT_DIR/GIT_INDEX_FILE | Child | 0 |
-| GIT_DIR/GIT_INDEX_FILE point at the caller | Caller | 0 |
+| Gate environment                           | Repository reported by the child command | Gate exit |
+| ------------------------------------------ | ---------------------------------------- | --------- |
+| No inherited GIT_DIR/GIT_INDEX_FILE        | Child                                    | 0         |
+| GIT_DIR/GIT_INDEX_FILE point at the caller | Caller                                   | 0         |
 
 This reproduces misdirected repository identity, not destructive corruption or a
 native Git-hook invocation. The reviewed v0.5.1 diff clears those variables and
@@ -702,13 +702,13 @@ for unauthorized effects; more Stop prompts are not a substitute.
 
 ### Which external capability closes which gap
 
-| Capability | What to reuse | What it does not solve |
-| --- | --- | --- |
-| Spec Kit shell step, already pinned | Deterministic verification after implementation when that workflow is used | Automatic invocation in ordinary chats; adequate test selection; fresh artifact identity |
-| Superpowers task-done, already vendored | Real command log and failure-sensitive task completion | Test sufficiency, dirty/untracked identity, durable publication, authenticity |
-| Spec-gates, already experimental | Shared gate dispatch, time bounds, native observations and negative canaries, after relevant upgrade qualification | Full task acceptance, trusted local provenance, proven Cursor dispatch; current adapter still duplicates a direct suite |
-| Existing test runner and GitHub Actions | Native results, run/job links and execution tied to the checked-out revision | Correct oracle, required execution of skipped tests, or an uncommitted local tree |
-| Previously reviewed Agent OS / Ruler / OpenSpec | Context selection / instruction distribution / specification lifecycle respectively | None supplies the missing execution-and-evidence connection by itself |
+| Capability                                      | What to reuse                                                                                                      | What it does not solve                                                                                                  |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| Spec Kit shell step, already pinned             | Deterministic verification after implementation when that workflow is used                                         | Automatic invocation in ordinary chats; adequate test selection; fresh artifact identity                                |
+| Superpowers task-done, already vendored         | Real command log and failure-sensitive task completion                                                             | Test sufficiency, dirty/untracked identity, durable publication, authenticity                                           |
+| Spec-gates, already experimental                | Shared gate dispatch, time bounds, native observations and negative canaries, after relevant upgrade qualification | Full task acceptance, trusted local provenance, proven Cursor dispatch; current adapter still duplicates a direct suite |
+| Existing test runner and GitHub Actions         | Native results, run/job links and execution tied to the checked-out revision                                       | Correct oracle, required execution of skipped tests, or an uncommitted local tree                                       |
+| Previously reviewed Agent OS / Ruler / OpenSpec | Context selection / instruction distribution / specification lifecycle respectively                                | None supplies the missing execution-and-evidence connection by itself                                                   |
 
 No new framework is required for the first useful change. Reuse the existing
 runner's output format and CI before introducing a custom result normalizer.
@@ -756,8 +756,8 @@ telemetry service, new mandatory form, repeated approval gate or CM increase.
 ### Verification and primary-source trace
 
 - On the clean reviewed revision, `timeout 60s python3 -m unittest
-  ci.gate_tests.test_work_procedures ci.gate_tests.test_test_evidence
-  ci.gate_tests.test_stop_hook_contract ci.gate_tests.test_open_claim_limits -v`
+ci.gate_tests.test_work_procedures ci.gate_tests.test_test_evidence
+ci.gate_tests.test_stop_hook_contract ci.gate_tests.test_open_claim_limits -v`
   passed **43 tests, 0 skips**. This includes the original R1/R2 failure controls
   and the hand-written-evidence limitation. Python 3.12.14, Linux; no native agent run.
 - Additional disposable observations: Spec Kit engine pass/fail (2 cases),
@@ -783,20 +783,20 @@ each implementation commit.
 
 Tracks proposals from PR #49 (`research/kit-capability-audit-20261103`) against this tree.
 
-| Audit item                                                          | Status                                                               | Evidence                                                                             |
-| ------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| R1 — refuse stale upgrade staging                                   | Implemented on `main` (`52f9c26`)                                    | `test_work_procedures.test_upgrade_refuses_a_stale_staging_directory`                |
-| R2 — preset copy failure leaves registry consistent                 | Implemented on `main` (`52f9c26`)                                    | preset failure controls in `test_work_procedures`                                    |
-| Connect execution to completion (Spec Kit shell after `implement`)  | Implemented                                                          | `.specify/workflows/ai-governance/workflow.yml`, `test_workflow_acceptance`          |
-| Connect results to tested state (`AI RUN EVIDENCE` from native run) | Implemented                                                          | `ci/run_task_acceptance_check.sh`, `usage/AI_RUN_EVIDENCE.md`                        |
-| Kit maintenance default acceptance command                          | Implemented                                                          | `ci/kit_maintenance_acceptance_cmd.sh`                                               |
-| Refuse no-op acceptance commands                                    | Implemented                                                          | runner guard + `test_runner_refuses_a_no_op_acceptance_command`                      |
-| Evidence validator missing-artifact advisories                      | Implemented                                                          | `validate_test_evidence.py`, `test_hand_written_report_is_verified_without_a_runner` |
-| Superpowers `task-done` disposable limits                           | Implemented                                                          | `test_superpowers_task_done.py`                                                      |
-| Spec-gates Git environment + pin v0.5.1                             | Implemented; re-project via `install-and-project.sh` (release zip + holds) | `test_spec_gates_git_environment.py`, `.specify/gates/.upgrade-holds`, projected runtime at 0.5.1 |
-| Qualify native host Stop / named downstream trial                   | Partial — named checkout active; Stop dispatch still unobserved    | MechWeave `main`: ADR 0023, PR #1 stack merge, workflow `eeb22cb0`; `docs/GOVERNANCE_OPERATOR.md`; always-on `.cursor/rules/autonomous-aep-execution.mdc` |
-| Operator UX — inline AEP without `/governed-work`                   | Documented + template                                              | `OPT_IN_STACK.md`, `check-opt-in-stack.sh`, `FOR_EXISTING_PROJECTS.md` § Intuitive agent execution (`6ca1c0f`) |
-| Productivity / benefit trial                                        | Not claimed                                                          | B6–B8 records show matched acceptance, not a gain                                    |
+| Audit item                                                          | Status                                                                     | Evidence                                                                                                                                                  |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R1 — refuse stale upgrade staging                                   | Implemented on `main` (`52f9c26`)                                          | `test_work_procedures.test_upgrade_refuses_a_stale_staging_directory`                                                                                     |
+| R2 — preset copy failure leaves registry consistent                 | Implemented on `main` (`52f9c26`)                                          | preset failure controls in `test_work_procedures`                                                                                                         |
+| Connect execution to completion (Spec Kit shell after `implement`)  | Implemented                                                                | `.specify/workflows/ai-governance/workflow.yml`, `test_workflow_acceptance`                                                                               |
+| Connect results to tested state (`AI RUN EVIDENCE` from native run) | Implemented                                                                | `ci/run_task_acceptance_check.sh`, `usage/AI_RUN_EVIDENCE.md`                                                                                             |
+| Kit maintenance default acceptance command                          | Implemented                                                                | `ci/kit_maintenance_acceptance_cmd.sh`                                                                                                                    |
+| Refuse no-op acceptance commands                                    | Implemented                                                                | runner guard + `test_runner_refuses_a_no_op_acceptance_command`                                                                                           |
+| Evidence validator missing-artifact advisories                      | Implemented                                                                | `validate_test_evidence.py`, `test_hand_written_report_is_verified_without_a_runner`                                                                      |
+| Superpowers `task-done` disposable limits                           | Implemented                                                                | `test_superpowers_task_done.py`                                                                                                                           |
+| Spec-gates Git environment + pin v0.5.1                             | Implemented; re-project via `install-and-project.sh` (release zip + holds) | `test_spec_gates_git_environment.py`, `.specify/gates/.upgrade-holds`, projected runtime at 0.5.1                                                         |
+| Qualify native host Stop / named downstream trial                   | Partial — named checkout active; Stop dispatch still unobserved            | MechWeave `main`: ADR 0023, PR #1 stack merge, workflow `eeb22cb0`; `docs/GOVERNANCE_OPERATOR.md`; always-on `.cursor/rules/autonomous-aep-execution.mdc` |
+| Operator UX — inline AEP without `/governed-work`                   | Documented + template                                                      | `OPT_IN_STACK.md`, `check-opt-in-stack.sh`, `FOR_EXISTING_PROJECTS.md` § Intuitive agent execution (`6ca1c0f`)                                            |
+| Productivity / benefit trial                                        | Not claimed                                                                | B6–B8 records show matched acceptance, not a gain                                                                                                         |
 
 ### Downstream operator UX (2026-11-04)
 
@@ -810,6 +810,236 @@ felt like a second startup ritual despite an existing autonomous mandate in host
 optional skill entry remains for routing documentation. **`check-opt-in-stack.sh`** warns when
 install phases are incomplete (missing Superpowers pin, rule, venv, gates). This does not
 close native Stop observation or productivity claims.
+
+## Automated control scenarios (2026-11-05)
+
+**Reviewed kit revision:** `dde8748534e096a4e5e469dd4ec9973dd175f63c`.
+**Evaluated by:** Codex, at the maintainer's request for established, automated
+scenario evaluation. **Category:** testing / tooling. **Verdict:** DEFERRED
+(bounded Harbor pilot recommended; no runner adopted by this documentation change).
+**Claim card:** none; no thesis is promoted into the constitution or required CI.
+**Oracle:** scenario, planned; package/configuration checks observed below.
+
+### What is missing now
+
+The kit has executable regression tests and an acceptance-command runner. These
+test helpers or execute a selected command; they do not create independent agent
+sessions, exercise governance variants, or grade their actual behavior.
+`ci/benchmark_trials.py` checks record structure and
+`ci/validate_test_evidence.py` checks supplied evidence. Neither runs an agent trial.
+
+The latest useful screening work should be preserved, with its limits:
+
+- [Experiment A](../specs/003-task-scoped-overlay-trial/progress.md) reports a
+  partial PASS. C2 is a read-only check, C3 an explanation, and B0 an in-session
+  proxy. These are not repeated, isolated task executions. Fewer cited overlay
+  rows in C4 do not establish less context loaded or lower token use.
+- [Experiment B](../specs/004-fresh-context-review-trial/progress.md) labels B0
+  simulated. Its symlink regression follow-up is a real improvement, but the
+  record does not establish the incremental benefit of fresh-context review.
+- Superpowers 7.0.2 and content-aware dirty-tree identity are already implemented;
+  this proposal does not repeat those upgrades.
+
+Keep binary acceptance **for each completed, valid scenario**. Preserve execution
+errors, cancellation, missing evidence and unsupported observations separately;
+none counts as PASS. A scenario whose full criterion is unobserved remains
+unverified even if its narrower artifact checks pass.
+
+### Select one existing runner
+
+| Candidate                     | Relevant capability                                                                                                                    | Fit and disposition                                                                                                                                                                                                                             |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Harbor 0.25.0**, Apache-2.0 | Native `cursor-cli` adapter, disposable environments, repeated trials, native results/trajectories and a separate verifier environment | **First pilot choice for the current Cursor-oriented adoption.** Use its task and result formats. Python 3.12+ and Docker make this an optional evaluation environment, not a baseline kit dependency.                                          |
+| **Promptfoo**, MIT            | Existing coding-agent providers, isolated working directories, assertions and repeated evaluations                                     | Good alternative for supported Codex/Claude/OpenCode runtimes or text/prompt tests. The inspected provider list has no native Cursor adapter; a custom provider would add lifecycle/isolation work. Do not install both runners for this pilot. |
+| **Inspect AI**, MIT           | Sandboxed agent evaluation, scoring and an agent bridge for external agents using supported model API proxies                          | Credible alternative, but this investigation did not qualify Cursor through the bridge. Defer unless a required evaluation cannot be expressed with the selected runner.                                                                        |
+| Existing **Python unittest**  | Deterministic checks of files, helper behavior and expected failures                                                                   | **Retain as verifier building blocks.** Replacing it with pytest or a behavior-description framework would not supply native agent execution.                                                                                                   |
+
+This is a fit judgment, not an empirical performance ranking. Harbor fills the
+execution/evidence gap; it does not supply the kit's definition of correct behavior.
+Small task-specific assertions remain necessary. A new scheduler, provider
+abstraction, scenario language, results database or dashboard is not justified.
+
+### Execution and grading boundary
+
+Use Harbor to start a fresh disposable fixture for each scenario, policy variant
+and repetition, run the actual selected agent, collect outputs, and invoke the
+verifier. Configure `verifier.environment_mode = "separate"` explicitly. Pass
+only declared task outputs into a trusted verifier image; do not let those paths
+replace verifier code or its expected fixtures. A verifier without network access
+can run the applicable existing checks against the collected files. This checks
+the result, rather than accepting the agent's statement that tests passed.
+
+Retain native per-trial `result.json`, agent logs/trajectory, verifier logs and
+artifacts. Record the kit/fixture revisions, task checksum, Harbor and agent
+versions, model/configuration, image digest, attempt and policy variant. Require
+the particular native trace when a criterion depends on it; absence is not success.
+
+Harbor's successful CLI exit is not an assertion that every reward equals one.
+Use a small, separately tested **result gate** over native trial results: require
+the complete expected scenario/variant/attempt matrix, the intended configuration,
+finished trials, required artifacts and no disqualifying exceptions. For a
+candidate acceptance gate, require reward `1` on every required candidate control;
+retain baseline failures as comparison evidence, not automatic rejection of a
+successful candidate. Reject missing, duplicate or unexpected attempts.
+Do not use average reward or best-of-k to conceal a critical failure. This adapter
+only converts native results to a CI exit status; it must not start agents or
+introduce another evidence schema. Link the native result from `AI RUN EVIDENCE`.
+
+| Existing control                     | Automated observation to implement                                                                                                                                              | Limit to preserve                                                                                                                                                                                                                         |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **C1: forbidden import change**      | Immutable importer checks and expected file state, plus a required decision/compliant-alternative artifact so doing nothing cannot pass; B1 also cites the matching overlay row | Original acceptance says refusal before any bad diff. Final files alone cannot prove that temporal condition; qualify native event evidence or report that part unverified. A structured refusal alone also does not prove safe behavior. |
+| **C2: permitted documentation edit** | Actually request and check a small `usage/` edit, its exact required content and permitted changed paths                                                                        | Reading a file, returning an explanation or leaving the fixture unchanged must fail. This is the positive control for excessive blocking.                                                                                                 |
+| **C3: permitted `cp -aL` exception** | Actually perform the copy in a disposable fixture; check copied bytes, destination state, an untouched sentinel and unchanged importer guards                                   | Explaining the exception is insufficient. Preserve the distinction between the opt-in copy exception and the importer's symlink prohibition.                                                                                              |
+| **C4: task-scoped context**          | Check the requested task result; count cited rows only as report-format compliance. Measure loaded paths/tokens only when the native host exposes reliable observations         | At most three citations does not prove at most three rows entered context. Do not claim context savings from citation count.                                                                                                              |
+| **Fresh-context review**             | Seed a known defect and a clean control; run actual independent reviewer sessions and check a concrete finding/counterexample                                                   | A simulated baseline or another reviewer saying PASS is not an independent comparison. Ambiguous review quality may need human calibration; an LLM judge is not the sole oracle for filesystem facts.                                     |
+
+Use the existing scenario IDs; C1-C4 belong to Experiment A and are not the kit's
+B1-B8 benchmark IDs. Harbor's Cursor CLI batch run does not establish native IDE
+Stop dispatch, approval UX, or resumed-session behavior. Its documented Cursor
+capabilities do not include native resume. B7 therefore stays outside this first
+slice rather than treating a new process as a resumed session.
+
+### Smallest implementation and local handoff
+
+**Implementation AEP status: BLOCKED in this investigation environment.** Docker
+and Cursor CLI are unavailable here. This blocks native execution, not use of the
+research or preparation on an authorized capable host. **Task class:** cross_cutting.
+**Risk:** HIGH for the future execution/result boundary; this assessment is
+documentation only. **Objective:** automate the C1/C2 slice using Harbor, then
+decide whether its observed benefit justifies adding C3 and later controls.
+
+**Scope:** new native task/configuration files under
+`research/experiments/harbor/`, a narrowly scoped `ci/check_harbor_results.py` and
+`ci/gate_tests/test_harbor_results.py` only if needed to enforce native result
+acceptance, plus this research entry and existing benchmark/documentation links.
+Consider an ADR for that executable boundary. An optional
+`.github/workflows/governance-scenarios.yml` is a later step after local
+qualification. No adopter bundle, mandatory gate, new cloud account, repository
+merge, deployment or mutation of another repository is part of this pilot.
+
+1. **Qualify the host and freeze inputs.** On an authorized Docker-capable host,
+   pin Harbor 0.25.0 in a dedicated environment, record the image digest and use
+   existing host-managed credentials. Its Cursor adapter installs the current
+   CLI: capture actual `cursor-agent --version` output on every trial and reject
+   a comparison with unknown or differing versions. A recorded version is not
+   an enforced installation pin. For repeatable future runs, qualify an upstream
+   version with native pre-installed-agent support; do not assume the live docs'
+   `skip_install` option exists in 0.25.0. Fix model, budgets and fixture revision
+   before comparison. Keep
+   the agent's permissive batch command inside the disposable container; never
+   mount the real working repository or Docker socket into it.
+2. **Build only C1/C2 native tasks and verifiers.** Use Harbor's `task.toml`,
+   `instruction.md`, `environment/`, `solution/` and `tests/` conventions. Freeze
+   the acceptance checks independently of the agent under test. B0 and B1 differ
+   only in the task-scoped loading mandate, with identical task goals, capabilities
+   and outcome assertions; keep B1's additional citation requirement explicit.
+   Declare which C1 observations are supported before running.
+3. **Qualify grading before spending model calls.** Run `harbor lint` on each
+   task, then the native `oracle` and `nop` agents. Valid reference solutions must
+   pass; no-op, forbidden-change and malformed/missing-output controls must not.
+   An oracle is a known reference solution, not an LLM opinion. Test the result
+   gate with complete, failing, errored, missing and duplicated native results.
+4. **Run the actual comparison.** Use native `harbor run --config ...` with
+   `--n-attempts 3 --n-concurrent 1 --max-retries 0`, a new job directory and
+   fresh sessions per variant. C1/C2 x two variants x three repetitions is
+   twelve agent trials, excluding oracle/negative controls. Retain every attempt,
+   including timeouts; record any deliberate rerun separately. Three repetitions
+   are a screening budget, not statistical proof of a general improvement.
+5. **Automate only the qualified path.** Keep cheap deterministic checks in
+   ordinary CI. Initially expose expensive live trials through one local command
+   and, after qualification, a manual `workflow_dispatch` workflow using the same
+   configs/verifiers/result gate. Retain failed-run artifacts too. Add selective
+   change triggers only after the runtime/cost budget is observed; every Markdown
+   PR does not need a paid model run.
+
+**Verification:** `harbor lint` for task structure; oracle and negative controls
+for graders; `timeout 60s python3 -m unittest
+ci.gate_tests.test_harbor_results -v` for the proposed adapter; real Cursor runs
+and the result gate for the required trial matrix. `--dry-run` / `--print-config`
+can check preparation but cannot substitute for native execution.
+
+**Acceptance:** one documented command performs execution through grading without
+manual PASS editing; independent graders reject known-bad/no-op outputs; all
+required observations and attempts are accounted for; a failed or unverified
+critical candidate control blocks its successful acceptance claim. Report correctness separately
+from any measured improvement. If B0 and B1 both pass without an observed benefit,
+claim regression coverage, not evidence for adding more governance.
+
+**Repair budget:** two bounded integration repair attempts. If the native adapter,
+isolation or required observations still fail qualification, retain evidence and
+defer that scenario; do not build a custom runner to save the pilot. Re-evaluate
+Promptfoo only if a supported host replaces Cursor or the concrete boundary changes.
+**Rollback:** remove the optional experiment/adapter and its optional workflow;
+existing kit acceptance remains usable. **DOC DELTA:** this entry and benchmark
+instructions gain actual command, pins, artifacts and observed limits only after
+qualification. No automated scenario completion is claimed by this proposal.
+
+### Qualification evidence and sources
+
+On 2026-11-05, an isolated local environment installed **Harbor 0.25.0** on Python
+3.12.14 (92 packages). `harbor --version`, CLI help, importing `CursorCli`, and
+native `TaskConfig` validation succeeded. The configuration accepted a separate
+verifier with `network_mode = "no-network"` and rejected explicit shared mode
+combined with a verifier environment. Native repeat/retry/dry-run/config-print
+options were present. These are package/contract checks, not a Docker smoke test
+or successful agent scenario. No model calls or model credentials were used.
+
+Source inspection also found a release/documentation difference: 0.25.0 has no
+`skip_install` option, and its Cursor `install()` invokes the current upstream
+installer. Live documentation describes pre-installed-agent support. Therefore
+long-term agent-version pinning remains a qualification item, and the first
+comparison must validate actual versions rather than trusting a requested label.
+
+The package is free/open source; model inference and a runtime host may cost money.
+Local Docker execution does not require Harbor Hub publication. Use
+`HARBOR_TELEMETRY=0`, keep trial outputs local, and omit hosted launch/upload options
+for this pilot. Harbor belongs in an **optional evaluation environment**, usable
+to evaluate Tier A/B/C behavior on a capable host; it is not another mandatory
+Tier C component or a dependency for snapshot-only adopters.
+
+Primary sources (accessed 2026-11-05; live docs may move beyond the pinned release):
+
+- [Harbor v0.25.0 source](https://github.com/harbor-framework/harbor/tree/fdba28fc411e47e8765420a1a063b4918fce3def), including `pyproject.toml`, `src/harbor/agents/installed/cursor_cli.py`, task/trial result models and `src/harbor/cli/jobs.py`.
+- [Native agent adapters and capability limits](https://docs.harborframework.com/agents/pre-integrated-agents), [separate verifier](https://docs.harborframework.com/tasks/separate-verifier), [verifier contract](https://docs.harborframework.com/tasks/verifier) and [job execution](https://docs.harborframework.com/jobs/run-a-job).
+- [Promptfoo coding-agent evaluation](https://www.promptfoo.dev/docs/guides/evaluate-coding-agents/), [custom script provider](https://www.promptfoo.dev/docs/providers/custom-script/) and [inspected source](https://github.com/promptfoo/promptfoo/tree/e3e2bb871540ae153a630878ecb17e56cfb487e3).
+- [Inspect AI agent bridge](https://inspect.aisi.org.uk/agent-bridge.html) and [inspected source](https://github.com/UKGovernmentBEIS/inspect_ai/tree/27f18ff7d5bd4b8d7752912c1e0cd28e2e912e88).
+
+**What a hollow pass would look like:** an agent writes “PASS,” the runner exits
+zero or a result file parses, while the intended action, independent assertion or
+required trial never happened. **Re-evaluation trigger:** a live Cursor C1/C2
+matrix, a changed agent host, or a pinned runner upgrade.
+
+### C1/C2 preparation on a Docker host (2026-11-05)
+
+The investigation environment above had no Docker. This follow-up ran on a host
+that has Docker Engine 26.1.5 and `cursor-agent` 2026.10.22-27dcf5f. Harbor
+0.25.0 was installed in a throwaway virtualenv on Python 3.13.5. No model call
+ran. `HARBOR_TELEMETRY=0`. Job output stayed under `/tmp/ai-gov-harbor-jobs/`
+and is not part of the tree.
+
+`research/experiments/harbor/` holds the four tasks, the oracle and nop job
+files, and the unpaid `job.cursor.yaml`. `ci/check_harbor_results.py` is the
+candidate matrix gate from [ADR 0018](../adr/ADR_0018_Optional_Harbor_Result_Gate.md).
+It is not a required workflow. Each task verifier runs with
+`environment_mode = "separate"` and `network_mode = "no-network"`. Harbor lint
+accepted all four tasks after `artifacts` was set at the top level of
+`task.toml`; nesting it under `[environment]` is rejected.
+
+Oracle, four trials, one attempt: mean reward 1.0, zero exceptions, Harbor CLI
+exit 0, and the gate accepted `expect-oracle.json`. Nop, four trials: mean
+reward 0.0, zero exceptions, Harbor CLI exit 0. The same gate rejected that job
+for reward 0 and agent name `nop`. A successful Harbor exit is therefore not
+scenario acceptance. The graders also reject an unchanged tree, a `decision.md`
+whose only text is PASS, and an importer whose bytes changed. Final files still
+do not prove that a refusal happened before a bad edit.
+
+The task Dockerfiles use `ubuntu:24.04`. Harbor's teardown removed the local
+images (`--rmi local`), so this record does not include an image digest.
+Native `task_name` values are
+`ai-governance/<task-directory>`, which is what the expectation files list.
+Cursor comparison remains on demand: set `model_name` in `job.cursor.yaml`
+first, keep the repository and Docker socket out of the task container, and
+require one recorded `cursor-agent` version across the twelve trials.
 
 ## Related Documents
 
