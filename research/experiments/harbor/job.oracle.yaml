@@ -1,0 +1,9 @@
+job_name: c1-c2-oracle
+n_attempts: 1
+n_concurrent_trials: 1
+retry:
+  max_retries: 0
+datasets:
+  - path: research/experiments/harbor/tasks
+agents:
+  - name: oracle

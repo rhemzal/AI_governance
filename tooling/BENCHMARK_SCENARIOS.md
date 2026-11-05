@@ -68,7 +68,9 @@ Binary acceptance applies to completed, valid scenarios. Missing runs, errors an
 unobserved criteria are not PASS. A valid record, an agent-authored completion
 statement or a successful runner exit alone does not prove scenario acceptance.
 Native Cursor CLI execution also does not establish IDE Stop or resume behavior.
-No live runner or additional adopter requirement is activated by this proposal.
+Maintainer tasks and the optional result gate live under
+[`research/experiments/harbor/`](../research/experiments/harbor/README.md).
+Required CI does not run Harbor, and no additional adopter requirement is activated.
 
 ## Related Documents
 

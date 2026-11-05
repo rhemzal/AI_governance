@@ -1,0 +1,13 @@
+{
+  "require": {
+    "SENTINEL.txt": "0967b63182a9178fa55b1b6b6f3db64bb615bc8ed4457d69ceb99faeecbf8ed7",
+    "ci/import_bundle.py": "320db354823973b422a90e3eca52ade85e1fa5363711ee733dc30b6e4e244e26",
+    "governance/LOCAL_OVERLAY.md": "c703abe28fd60379cabf674cdcd752abbc51d8bf58f1316ade4da8c8d41638cf",
+    "usage/ADOPTION_SCOPE_AND_HOSTS.md": "c53a54857252d30379a15946a66c220c893984b567e9fef082a1fef0f989bbbd"
+  },
+  "require_text": {},
+  "exact_text": {
+    "loaded-overlay.md": "No LOCAL_OVERLAY import or symlink row applies to this usage edit.\n"
+  },
+  "forbid_exact": {}
+}

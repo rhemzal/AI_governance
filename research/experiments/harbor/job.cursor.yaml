@@ -1,0 +1,10 @@
+# Paid maintainer comparison. Set model_name before use. Do not add mounts.
+job_name: c1-c2-cursor
+n_attempts: 3
+n_concurrent_trials: 1
+retry:
+  max_retries: 0
+datasets:
+  - path: research/experiments/harbor/tasks
+agents:
+  - name: cursor-cli
