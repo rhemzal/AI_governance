@@ -63,6 +63,39 @@ running it. Do not mount the repository or the Docker socket into the task
 container. Record `cursor-agent --version` from the trial; Harbor 0.25.0
 installs the current Cursor CLI and has no `skip_install` switch.
 
+**Cost pilot (one trial):** `job.cursor-mini.yaml` runs `c2-permitted-doc` once
+with `model_name: composer-2.5`. Export `CURSOR_API_KEY`, then:
+
+```bash
+harbor run --config research/experiments/harbor/job.cursor-mini.yaml
+python3 ci/check_harbor_results.py \
+  --job jobs/c1-c4-cursor-mini \
+  --expected research/experiments/harbor/expect-candidate-mini.json
+```
+
+Compare reported usage in the job trial trajectory or the Cursor dashboard before
+running the full `expect-candidate.json` matrix.
+
+When a full matrix has a few failed attempts, rerun them with
+`job.cursor-retry.yaml` (or a custom subset), then merge into one job directory
+for the gate:
+
+```bash
+python3 research/experiments/harbor/merge_harbor_jobs.py \
+  --base jobs/c1-c4-cursor \
+  --overlay jobs/c1-c4-cursor-retry \
+  --output jobs/c1-c4-cursor-merged \
+  --drop <failed-trial-dir> ... \
+  --add <retry-trial-dir> ...
+python3 ci/check_harbor_results.py \
+  --job jobs/c1-c4-cursor-merged \
+  --expected research/experiments/harbor/expect-candidate.json
+```
+
+Recorded replacement lists live in `merge-c1-c4-cursor.json`. The merged job
+includes `merge-provenance.json`; the gate still reads only trial `result.json`
+files (ADR 0018).
+
 Rebuild the task trees with `build_tasks.py` after changing the fixture or
 `grader/check.py`. The committed `tasks/` directory must match that script.
 
