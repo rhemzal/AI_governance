@@ -1,4 +1,4 @@
-job_name: c1-c2-nop
+job_name: c1-c4-nop
 n_attempts: 1
 n_concurrent_trials: 1
 retry:

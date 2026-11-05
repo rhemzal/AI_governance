@@ -1,0 +1,27 @@
+{
+  "require": {
+    "SENTINEL.txt": "0967b63182a9178fa55b1b6b6f3db64bb615bc8ed4457d69ceb99faeecbf8ed7",
+    "ci/import_bundle.py": "320db354823973b422a90e3eca52ade85e1fa5363711ee733dc30b6e4e244e26",
+    "governance/LOCAL_OVERLAY.md": "c703abe28fd60379cabf674cdcd752abbc51d8bf58f1316ade4da8c8d41638cf",
+    "usage/ADOPTION_SCOPE_AND_HOSTS.md": "5972621a8a755cb365f02cc461b80806c14c6ea255a89eeab1cfc8c57bae7de9",
+    "opt-in/pin-src/CONTENT.txt": "23a86fc0efaceface64567c1fa7a8dcbcdd1348ed8a99f735ffb2a1d8425bcc9",
+    "opt-in/copy/CONTENT.txt": "23a86fc0efaceface64567c1fa7a8dcbcdd1348ed8a99f735ffb2a1d8425bcc9"
+  },
+  "require_text": {
+    "copy-report.md": [
+      "cp -aL",
+      "LOCAL_OVERLAY",
+      "opt-in",
+      "LOCAL_OVERLAY: opt-in copy may use cp -aL outside the bundle importer."
+    ]
+  },
+  "exact_text": {},
+  "forbid_exact": {
+    "decision.md": [
+      "pass"
+    ]
+  },
+  "allow_symlink_paths": [
+    "opt-in/pin"
+  ]
+}

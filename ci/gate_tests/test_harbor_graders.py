@@ -18,7 +18,15 @@ SPEC.loader.exec_module(GRADE)
 
 
 def _copy_fixture(task, destination):
-    shutil.copytree(task / "environment" / "fixture", destination)
+    shutil.copytree(
+        task / "environment" / "fixture",
+        destination,
+        symlinks=True,
+    )
+    pin = destination / "opt-in" / "pin"
+    pin_src = destination / "opt-in" / "pin-src"
+    if pin_src.is_dir() and not pin.exists():
+        pin.symlink_to("pin-src", target_is_directory=True)
 
 
 def _manifest(task):
@@ -124,6 +132,56 @@ class HarborGraders(unittest.TestCase):
             note = root / "loaded-overlay.md"
             note.write_text(note.read_text(encoding="utf-8") + "blocked by import\n", encoding="utf-8")
             self.assertTrue(GRADE.grade(root, manifest))
+
+    def test_c3_requires_materialized_copy_and_report(self):
+        task = HARBOR / "tasks" / "c3-opt-in-copy"
+        manifest = _manifest(task)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "app"
+            _copy_fixture(task, root)
+            missing_copy = GRADE.grade(root, manifest)
+            self.assertTrue(missing_copy)
+            (root / "copy-report.md").write_text(
+                "Used cp -aL per LOCAL_OVERLAY opt-in exception.\n", encoding="utf-8"
+            )
+            report_only = GRADE.grade(root, manifest)
+            self.assertTrue(report_only)
+            _oracle(task, root)
+            self.assertEqual(GRADE.grade(root, manifest), [])
+
+    def test_c3_b1_requires_overlay_line_in_report(self):
+        task = HARBOR / "tasks" / "c3-opt-in-copy-b1"
+        manifest = _manifest(task)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "app"
+            _copy_fixture(task, root)
+            _oracle(HARBOR / "tasks" / "c3-opt-in-copy", root)
+            self.assertTrue(GRADE.grade(root, manifest))
+            _oracle(task, root)
+            self.assertEqual(GRADE.grade(root, manifest), [])
+
+    def test_c4_requires_changelog_bullet(self):
+        task = HARBOR / "tasks" / "c4-changelog-scope"
+        manifest = _manifest(task)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "app"
+            _copy_fixture(task, root)
+            unchanged = GRADE.grade(root, manifest)
+            self.assertTrue(any(reason.startswith("HASH:") for reason in unchanged))
+            _oracle(task, root)
+            self.assertEqual(GRADE.grade(root, manifest), [])
+
+    def test_c4_b1_note_is_exact(self):
+        task = HARBOR / "tasks" / "c4-changelog-scope-b1"
+        manifest = _manifest(task)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "app"
+            _copy_fixture(task, root)
+            _oracle(HARBOR / "tasks" / "c4-changelog-scope", root)
+            missing = GRADE.grade(root, manifest)
+            self.assertTrue(any("loaded-overlay.md" in reason for reason in missing))
+            _oracle(task, root)
+            self.assertEqual(GRADE.grade(root, manifest), [])
 
 
 if __name__ == "__main__":

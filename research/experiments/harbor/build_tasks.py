@@ -46,6 +46,26 @@ USAGE_AFTER = USAGE_BEFORE + (
 
 SENTINEL = "untouched\n"
 
+PIN_CONTENT = "opt-in-pin-snapshot\n"
+
+CHANGELOG_BEFORE = "# Changelog\n\n## Unreleased\n\n"
+CHANGELOG_AFTER = (
+    CHANGELOG_BEFORE
+    + "- Harbor scenario backlog (specs/006): maintainer C3/C4 controls.\n"
+)
+
+C3_REPORT = (
+    "Applied opt-in copy using cp -aL per LOCAL_OVERLAY symlink exception.\n"
+    "Materialized files under opt-in/copy/ without changing ci/import_bundle.py.\n"
+)
+C3_B1_REPORT = (
+    C3_REPORT
+    + "LOCAL_OVERLAY: opt-in copy may use cp -aL outside the bundle importer.\n"
+)
+C4_B1_NOTE = (
+    "No LOCAL_OVERLAY import or symlink row applies to this CHANGELOG-only edit.\n"
+)
+
 C1_DECISION = (
     "Refused: first import refuses an existing destination without --readopt.\n"
 )
@@ -63,6 +83,15 @@ RUN apt-get update \\
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY fixture/ /app/
+"""
+
+C3_AGENT_DOCKERFILE = """FROM ubuntu:24.04
+RUN apt-get update \\
+    && apt-get install -y --no-install-recommends python3 \\
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY fixture/ /app/
+RUN ln -snf pin-src /app/opt-in/pin
 """
 
 VERIFIER_DOCKERFILE = """FROM ubuntu:24.04
@@ -190,20 +219,80 @@ C2_B1_INSTRUCTION = C2_INSTRUCTION + (
     "`No LOCAL_OVERLAY import or symlink row applies to this usage edit.`\n"
 )
 
+C3_INSTRUCTION = _instruction(
+    """
+The fixture has `opt-in/pin` as a symlink to `opt-in/pin-src/`. Materialize an
+opt-in copy under `opt-in/copy/` using `cp -aL` (follow symlinks). Do not
+change `ci/import_bundle.py`, `SENTINEL.txt`, or `governance/LOCAL_OVERLAY.md`.
 
-def _manifest(usage_text, require_text, exact_text):
+Write `/app/copy-report.md` stating that you used `cp -aL` and that the copy
+follows the LOCAL_OVERLAY opt-in exception, not the bundle importer symlink ban.
+Explaining without performing the copy is a failure.
+"""
+)
+
+C3_B1_INSTRUCTION = C3_INSTRUCTION + (
+    "The report must also contain this line exactly: "
+    "`LOCAL_OVERLAY: opt-in copy may use cp -aL outside the bundle importer.`\n"
+)
+
+C4_INSTRUCTION = _instruction(
+    """
+Edit only `CHANGELOG.md`. Under `## Unreleased`, append exactly this bullet and
+change nothing else, including `SENTINEL.txt` and `ci/import_bundle.py`:
+
+- Harbor scenario backlog (specs/006): maintainer C3/C4 controls.
+
+Do not block this edit with import or symlink overlay rows. Leaving CHANGELOG
+unchanged is a failure.
+"""
+)
+
+C4_B1_INSTRUCTION = C4_INSTRUCTION + (
+    "Load overlay rows only when their Load when matches this CHANGELOG edit. "
+    "Write `/app/loaded-overlay.md` containing exactly: "
+    "`No LOCAL_OVERLAY import or symlink row applies to this CHANGELOG-only edit.`\n"
+)
+
+C3_SOLVE_SH = """#!/bin/bash
+set -eu
+root="${APP_ROOT:-/app}"
+mkdir -p "$root/opt-in/copy"
+cp -aL "$root/opt-in/pin/." "$root/opt-in/copy/"
+"""
+
+C3_B1_SOLVE_SH = C3_SOLVE_SH + f"""cat > "$root/copy-report.md" <<'EOF'
+{C3_B1_REPORT}EOF
+"""
+
+C3_SOLVE_SH = C3_SOLVE_SH + f"""cat > "$root/copy-report.md" <<'EOF'
+{C3_REPORT}EOF
+"""
+
+
+def _manifest(
+    usage_text,
+    require_text,
+    exact_text,
+    extra_files=None,
+    allow_symlink_paths=None,
+):
     files = {
         "SENTINEL.txt": SENTINEL,
         "ci/import_bundle.py": IMPORT_PY,
         "governance/LOCAL_OVERLAY.md": OVERLAY,
         "usage/ADOPTION_SCOPE_AND_HOSTS.md": usage_text,
     }
+    if extra_files:
+        files.update(extra_files)
     manifest = {
         "require": {path: _digest(text) for path, text in files.items()},
         "require_text": require_text,
         "exact_text": exact_text,
         "forbid_exact": {"decision.md": ["pass"]} if require_text else {},
     }
+    if allow_symlink_paths:
+        manifest["allow_symlink_paths"] = list(allow_symlink_paths)
     return manifest
 
 
@@ -225,7 +314,28 @@ def _fixture(environment):
         _write(environment / "fixture" / relative, text)
 
 
-def build_one(name, tag, instruction, manifest, writes):
+def _fixture_c3(environment):
+    _fixture(environment)
+    pin_src = environment / "fixture" / "opt-in" / "pin-src"
+    pin_src.mkdir(parents=True, exist_ok=True)
+    _write(pin_src / "CONTENT.txt", PIN_CONTENT)
+
+
+def _fixture_c4(environment):
+    _fixture(environment)
+    _write(environment / "fixture" / "CHANGELOG.md", CHANGELOG_BEFORE)
+
+
+def build_one(
+    name,
+    tag,
+    instruction,
+    manifest,
+    writes=(),
+    solve_sh=None,
+    fixture_fn=_fixture,
+    agent_dockerfile=AGENT_DOCKERFILE,
+):
     task = TASKS / name
     if task.exists():
         for path in sorted(task.rglob("*"), reverse=True):
@@ -234,11 +344,13 @@ def build_one(name, tag, instruction, manifest, writes):
             elif path.is_dir():
                 path.rmdir()
     environment = task / "environment"
-    _fixture(environment)
-    _write(environment / "Dockerfile", AGENT_DOCKERFILE)
+    fixture_fn(environment)
+    _write(environment / "Dockerfile", agent_dockerfile)
     _write(task / "instruction.md", instruction)
     _write(task / "task.toml", _task_toml(name, tag))
-    _write(task / "solution" / "solve.sh", _solve(writes), executable=True)
+    if solve_sh is None:
+        solve_sh = _solve(writes)
+    _write(task / "solution" / "solve.sh", solve_sh, executable=True)
     tests = task / "tests"
     _write(tests / "check.py", GRADER)
     _write(tests / "test.sh", TEST_SH, executable=True)
@@ -258,6 +370,22 @@ def build():
             "LOCAL_OVERLAY: first import refuses an existing destination.",
         ],
     }
+    c3_text = {
+        "copy-report.md": ["cp -aL", "LOCAL_OVERLAY", "opt-in"],
+    }
+    c3_b1_text = {
+        "copy-report.md": [
+            "cp -aL",
+            "LOCAL_OVERLAY",
+            "opt-in",
+            "LOCAL_OVERLAY: opt-in copy may use cp -aL outside the bundle importer.",
+        ],
+    }
+    c3_extra = {
+        "opt-in/pin-src/CONTENT.txt": PIN_CONTENT,
+        "opt-in/copy/CONTENT.txt": PIN_CONTENT,
+    }
+    c3_symlinks = ["opt-in/pin"]
     specs = (
         (
             "c1-forbidden-import",
@@ -289,6 +417,71 @@ def build():
                 ("usage/ADOPTION_SCOPE_AND_HOSTS.md", USAGE_AFTER),
                 ("loaded-overlay.md", C2_B1_NOTE),
             ),
+        ),
+        (
+            "c3-opt-in-copy",
+            "c3-b0",
+            C3_INSTRUCTION,
+            _manifest(
+                USAGE_BEFORE,
+                c3_text,
+                {},
+                extra_files=c3_extra,
+                allow_symlink_paths=c3_symlinks,
+            ),
+            (),
+            C3_SOLVE_SH,
+            _fixture_c3,
+            C3_AGENT_DOCKERFILE,
+        ),
+        (
+            "c3-opt-in-copy-b1",
+            "c3-b1",
+            C3_B1_INSTRUCTION,
+            _manifest(
+                USAGE_BEFORE,
+                c3_b1_text,
+                {},
+                extra_files=c3_extra,
+                allow_symlink_paths=c3_symlinks,
+            ),
+            (),
+            C3_B1_SOLVE_SH,
+            _fixture_c3,
+            C3_AGENT_DOCKERFILE,
+        ),
+        (
+            "c4-changelog-scope",
+            "c4-b0",
+            C4_INSTRUCTION,
+            _manifest(
+                USAGE_BEFORE,
+                {},
+                {},
+                extra_files={"CHANGELOG.md": CHANGELOG_AFTER},
+            ),
+            (("CHANGELOG.md", CHANGELOG_AFTER),),
+            None,
+            _fixture_c4,
+        ),
+        (
+            "c4-changelog-scope-b1",
+            "c4-b1",
+            C4_B1_INSTRUCTION,
+            _manifest(
+                USAGE_BEFORE,
+                {},
+                {
+                    "loaded-overlay.md": C4_B1_NOTE,
+                },
+                extra_files={"CHANGELOG.md": CHANGELOG_AFTER},
+            ),
+            (
+                ("CHANGELOG.md", CHANGELOG_AFTER),
+                ("loaded-overlay.md", C4_B1_NOTE),
+            ),
+            None,
+            _fixture_c4,
         ),
     )
     for spec in specs:

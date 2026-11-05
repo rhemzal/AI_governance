@@ -17,11 +17,16 @@ def _digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _relative_files(root):
+def _relative_files(root, allow_symlink_paths=()):
+    allow_symlink = set(allow_symlink_paths)
     files = {}
     for path in sorted(root.rglob("*")):
         relative = path.relative_to(root).as_posix()
-        if path.is_symlink() or relative.startswith("../") or "/../" in f"/{relative}/":
+        if path.is_symlink():
+            if relative in allow_symlink:
+                continue
+            return None, f"LINK: {relative}"
+        if relative.startswith("../") or "/../" in f"/{relative}/":
             return None, f"LINK: {relative}"
         if path.is_dir():
             continue
@@ -37,7 +42,8 @@ def grade(root, manifest):
     reasons = []
     if not root.is_dir():
         return [f"MISSING: {root}"]
-    files, error = _relative_files(root)
+    allow_symlink_paths = manifest.get("allow_symlink_paths", [])
+    files, error = _relative_files(root, allow_symlink_paths)
     if error:
         return [error]
 
