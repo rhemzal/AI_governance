@@ -20,7 +20,7 @@ Normative detail stays in `usage/HOW_TO_IMPORT.md`, `governance/experimental/spe
 
 1. **Prerequisites on the host:** `git`, `python3`, `jq`, `sha256sum`, `curl`, [uv](https://docs.astral.sh/uv/), **mikefarah yq** in `~/.local/bin`, `export PATH="$HOME/.local/bin:$PATH"`.
 2. **Kit checkout:** `KIT_SOURCE` = clean `AI_governance` at `KIT_REVISION`; `git -C "$KIT_SOURCE" diff --exit-code HEAD --`.
-3. **Snapshot:** If no `vendor/AI_governance/` → first import (`import_bundle.py` `--bundle standard --bundle research` to `vendor/AI_governance`, then `--check`). If legacy root `constitution/` or old submodule → `--readopt --previous <old-sha>` to project root, review `vendor/AI_governance.readopt-report.md`, switch `.next` → active. If snapshot exists and pin bumps → readopt + `--switch-snapshot` via installer or manual switch.
+3. **Snapshot:** If no `vendor/AI_governance/`, run the installer with no mode flag. It performs the first import (`standard` + `research` by default), checks the copy, and copies the Superpowers pin. If a snapshot exists and the pin bumps → readopt + `--switch-snapshot`. Do not delete `vendor/AI_governance` to retry; the importer refuses an existing destination.
 4. **Choose `ADOPTER_VERIFY_COMMAND`** (shell, real project check). Write it in `governance/LOCAL_OVERLAY.md` before stack install.
 5. **Host entry:** merge `usage/templates/AGENTS_GOVERNANCE_OPT_IN_BLOCK.md` into host `AGENTS.md` (do not replace file). Ensure `.cursor/rules/autonomous-aep-execution.mdc` exists (installer copies template if missing).
 6. **Stack install:**
@@ -58,7 +58,7 @@ Normative detail stays in `usage/HOW_TO_IMPORT.md`, `governance/experimental/spe
 | Phase               | You get                                        | Common mistake                                                    |
 | ------------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
 | A — Bundle import   | `vendor/AI_governance/`                        | Importing only submodule or root `constitution/` without snapshot |
-| B — Superpowers pin | `vendor/superpowers/v7.0.2/`                   | Expecting stack installer to copy pin (it does **not**)           |
+| B — Superpowers pin | `vendor/superpowers/v7.0.2/`                   | The installer copies the pin when that path is absent. It does not overwrite it. |
 | C — Host files      | `AGENTS.md`, overlay, AEP rule                 | Relying on `/governed-work` instead of always-on rule             |
 | D — Stack install   | gates, Stop, workflow, venv                    | Running install without `ADOPTER_VERIFY_COMMAND`                  |
 | E — Verify          | `check-opt-in-stack.sh` green on required rows | Declaring done after import only                                  |

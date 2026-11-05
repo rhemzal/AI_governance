@@ -28,6 +28,23 @@ export KIT_REVISION="$(git rev-parse HEAD)"
 bash governance/experimental/spec_gates/install-opt-in-stack.sh --stack-only
 ```
 
+First install (no `vendor/AI_governance` yet). The default command imports
+**standard** and **research**, copies the Superpowers pin with `cp -aL`, seeds
+`governance/LOCAL_OVERLAY.md` and an `AGENTS.md` block only when those files are
+absent, then installs the stack. It does not delete an existing snapshot.
+
+```bash
+export KIT_SOURCE=/path/to/AI_governance
+export KIT_REVISION=<full-sha>
+export ADOPTER_VERIFY_COMMAND="timeout 300s python -m pytest tests/your_scope -q"
+
+bash "$KIT_SOURCE/governance/experimental/spec_gates/install-opt-in-stack.sh"
+```
+
+`--bootstrap` stops after the snapshot, pin, overlay, and `AGENTS.md` block
+(no spec-gates download and no `specify` venv). Manifest conversion uses
+mikefarah `yq` when it is installed, otherwise `python3-yaml`.
+
 Adopter with existing `vendor/AI_governance` snapshot:
 
 ```bash

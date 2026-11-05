@@ -38,7 +38,7 @@ echo "Phase A — policy snapshot (import bundle, not the procedure pin alone)"
 if [[ -d vendor/AI_governance ]]; then
   note "vendor/AI_governance present"
 else
-  warn "no vendor/AI_governance — kit rules/constitution not in tree; import bundle or readopt first"
+  warn "no vendor/AI_governance — run install-opt-in-stack.sh for a first import, or readopt"
 fi
 if [[ -d vendor/AI_governance.next ]]; then
   fail "vendor/AI_governance.next waiting — review readopt-report and run install with --switch-snapshot"

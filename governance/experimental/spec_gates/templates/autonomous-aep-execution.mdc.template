@@ -30,6 +30,9 @@ References to the active AEP, execution ledger, wave packages, or `specs/*/tasks
 6. Stop only for: security-sensitive action, destructive/irreversible effect outside
    mandate, merge/push/deploy without explicit permission, or exhausted repair budget on
    a blocked chain.
+7. Before push or merge, record acceptance with `ci/run_task_acceptance_check.sh`
+   when that wrapper exists. A green git hook is not that record. Tier C does not
+   sandbox the agent shell; downloads into a gitignored tool root need an explicit mandate.
 
 Spec Kit `review-spec` / `review-plan` gates do not apply to authorized wave work unless
 the operator asked for a review stop.

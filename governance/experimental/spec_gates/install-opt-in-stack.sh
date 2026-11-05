@@ -21,8 +21,11 @@
 #   SKIP_SPEC_GATES=1        Skip install-and-project.sh
 #
 # Usage:
-#   …/install-opt-in-stack.sh              # readopt then stop for report review
+#   …/install-opt-in-stack.sh              # new tree: first import + pin + stack
+#                                          # existing snapshot: readopt, then stop for review
 #   …/install-opt-in-stack.sh --switch-snapshot
+#   …/install-opt-in-stack.sh --bootstrap  # snapshot, pin, overlay, AGENTS; no downloads
+#   …/install-opt-in-stack.sh --import-only
 #   …/install-opt-in-stack.sh --stack-only # refresh stack without readopt
 #   …/check-opt-in-stack.sh [--strict]     # report gaps (see OPT_IN_STACK.md)
 set -euo pipefail
@@ -37,7 +40,7 @@ ADOPTER_BUNDLES="${ADOPTER_BUNDLES:-standard research}"
 export PATH="${HOME}/.local/bin:${PATH}"
 
 usage() {
-  sed -n '2,28p' "$0"
+  sed -n '2,36p' "$0"
   exit "${1:-0}"
 }
 
@@ -49,21 +52,29 @@ need() {
 }
 
 check_prereqs() {
+  local need_downloads="${1:-0}"
   need git
-  need curl
-  need jq
   need sha256sum
   need python3
-  need uv
+  if [[ "$need_downloads" == 1 ]]; then
+    need curl
+    need uv
+  fi
   if ! command -v yq >/dev/null 2>&1 || ! yq --version 2>&1 | grep -q mikefarah; then
-    echo "install-opt-in-stack: install mikefarah yq to ~/.local/bin (Debian yq is not sufficient)" >&2
-    exit 1
+    if ! python3 -c 'import yaml' >/dev/null 2>&1; then
+      echo "install-opt-in-stack: need mikefarah yq or python3-yaml to read kit-manifest.yml" >&2
+      exit 1
+    fi
   fi
   : "${ADOPTER_VERIFY_COMMAND:?Set ADOPTER_VERIFY_COMMAND to the project acceptance shell command}"
   if [[ -z "${ADOPTER_VERIFY_COMMAND//[[:space:]]/}" ]]; then
     echo "install-opt-in-stack: ADOPTER_VERIFY_COMMAND is empty" >&2
     exit 1
   fi
+}
+
+same_tree() {
+  [[ "$(cd "$ROOT" && pwd -P)" == "$(cd "$KIT_SOURCE" && pwd -P)" ]]
 }
 
 detect_kit_source() {
@@ -101,6 +112,107 @@ dependencies_constraint_path() {
   fi
 }
 
+write_manifest_json() {
+  local dest="$1"
+  if command -v yq >/dev/null 2>&1 && yq --version 2>&1 | grep -q mikefarah; then
+    yq -o=json . "$KIT_SOURCE/kit-manifest.yml" >"$dest"
+    return 0
+  fi
+  python3 - "$KIT_SOURCE/kit-manifest.yml" "$dest" <<'PY'
+import json, sys
+from pathlib import Path
+import yaml
+src, dest = sys.argv[1:]
+data = yaml.safe_load(Path(src).read_text(encoding="utf-8"))
+Path(dest).write_text(json.dumps(data), encoding="utf-8")
+PY
+}
+
+run_first_import() {
+  if same_tree; then
+    echo "install-opt-in-stack: KIT_SOURCE is this checkout; first import would nest the kit. Use --stack-only for dogfood." >&2
+    exit 1
+  fi
+  if [[ -e "$ROOT/vendor/AI_governance" || -L "$ROOT/vendor/AI_governance" ]]; then
+    echo "install-opt-in-stack: vendor/AI_governance exists — use readopt, not first import" >&2
+    exit 1
+  fi
+  mkdir -p "$ROOT/vendor"
+  local json bundles=() args=() b
+  json="$(mktemp)"
+  write_manifest_json "$json"
+  read -r -a bundles <<<"$ADOPTER_BUNDLES"
+  args=(--manifest-json "$json" --source "$KIT_SOURCE" --destination "$ROOT/vendor/AI_governance")
+  for b in "${bundles[@]}"; do
+    args+=(--bundle "$b")
+  done
+  python3 "$KIT_SOURCE/ci/import_bundle.py" "${args[@]}"
+  python3 "$KIT_SOURCE/ci/import_bundle.py" "${args[@]}" --check
+  rm -f "$json"
+  echo "install-opt-in-stack: first import verified at $KIT_REVISION"
+}
+
+install_procedure_pin() {
+  if same_tree; then
+    return 0
+  fi
+  local pin="$ROOT/vendor/superpowers/v7.0.2"
+  local src="$KIT_SOURCE/vendor/superpowers/v7.0.2"
+  if [[ -e "$pin" || -L "$pin" ]]; then
+    echo "install-opt-in-stack: keeping existing Superpowers pin"
+  else
+    test -d "$src"
+    mkdir -p "$ROOT/vendor/superpowers"
+    cp -aL "$src" "$pin"
+    ( cd "$pin" && sha256sum -c SHA256SUMS )
+    echo "install-opt-in-stack: copied Superpowers pin"
+  fi
+  local skill="$ROOT/.cursor/skills/governed-work/SKILL.md"
+  if [[ -e "$skill" || -L "$skill" ]]; then
+    echo "install-opt-in-stack: keeping existing governed-work skill"
+  else
+    mkdir -p "$ROOT/.cursor/skills/governed-work"
+    cp -L "$KIT_SOURCE/.cursor/skills/governed-work/SKILL.md" "$skill"
+    test ! -L "$skill"
+  fi
+}
+
+seed_host_entry() {
+  if same_tree; then
+    return 0
+  fi
+  local template="$KIT_SOURCE/governance/LOCAL_OVERLAY_TEMPLATE.md"
+  local overlay="$ROOT/governance/LOCAL_OVERLAY.md"
+  if [[ ! -e "$overlay" && ! -L "$overlay" ]]; then
+    mkdir -p "$ROOT/governance"
+    cp -L "$template" "$overlay"
+    cat >>"$overlay" <<EOF
+
+## Installed by opt-in stack
+
+- Kit revision: \`$KIT_REVISION\`
+- Bundles: $ADOPTER_BUNDLES
+- Acceptance command: \`$ADOPTER_VERIFY_COMMAND\`
+- Push or merge requires that command recorded through \`ci/run_task_acceptance_check.sh\`, even when the agent does not invoke \`/governed-work\`.
+- Tier C does not sandbox the agent shell. A gitignored tool root still needs an explicit mandate.
+EOF
+    echo "install-opt-in-stack: seeded governance/LOCAL_OVERLAY.md"
+  else
+    echo "install-opt-in-stack: keeping existing governance/LOCAL_OVERLAY.md"
+  fi
+  local block="$KIT_SOURCE/usage/templates/AGENTS_GOVERNANCE_OPT_IN_BLOCK.md"
+  local agents="$ROOT/AGENTS.md"
+  if [[ -f "$agents" ]] && grep -q '## Governance baseline' "$agents"; then
+    echo "install-opt-in-stack: keeping existing AGENTS.md governance block"
+    return 0
+  fi
+  if [[ ! -e "$agents" ]]; then
+    printf '%s\n\n' '# Agent instructions' >"$agents"
+  fi
+  sed "s/<KIT_REVISION>/$KIT_REVISION/g" "$block" >>"$agents"
+  echo "install-opt-in-stack: appended governance baseline to AGENTS.md"
+}
+
 run_readopt() {
   : "${PREVIOUS_KIT_SHA:?Set PREVIOUS_KIT_SHA for readopt}"
   test -d "$ROOT/vendor/AI_governance" || {
@@ -115,7 +227,7 @@ run_readopt() {
   local json bundles=()
   json="$(mktemp)"
   trap 'rm -f "$json"' RETURN
-  yq -o=json . "$KIT_SOURCE/kit-manifest.yml" >"$json"
+  write_manifest_json "$json"
   read -r -a bundles <<<"$ADOPTER_BUNDLES"
   local args=(--manifest-json "$json" --source "$KIT_SOURCE" --destination "$ROOT" --readopt --previous "$PREVIOUS_KIT_SHA")
   local b
@@ -304,19 +416,51 @@ for arg in "$@"; do
     --switch-snapshot) SWITCH=1 ;;
     --stack-only) MODE=stack ;;
     --readopt-only) MODE=readopt ;;
+    --bootstrap) MODE=bootstrap ;;
+    --import-only) MODE=import ;;
+    *)
+      echo "install-opt-in-stack: unknown argument: $arg" >&2
+      exit 1
+      ;;
   esac
 done
 
-check_prereqs
+if [[ "$MODE" == stack || "$MODE" == full ]]; then
+  check_prereqs 1
+else
+  check_prereqs 0
+fi
+detect_kit_source
+if [[ "$MODE" == import || "$MODE" == full ]] && same_tree; then
+  echo "install-opt-in-stack: KIT_SOURCE is this checkout; first import would nest the kit. Use --stack-only for dogfood." >&2
+  exit 1
+fi
 require_kit_env
 mkdir -p "$ROOT/scripts"
 
 case "$MODE" in
+  import)
+    run_first_import
+    exit 0
+    ;;
+  bootstrap)
+    if [[ ! -e "$ROOT/vendor/AI_governance" && ! -L "$ROOT/vendor/AI_governance" ]]; then
+      run_first_import
+    fi
+    install_procedure_pin
+    seed_host_entry
+    exit 0
+    ;;
   readopt)
     run_readopt
     exit 0
     ;;
   stack)
+    if ! same_tree && [[ ! -e "$ROOT/vendor/AI_governance" && ! -L "$ROOT/vendor/AI_governance" ]]; then
+      run_first_import
+    fi
+    install_procedure_pin
+    seed_host_entry
     ensure_dependencies_txt
     install_host_adapter
     install_procedures_and_ci
@@ -329,6 +473,10 @@ case "$MODE" in
     verify_stack
     ;;
   full)
+    if same_tree; then
+      echo "install-opt-in-stack: this checkout is the kit. Use --stack-only for dogfood, not a nested import." >&2
+      exit 1
+    fi
     if [[ "${SKIP_READOPT:-}" != 1 ]] && [[ -d "$ROOT/vendor/AI_governance" ]]; then
       run_readopt
       if [[ "$SWITCH" != 1 ]]; then
@@ -336,7 +484,11 @@ case "$MODE" in
         exit 0
       fi
       switch_snapshot
+    elif [[ ! -e "$ROOT/vendor/AI_governance" && ! -L "$ROOT/vendor/AI_governance" ]]; then
+      run_first_import
     fi
+    install_procedure_pin
+    seed_host_entry
     ensure_dependencies_txt
     install_host_adapter
     install_procedures_and_ci
