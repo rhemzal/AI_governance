@@ -1,0 +1,6 @@
+{
+  "tasks": ["ai-governance/c2-permitted-doc"],
+  "attempts": 1,
+  "agent_name": "cursor-cli",
+  "reward": 1
+}

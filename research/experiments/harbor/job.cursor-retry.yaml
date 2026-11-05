@@ -1,0 +1,16 @@
+# Retry failed attempts from the c1-c4-cursor matrix (one trial each).
+# Requires CURSOR_API_KEY on the host. Do not mount the repo or Docker socket.
+job_name: c1-c4-cursor-retry
+n_attempts: 1
+n_concurrent_trials: 1
+retry:
+  max_retries: 0
+datasets:
+  - path: research/experiments/harbor/tasks
+    task_names:
+      - c3-opt-in-copy-b1
+      - c4-changelog-scope
+      - c4-changelog-scope-b1
+agents:
+  - name: cursor-cli
+    model_name: composer-2.5

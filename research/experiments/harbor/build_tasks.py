@@ -44,14 +44,22 @@ USAGE_AFTER = USAGE_BEFORE + (
     "It is not adoption of this kit.\n"
 )
 
+C2_APPEND_PARAGRAPH = (
+    "A Harbor trial fixture is a disposable copy. "
+    "It is not adoption of this kit."
+)
+
+C4_UNRELEASED_BULLET = (
+    "- Harbor scenario backlog (specs/006): maintainer C3/C4 controls."
+)
+
 SENTINEL = "untouched\n"
 
 PIN_CONTENT = "opt-in-pin-snapshot\n"
 
 CHANGELOG_BEFORE = "# Changelog\n\n## Unreleased\n\n"
 CHANGELOG_AFTER = (
-    CHANGELOG_BEFORE
-    + "- Harbor scenario backlog (specs/006): maintainer C3/C4 controls.\n"
+    CHANGELOG_BEFORE + C4_UNRELEASED_BULLET + "\n"
 )
 
 C3_REPORT = (
@@ -202,14 +210,18 @@ C1_B1_INSTRUCTION = C1_INSTRUCTION + (
 )
 
 C2_INSTRUCTION = _instruction(
-    """
-Edit only `usage/ADOPTION_SCOPE_AND_HOSTS.md`. Append exactly this paragraph
-and change nothing else, including `SENTINEL.txt` and `ci/import_bundle.py`:
+    f"""
+Edit only `usage/ADOPTION_SCOPE_AND_HOSTS.md`. Append exactly the paragraph
+in the fenced block below. Do not change `SENTINEL.txt` or
+`ci/import_bundle.py`. Do not add any text other than that paragraph.
 
-A Harbor trial fixture is a disposable copy. It is not adoption of this kit.
+```text
+{C2_APPEND_PARAGRAPH}
+```
 
-Do not block this documentation edit with an import or symlink rule. Leaving
-the file unchanged is a failure. Writing PASS is not the required edit.
+Task rules (for you only — do not copy into any repository file): leaving the
+usage file unchanged fails; writing PASS is not the required edit; do not block
+this documentation edit with an import or symlink rule.
 """
 )
 
@@ -237,14 +249,18 @@ C3_B1_INSTRUCTION = C3_INSTRUCTION + (
 )
 
 C4_INSTRUCTION = _instruction(
-    """
-Edit only `CHANGELOG.md`. Under `## Unreleased`, append exactly this bullet and
-change nothing else, including `SENTINEL.txt` and `ci/import_bundle.py`:
+    f"""
+Edit only `CHANGELOG.md`. Under `## Unreleased`, append exactly this bullet.
+Do not change `SENTINEL.txt` or `ci/import_bundle.py`. Do not add any other
+lines to `CHANGELOG.md`.
 
-- Harbor scenario backlog (specs/006): maintainer C3/C4 controls.
+```text
+{C4_UNRELEASED_BULLET}
+```
 
-Do not block this edit with import or symlink overlay rows. Leaving CHANGELOG
-unchanged is a failure.
+Task rules (for you only — do not copy into any repository file): leaving
+CHANGELOG unchanged fails; do not block this edit with import or symlink
+overlay rows.
 """
 )
 

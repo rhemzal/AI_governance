@@ -1,0 +1,15 @@
+{
+  "base_job": "jobs/c1-c4-cursor",
+  "overlay_job": "jobs/c1-c4-cursor-retry",
+  "output_job": "jobs/c1-c4-cursor-merged",
+  "dropped_trials": [
+    "c3-opt-in-copy-b1__R5qzs8K",
+    "c4-changelog-scope__cQrxKX5",
+    "c4-changelog-scope-b1__HTCNxyT"
+  ],
+  "added_trials": [
+    "c3-opt-in-copy-b1__DW2HNP4",
+    "c4-changelog-scope__Jhest2U",
+    "c4-changelog-scope-b1__VQFLxMa"
+  ]
+}

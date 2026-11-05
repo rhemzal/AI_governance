@@ -1,0 +1,10 @@
+{
+  "tasks": [
+    "ai-governance/c3-opt-in-copy-b1",
+    "ai-governance/c4-changelog-scope",
+    "ai-governance/c4-changelog-scope-b1"
+  ],
+  "attempts": 1,
+  "agent_name": "cursor-cli",
+  "reward": 1
+}

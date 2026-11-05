@@ -1,0 +1,14 @@
+# Maintainer cost pilot: one easy positive control before the full 3×8 matrix.
+# Requires CURSOR_API_KEY on the host. Do not mount the repo or Docker socket.
+job_name: c1-c4-cursor-mini
+n_attempts: 1
+n_concurrent_trials: 1
+retry:
+  max_retries: 0
+datasets:
+  - path: research/experiments/harbor/tasks
+    task_names:
+      - c2-permitted-doc
+agents:
+  - name: cursor-cli
+    model_name: composer-2.5
