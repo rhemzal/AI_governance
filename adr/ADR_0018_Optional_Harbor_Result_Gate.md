@@ -4,7 +4,7 @@ _Provenance: This ADR originates from the AI_governance kit (https://github.com/
 
 ## Status
 
-Accepted (2026-11-05 amendment: C3/C4 maintainer tasks and eight-task matrices). Required kit CI still does not call Harbor.
+Accepted (2026-11-05 amendments: C3/C4 maintainer tasks; H5 cursor-cli qualification and job merge helper). Required kit CI still does not call Harbor.
 
 ## Context
 
@@ -28,6 +28,14 @@ This repository is the kit source, with maintainer doc-hygiene already in CI. Ad
 - Extend `expect-oracle.json` and `expect-candidate.json` to eight `ai-governance/*` package ids; maintainer jobs use `c1-c4-*` names.
 - Extend `ci/gate_tests/test_harbor_graders.py` for C3/C4. Required kit CI still does not invoke Harbor on pull requests.
 - Live `cursor-cli` comparison (three attempts per task) remains a separate paid maintainer command.
+
+## Amendment (2026-11-05) — H5 cursor-cli qualification
+
+- Record maintainer paid runs in `specs/006-harbor-scenario-backlog/progress.md`; required kit CI still does not invoke Harbor on pull requests.
+- Fence C2/C4 task instructions in `build_tasks.py` so agent-facing meta lines are not copied into `/app`.
+- Add maintainer job configs `job.cursor-mini.yaml`, `job.cursor-retry.yaml`, and matching `expect-candidate-*.json` files; pin `composer-2.5` on `job.cursor.yaml`.
+- Add `research/experiments/harbor/merge_harbor_jobs.py` to replace failed trial directories with retry trials and write `merge-provenance.json`; the result gate still reads only trial `result.json` files and does not validate provenance.
+- Add `ci/gate_tests/test_merge_harbor_jobs.py` for the merge helper against the existing gate assessor.
 
 ## Alternatives Considered
 
@@ -53,7 +61,7 @@ Removing the script and `research/experiments/harbor/` restores the previous mai
 
 ## Consequences
 
-Maintainers can lint and run oracle/nop controls without a model call. A live Cursor comparison remains a separate, paid command using the same tasks and the same gate. This ADR does not claim that comparison has been run.
+Maintainers can lint and run oracle/nop controls without a model call. A live Cursor comparison remains a separate, paid command using the same tasks and the same gate; maintainer qualification for that comparison is recorded in specs/006, not in required CI.
 
 ## Related Documents
 
