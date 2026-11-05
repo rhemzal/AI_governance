@@ -137,6 +137,15 @@ Temporary gate exceptions must follow `usage/GOVERNANCE_WAIVERS.md`. Track open 
 - If a command or tool would write outside the repo by default, the AI MUST redirect it to a repo-local path when feasible.
 - If such redirection is not feasible, the AI MUST STOP and request confirmation.
 - Recommended repo-local scratch directories: `.tmp/`, `tmp/`, `.artifacts/`, `.cache/` (follow repo convention; ephemeral outputs should be gitignored).
+- **Gitignored tool roots** (e.g. `.tools/` for local venvs, micromamba, or downloaded runtimes) are still **inside the repository directory**. Agents must not run download/install scripts that populate them unless the **task mandate explicitly authorizes** that host effect (disk, network, third-party channels).
+- Tier C kit gates do **not** block those actions; record constraints in the table below when your project uses such installers.
+
+**Example rows (copy and adapt; delete if not applicable):**
+
+| Constraint                                                                                                                                    | Sources                | Reason                                                                    | Exception                                               | Load when                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------- |
+| Do not `pip install` PyPI packages that homonym the real backend (document the correct install path in product docs).                         | Product dev guide      | Wrong package can execute unrelated code under the project venv.          | Conda/vendor path documented for the real backend only. | Task adds Python deps or install scripts.                 |
+| Do not run repo install scripts that download multi-GB third-party runtimes unless the mandate names the script and accepts disk/network use. | Overlay + operator ADR | Agent shell is outside spec-gates; ignored trees still consume host disk. | Operator-approved task scope lists the script.          | Task touches `scripts/*install*` or dev-environment docs. |
 
 ### AI productivity calibration (optional)
 

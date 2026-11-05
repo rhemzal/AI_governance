@@ -346,7 +346,7 @@ this kit, not a general judgment of project quality.
 | --------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | **Superpowers** | **Deepen B/C now:** qualify selected 7.0.2 pin                                    | Four observed helper defects above; preserve existing task execution and rollback behavior                                                                           | Low for selected update; higher for the full catalog         |
 | **Spec Kit**    | **Deepen existing B/C**, keep current pin unless a needed fix justifies moving it | Real task acceptance and restart behavior. 1.3.0 exists, but the required shell step already works in 1.2.5                                                          | Low for current workflow; medium for more presets/artifacts  |
-| **spec-gates**  | **Keep C experimental; deepen native evidence**                                   | One authorized native Stop pass/fail observation when a capable host is available; same host acceptance through workflow/Git/CI where configured; count false blocks | Medium; do not repeat hook setup without new host evidence   |
+| **spec-gates**  | **Keep C experimental**                                                            | One native Stop allow observed 2026-11-05 (Cursor 3.28.7, verify exit 0). Fail/follow-up not run. Same-host workflow/Git/CI acceptance passed; 0 product false blocks | Medium; do not promote from one allow; do not repeat hook setup without a new host or a fail-path gap |
 | **Agent OS**    | **Deepen the already adapted A/B pattern**                                        | Task-scoped discovery/injection of up to three sourced local constraints; fewer concrete violations without loading more irrelevant context                          | Low for existing overlay; medium for a second standards tree |
 
 Kit upstream **Experiment A** (2026-11-04, `specs/003-task-scoped-overlay-trial/`): B1 passed C1–C4; partial PASS — mandate text in governed-work reduces unrelated overlay noise (C4); C1 B0 miss not shown on maintainer-familiar host. Not an Agent OS product install.
@@ -811,6 +811,15 @@ optional skill entry remains for routing documentation. **`check-opt-in-stack.sh
 install phases are incomplete (missing Superpowers pin, rule, venv, gates). This does not
 close native Stop observation or productivity claims.
 
+### Agent host boundary (2026-11-05, advisory)
+
+On the same named checkout, optional **Project Chrono** installation populated a large
+**gitignored** `.tools/` tree via project install scripts and agent shell actions. Tier C
+gates remained green for **git boundary** checks; they did **not** prevent host file effects
+or commits that bypassed in-session workflow acceptance. Maintainer record (no downstream
+repo changes required):
+[POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md](./POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md).
+
 ## Automated control scenarios (2026-11-05)
 
 **Reviewed kit revision:** `dde8748534e096a4e5e469dd4ec9973dd175f63c`.
@@ -1014,10 +1023,10 @@ regression in oracle/nop or the merged candidate gate.
 Eight Harbor tasks (`c1-forbidden-import` … `c4-changelog-scope-b1`) live under
 `research/experiments/harbor/`. Maintainer qualification on Docker hosts:
 
-| Phase | Job / gate | Result (maintainer host) |
-| --- | --- | --- |
-| Oracle | `jobs/c1-c4-oracle` vs `expect-oracle.json` | ACCEPT, mean reward 1.0 |
-| Nop | `jobs/c1-c4-nop` vs `expect-oracle.json` | REJECT (expected), mean reward 0.0 |
+| Phase         | Job / gate                                                                                | Result (maintainer host)                                                                |
+| ------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Oracle        | `jobs/c1-c4-oracle` vs `expect-oracle.json`                                               | ACCEPT, mean reward 1.0                                                                 |
+| Nop           | `jobs/c1-c4-nop` vs `expect-oracle.json`                                                  | REJECT (expected), mean reward 0.0                                                      |
 | Cursor matrix | `jobs/c1-c4-cursor` + retry merge → `jobs/c1-c4-cursor-merged` vs `expect-candidate.json` | Merged gate **ACCEPT** (24 trials; see `specs/006-harbor-scenario-backlog/progress.md`) |
 
 **Image digest:** Harbor teardown (`--rmi local`) removed task images after early

@@ -4,6 +4,10 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Agent host boundary vs tier C gates (2026-11-05)
+
+- [Advisory-only] Post-incident maintainer notes from downstream dogfood: tier C does not sandbox agent shell or gitignored tool trees; document limits in `usage/ADOPTION_SCOPE_AND_HOSTS.md`, `OPT_IN_STACK.md`, overlay template, and `research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md`.
+
 ### Automated control scenario assessment (2026-11-05)
 
 - [Advisory-only] Recommend a bounded Harbor pilot for actual Cursor agent trials, retain existing deterministic checks as graders, and compare Promptfoo/Inspect AI alternatives. Record the limits of the existing Experiment A/B screening evidence and a concrete C1/C2 implementation handoff.

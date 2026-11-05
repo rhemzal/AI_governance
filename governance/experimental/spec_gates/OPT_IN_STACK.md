@@ -119,6 +119,20 @@ bash governance/experimental/spec_gates/check-opt-in-stack.sh --strict   # exit 
 The installer runs this check after a successful `--stack-only` / full install (non-strict).
 Treat **`[missing]`** lines before expecting production-like governance UX.
 
+### What this check does not prove
+
+| Non-goal                                                                  | Operator mitigation                                                                                                                  |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Agent cannot run install scripts or fill gitignored dirs (e.g. `.tools/`) | Overlay + mandate; disk quotas; explicit authorization per script                                                                    |
+| PyPI name collisions (e.g. unrelated `pychrono` vs Project Chrono)        | Product docs + overlay row; never `pip install` the wrong name into `.venv`                                                          |
+| `vendor/AI_governance/` matches the `KIT_SOURCE` used for `--stack-only`  | Readopt and cite one SHA in overlay; run check from **vendor** copy after readopt                                                    |
+| Every commit ran workflow `verify-acceptance`                             | Use workflow for gated tasks; require `bash ci/run_task_acceptance_check.sh` before push when using inline AEP                       |
+| Native Stop blocked mid-session shell                                     | Documented gap; see [POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md](../../../research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md) |
+
+When **`autonomous-aep-execution.mdc`** is present, add overlay text that **push/merge**
+requires recorded acceptance (same command as `ADOPTER_VERIFY_COMMAND`), even when the
+agent does not invoke `/governed-work`.
+
 ## Files produced in the host repo
 
 | Path                                         | Role                                                          |

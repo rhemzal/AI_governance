@@ -10,12 +10,12 @@ This page answers: **where does only the agnostic kit belong**, **where may full
 
 **Mostly yes**, with three important corrections:
 
-| Claim | Verdict |
-| --- | --- |
-| Full opt-in needs explicit authorization and a chosen working mode (acceptance command, ADR, mandate) | **Yes** — not a default import. |
-| Many repos should stay on the **bundle-only, project-agnostic** baseline | **Yes** — `minimal` / `standard` snapshot + host `AGENTS.md` + overlay is the default path ([Adoption bundles](./ADOPTION_BUNDLES.md)). |
-| Full opt-in is tied to **one named machine** (for example slm01) | **No** — eligibility is **repository + operator authorization + host capabilities**, not a hostname allowlist. A recorded dogfood host is evidence, not policy. |
-| “Basic kit” means zero Cursor or agent tooling | **No** — optional **procedure pin** (Superpowers + `governed-work`) is still agnostic relative to spec-gates; see tier table below. |
+| Claim                                                                                                 | Verdict                                                                                                                                                         |
+| ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Full opt-in needs explicit authorization and a chosen working mode (acceptance command, ADR, mandate) | **Yes** — not a default import.                                                                                                                                 |
+| Many repos should stay on the **bundle-only, project-agnostic** baseline                              | **Yes** — `minimal` / `standard` snapshot + host `AGENTS.md` + overlay is the default path ([Adoption bundles](./ADOPTION_BUNDLES.md)).                         |
+| Full opt-in is tied to **one named machine** (for example slm01)                                      | **No** — eligibility is **repository + operator authorization + host capabilities**, not a hostname allowlist. A recorded dogfood host is evidence, not policy. |
+| “Basic kit” means zero Cursor or agent tooling                                                        | **No** — optional **procedure pin** (Superpowers + `governed-work`) is still agnostic relative to spec-gates; see tier table below.                             |
 
 Agents **must not** run `install-opt-in-stack.sh`, wire Stop hooks, or treat disposable fixture runs as downstream adoption without matching authorization in this document.
 
@@ -23,10 +23,10 @@ Agents **must not** run `install-opt-in-stack.sh`, wire Stop hooks, or treat dis
 
 ## Three adoption tiers
 
-| Tier | What you install | Typical CI Maturity | Authorization |
-| --- | --- | --- | --- |
-| **A — Agnostic snapshot** | `vendor/AI_governance/` via bundle import; host entry point + `governance/LOCAL_OVERLAY.md`; optional CM workflows from contract | **CM0** first; product tests at **CM1** when they already exist | Project maintainer; no cross-repo mandate |
-| **B — Work procedures (opt-in copy)** | Tier A + `vendor/superpowers/v7.0.2/` + `.cursor/skills/governed-work/` + optional Spec Kit preset | Same as tier A | Same; [HOW_TO_IMPORT § Opt-in work procedures](./HOW_TO_IMPORT.md#opt-in-work-procedures). **Does not** install spec-gates or Stop hook |
+| Tier                                   | What you install                                                                                                                      | Typical CI Maturity                                                 | Authorization                                                                                                                                                                                                                                                              |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A — Agnostic snapshot**              | `vendor/AI_governance/` via bundle import; host entry point + `governance/LOCAL_OVERLAY.md`; optional CM workflows from contract      | **CM0** first; product tests at **CM1** when they already exist     | Project maintainer; no cross-repo mandate                                                                                                                                                                                                                                  |
+| **B — Work procedures (opt-in copy)**  | Tier A + `vendor/superpowers/v7.0.2/` + `.cursor/skills/governed-work/` + optional Spec Kit preset                                    | Same as tier A                                                      | Same; [HOW_TO_IMPORT § Opt-in work procedures](./HOW_TO_IMPORT.md#opt-in-work-procedures). **Does not** install spec-gates or Stop hook                                                                                                                                    |
 | **C — Full experimental opt-in stack** | Tier A + B layers + spec-gates **0.5.1**, Cursor Stop hook, `ai-governance` workflow, post-implement acceptance, local `specify` venv | Host declares CM; acceptance command is **real** shell (not `true`) | **Named downstream trial** or equivalent host ADR **before** install ([FOR_EXISTING_PROJECTS § Named downstream trial](./FOR_EXISTING_PROJECTS.md#named-downstream-trial-operator-authorization-required), [ADR-0017](../adr/ADR_0017_Opt_In_Stack_Installer_Template.md)) |
 
 Tier C material lives under `governance/experimental/` and is **excluded from import bundles** ([experimental spec-gates README](../governance/experimental/spec_gates/README.md), [ADR-0017](../adr/ADR_0017_Opt_In_Stack_Installer_Template.md)). Copy or invoke scripts only from a pinned `KIT_SOURCE` checkout after review.
@@ -48,14 +48,14 @@ Execute tier C using [FULL_OPT_IN_ADOPTION_PLAYBOOK.md](./FULL_OPT_IN_ADOPTION_P
 
 ### Default to tier A (or B only) when any apply
 
-| Situation | Use |
-| --- | --- |
-| Evaluation, URL assessment, Recipe D/E only | Tier A; no experimental scripts |
-| Third-party or shared repo without explicit owner approval | Tier A only; **stop** — [FOR_EXISTING_PROJECTS](./FOR_EXISTING_PROJECTS.md) |
-| Production runtime, customer-facing deploy hosts, CI runners without Cursor | Tier A (+ host CI); **not** tier C on that machine |
-| “Try governed-work” with one task | Tier B + [HOW_TO_IMPORT § One live-project trial](./HOW_TO_IMPORT.md#one-live-project-trial) — **no** spec-gates, Stop, or `specify workflow run` for that trial |
-| Disposable fixture / gate test workspace | Structural evidence only; **not** a named downstream checkout |
-| Reference URL in docs without adoption mandate | Tier A assessment; do not install tier C “because the kit mentions a repo” |
+| Situation                                                                   | Use                                                                                                                                                              |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Evaluation, URL assessment, Recipe D/E only                                 | Tier A; no experimental scripts                                                                                                                                  |
+| Third-party or shared repo without explicit owner approval                  | Tier A only; **stop** — [FOR_EXISTING_PROJECTS](./FOR_EXISTING_PROJECTS.md)                                                                                      |
+| Production runtime, customer-facing deploy hosts, CI runners without Cursor | Tier A (+ host CI); **not** tier C on that machine                                                                                                               |
+| “Try governed-work” with one task                                           | Tier B + [HOW_TO_IMPORT § One live-project trial](./HOW_TO_IMPORT.md#one-live-project-trial) — **no** spec-gates, Stop, or `specify workflow run` for that trial |
+| Disposable fixture / gate test workspace                                    | Structural evidence only; **not** a named downstream checkout                                                                                                    |
+| Reference URL in docs without adoption mandate                              | Tier A assessment; do not install tier C “because the kit mentions a repo”                                                                                       |
 
 Claiming downstream adoption in research or CHANGELOG requires the **named checkout** to complete the authorized task with recorded evidence — not an agent install on an unapproved repo.
 
@@ -82,13 +82,31 @@ There is no `vendor/AI_governance/` here. Maintainers may run **`install-opt-in-
 
 These are **documented trials**, not an exclusive allowlist:
 
-| Host role | Example use |
-| --- | --- |
-| Operator dev workstation | Interactive Cursor, full stack install, workflow runs |
+| Host role                               | Example use                                                                             |
+| --------------------------------------- | --------------------------------------------------------------------------------------- |
+| Operator dev workstation                | Interactive Cursor, full stack install, workflow runs                                   |
 | Headless dev server (e.g. team `slm01`) | SSH install, acceptance via `make test` / `make check-go`, push from authorized mandate |
-| Laptop / igpu01 | Kit development, CI parity tests — tier C only when mandate covers that repo |
+| Laptop / igpu01                         | Kit development, CI parity tests — tier C only when mandate covers that repo            |
 
 If tier C fails on a host (missing uv, no Cursor for Stop proof), fix prerequisites or **defer** Stop/workflow claims — do not downgrade authorization rules.
+
+### Tier C does not contain the agent shell
+
+Full opt-in **does not sandbox** Cursor (or other) agent runtime. Gates primarily target
+**git commits**, **projected policy**, and **Spec Kit workflow** steps — not every shell
+command, ignored working-tree download, or side-environment `pip` install.
+
+| Operator assumption              | Actual kit behavior                                                                                                                     |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Green `verify.sh --boundary git` | Staged/projected checks passed; **ignored** trees (e.g. `.tools/mamba-root/`) are out of scope                                          |
+| `check-opt-in-stack` OK          | Stack **files** present; **not** vendor pin freshness, PyPI homonyms, or agent discipline                                               |
+| Stop hook installed              | Runs on configured **Stop**; mid-session downloads are **not** blocked by spec-gates                                                    |
+| Autonomous AEP rule              | Inline completion **without** `/governed-work`; **does not** replace `verify-acceptance` unless overlay mandates acceptance before push |
+| Real acceptance command wired    | Enforced when **`run_task_acceptance_check.sh`** / workflow **`verify-acceptance`** runs — **not** on every ad-hoc agent commit         |
+
+Record host effects (multi-GB toolchains, conda, unpinned `curl | tar`) in **project overlay**
+and task mandate. Maintainer post-incident notes:
+[POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md](../research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md).
 
 ---
 
@@ -113,3 +131,4 @@ Continue tier A/B read-only assessment when authorized.
 - [ADOPTION_BUNDLES.md](./ADOPTION_BUNDLES.md) — what bundles include (and exclude)
 - [ADOPTION_ENFORCEMENT_CONTRACT.md](./ADOPTION_ENFORCEMENT_CONTRACT.md) — CM0–CM3 gates
 - [research/EXTERNAL_PROJECT_EVALUATIONS.md](../research/EXTERNAL_PROJECT_EVALUATIONS.md) — recorded downstream outcomes
+- [research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md](../research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md) — tier C vs agent shell (advisory)
