@@ -59,3 +59,11 @@ installs the current Cursor CLI and has no `skip_install` switch.
 
 Rebuild the task trees with `build_tasks.py` after changing the fixture or
 `grader/check.py`. The committed `tasks/` directory must match that script.
+
+## Last Docker qualification (maintainer)
+
+Recorded in [`specs/005-harbor-docker-qualification/progress.md`](../../../specs/005-harbor-docker-qualification/progress.md)
+(2026-11-05): oracle mean reward 1.0 on four tasks, result gate ACCEPT;
+nop mean reward 0.0, gate REJECT when checked against `expect-oracle.json`.
+Harbor CLI exit 0 on nop is expected and is not acceptance. No `cursor-cli`
+candidate matrix in that pass.
