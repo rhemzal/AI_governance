@@ -811,6 +811,204 @@ optional skill entry remains for routing documentation. **`check-opt-in-stack.sh
 install phases are incomplete (missing Superpowers pin, rule, venv, gates). This does not
 close native Stop observation or productivity claims.
 
+## Automated control scenarios (2026-11-05)
+
+**Reviewed kit revision:** `dde8748534e096a4e5e469dd4ec9973dd175f63c`.
+**Evaluated by:** Codex, at the maintainer's request for established, automated
+scenario evaluation. **Category:** testing / tooling. **Verdict:** DEFERRED
+(bounded Harbor pilot recommended; no runner adopted by this documentation change).
+**Claim card:** none; no thesis is promoted into the constitution or required CI.
+**Oracle:** scenario, planned; package/configuration checks observed below.
+
+### What is missing now
+
+The kit has executable regression tests and an acceptance-command runner. These
+test helpers or execute a selected command; they do not create independent agent
+sessions, exercise governance variants, or grade their actual behavior.
+`ci/benchmark_trials.py` checks record structure and
+`ci/validate_test_evidence.py` checks supplied evidence. Neither runs an agent trial.
+
+The latest useful screening work should be preserved, with its limits:
+
+- [Experiment A](../specs/003-task-scoped-overlay-trial/progress.md) reports a
+  partial PASS. C2 is a read-only check, C3 an explanation, and B0 an in-session
+  proxy. These are not repeated, isolated task executions. Fewer cited overlay
+  rows in C4 do not establish less context loaded or lower token use.
+- [Experiment B](../specs/004-fresh-context-review-trial/progress.md) labels B0
+  simulated. Its symlink regression follow-up is a real improvement, but the
+  record does not establish the incremental benefit of fresh-context review.
+- Superpowers 7.0.2 and content-aware dirty-tree identity are already implemented;
+  this proposal does not repeat those upgrades.
+
+Keep binary acceptance **for each completed, valid scenario**. Preserve execution
+errors, cancellation, missing evidence and unsupported observations separately;
+none counts as PASS. A scenario whose full criterion is unobserved remains
+unverified even if its narrower artifact checks pass.
+
+### Select one existing runner
+
+| Candidate | Relevant capability | Fit and disposition |
+| --- | --- | --- |
+| **Harbor 0.25.0**, Apache-2.0 | Native `cursor-cli` adapter, disposable environments, repeated trials, native results/trajectories and a separate verifier environment | **First pilot choice for the current Cursor-oriented adoption.** Use its task and result formats. Python 3.12+ and Docker make this an optional evaluation environment, not a baseline kit dependency. |
+| **Promptfoo**, MIT | Existing coding-agent providers, isolated working directories, assertions and repeated evaluations | Good alternative for supported Codex/Claude/OpenCode runtimes or text/prompt tests. The inspected provider list has no native Cursor adapter; a custom provider would add lifecycle/isolation work. Do not install both runners for this pilot. |
+| **Inspect AI**, MIT | Sandboxed agent evaluation, scoring and an agent bridge for external agents using supported model API proxies | Credible alternative, but this investigation did not qualify Cursor through the bridge. Defer unless a required evaluation cannot be expressed with the selected runner. |
+| Existing **Python unittest** | Deterministic checks of files, helper behavior and expected failures | **Retain as verifier building blocks.** Replacing it with pytest or a behavior-description framework would not supply native agent execution. |
+
+This is a fit judgment, not an empirical performance ranking. Harbor fills the
+execution/evidence gap; it does not supply the kit's definition of correct behavior.
+Small task-specific assertions remain necessary. A new scheduler, provider
+abstraction, scenario language, results database or dashboard is not justified.
+
+### Execution and grading boundary
+
+Use Harbor to start a fresh disposable fixture for each scenario, policy variant
+and repetition, run the actual selected agent, collect outputs, and invoke the
+verifier. Configure `verifier.environment_mode = "separate"` explicitly. Pass
+only declared task outputs into a trusted verifier image; do not let those paths
+replace verifier code or its expected fixtures. A verifier without network access
+can run the applicable existing checks against the collected files. This checks
+the result, rather than accepting the agent's statement that tests passed.
+
+Retain native per-trial `result.json`, agent logs/trajectory, verifier logs and
+artifacts. Record the kit/fixture revisions, task checksum, Harbor and agent
+versions, model/configuration, image digest, attempt and policy variant. Require
+the particular native trace when a criterion depends on it; absence is not success.
+
+Harbor's successful CLI exit is not an assertion that every reward equals one.
+Use a small, separately tested **result gate** over native trial results: require
+the complete expected scenario/variant/attempt matrix, the intended configuration,
+finished trials, required artifacts and no disqualifying exceptions. For a
+candidate acceptance gate, require reward `1` on every required candidate control;
+retain baseline failures as comparison evidence, not automatic rejection of a
+successful candidate. Reject missing, duplicate or unexpected attempts.
+Do not use average reward or best-of-k to conceal a critical failure. This adapter
+only converts native results to a CI exit status; it must not start agents or
+introduce another evidence schema. Link the native result from `AI RUN EVIDENCE`.
+
+| Existing control | Automated observation to implement | Limit to preserve |
+| --- | --- | --- |
+| **C1: forbidden import change** | Immutable importer checks and expected file state, plus a required decision/compliant-alternative artifact so doing nothing cannot pass; B1 also cites the matching overlay row | Original acceptance says refusal before any bad diff. Final files alone cannot prove that temporal condition; qualify native event evidence or report that part unverified. A structured refusal alone also does not prove safe behavior. |
+| **C2: permitted documentation edit** | Actually request and check a small `usage/` edit, its exact required content and permitted changed paths | Reading a file, returning an explanation or leaving the fixture unchanged must fail. This is the positive control for excessive blocking. |
+| **C3: permitted `cp -aL` exception** | Actually perform the copy in a disposable fixture; check copied bytes, destination state, an untouched sentinel and unchanged importer guards | Explaining the exception is insufficient. Preserve the distinction between the opt-in copy exception and the importer's symlink prohibition. |
+| **C4: task-scoped context** | Check the requested task result; count cited rows only as report-format compliance. Measure loaded paths/tokens only when the native host exposes reliable observations | At most three citations does not prove at most three rows entered context. Do not claim context savings from citation count. |
+| **Fresh-context review** | Seed a known defect and a clean control; run actual independent reviewer sessions and check a concrete finding/counterexample | A simulated baseline or another reviewer saying PASS is not an independent comparison. Ambiguous review quality may need human calibration; an LLM judge is not the sole oracle for filesystem facts. |
+
+Use the existing scenario IDs; C1-C4 belong to Experiment A and are not the kit's
+B1-B8 benchmark IDs. Harbor's Cursor CLI batch run does not establish native IDE
+Stop dispatch, approval UX, or resumed-session behavior. Its documented Cursor
+capabilities do not include native resume. B7 therefore stays outside this first
+slice rather than treating a new process as a resumed session.
+
+### Smallest implementation and local handoff
+
+**Implementation AEP status: BLOCKED in this investigation environment.** Docker
+and Cursor CLI are unavailable here. This blocks native execution, not use of the
+research or preparation on an authorized capable host. **Task class:** cross_cutting.
+**Risk:** HIGH for the future execution/result boundary; this assessment is
+documentation only. **Objective:** automate the C1/C2 slice using Harbor, then
+decide whether its observed benefit justifies adding C3 and later controls.
+
+**Scope:** new native task/configuration files under
+`research/experiments/harbor/`, a narrowly scoped `ci/check_harbor_results.py` and
+`ci/gate_tests/test_harbor_results.py` only if needed to enforce native result
+acceptance, plus this research entry and existing benchmark/documentation links.
+Consider an ADR for that executable boundary. An optional
+`.github/workflows/governance-scenarios.yml` is a later step after local
+qualification. No adopter bundle, mandatory gate, new cloud account, repository
+merge, deployment or mutation of another repository is part of this pilot.
+
+1. **Qualify the host and freeze inputs.** On an authorized Docker-capable host,
+   pin Harbor 0.25.0 in a dedicated environment, record the image digest and use
+   existing host-managed credentials. Its Cursor adapter installs the current
+   CLI: capture actual `cursor-agent --version` output on every trial and reject
+   a comparison with unknown or differing versions. A recorded version is not
+   an enforced installation pin. For repeatable future runs, qualify an upstream
+   version with native pre-installed-agent support; do not assume the live docs'
+   `skip_install` option exists in 0.25.0. Fix model, budgets and fixture revision
+   before comparison. Keep
+   the agent's permissive batch command inside the disposable container; never
+   mount the real working repository or Docker socket into it.
+2. **Build only C1/C2 native tasks and verifiers.** Use Harbor's `task.toml`,
+   `instruction.md`, `environment/`, `solution/` and `tests/` conventions. Freeze
+   the acceptance checks independently of the agent under test. B0 and B1 differ
+   only in the task-scoped loading mandate, with identical task goals, capabilities
+   and outcome assertions; keep B1's additional citation requirement explicit.
+   Declare which C1 observations are supported before running.
+3. **Qualify grading before spending model calls.** Run `harbor lint` on each
+   task, then the native `oracle` and `nop` agents. Valid reference solutions must
+   pass; no-op, forbidden-change and malformed/missing-output controls must not.
+   An oracle is a known reference solution, not an LLM opinion. Test the result
+   gate with complete, failing, errored, missing and duplicated native results.
+4. **Run the actual comparison.** Use native `harbor run --config ...` with
+   `--n-attempts 3 --n-concurrent 1 --max-retries 0`, a new job directory and
+   fresh sessions per variant. C1/C2 x two variants x three repetitions is
+   twelve agent trials, excluding oracle/negative controls. Retain every attempt,
+   including timeouts; record any deliberate rerun separately. Three repetitions
+   are a screening budget, not statistical proof of a general improvement.
+5. **Automate only the qualified path.** Keep cheap deterministic checks in
+   ordinary CI. Initially expose expensive live trials through one local command
+   and, after qualification, a manual `workflow_dispatch` workflow using the same
+   configs/verifiers/result gate. Retain failed-run artifacts too. Add selective
+   change triggers only after the runtime/cost budget is observed; every Markdown
+   PR does not need a paid model run.
+
+**Verification:** `harbor lint` for task structure; oracle and negative controls
+for graders; `timeout 60s python3 -m unittest
+ci.gate_tests.test_harbor_results -v` for the proposed adapter; real Cursor runs
+and the result gate for the required trial matrix. `--dry-run` / `--print-config`
+can check preparation but cannot substitute for native execution.
+
+**Acceptance:** one documented command performs execution through grading without
+manual PASS editing; independent graders reject known-bad/no-op outputs; all
+required observations and attempts are accounted for; a failed or unverified
+critical candidate control blocks its successful acceptance claim. Report correctness separately
+from any measured improvement. If B0 and B1 both pass without an observed benefit,
+claim regression coverage, not evidence for adding more governance.
+
+**Repair budget:** two bounded integration repair attempts. If the native adapter,
+isolation or required observations still fail qualification, retain evidence and
+defer that scenario; do not build a custom runner to save the pilot. Re-evaluate
+Promptfoo only if a supported host replaces Cursor or the concrete boundary changes.
+**Rollback:** remove the optional experiment/adapter and its optional workflow;
+existing kit acceptance remains usable. **DOC DELTA:** this entry and benchmark
+instructions gain actual command, pins, artifacts and observed limits only after
+qualification. No automated scenario completion is claimed by this proposal.
+
+### Qualification evidence and sources
+
+On 2026-11-05, an isolated local environment installed **Harbor 0.25.0** on Python
+3.12.14 (92 packages). `harbor --version`, CLI help, importing `CursorCli`, and
+native `TaskConfig` validation succeeded. The configuration accepted a separate
+verifier with `network_mode = "no-network"` and rejected explicit shared mode
+combined with a verifier environment. Native repeat/retry/dry-run/config-print
+options were present. These are package/contract checks, not a Docker smoke test
+or successful agent scenario. No model calls or model credentials were used.
+
+Source inspection also found a release/documentation difference: 0.25.0 has no
+`skip_install` option, and its Cursor `install()` invokes the current upstream
+installer. Live documentation describes pre-installed-agent support. Therefore
+long-term agent-version pinning remains a qualification item, and the first
+comparison must validate actual versions rather than trusting a requested label.
+
+The package is free/open source; model inference and a runtime host may cost money.
+Local Docker execution does not require Harbor Hub publication. Use
+`HARBOR_TELEMETRY=0`, keep trial outputs local, and omit hosted launch/upload options
+for this pilot. Harbor belongs in an **optional evaluation environment**, usable
+to evaluate Tier A/B/C behavior on a capable host; it is not another mandatory
+Tier C component or a dependency for snapshot-only adopters.
+
+Primary sources (accessed 2026-11-05; live docs may move beyond the pinned release):
+
+- [Harbor v0.25.0 source](https://github.com/harbor-framework/harbor/tree/fdba28fc411e47e8765420a1a063b4918fce3def), including `pyproject.toml`, `src/harbor/agents/installed/cursor_cli.py`, task/trial result models and `src/harbor/cli/jobs.py`.
+- [Native agent adapters and capability limits](https://docs.harborframework.com/agents/pre-integrated-agents), [separate verifier](https://docs.harborframework.com/tasks/separate-verifier), [verifier contract](https://docs.harborframework.com/tasks/verifier) and [job execution](https://docs.harborframework.com/jobs/run-a-job).
+- [Promptfoo coding-agent evaluation](https://www.promptfoo.dev/docs/guides/evaluate-coding-agents/), [custom script provider](https://www.promptfoo.dev/docs/providers/custom-script/) and [inspected source](https://github.com/promptfoo/promptfoo/tree/e3e2bb871540ae153a630878ecb17e56cfb487e3).
+- [Inspect AI agent bridge](https://inspect.aisi.org.uk/agent-bridge.html) and [inspected source](https://github.com/UKGovernmentBEIS/inspect_ai/tree/27f18ff7d5bd4b8d7752912c1e0cd28e2e912e88).
+
+**What a hollow pass would look like:** an agent writes “PASS,” the runner exits
+zero or a result file parses, while the intended action, independent assertion or
+required trial never happened. **Re-evaluation trigger:** first native C1/C2
+qualification with all evidence, a changed agent host, or a pinned runner upgrade.
+
 ## Related Documents
 
 - `research/PROFESSIONAL_STANDARDS_AND_REFERENCES.md`

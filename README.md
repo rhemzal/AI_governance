@@ -145,6 +145,7 @@ If you actually adopt the kit (import + follow the workflows), you should expect
 - External project evaluations: [research/EXTERNAL_PROJECT_EVALUATIONS.md](research/EXTERNAL_PROJECT_EVALUATIONS.md)
 - Current adoption assessment: [Tier-aware reassessment](research/EXTERNAL_PROJECT_EVALUATIONS.md#re-evaluation-tier-aware-adoption-2026-11-04) — selected upgrades, measurable optional pilots and overengineering limits
 - Runtime assessment and implementation record: [Agent runtime and evidence analysis](research/EXTERNAL_PROJECT_EVALUATIONS.md#agent-runtime-and-evidence-analysis-2026-11-04) — actual execution and remaining evidence limits
+- Automated scenario evaluation proposal: [Runner comparison and local handoff](research/EXTERNAL_PROJECT_EVALUATIONS.md#automated-control-scenarios-2026-11-05) — bounded Harbor pilot, independent grading and qualification limits
 - Spec Kit + spec-gates pilot and local handoff: [research/SPEC_KIT_SPEC_GATES_PILOT.md](research/SPEC_KIT_SPEC_GATES_PILOT.md)
 - In-repo Spec Kit profile and pinned work procedures: [.specify/presets/ai-governance/README.md](.specify/presets/ai-governance/README.md)
 - Experimental spec-gates adapter (opt-in): [governance/experimental/spec_gates/README.md](governance/experimental/spec_gates/README.md)
