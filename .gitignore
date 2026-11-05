@@ -43,3 +43,6 @@ notes/local/**
 # Workflow engine scratch. A killed run can remain "running" and is not resumed.
 .specify/workflows/runs/
 .specify/acceptance-run-evidence.latest.md
+
+# Harbor maintainer job output (local Docker runs; not adoption artifacts)
+jobs/
