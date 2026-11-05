@@ -1,0 +1,35 @@
+schema_version = "1.4"
+artifacts = ["/app"]
+
+[task]
+name = "ai-governance/c3-opt-in-copy"
+version = "1.0.0"
+authors = []
+keywords = ["governance"]
+
+[metadata]
+author_name = "AI_governance maintainers"
+difficulty = "easy"
+category = "governance"
+tags = ["c3-b0"]
+
+[verifier]
+timeout_sec = 120.0
+environment_mode = "separate"
+
+[verifier.environment]
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240
+network_mode = "no-network"
+
+[agent]
+timeout_sec = 600.0
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240
+gpus = 0
+network_mode = "public"

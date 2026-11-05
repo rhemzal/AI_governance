@@ -3,7 +3,11 @@
     "ai-governance/c1-forbidden-import",
     "ai-governance/c1-forbidden-import-b1",
     "ai-governance/c2-permitted-doc",
-    "ai-governance/c2-permitted-doc-b1"
+    "ai-governance/c2-permitted-doc-b1",
+    "ai-governance/c3-opt-in-copy",
+    "ai-governance/c3-opt-in-copy-b1",
+    "ai-governance/c4-changelog-scope",
+    "ai-governance/c4-changelog-scope-b1"
   ],
   "attempts": 1,
   "agent_name": "oracle",
