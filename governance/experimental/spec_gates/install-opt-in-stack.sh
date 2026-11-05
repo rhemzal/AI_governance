@@ -340,6 +340,7 @@ install_procedures_and_ci() {
   cp -L "$KIT_SOURCE/.specify/workflows/workflow-registry.json" "$ROOT/.specify/workflows/"
   cp -L "$KIT_SOURCE/.specify/scripts/bash/run-task-acceptance-check.sh" "$ROOT/.specify/scripts/bash/"
   cp -L "$KIT_SOURCE/ci/run_task_acceptance_check.sh" "$ROOT/ci/"
+  cp -L "$KIT_SOURCE/ci/uncommitted_diff_identity.py" "$ROOT/ci/"
   chmod +x "$ROOT/ci/run_task_acceptance_check.sh" "$ROOT/.specify/scripts/bash/run-task-acceptance-check.sh"
   write_adopter_acceptance_cmd
   cp -L "$KIT_SOURCE/.cursor/hooks/kit-verify-stop.sh" "$ROOT/.cursor/hooks/"
