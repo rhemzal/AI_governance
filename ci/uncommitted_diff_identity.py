@@ -5,6 +5,8 @@ Provenance: AI_governance kit (https://github.com/rhemzal/AI_governance).
 
 Hashes porcelain status together with blob identities (or absent/link markers),
 not status text alone. Two different edits to the same path yield different ids.
+Symlinks contribute `link:<target>`; missing paths contribute `absent`. Returns
+`clean`, `unknown`, or a 64-character hex digest.
 """
 
 from __future__ import annotations

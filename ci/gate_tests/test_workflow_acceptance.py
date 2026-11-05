@@ -150,6 +150,43 @@ class RunTaskAcceptanceCheck(unittest.TestCase):
             self.assertNotEqual(first, "clean")
             self.assertNotEqual(second, "clean")
 
+    def test_dirty_tree_identity_reflects_symlink_target(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = Path(tmp)
+            _init_git(adopter)
+            link = adopter / "dirty.link"
+            (adopter / "target-a").write_text("a\n", encoding="utf-8")
+            (adopter / "target-b").write_text("b\n", encoding="utf-8")
+            env_base = os.environ.copy()
+            env_base["TASK_ACCEPTANCE_CMD"] = "printf 'ok\\n'"
+            env_base["TASK_ACCEPTANCE_EVIDENCE"] = str(adopter / "evidence.md")
+
+            def run_and_dirty_id(target: str) -> str:
+                if link.exists() or link.is_symlink():
+                    link.unlink()
+                link.symlink_to(target)
+                env = env_base.copy()
+                subprocess.run(
+                    ["bash", str(RUNNER)],
+                    cwd=adopter,
+                    env=env,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                )
+                text = (adopter / "evidence.md").read_text(encoding="utf-8")
+                match = re.search(
+                    r"Uncommitted diff identity \(if any\): ([0-9a-f]{64}|clean|unknown)",
+                    text,
+                )
+                self.assertIsNotNone(match, text)
+                return match.group(1)  # type: ignore[union-attr]
+
+            first = run_and_dirty_id("target-a")
+            second = run_and_dirty_id("target-b")
+            self.assertNotEqual(first, second)
+
 
 class GovernedWorkflowDefinition(unittest.TestCase):
     def test_verify_shell_step_follows_implement(self):
