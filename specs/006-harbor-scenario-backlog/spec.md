@@ -19,10 +19,10 @@ and deterministic CI. Harbor remains under `research/experiments/harbor/`.
 | H3 | Extend oracle/nop/cursor expect matrices to 8 tasks | `expect-*.json`, jobs | **Done** (006) |
 | H4 | Grader unit tests for C3/C4 | `ci/gate_tests/test_harbor_graders.py` | **Done** (006) |
 | H5 | Paid `cursor-cli` matrix (3×8) on qualified host | `job.cursor.yaml` + ledger | **Done** (2026-11-05; see `progress.md`) |
-| H6 | Optional `workflow_dispatch` governance-scenarios workflow | `.github/workflows/` | **Deferred** (after H5) |
-| H7 | Fresh-context review automation (Experiment B) | Subagent/session harness | **Out of Harbor scope** |
-| H8 | Native Cursor Stop / B7 resume | Tier C observation | **Out of Harbor scope** |
-| H9 | `ci/select_overlay_rows.py` helper | Deterministic CI optional | **Deferred** |
+| H6 | Optional `workflow_dispatch` governance-scenarios workflow | `.github/workflows/` | **Done** (007; `oracle-nop` default) |
+| H7 | Fresh-context review automation (Experiment B) | Subagent/session harness | **Scaffold** (`research/experiments/fresh-context-review/`) |
+| H8 | Native Cursor Stop / B7 resume | Tier C observation | **Scaffold** (`research/experiments/cursor-stop/`) |
+| H9 | `ci/select_overlay_rows.py` helper | Deterministic CI optional | **Done** (007) |
 
 B0 vs B1 for C1/C2 already uses `-b1` suffix tasks; no separate backlog item.
 

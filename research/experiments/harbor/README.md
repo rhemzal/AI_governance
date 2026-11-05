@@ -96,6 +96,14 @@ Recorded replacement lists live in `merge-c1-c4-cursor.json`. The merged job
 includes `merge-provenance.json`; the gate still reads only trial `result.json`
 files (ADR 0018).
 
+**Image digest:** capture `docker image inspect` on task environment images before
+Harbor removes them (`--rmi local` on early runs dropped digests from maintainer
+records). **Agent install:** Harbor 0.25.0 downloads the current Cursor CLI; record
+`cursor-agent --version` per trial; `skip_install` is not available in 0.25.0.
+
+**Maintainer CI:** optional [`workflow_dispatch`](../../../.github/workflows/governance-scenarios.yml)
+(`oracle-nop` default). Overview: [`research/experiments/governance-scenarios/README.md`](../governance-scenarios/README.md).
+
 Rebuild the task trees with `build_tasks.py` after changing the fixture or
 `grader/check.py`. The committed `tasks/` directory must match that script.
 

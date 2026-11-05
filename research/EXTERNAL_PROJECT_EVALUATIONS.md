@@ -1006,18 +1006,47 @@ Primary sources (accessed 2026-11-05; live docs may move beyond the pinned relea
 
 **What a hollow pass would look like:** an agent writes “PASS,” the runner exits
 zero or a result file parses, while the intended action, independent assertion or
-required trial never happened. **Re-evaluation trigger:** a live Cursor C1/C2
-matrix, a changed agent host, or a pinned runner upgrade.
+required trial never happened. **Re-evaluation trigger:** a changed agent host, a pinned runner upgrade, or a
+regression in oracle/nop or the merged candidate gate.
 
-### C1/C2 preparation on a Docker host (2026-11-05)
+### Maintainer qualification follow-up (2026-11-05)
 
-The investigation environment above had no Docker. This follow-up ran on a host
-that has Docker Engine 26.1.5 and `cursor-agent` 2026.10.22-27dcf5f. Harbor
-0.25.0 was installed in a throwaway virtualenv on Python 3.13.5. No model call
-ran. `HARBOR_TELEMETRY=0`. Job output stayed under `/tmp/ai-gov-harbor-jobs/`
-and is not part of the tree.
+Eight Harbor tasks (`c1-forbidden-import` … `c4-changelog-scope-b1`) live under
+`research/experiments/harbor/`. Maintainer qualification on Docker hosts:
 
-`research/experiments/harbor/` holds the four tasks, the oracle and nop job
+| Phase | Job / gate | Result (maintainer host) |
+| --- | --- | --- |
+| Oracle | `jobs/c1-c4-oracle` vs `expect-oracle.json` | ACCEPT, mean reward 1.0 |
+| Nop | `jobs/c1-c4-nop` vs `expect-oracle.json` | REJECT (expected), mean reward 0.0 |
+| Cursor matrix | `jobs/c1-c4-cursor` + retry merge → `jobs/c1-c4-cursor-merged` vs `expect-candidate.json` | Merged gate **ACCEPT** (24 trials; see `specs/006-harbor-scenario-backlog/progress.md`) |
+
+**Image digest:** Harbor teardown (`--rmi local`) removed task images after early
+runs; digests were not retained. Before comparing across weeks, capture
+`docker image inspect` on the built task environment image or disable local_rmi if
+the Harbor version supports it.
+
+**Agent install:** Harbor 0.25.0 still downloads the current Cursor CLI inside the
+task container. Record `cursor-agent --version` on every trial; the result gate
+requires one non-empty version across a job. Long-term pinning needs upstream
+pre-installed-agent support (documented `skip_install` is not available in 0.25.0).
+
+**Automation after qualification:**
+
+- Local commands and merge helper: [`research/experiments/harbor/README.md`](experiments/harbor/README.md)
+- Optional overlay row filter: `ci/select_overlay_rows.py`
+- Maintainer `workflow_dispatch`: [`.github/workflows/governance-scenarios.yml`](../.github/workflows/governance-scenarios.yml) (`oracle-nop` default; paid `cursor-matrix` requires `CURSOR_API_KEY`)
+- Experiment B scaffold: [`research/experiments/fresh-context-review/README.md`](experiments/fresh-context-review/README.md)
+- Native Stop scaffold: [`research/experiments/cursor-stop/README.md`](experiments/cursor-stop/README.md)
+
+Closure ledger: [`specs/007-automated-scenarios-closure/progress.md`](../specs/007-automated-scenarios-closure/progress.md).
+
+### C1/C2 preparation on a Docker host (2026-11-05, superseded table)
+
+The investigation environment above had no Docker. The follow-up below ran on a host
+with Docker Engine 26.1.5. **Superseded** by the eight-task qualification table above;
+retained for historical context.
+
+`research/experiments/harbor/` initially held four tasks, the oracle and nop job
 files, and the unpaid `job.cursor.yaml`. `ci/check_harbor_results.py` is the
 candidate matrix gate from [ADR 0018](../adr/ADR_0018_Optional_Harbor_Result_Gate.md).
 It is not a required workflow. Each task verifier runs with
@@ -1033,13 +1062,11 @@ scenario acceptance. The graders also reject an unchanged tree, a `decision.md`
 whose only text is PASS, and an importer whose bytes changed. Final files still
 do not prove that a refusal happened before a bad edit.
 
-The task Dockerfiles use `ubuntu:24.04`. Harbor's teardown removed the local
-images (`--rmi local`), so this record does not include an image digest.
-Native `task_name` values are
+The task Dockerfiles use `ubuntu:24.04`. Native `task_name` values are
 `ai-governance/<task-directory>`, which is what the expectation files list.
-Cursor comparison remains on demand: set `model_name` in `job.cursor.yaml`
-first, keep the repository and Docker socket out of the task container, and
-require one recorded `cursor-agent` version across the twelve trials.
+Cursor comparison remains on demand: set `model_name` in `job.cursor.yaml`,
+keep the repository and Docker socket out of the task container, and require one
+recorded `cursor-agent` version across required trials.
 
 ## Related Documents
 
