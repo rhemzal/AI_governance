@@ -34,6 +34,8 @@ schema, orchestrator, or mandatory adopter gate.
    **Amendment (2026-11-04):** dirty-tree identity must incorporate uncommitted file
    content (porcelain status plus blob hashes via `ci/uncommitted_diff_identity.py`),
    not `git status` text alone, so distinct edits to the same path do not collide.
+   **Amendment (2026-11-05):** regression test covers untracked symlink targets in
+   `test_dirty_tree_identity_reflects_symlink_target` (Experiment B follow-up).
 2. Introduce `ci/kit_maintenance_acceptance_cmd.sh` as the kit-repo default command
    for maintenance tasks, shared by the runner, workflow examples, and gate tests.
 3. Extend `ci/validate_test_evidence.py` with non-blocking `advisories` and stderr

@@ -4,6 +4,10 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Workflow acceptance verification (2026-11-04)
+
+- [Fix] Regression `test_dirty_tree_identity_reflects_symlink_target` for untracked symlink targets in acceptance evidence identity (Experiment B follow-up).
+
 ### Task-scoped overlay trial (2026-11-04)
 
 - [Advisory-only] Experiment A (`specs/003-task-scoped-overlay-trial/`): task-scoped **Load when** mandate in `governed-work` and `ENGINEERING_METHODS_ADOPTION.md`; partial PASS (C4 noise reduction).

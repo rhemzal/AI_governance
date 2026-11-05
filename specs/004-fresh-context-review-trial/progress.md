@@ -36,6 +36,8 @@ Review target: content-aware `ci/uncommitted_diff_identity.py` (merged #53).
 
 **Disposition:** Optional follow-up: add `test_dirty_tree_identity_for_symlink` (low priority). Do **not** install EGM; pattern is “separated review packet” only.
 
+**Follow-up (2026-11-05):** `test_dirty_tree_identity_reflects_symlink_target` added; docstring clarified in `ci/uncommitted_diff_identity.py`. Experiment B screening closed.
+
 ## Task log
 
 - Task 1 B0: complete (documented misses)
