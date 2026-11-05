@@ -1,0 +1,24 @@
+### AI RUN EVIDENCE
+- Model/tooling context (high level, no secrets):
+  - Assistant/tool: native shell acceptance runner (`ci/run_task_acceptance_check.sh`)
+  - Execution mode: workflow or direct invocation
+  - Key constraints/rules consulted: task mandate acceptance command (pre-selected)
+- Task outcome: BLOCKED
+- Acceptance criteria: see feature spec / task mandate; this file records only the executed check
+- Tested state:
+  - Repository and exact commit(s): git@github.com:rhemzal/AI_governance.git @ 6aa2844aa73292362cb06ee01254663877a097db
+  - Uncommitted diff identity (if any): 953302c72774f52f73c2f71505eb261ad3b4433c505a80a863f65329ec65bda8
+  - Environment, relevant configuration, hardware/fixture identity: local host shell
+- Checks run:
+  - Command/check: timeout 120s python3 -m unittest ci.gate_tests.test_work_procedures ci.gate_tests.test_test_evidence ci.gate_tests.test_stop_hook_contract ci.gate_tests.test_open_claim_limits ci.gate_tests.test_workflow_acceptance ci.gate_tests.test_superpowers_task_done ci.gate_tests.test_spec_gates_git_environment -v
+  - Result: exit 1
+- Artifacts/logs:
+  - Local evidence (if any): research/experiments/cursor-stop/host-2026-11-05/workflow-acceptance.log
+- Assumptions:
+  - The command above was chosen before its outcome was known
+- Known limitations:
+  - This file does not authenticate the producer or scan referenced artifacts
+- Unverified or stale checks, and why:
+  - Outcome is historical if the tree changes after this run
+- Merge/deployment authorization (separate from verification):
+  - Not recorded here

@@ -46,3 +46,7 @@ notes/local/**
 
 # Harbor maintainer job output (local Docker runs; not adoption artifacts)
 jobs/
+
+# Local native-stop recorder. Commit the copied row in the experiment note.
+.cursor/hooks/record-stop-invocations
+.cursor/hooks/stop-invocations.jsonl

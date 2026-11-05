@@ -7,6 +7,7 @@ This project follows a lightweight changelog intended for governance-kit consume
 ### Agent host boundary vs tier C gates (2026-11-05)
 
 - [Advisory-only] Post-incident maintainer notes from downstream dogfood: tier C does not sandbox agent shell or gitignored tool trees; document limits in `usage/ADOPTION_SCOPE_AND_HOSTS.md`, `OPT_IN_STACK.md`, overlay template, and `research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md`.
+- [Experimental] One native Cursor Stop allow on server 3.28.7 (`decision` allow, verifier exit 0). Recorded in `research/experiments/cursor-stop/host-2026-11-05/`. Fail/follow-up was not run. spec-gates stays experimental.
 
 ### Automated control scenario assessment (2026-11-05)
 

@@ -18,6 +18,15 @@ On a capable host with projected Cursor hooks:
 
 Do not claim Harbor trial success as proof of Stop behavior.
 
+## Host attempt (2026-11-05)
+
+[`host-2026-11-05/OBSERVATION.md`](host-2026-11-05/OBSERVATION.md) records one
+native dispatch on Cursor 3.28.7: `decision` `allow`, verifier exit 0, loop
+count 0. Agent, Git, and CI boundaries and the workflow acceptance runner
+passed. The fail/follow-up path was not run. A direct call of
+`kit-verify-stop.sh` is not that observation. The live recorder is not part of
+the kit; copy a row into the note and remove the marker.
+
 ## Related documents
 
 - Benchmark B7: [`tooling/BENCHMARK_SCENARIOS.md`](../../../tooling/BENCHMARK_SCENARIOS.md)

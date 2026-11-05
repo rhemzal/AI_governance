@@ -36,5 +36,5 @@ secret `CURSOR_API_KEY` and spends model quota.
 ## Out of scope (documented only)
 
 - Full Experiment B agent automation (H7)
-- Native IDE Stop/resume proof (H8)
+- Native IDE Stop/resume proof (H8). One later allow is recorded in `research/experiments/cursor-stop/host-2026-11-05/`; fail and resume were not run.
 - Promptfoo pivot unless host boundary changes
