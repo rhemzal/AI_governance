@@ -4,7 +4,7 @@ _Provenance: This ADR originates from the AI_governance kit (https://github.com/
 
 ## Status
 
-Proposed. Acceptance is the maintainer merge of the introducing change. Until then this does not change required CI.
+Accepted (2026-11-05 amendment: C3/C4 maintainer tasks and eight-task matrices). Required kit CI still does not call Harbor.
 
 ## Context
 
@@ -18,8 +18,16 @@ This repository is the kit source, with maintainer doc-hygiene already in CI. Ad
 
 - Add `ci/check_harbor_results.py` as an optional candidate gate. It accepts a job only when every expected task has the expected number of distinct finished trials, the declared agent name and one recorded agent version, no trial or step exception, and a numeric verifier reward equal to the expected value. Missing directories, unreadable results, duplicates, unexpected tasks, blank versions, and a reward of 1 beside an exception are rejections. A file that only says PASS is an error.
 - Keep C1 and C2 graders inside the Harbor task tests. Those graders hash the fixture and require the refusal or the documentation edit. They do not execute agent output.
-- Ship the tasks under `research/experiments/harbor/`. They are maintainer scenarios, not a required workflow and not an adopter dependency. Promptfoo and Inspect AI stay unused for this pilot. C3, C4, and live Cursor trials stay out until a maintainer asks for the paid run.
+- Ship the tasks under `research/experiments/harbor/`. They are maintainer scenarios, not a required workflow and not an adopter dependency. Promptfoo and Inspect AI stay unused for this pilot. Live `cursor-cli` comparison stays a separate paid maintainer command (see amendment).
 - Do not treat final files as proof that a refusal happened before a bad diff. That timing stays unverified until a native event trace is part of the grader.
+
+## Amendment (2026-11-05) — C3/C4 maintainer tasks
+
+- Add Harbor tasks `c3-opt-in-copy` (+ B1 citation) and `c4-changelog-scope` (+ B1 overlay note) from `research/experiments/harbor/build_tasks.py`. C3 requires materialized `cp -aL` copy bytes and report text; explanation without copy fails. C4 requires a CHANGELOG-only edit with optional B1 `loaded-overlay.md` format compliance.
+- Extend the shared grader manifest with optional `allow_symlink_paths` so a C3 fixture symlink may remain while copied bytes are hashed separately.
+- Extend `expect-oracle.json` and `expect-candidate.json` to eight `ai-governance/*` package ids; maintainer jobs use `c1-c4-*` names.
+- Extend `ci/gate_tests/test_harbor_graders.py` for C3/C4. Required kit CI still does not invoke Harbor on pull requests.
+- Live `cursor-cli` comparison (three attempts per task) remains a separate paid maintainer command.
 
 ## Alternatives Considered
 
@@ -51,5 +59,6 @@ Maintainers can lint and run oracle/nop controls without a model call. A live Cu
 
 - `research/EXTERNAL_PROJECT_EVALUATIONS.md`
 - `research/experiments/harbor/README.md`
+- `specs/006-harbor-scenario-backlog/spec.md`
 - `ci/check_harbor_results.py`
 - `adr/ADR_0013_Test_Evidence_And_Runner_Conformance.md`
