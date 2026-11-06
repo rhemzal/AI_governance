@@ -57,6 +57,8 @@ Each projection should include:
 
 Do not paste full governance documents, architecture theory, or enterprise process into files loaded on every AI task.
 
+For the optional Tier B `governed-work` skill, see [IDE host adapters and opt-in work procedures](HOW_TO_IMPORT.md#ide-host-adapters).
+
 See `research/PLAYBOOK_ADAPTATION_GUIDE.md` (Section 1.1 and Agent Instructions) for adaptation rationale.
 
 ## Debugging Strategy Comparisons (Advisory)
@@ -323,4 +325,3 @@ Increase uncertainty for architecture-impacting work or weak/flaky tests.
 - no boundary violations: yes/no
 
 After task closure, append a ledger entry — `usage/templates/AI_PRODUCTIVITY_LEDGER.template.md`.
-

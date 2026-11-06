@@ -13,10 +13,14 @@ Operators often see **hundreds of new or changed paths** after adoption and ask 
 | Tier | What you add to the project repo (high level) | Typical **tracked** file count (order of magnitude) | Main **behavioral** impact on the repo |
 | --- | --- | --- | --- |
 | **A — Agnostic snapshot** | `vendor/AI_governance/` from chosen bundles; host `AGENTS.md` merge; `governance/LOCAL_OVERLAY.md` | **`minimal`:** low tens of files · **`standard`:** low hundreds (often ~150–220) · **`standard` + `research`:** mid hundreds (often ~240–280) · **`full`:** largest bundle path | Agents and humans resolve kit docs under `vendor/AI_governance/`; governance text and optional CM workflows; **no** project-local spec-gates runtime |
-| **B — Work procedures** | Tier A + `vendor/superpowers/v7.0.2/` + `.cursor/skills/governed-work/` (+ optional Spec Kit preset if you add it separately) | Tier A **+** on the order of **tens** more (Superpowers pin + small skill) | Procedure library for skills (e.g. executing-plans path); **still does not** install spec-gates 0.5.1 or Stop hook by itself ([HOW_TO_IMPORT § Opt-in work procedures](./HOW_TO_IMPORT.md#opt-in-work-procedures)) |
+| **B — Work procedures** | Tier A + `vendor/superpowers/v7.0.2/` + one native `governed-work` skill entry per selected IDE (+ optional Spec Kit preset if you add it separately) | Tier A **+** on the order of **tens** more (Superpowers pin + skill entries) | Procedure library for skills (e.g. executing-plans path); **still does not** install spec-gates 0.5.1 or Stop hook by itself ([HOW_TO_IMPORT § Opt-in work procedures](./HOW_TO_IMPORT.md#opt-in-work-procedures)) |
 | **C — Full experimental opt-in stack** | Tier A + B layers + `governance/experimental/spec_gates/` adapter, **projected** `.specify/gates/`, Cursor Stop hook files, `ai-governance` workflow bits, `ci/*` wrappers, `.cursor/rules/` (e.g. autonomous AEP), local `specify` venv under **`.tools/specify-venv/`** | Often **~400–550+ tracked files** in one adoption commit (varies with bundle size and upstream spec-gates projection). Example shape: ~250–270 under `vendor/AI_governance/` (`standard` + `research`), ~20 under `vendor/superpowers/`, ~140–170 under `.specify/`, small trees under `.cursor/`, `.claude/` (hooks merged from projection), plus a few `ci/` / `governance/experimental/` / `scripts/` | **Git and agent stops** can invoke `verify.sh` and your **adopter acceptance** command; Spec Kit workflow `verify-acceptance`; **largest** review surface and ongoing merge cost when bumping pins |
 
 Counts are **illustrative**: run `git status` / `git ls-files` after install on your host; exact numbers follow bundle lines and spec-gates release layout.
+
+The `.cursor/skills/governed-work/` path in the Tier B row is the Cursor example.
+VS Code + Copilot uses `.github/skills/governed-work/`; add one entry per IDE while
+sharing the same pin. Tier C's documented native Stop integration is Cursor-specific.
 
 ---
 

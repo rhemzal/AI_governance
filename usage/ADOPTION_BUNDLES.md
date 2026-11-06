@@ -6,7 +6,9 @@ This is the human companion to `kit-manifest.yml`. Use the manifest for bundle s
 
 **Do not copy the whole kit by default.** Pick one baseline bundle, then add optional bundles only when you need them.
 
-The pinned work procedures and `.cursor/skills/governed-work/SKILL.md` are not in any bundle, including `full`. Copy them only with `usage/HOW_TO_IMPORT.md` § Opt-in work procedures. That copy does not install spec-gates or a Stop hook.
+Bundle selection is IDE-independent. Keep one project policy and overlay, then merge a short route into each IDE's native instruction entry point; one IDE's files do not activate another IDE.
+
+The pinned work procedures and `governed-work` entry skill are not in any bundle, including `full`. Copy the shared pin once and add a host-native skill entry for each IDE that needs it, following `usage/HOW_TO_IMPORT.md` § IDE host adapters and § Opt-in work procedures. That copy does not install spec-gates or a Stop hook.
 
 ## Quick picker
 

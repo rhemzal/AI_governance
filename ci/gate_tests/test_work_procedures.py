@@ -94,12 +94,20 @@ class WorkProcedures(unittest.TestCase):
             agents.write_text("HOST-SENTINEL\n", encoding="utf-8")
             overlay.parent.mkdir()
             overlay.write_text("OVERLAY-SENTINEL\n", encoding="utf-8")
+            copilot_instructions = adopter / ".github/copilot-instructions.md"
+            copilot_instructions.parent.mkdir()
+            copilot_instructions.write_text("COPILOT-SENTINEL\n", encoding="utf-8")
             _copy_procedures(ROOT, adopter)
+            _copy_procedures(ROOT, adopter, ide="vscode-copilot")
             self.assertEqual(agents.read_text(encoding="utf-8"), "HOST-SENTINEL\n")
             self.assertEqual(overlay.read_text(encoding="utf-8"), "OVERLAY-SENTINEL\n")
+            self.assertEqual(copilot_instructions.read_text(encoding="utf-8"), "COPILOT-SENTINEL\n")
             entry = adopter / ".cursor/skills/governed-work/SKILL.md"
+            copilot_entry = adopter / ".github/skills/governed-work/SKILL.md"
             pin = adopter / "vendor/superpowers/v7.0.2"
             self.assertFalse(entry.is_symlink())
+            self.assertFalse(copilot_entry.is_symlink())
+            self.assertTrue(copilot_entry.is_file())
             self.assertFalse((pin / "skills/executing-plans/SKILL.md").is_symlink())
             entry_text = entry.read_text(encoding="utf-8")
             self.assertIn("22f0b463e7a5e579904dd6211a520321035526f7", entry_text)
@@ -123,11 +131,15 @@ class WorkProcedures(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             adopter = Path(tmp)
             _copy_procedures(ROOT, adopter)
+            _copy_procedures(ROOT, adopter, ide="vscode-copilot")
             entry = adopter / ".cursor/skills/governed-work/SKILL.md"
+            copilot_entry = adopter / ".github/skills/governed-work/SKILL.md"
             pin = adopter / "vendor/superpowers/v7.0.2"
             debug = pin / "skills/systematic-debugging/SKILL.md"
             self.assertTrue(entry.is_file())
             self.assertFalse(entry.is_symlink())
+            self.assertTrue(copilot_entry.is_file())
+            self.assertFalse(copilot_entry.is_symlink())
             self.assertTrue(debug.is_file())
             text = entry.read_text(encoding="utf-8")
             self.assertIn("documentation or registry-text change does not require", text)
@@ -176,7 +188,9 @@ class WorkProcedures(unittest.TestCase):
         self.assertIn("rm -rf vendor/superpowers/v7.0.2.rollback", rollback[0])
         copy = [block for block in fences if "cp -L" in block and "governed-work/SKILL.md" in block]
         self.assertEqual(len(copy), 1)
-        self.assertIn("test ! -L .cursor/skills/governed-work/SKILL.md", copy[0])
+        self.assertIn('cursor) SKILL_DEST=".cursor/skills/governed-work/SKILL.md"', copy[0])
+        self.assertIn('vscode-copilot) SKILL_DEST=".github/skills/governed-work/SKILL.md"', copy[0])
+        self.assertIn('test ! -L "$SKILL_DEST"', copy[0])
 
     def test_copy_refuses_an_existing_skill_without_a_pin(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -517,15 +531,33 @@ def _path_present(path):
     return path.is_symlink() or path.exists()
 
 
-def _copy_procedures(kit, adopter):
-    """Regular-file copy used by usage/HOW_TO_IMPORT.md. Refuse an existing pin or skill."""
+def _copy_procedures(kit, adopter, ide="cursor"):
+    """Regular-file pin and IDE-entry copy used by usage/HOW_TO_IMPORT.md."""
+    entries = {
+        "cursor": ".cursor/skills/governed-work/SKILL.md",
+        "vscode-copilot": ".github/skills/governed-work/SKILL.md",
+    }
+    if ide not in entries:
+        raise ValueError(f"unsupported IDE adapter: {ide}")
     pin_dest = adopter / "vendor/superpowers/v7.0.2"
-    entry = adopter / ".cursor/skills/governed-work/SKILL.md"
-    if _path_present(pin_dest):
-        raise FileExistsError(pin_dest)
+    entry = adopter / entries[ide]
     if _path_present(entry):
         raise FileExistsError(entry)
-    pin_dest.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(kit / "vendor/superpowers/v7.0.2", pin_dest, symlinks=False)
+    if _path_present(pin_dest):
+        if pin_dest.is_symlink() or not pin_dest.is_dir():
+            raise FileExistsError(pin_dest)
+        check = subprocess.run(
+            ["sha256sum", "-c", "SHA256SUMS"],
+            cwd=pin_dest,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        if check.returncode:
+            raise ValueError(f"invalid existing pin: {check.stdout}{check.stderr}")
+    else:
+        pin_dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(kit / "vendor/superpowers/v7.0.2", pin_dest, symlinks=False)
     entry.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(kit / ".cursor/skills/governed-work/SKILL.md", entry)

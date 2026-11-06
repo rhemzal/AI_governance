@@ -28,23 +28,28 @@ Pinned Superpowers procedures and the project Spec Kit preset are **not** in imp
 ## Maintainer sequence
 
 1. **Snapshot** — [How to import](HOW_TO_IMPORT.md) Option A (or submodule/fork). Use `--readopt` for an already-imported tree; do not delete `vendor/AI_governance` to force a first import again.
-2. **Entry point** — Merge the governance baseline block into existing `AGENTS.md`; do not replace the file.
+2. **Entry points** — Merge the governance baseline block into existing `AGENTS.md` and add a short route to each IDE's native instruction file (for example `.github/copilot-instructions.md` for VS Code + GitHub Copilot); do not replace host files. See [IDE adapters](ADOPTION_SCOPE_AND_HOSTS.md#ide-adapters).
 3. **Overlay** — Copy [LOCAL_OVERLAY_TEMPLATE.md](../governance/LOCAL_OVERLAY_TEMPLATE.md) to `governance/LOCAL_OVERLAY.md`. Declare CI Maturity (CM) and the project test command. Leave the constraints table empty until discovery writes rows.
 4. **Methods** — Roll out one practice at a time ([Engineering methods adoption](ENGINEERING_METHODS_ADOPTION.md)).
-5. **Optional profile** — Opt-in copy for `vendor/superpowers/v7.0.2/` and `.cursor/skills/governed-work/SKILL.md` when the team wants the pinned procedure pin; register the preset separately if Spec Kit templates should append kit mandate text.
+5. **Optional profile** — Copy `vendor/superpowers/v7.0.2/` once and add a regular-file `governed-work` entry at each selected IDE's documented skill path (for example Cursor `.cursor/skills/` or VS Code/Copilot `.github/skills/`). Register the preset separately if Spec Kit templates should append kit mandate text.
 
 Product tests start at CI Maturity CM1 when the project already has tests. A CM0 import does not invent them.
 
 ## Intuitive agent execution and install completeness
 
-Importing the kit snapshot or copying `governed-work` does **not** make Cursor load skills on every
-chat. For operators who already granted autonomous AEP completion in host `AGENTS.md`:
+Importing the kit snapshot or copying `governed-work` does **not** prove that an IDE loads the skill.
+For each IDE, use its documented project-level skill/instruction paths and verify activation in a
+fresh session with one bounded task. For operators who already granted autonomous AEP completion
+in host `AGENTS.md`:
 
-1. Install **`.cursor/rules/autonomous-aep-execution.mdc`** (`alwaysApply: true`) from
+1. For Cursor, install **`.cursor/rules/autonomous-aep-execution.mdc`** (`alwaysApply: true`) from
    [`templates/autonomous-aep-execution.mdc.template`](../governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template)
    (the full-stack installer copies it when absent).
-2. Merge one sentence in `AGENTS.md` that natural-language requests to finish the plan are sufficient.
-3. Ensure **`vendor/superpowers/v7.0.2/`** exists (procedure pin; not copied by the stack installer alone).
+2. For VS Code + GitHub Copilot, merge a short route in `.github/copilot-instructions.md` to
+   `.github/skills/governed-work/SKILL.md`; workspace Agent Skills are on-demand, so confirm the
+   skill is actually selected in a fresh session. Do not claim Cursor Stop behavior from this route.
+3. Keep the shared authorization sentence in `AGENTS.md` and ensure **`vendor/superpowers/v7.0.2/`**
+   exists (procedure pin; not copied by the stack installer alone).
 
 After any partial install, run
 **[`check-opt-in-stack.sh`](../governance/experimental/spec_gates/check-opt-in-stack.sh)** and fix
@@ -73,7 +78,7 @@ the workflow `verify` input or set `TASK_ACCEPTANCE_CMD` before calling
 `bash ci/run_task_acceptance_check.sh` directly. Read `specs/<feature>/acceptance-run-evidence.md`
 after the workflow's final shell step.
 
-Native Cursor **Stop** dispatch is separate from workflow runs and opt-in copy. The shell contract is in `ci/gate_tests/test_stop_hook_contract.py`; proving host dispatch needs a wired Cursor session (`research/SPEC_KIT_SPEC_GATES_PILOT.md`, claim card `native-stop-dispatch-unobserved`).
+Native Cursor **Stop** dispatch is separate from workflow runs and opt-in copy. The shell contract is in `ci/gate_tests/test_stop_hook_contract.py`; proving host dispatch needs a wired Cursor session (`research/SPEC_KIT_SPEC_GATES_PILOT.md`, claim card `native-stop-dispatch-unobserved`). Other IDE Stop integrations are not implied and need their own adapter and evidence.
 
 ## Related documents
 

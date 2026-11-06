@@ -120,6 +120,25 @@ The **kit root** holds the imported snapshot, normally `vendor/AI_governance/`. 
 
 A full manifest catalog is included in every baseline. Record the actual selected bundles separately in the host entry point/overlay; catalog membership does not mean an optional bundle was imported. Minimal includes the architecture framework and glossary required by the constitution; the remaining architecture corpus and trigger map are optional upstream/add-on context.
 
+## IDE host adapters
+
+The kit snapshot and governance policy are shared; instruction and skill discovery is
+IDE-specific. Merge a short pointer into each IDE used on the project, without copying
+divergent policy text:
+
+| IDE / harness | Native project instruction route | Tier B skill route |
+| --- | --- | --- |
+| Cursor | Existing `AGENTS.md`; optional `.cursor/rules/` | `.cursor/skills/governed-work/SKILL.md` |
+| VS Code + GitHub Copilot | Existing `AGENTS.md` plus merged `.github/copilot-instructions.md` | `.github/skills/governed-work/SKILL.md` |
+| Other IDE / harness | Its documented project instruction file | Its documented workspace skill path, if supported |
+
+For each selected IDE, verify discovery and routing in a fresh session with one bounded
+task. A file existing on disk is not activation evidence. Record tested IDE/harness,
+version, entry path, task, and observed result. A project opened in multiple IDEs still
+has one policy source; do not let agents write to the same checkout concurrently.
+The experimental Tier C Stop adapter remains Cursor-specific unless a separate adapter
+is implemented and verified.
+
 ## Option A: Copy into a fresh kit directory
 
 Choose `minimal` or `standard`, with declared optional add-ons. Use `full` only with the justification in `usage/ADOPTION_BUNDLES.md`. Resolve recursive `extends` / `composes`, union/deduplicate paths, and honor `exclude`. Never recursively copy the kit over the project root or an existing kit directory. If `vendor/AI_governance` already exists, do not delete it to make the command below succeed. Use the re-adoption command instead.
@@ -195,28 +214,46 @@ rejects symlinks, and the kit's active `.cursor/skills/` entries for those
 procedures are symlinks. Do not put those symlinks in a bundle and do not
 relax that check.
 
-Copy regular files into the adopter project root. Stop before the copy when
-the pin directory or the entry skill already exists, including when either
-path is a dangling symlink. From the adopter root,
-with `KIT` set to a reviewed checkout:
+Copy the shared pin once as regular files. Stop before the copy if the destination
+already exists, including as a dangling symlink. From the adopter root, with `KIT`
+set to a reviewed checkout:
 
 ```bash
 set -euo pipefail
 test ! -e vendor/superpowers/v7.0.2
 test ! -L vendor/superpowers/v7.0.2
-test ! -e .cursor/skills/governed-work/SKILL.md
-test ! -L .cursor/skills/governed-work/SKILL.md
-mkdir -p vendor/superpowers .cursor/skills/governed-work
+mkdir -p vendor/superpowers
 cp -aL "$KIT/vendor/superpowers/v7.0.2" vendor/superpowers/v7.0.2
-cp -L "$KIT/.cursor/skills/governed-work/SKILL.md" .cursor/skills/governed-work/SKILL.md
 ( cd vendor/superpowers/v7.0.2 && sha256sum -c SHA256SUMS )
-test ! -L .cursor/skills/governed-work/SKILL.md
 ```
 
-Do not copy the other `.cursor/skills/` symlinks. The entry file points at
-`vendor/superpowers/v7.0.2/`. Leave `AGENTS.md` and `governance/LOCAL_OVERLAY.md`
-unchanged except for a pointer the adopter reviews and merges. A second copy
-stops when either the pin or the skill file exists. It does not overwrite them.
+Then install one regular-file skill entry per selected IDE. Choose a documented path
+explicitly; this block handles the two current adapters and fails closed for other names:
+
+```bash
+set -euo pipefail
+test -d vendor/superpowers/v7.0.2
+test ! -L vendor/superpowers/v7.0.2
+( cd vendor/superpowers/v7.0.2 && sha256sum -c SHA256SUMS )
+case "${GOVERNANCE_IDE:?Set cursor or vscode-copilot}" in
+  cursor) SKILL_DEST=".cursor/skills/governed-work/SKILL.md" ;;
+  vscode-copilot) SKILL_DEST=".github/skills/governed-work/SKILL.md" ;;
+  *) printf 'Unsupported IDE adapter: %s\n' "$GOVERNANCE_IDE" >&2; exit 2 ;;
+esac
+test ! -e "$SKILL_DEST"
+test ! -L "$SKILL_DEST"
+mkdir -p "$(dirname "$SKILL_DEST")"
+cp -L "$KIT/.cursor/skills/governed-work/SKILL.md" "$SKILL_DEST"
+test ! -L "$SKILL_DEST"
+```
+
+Set `GOVERNANCE_IDE=cursor` or `GOVERNANCE_IDE=vscode-copilot` for each entry.
+To add another IDE to the same checkout, keep the verified shared pin and run only
+the entry block with a different supported destination. Never overwrite an existing
+entry; review and merge local changes deliberately. Do not copy the other `.cursor/skills/`
+symlinks. The entry file points at `vendor/superpowers/v7.0.2/`. Preserve host
+`AGENTS.md`, IDE instruction files and `governance/LOCAL_OVERLAY.md`; merge reviewed
+pointers rather than replacing them.
 
 The Spec Kit preset is separate. Skip it for the one-task trial. Copy it only
 when this project does not already resolve its own Spec Kit templates.
@@ -306,7 +343,7 @@ rm -rf vendor/superpowers/v7.0.2.rollback
 | Path                                          | Who owns it                                                          |
 | --------------------------------------------- | -------------------------------------------------------------------- |
 | `vendor/superpowers/v7.0.2/`                  | Copied pin. MIT. Do not edit upstream files in place.                |
-| `.cursor/skills/governed-work/SKILL.md`       | Copied entry. A regular file, not a symlink.                         |
+| Cursor `.cursor/skills/` / Copilot `.github/skills/` | One copied `governed-work` entry per selected IDE; regular files, not symlinks. |
 | `.specify/presets/ai-governance/`             | Optional preset. Its command also registers it.                      |
 | Other `.cursor/skills/*` symlinks in the kit  | Not copied.                                                          |
 | `AGENTS.md`, `governance/LOCAL_OVERLAY.md`    | Host. The copy commands do not change them.                          |
@@ -324,28 +361,29 @@ The policy snapshot, when you want it, stays a separate import under
 bring that snapshot with it. A project with no kit snapshot can still run the
 procedures. It does not gain the kit's rules by copying the pin.
 
-If `vendor/superpowers/v7.0.2` or `.cursor/skills/governed-work/SKILL.md`
-already exists and differs from the kit, stop. Diff it. Do not delete the
-overlay to make the copy succeed. Replace the pin only through the upgrade
-block, which keeps the old tree as `v7.0.2.prev`.
+If `vendor/superpowers/v7.0.2` already exists and differs from the kit, stop. Diff it.
+Do not delete the overlay to make the copy succeed. Replace the pin only through the
+upgrade block, which keeps the old tree as `v7.0.2.prev`. If the selected IDE entry
+already exists, preserve it and merge manually; adding a different IDE entry does not
+require recopying the pin.
 
 ### Activation
 
-After the copy, the host loads `.cursor/skills/governed-work/SKILL.md`.
-Documentation and registry wording do not require a red-green test. A failing
-check uses `systematic-debugging` from the pin. Paths in the skill are from
-the project root, not from `vendor/AI_governance/`. A disposable adopter can
-check the same paths with
+After the copy, verify that the selected host loads its entry: `.cursor/skills/` in
+Cursor or `.github/skills/` in VS Code + Copilot. Presence on disk alone does not
+prove activation. Documentation and registry wording do not require a red-green test.
+A failing check uses `systematic-debugging` from the pin. Paths in the skill are from
+the project root, not from `vendor/AI_governance/`. A disposable adopter can check the same paths with
 `WorkProcedures.test_activation_smoke_after_opt_in_copy` in
 `ci/gate_tests/test_work_procedures.py`.
 
-**Intuitive execution (autonomous mandate adopters):** Cursor skills are not
-always loaded. If the operator already authorized inline AEP completion in
-`AGENTS.md`, add an **always-on** project rule
-(`.cursor/rules/autonomous-aep-execution.mdc`, `alwaysApply: true`) so requests
-like “finish all open AEP items” run the chain without `/governed-work`. The
-full-stack installer copies a kit template when that file is absent; customize
-paths and merge one sentence into `AGENTS.md`. See
+**Intuitive execution (autonomous mandate adopters):** If the operator already
+authorized inline AEP completion in `AGENTS.md`, add a supported route for the IDE
+being used and test it with a fresh session. Cursor can use the **always-on** project
+rule (`.cursor/rules/autonomous-aep-execution.mdc`, `alwaysApply: true`); the
+full-stack installer copies that Cursor template when absent. VS Code + Copilot can
+route through `.github/copilot-instructions.md` to `.github/skills/governed-work/SKILL.md`.
+Do not claim always-on behavior in another IDE without host-specific evidence. See
 [`OPT_IN_STACK.md`](../governance/experimental/spec_gates/OPT_IN_STACK.md)
 § Intuitive agent execution.
 
@@ -363,26 +401,28 @@ Use a repository you are allowed to edit. Write the task and the acceptance
 observation before the agent starts. Do not install spec-gates, do not wire a
 Stop hook, and do not drive the trial with `specify workflow run`.
 
-Merge this into the existing `AGENTS.md`. Do not replace that file:
+Merge the common mandate into existing `AGENTS.md` and add a route in each selected
+IDE's existing instruction file. Do not replace host files:
 
 ```markdown
 ## Governed work trial
 
 - Pin: `vendor/superpowers/v7.0.2/` (MIT).
-- Entry: `.cursor/skills/governed-work/SKILL.md`.
+- Cursor entry: `.cursor/skills/governed-work/SKILL.md`.
+- VS Code + Copilot entry: `.github/skills/governed-work/SKILL.md`; route to it from `.github/copilot-instructions.md`.
 - Kit policy, if present: `vendor/AI_governance/` or `constitution/`. This file and `governance/LOCAL_OVERLAY.md` stay in force.
 - One task. Do not commit, push, or deploy unless the task says so.
 ```
 
-Ask the agent to load that skill and do the one task. Stop the trial if it
+In each IDE, ask the agent to load the corresponding skill and do the one task.
+Record which entry was discovered and the verification result. Stop the trial if it
 asks to continue work the task already allowed, repeats a finished edit, or
 reviews `HEAD~1` while the change is still uncommitted.
 
-Remove the trial by deleting `vendor/superpowers/v7.0.2`,
-`.cursor/skills/governed-work/`, `.specify/presets/ai-governance/`, and the
-pointer you merged. The disposable copy, repeat refusal, and upgrade/rollback
-checks are `ci/gate_tests/test_work_procedures.py`. They are not a result from
-a named downstream repository.
+Remove only the trial's `vendor/superpowers/v7.0.2/`, selected IDE skill entries,
+optional `.specify/presets/ai-governance/`, and merged pointers. The disposable copy,
+repeat refusal, and upgrade/rollback checks are `ci/gate_tests/test_work_procedures.py`.
+They are not a result from a named downstream repository.
 
 ### Re-adoption
 
@@ -434,7 +474,7 @@ A second re-adoption run refuses to start when `vendor/AI_governance.readopt-rep
 
 When both an active snapshot and legacy kit files still live at the project root, only the snapshot is joined. Root files outside the new bundle selection are not inventoried the way a pure root-layout import is. Move references to the snapshot or reconcile those root copies in a migration change before relying on the report alone.
 
-For work procedures that are already present, do not run the first-copy block. It stops when the pin or the entry skill exists. A pin update uses the upgrade block, and only when `v7.0.2.prev` is absent. Rollback still requires that previous directory.
+For an existing pin, do not rerun its first-copy block. To add another IDE, run only the entry block with that IDE selected; it verifies the shared pin and stops if that IDE's entry already exists. A pin update uses the upgrade block, and only when `v7.0.2.prev` is absent. Rollback still requires that previous directory.
 
 ### Existing root-layout imports and updates
 
