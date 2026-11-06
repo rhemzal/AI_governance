@@ -4,6 +4,10 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Opt-in docs (2026-11-06)
+
+- [Docs] `OPT_IN_STACK.md` and `FULL_OPT_IN_ADOPTION_PLAYBOOK.md`: how to verify **native Cursor Stop** dispatch after Tier C (recorder + IDE), vs wiring-only checks.
+
 ### Agent host boundary vs tier C gates (2026-11-05)
 
 - [Advisory-only] Post-incident maintainer notes from downstream dogfood: tier C does not sandbox agent shell or gitignored tool trees; document limits in `usage/ADOPTION_SCOPE_AND_HOSTS.md`, `OPT_IN_STACK.md`, overlay template, and `research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md`.

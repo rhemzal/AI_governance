@@ -33,7 +33,8 @@ Normative detail stays in `usage/HOW_TO_IMPORT.md`, `governance/experimental/spe
    ```
 
 7. **Completeness:** `bash "$KIT_SOURCE/governance/experimental/spec_gates/check-opt-in-stack.sh"` — fix every `[missing]`; accept `[gap]` only if operator declined that layer.
-8. **Record:** host ADR (scope, pin, acceptance command, CM level). Do not merge/push/deploy unless authorized.
+8. **Native Stop (optional):** green check only proves wiring. To record real dispatch, follow [OPT_IN_STACK.md § Verifying native Cursor Stop](../governance/experimental/spec_gates/OPT_IN_STACK.md#verifying-native-cursor-stop-optional) (recorder + IDE session).
+9. **Record:** host ADR (scope, pin, acceptance command, CM level). Do not merge/push/deploy unless authorized.
 
 **Stop only for:** missing authorization, failed verify with exhausted repair budget, readopt report conflicts requiring human merge, or security/destructive effects outside mandate.
 

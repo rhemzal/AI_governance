@@ -78,6 +78,28 @@ On headless Linux, the installer runs `agent sandbox disable` when `agent` is on
 
 Git commits with projected hooks: `git commit -F msg.txt` (no `Co-Authored-By` trailer).
 
+### Verifying native Cursor Stop (optional)
+
+`check-opt-in-stack.sh` reporting **Cursor Stop hook configured** only means `.cursor/hooks.json`
+declares a `stop` step — not that Cursor has ever **dispatched** it during a real agent turn.
+
+| What counts as evidence | What does not |
+| ----------------------- | ------------- |
+| A new line in `.cursor/hooks/stop-invocations.jsonl` after a normal agent completion (Stop) while the recorder marker exists | Running `bash .cursor/hooks/kit-verify-stop.sh` by hand from a shell |
+| Hooks output channel / Cursor hooks diagnostics showing the `stop` command executed | `python3 -m unittest … test_stop_hook_contract` alone (contract test, not host dispatch) |
+| A short note in your overlay or ops doc with host Cursor version + one pasted JSON line | Harbor or `cursor agent --print` runs (they do not prove IDE Stop) |
+
+**Recorder (recommended for one trial):** create an empty file
+`.cursor/hooks/record-stop-invocations`. When the hook runs, the Stop script appends one JSON
+object per invocation to `.cursor/hooks/stop-invocations.jsonl` (see
+`.cursor/hooks/kit-verify-stop.sh`). Remove the marker when done; keep the log out of version
+control or copy a row into an internal note. The kit may gitignore the live `jsonl` when present.
+
+Use the **Cursor IDE** workspace for this check — that is where Stop hooks are expected to fire
+at end-of-turn. Host behavior varies by Cursor build; see scaffold and examples in
+[`research/experiments/cursor-stop/README.md`](../../../research/experiments/cursor-stop/README.md)
+(also under `vendor/AI_governance/research/experiments/cursor-stop/` after bundle import).
+
 ## Intuitive agent execution (no `/governed-work` ritual)
 
 Skills under `.cursor/skills/` are **optional** in Cursor: the model may never load
