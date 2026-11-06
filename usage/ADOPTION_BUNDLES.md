@@ -134,6 +134,7 @@ Research and focused guides outside the selection are optional, not hidden depen
 
 ## Related Documents
 
+- `usage/ADOPTION_REPO_FOOTPRINT.md` — typical file-count footprint and repo impact by adoption tier
 - `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`
 - `kit-manifest.yml`
 - `usage/HOW_TO_IMPORT.md`

@@ -56,13 +56,15 @@ Normative detail stays in `usage/HOW_TO_IMPORT.md`, `governance/experimental/spe
 
 ### Phase map
 
-| Phase               | You get                                        | Common mistake                                                    |
-| ------------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
-| A — Bundle import   | `vendor/AI_governance/`                        | Importing only submodule or root `constitution/` without snapshot |
+| Phase               | You get                                        | Common mistake                                                                   |
+| ------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------- |
+| A — Bundle import   | `vendor/AI_governance/`                        | Importing only submodule or root `constitution/` without snapshot                |
 | B — Superpowers pin | `vendor/superpowers/v7.0.2/`                   | The installer copies the pin when that path is absent. It does not overwrite it. |
-| C — Host files      | `AGENTS.md`, overlay, AEP rule                 | Relying on `/governed-work` instead of always-on rule             |
-| D — Stack install   | gates, Stop, workflow, venv                    | Running install without `ADOPTER_VERIFY_COMMAND`                  |
-| E — Verify          | `check-opt-in-stack.sh` green on required rows | Declaring done after import only                                  |
+| C — Host files      | `AGENTS.md`, overlay, AEP rule                 | Relying on `/governed-work` instead of always-on rule                            |
+| D — Stack install   | gates, Stop, workflow, venv                    | Running install without `ADOPTER_VERIFY_COMMAND`                                 |
+| E — Verify          | `check-opt-in-stack.sh` green on required rows | Declaring done after import only                                                 |
+
+**Large `git status` after phases A–D:** Tier C often produces **hundreds of new or changed paths** in one review pass (vendored snapshot + projected spec-gates + hooks). That is expected; see [ADOPTION_REPO_FOOTPRINT.md](./ADOPTION_REPO_FOOTPRINT.md).
 
 ### One-command stack refresh (after A–C)
 
@@ -115,6 +117,7 @@ Reload Cursor after rule changes.
 ## Related
 
 - [ADOPTION_SCOPE_AND_HOSTS.md](./ADOPTION_SCOPE_AND_HOSTS.md)
+- [ADOPTION_REPO_FOOTPRINT.md](./ADOPTION_REPO_FOOTPRINT.md)
 - [HOW_TO_IMPORT.md](./HOW_TO_IMPORT.md)
 - [FOR_EXISTING_PROJECTS.md](./FOR_EXISTING_PROJECTS.md)
 - [OPT_IN_STACK.md](../governance/experimental/spec_gates/OPT_IN_STACK.md)

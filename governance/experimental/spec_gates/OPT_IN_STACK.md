@@ -83,11 +83,11 @@ Git commits with projected hooks: `git commit -F msg.txt` (no `Co-Authored-By` t
 `check-opt-in-stack.sh` reporting **Cursor Stop hook configured** only means `.cursor/hooks.json`
 declares a `stop` step — not that Cursor has ever **dispatched** it during a real agent turn.
 
-| What counts as evidence | What does not |
-| ----------------------- | ------------- |
-| A new line in `.cursor/hooks/stop-invocations.jsonl` after a normal agent completion (Stop) while the recorder marker exists | Running `bash .cursor/hooks/kit-verify-stop.sh` by hand from a shell |
-| Hooks output channel / Cursor hooks diagnostics showing the `stop` command executed | `python3 -m unittest … test_stop_hook_contract` alone (contract test, not host dispatch) |
-| A short note in your overlay or ops doc with host Cursor version + one pasted JSON line | Harbor or `cursor agent --print` runs (they do not prove IDE Stop) |
+| What counts as evidence                                                                                                      | What does not                                                                            |
+| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| A new line in `.cursor/hooks/stop-invocations.jsonl` after a normal agent completion (Stop) while the recorder marker exists | Running `bash .cursor/hooks/kit-verify-stop.sh` by hand from a shell                     |
+| Hooks output channel / Cursor hooks diagnostics showing the `stop` command executed                                          | `python3 -m unittest … test_stop_hook_contract` alone (contract test, not host dispatch) |
+| A short note in your overlay or ops doc with host Cursor version + one pasted JSON line                                      | Harbor or `cursor agent --print` runs (they do not prove IDE Stop)                       |
 
 **Recorder (recommended for one trial):** create an empty file
 `.cursor/hooks/record-stop-invocations`. When the hook runs, the Stop script appends one JSON
@@ -184,9 +184,12 @@ agent does not invoke `/governed-work`.
 | `scripts/activate-governance-specify-env.sh` | PATH helper                                                   |
 | `.cursor/rules/autonomous-aep-execution.mdc` | Optional alwaysApply rule (template; customize mandate paths) |
 
+**Why so many files:** the table above is only a short list of roots; the projected spec-gates tree and kit snapshot contain **many small files** — see [Adoption footprint (file counts and impact by tier)](../../../usage/ADOPTION_REPO_FOOTPRINT.md).
+
 ## Related
 
 - [**Full opt-in adoption playbook** (humans + agents)](../../../usage/FULL_OPT_IN_ADOPTION_PLAYBOOK.md)
+- [Adoption footprint (file counts and impact by tier)](../../../usage/ADOPTION_REPO_FOOTPRINT.md)
 - [HOW_TO_IMPORT.md](../../../usage/HOW_TO_IMPORT.md) § Opt-in work procedures
 - [FOR_EXISTING_PROJECTS.md](../../../usage/FOR_EXISTING_PROJECTS.md) named downstream trial
 - [README.md](./README.md) adapter details

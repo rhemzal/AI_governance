@@ -33,6 +33,8 @@ Tier C material lives under `governance/experimental/` and is **excluded from im
 
 **Middle ground:** Tier B plus always-on `.cursor/rules/autonomous-aep-execution.mdc` is common for intuitive AEP UX; that is still **not** tier C unless spec-gates, Stop hook, and workflow acceptance are authorized and installed.
 
+**Expected repo size:** Tier A is mostly `vendor/AI_governance/` (bundle-dependent). Tier C adds spec-gates projection, hooks, and related trees — often **hundreds of tracked paths** in one adoption. That is normal, not a failed install; see [Adoption footprint (file counts and impact by tier)](./ADOPTION_REPO_FOOTPRINT.md).
+
 ---
 
 ## Repository eligibility (where tier C may run)
@@ -132,3 +134,4 @@ Continue tier A/B read-only assessment when authorized.
 - [ADOPTION_ENFORCEMENT_CONTRACT.md](./ADOPTION_ENFORCEMENT_CONTRACT.md) — CM0–CM3 gates
 - [research/EXTERNAL_PROJECT_EVALUATIONS.md](../research/EXTERNAL_PROJECT_EVALUATIONS.md) — recorded downstream outcomes
 - [research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md](../research/POST_INCIDENT_AGENT_HOST_BOUNDARY_20261105.md) — tier C vs agent shell (advisory)
+- [ADOPTION_REPO_FOOTPRINT.md](./ADOPTION_REPO_FOOTPRINT.md) — file-count expectations and impact by tier A–C
