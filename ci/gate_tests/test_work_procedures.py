@@ -1,4 +1,4 @@
-"""Pin, preset, workflow, and opt-in copy checks for the routine work procedures.
+"""Pin, preset, workflow, and IDE skill adapter checks.
 
 Provenance: AI_governance kit (https://github.com/rhemzal/AI_governance).
 These tests do not execute Superpowers and do not run a benchmark trial.
@@ -55,6 +55,54 @@ class WorkProcedures(unittest.TestCase):
         orchestrator = ROOT / ".cursor/skills/subagent-driven-development"
         self.assertFalse((orchestrator / "SKILL.md").exists())
         self.assertTrue((orchestrator / "scripts/sdd-workspace").is_file())
+
+    def test_copilot_skills_mirror_cursor_skills_and_resources(self):
+        cursor_root = ROOT / ".cursor/skills"
+        copilot_root = ROOT / ".github/skills"
+        source_skills = {
+            entry.name for entry in cursor_root.iterdir() if (entry / "SKILL.md").is_file()
+        }
+        copied_skills = {
+            entry.name for entry in copilot_root.iterdir() if (entry / "SKILL.md").is_file()
+        }
+        self.assertEqual(copied_skills, source_skills)
+        self.assertEqual(len(source_skills), 25)
+
+        for name in sorted(source_skills):
+            source_dir = (cursor_root / name).resolve(strict=True)
+            copied_dir = copilot_root / name
+            expected_files = {}
+            for root, _, filenames in os.walk(source_dir, followlinks=True):
+                for filename in filenames:
+                    source_file = Path(root) / filename
+                    relative = source_file.relative_to(source_dir)
+                    expected_files[relative] = source_file.read_bytes()
+            copied_files = {
+                path.relative_to(copied_dir)
+                for path in copied_dir.rglob("*")
+                if path.is_file()
+            }
+            self.assertEqual(copied_files, set(expected_files), name)
+            for relative, content in expected_files.items():
+                copied_file = copied_dir / relative
+                self.assertFalse(copied_file.is_symlink(), str(copied_file))
+                self.assertEqual(copied_file.read_bytes(), content, str(copied_file))
+
+        source_scripts = cursor_root / "subagent-driven-development/scripts"
+        copied_scripts = copilot_root / "subagent-driven-development/scripts"
+        self.assertTrue(source_scripts.is_dir())
+        self.assertTrue(copied_scripts.is_dir())
+        for source_file in source_scripts.resolve().rglob("*"):
+            if source_file.is_file():
+                relative = source_file.relative_to(source_scripts.resolve())
+                copied_file = copied_scripts / relative
+                self.assertTrue(copied_file.is_file(), str(copied_file))
+                self.assertFalse(copied_file.is_symlink(), str(copied_file))
+                self.assertEqual(copied_file.read_bytes(), source_file.read_bytes(), str(copied_file))
+
+        instructions = (ROOT / ".github/copilot-instructions.md").read_text(encoding="utf-8")
+        self.assertIn(".github/skills/<name>/SKILL.md", instructions)
+        self.assertIn("## Import scope (bundle-aware)", instructions)
 
     def test_documentation_exception_is_in_the_entry_point(self):
         text = (ROOT / ".cursor/skills/governed-work/SKILL.md").read_text(encoding="utf-8")

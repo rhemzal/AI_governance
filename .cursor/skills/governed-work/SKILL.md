@@ -8,11 +8,13 @@ description: Use when debugging a failure, executing an already authorized plan,
 Use this skill before the pinned Superpowers texts. Those texts are procedures.
 A skill cannot widen the mandate, demand a commit, or replace an acceptance criterion.
 
-**Adopter note:** Cursor may not load this skill automatically. Projects with an
-autonomous mandate should install an always-on rule from
-`governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template`
-(see `OPT_IN_STACK.md` § Intuitive agent execution). Natural-language AEP requests
-then work without typing `/governed-work`.
+**Activation note:** Skill discovery is host-specific. Verify that the host loads
+this entry in a fresh session; file presence alone is not proof. For natural-language
+AEP requests, use the host's supported instruction route. Cursor can use the optional
+always-on rule from
+`governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template`;
+VS Code + Copilot can route through `.github/copilot-instructions.md`. This is
+separate from Tier C Stop behavior.
 
 ## Adopter checkout
 
@@ -28,8 +30,10 @@ install spec-gates or a Stop hook to use this skill. Do not start
 run left `running` is not resumed.
 
 The pin is Superpowers v7.0.2, commit `22f0b463e7a5e579904dd6211a520321035526f7`,
-under `vendor/superpowers/v7.0.2/` (MIT). Active skill directories in
-`.cursor/skills/` point at that pin. Hashes are `vendor/superpowers/v7.0.2/SHA256SUMS`.
+under `vendor/superpowers/v7.0.2/` (MIT). Cursor's pinned skill entries in
+`.cursor/skills/` point at that tree; Copilot uses regular-file copies under
+`.github/skills/`. Keep supporting resources beside their matching skill.
+Hashes are `vendor/superpowers/v7.0.2/SHA256SUMS`.
 
 ## Local overlay loading
 

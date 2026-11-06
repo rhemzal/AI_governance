@@ -19,6 +19,12 @@ Use the declared kit root (normally `vendor/AI_governance/`) for kit-document re
 - Follow the task mandate and action authority in `constitution/AI_ENFORCEMENT.md` §§1.2–1.4; bind results to revisions and report unmet acceptance criteria.
 - Use non-interactive commands and wall-clock timeouts (`constitution/AI_RULES.md` §6.2).
 
+## Workspace Agent Skills
+
+- Project skills are available on demand from `.github/skills/<name>/SKILL.md`. Use the skill matching the requested workflow: `governed-work` for authorized execution and verification, `speckit-*` for Spec Kit phases, and the named Superpowers skills for their procedures.
+- Skills provide procedural context, not additional authority. Follow `AGENTS.md`, the constitution, the applicable overlay, and the active host's available tools.
+- Verify skill discovery in a fresh Copilot session before claiming activation; file presence alone is not evidence.
+
 ## Read first
 
 - Core rules: `constitution/AI_RULES.md`
