@@ -78,6 +78,16 @@ if grep -q "autonomous-aep-execution\|Active autonomous\|inline completion" AGEN
 else
   warn "AGENTS.md has no autonomous mandate pointer — merge host mandate; skills alone do not grant authority"
 fi
+if [[ -f .github/skills/governed-work/SKILL.md ]]; then
+  note "VS Code governed-work skill entry"
+else
+  warn "no .github/skills/governed-work/SKILL.md — install the VS Code workspace route"
+fi
+if grep -qF '<!-- AI Governance Tier C route -->' .github/copilot-instructions.md 2>/dev/null; then
+  note "VS Code Copilot instruction route"
+else
+  warn "no VS Code Copilot instruction route in .github/copilot-instructions.md"
+fi
 
 echo
 echo "Phase D — acceptance + workflow + gates"
@@ -110,6 +120,51 @@ if [[ -f .cursor/hooks.json ]] && grep -q '"stop"' .cursor/hooks.json 2>/dev/nul
   note "Cursor Stop hook configured"
 else
   warn "no Stop hook in .cursor/hooks.json"
+fi
+if python3 - <<'PY' >/dev/null 2>&1
+import json
+from pathlib import Path
+
+path = Path(".github/hooks/ai-governance.json")
+try:
+    config = json.loads(path.read_text(encoding="utf-8"))
+except (OSError, json.JSONDecodeError):
+    raise SystemExit(1)
+if not isinstance(config, dict) or config.get("version") != 1:
+    raise SystemExit(1)
+hooks = config.get("hooks")
+if not isinstance(hooks, dict) or not isinstance(hooks.get("agentStop"), list):
+    raise SystemExit(1)
+expected_commands = {
+    "bash": "python3 .github/hooks/kit-verify-stop.py",
+    "powershell": "py -3 .github/hooks/kit-verify-stop.py",
+}
+verifier_timeout_seconds = 140  # Keep aligned with VERIFY_TIMEOUT_SECONDS in the adapter.
+for hook in hooks["agentStop"]:
+    if (
+        isinstance(hook, dict)
+        and hook.get("type") == "command"
+        and hook.get("cwd") == "."
+        and all(hook.get(shell) == command for shell, command in expected_commands.items())
+        and type(hook.get("timeoutSec")) is int
+        and hook["timeoutSec"] > verifier_timeout_seconds
+    ):
+        raise SystemExit(0)
+raise SystemExit(1)
+PY
+then
+  if [[ -f .github/hooks/kit-verify-stop.py ]]; then
+    note "VS Code Copilot agentStop hook configured"
+  else
+    warn "VS Code agentStop config exists but kit-verify-stop.py is missing"
+  fi
+else
+  warn "no valid VS Code Copilot agentStop hook in .github/hooks/ai-governance.json"
+fi
+if [[ -s .github/hooks/stop-invocations.jsonl ]]; then
+  note "VS Code hook invocation log present — correlate with a fresh Copilot session and host version"
+else
+  warn "native VS Code Copilot dispatch is unverified — run a fresh Copilot session; config and tests do not prove dispatch"
 fi
 
 echo

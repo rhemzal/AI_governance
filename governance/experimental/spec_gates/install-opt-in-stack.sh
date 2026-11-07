@@ -346,6 +346,7 @@ install_procedures_and_ci() {
   cp -L "$KIT_SOURCE/.cursor/hooks/kit-verify-stop.sh" "$ROOT/.cursor/hooks/"
   cp -L "$KIT_SOURCE/.cursor/hooks.json" "$ROOT/.cursor/hooks.json"
   chmod +x "$ROOT/.cursor/hooks/kit-verify-stop.sh"
+  python3 "$SCRIPT_DIR/install-vscode-adapter.py" --source "$KIT_SOURCE" --root "$ROOT"
   python3 - <<'PY'
 import json
 from pathlib import Path

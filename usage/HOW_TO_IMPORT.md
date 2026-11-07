@@ -126,18 +126,20 @@ The kit snapshot and governance policy are shared; instruction and skill discove
 IDE-specific. Merge a short pointer into each IDE used on the project, without copying
 divergent policy text:
 
-| IDE / harness | Native project instruction route | Tier B skill route |
-| --- | --- | --- |
-| Cursor | Existing `AGENTS.md`; optional `.cursor/rules/` | `.cursor/skills/governed-work/SKILL.md` |
-| VS Code + GitHub Copilot | Existing `AGENTS.md` plus merged `.github/copilot-instructions.md` | `.github/skills/governed-work/SKILL.md` |
-| Other IDE / harness | Its documented project instruction file | Its documented workspace skill path, if supported |
+| IDE / harness            | Native project instruction route                                   | Tier B skill route                                |
+| ------------------------ | ------------------------------------------------------------------ | ------------------------------------------------- |
+| Cursor                   | Existing `AGENTS.md`; optional `.cursor/rules/`                    | `.cursor/skills/governed-work/SKILL.md`           |
+| VS Code + GitHub Copilot | Existing `AGENTS.md` plus merged `.github/copilot-instructions.md` | `.github/skills/governed-work/SKILL.md`           |
+| Other IDE / harness      | Its documented project instruction file                            | Its documented workspace skill path, if supported |
 
 For each selected IDE, verify discovery and routing in a fresh session with one bounded
 task. A file existing on disk is not activation evidence. Record tested IDE/harness,
 version, entry path, task, and observed result. A project opened in multiple IDEs still
 has one policy source; do not let agents write to the same checkout concurrently.
-The experimental Tier C Stop adapter remains Cursor-specific unless a separate adapter
-is implemented and verified.
+Tier C provides separate native Stop adapters for Cursor and VS Code + GitHub Copilot.
+VS Code agent hooks are Preview. A configured adapter and its contract tests do not prove
+host dispatch; verify it in a fresh session in the matching IDE as described in
+[`OPT_IN_STACK.md`](../governance/experimental/spec_gates/OPT_IN_STACK.md).
 
 ## Option A: Copy into a fresh kit directory
 
@@ -340,14 +342,14 @@ rm -rf vendor/superpowers/v7.0.2.rollback
 
 ### What is copied and what stays yours
 
-| Path                                          | Who owns it                                                          |
-| --------------------------------------------- | -------------------------------------------------------------------- |
-| `vendor/superpowers/v7.0.2/`                  | Copied pin. MIT. Do not edit upstream files in place.                |
+| Path                                                 | Who owns it                                                                     |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `vendor/superpowers/v7.0.2/`                         | Copied pin. MIT. Do not edit upstream files in place.                           |
 | Cursor `.cursor/skills/` / Copilot `.github/skills/` | One copied `governed-work` entry per selected IDE; regular files, not symlinks. |
-| `.specify/presets/ai-governance/`             | Optional preset. Its command also registers it.                      |
-| Other `.cursor/skills/*` symlinks in the kit  | Not copied.                                                          |
-| `AGENTS.md`, `governance/LOCAL_OVERLAY.md`    | Host. The copy commands do not change them.                          |
-| spec-gates, Stop hook, `specify workflow run` | Not part of the **procedure-only** copy block; see full stack below. |
+| `.specify/presets/ai-governance/`                    | Optional preset. Its command also registers it.                                 |
+| Other `.cursor/skills/*` symlinks in the kit         | Not copied.                                                                     |
+| `AGENTS.md`, `governance/LOCAL_OVERLAY.md`           | Host. The copy commands do not change them.                                     |
+| spec-gates, Stop hook, `specify workflow run`        | Not part of the **procedure-only** copy block; see full stack below.            |
 
 **Full stack (readopt + procedures + spec-gates + Stop + specify venv):** when an authorized
 adopter trial needs all opt-in layers, confirm [Adoption scope, authorization, and hosts](../usage/ADOPTION_SCOPE_AND_HOSTS.md) (tier C), then follow

@@ -16,6 +16,20 @@
       "rerun_when": "The Cursor stop script, the host stop contract, or the spec-gates verify entrypoint changes."
     },
     {
+      "id": "vscode-hook-recorder-contract",
+      "statement": "The VS Code Copilot adapter's marked recorder test verifies minimal invocation metadata, but does not establish that VS Code dispatched the hook.",
+      "source": ".github/hooks/kit-verify-stop.py",
+      "layer": "research",
+      "oracle": "canary",
+      "status": "integrated",
+      "positive": "The contract test runs the adapter with the recorder marker and checks that its record contains the source and decision but no transcript or session identifier.",
+      "negative": "The test invokes the script directly; it does not run VS Code or prove a native Copilot agentStop dispatch.",
+      "known_pass_that_is_not_proof": "A passing synthetic adapter test is not evidence that a VS Code session dispatched the hook.",
+      "path": "ci/gate_tests/test_vscode_stop_hook_contract.py",
+      "anchor": "def test_recorder_writes_minimal_dispatch_evidence_only_when_enabled",
+      "rerun_when": "The VS Code Copilot adapter, recorder schema, or host-dispatch evidence procedure changes."
+    },
+    {
       "id": "native-stop-dispatch-unobserved",
       "statement": "The native Cursor agent CLI session in the 2026-11-01 fixture ended without a local stop-hook invocation.",
       "source": "research/experiments/spec_kit_spec_gates/cursor_native_2026-11-01/README.md",

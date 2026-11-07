@@ -41,6 +41,21 @@ A gate failure (`verify.sh` exit 2) emits `followup_message`. When `verify.sh` i
 
 Cursor IDE 3.27.22 runs `.cursor/hooks.json` and `.claude/settings.json` `Stop` hooks in parallel. For `followup_message`, the later response wins, and the Claude project hook is later than the Cursor project hook. The projected Claude `verify-quality.sh` still uses exit 2, which this host turns into `{}` and therefore does not replace a Cursor `followup_message`. Both hooks can still run `verify.sh` on the same stop. Do not skip git hooks to avoid that overlap.
 
+## VS Code + GitHub Copilot (Preview)
+
+`.github/hooks/ai-governance.json` registers the `agentStop` adapter at
+`.github/hooks/kit-verify-stop.py`. It runs `.specify/gates/verify.sh --boundary agent`,
+blocks on a failing or unavailable verifier, and allows the stop after a successful
+verification. Its input/output contract is distinct from Cursor's `stop` hook.
+
+The VS Code hook feature is Preview. `check-opt-in-stack.sh` validates configuration and
+reports whether an invocation log exists; neither that check nor
+`ci/gate_tests/test_vscode_stop_hook_contract.py` proves native dispatch. Verify a fresh
+Copilot agent session and correlate the Copilot Hooks output with a new line in the
+optional `.github/hooks/stop-invocations.jsonl` recorder log. See
+[`OPT_IN_STACK.md`](./OPT_IN_STACK.md#verifying-native-vs-code-copilot-agentstop-optional)
+for the manual procedure and evidence limits.
+
 ## CI
 
 See `.github/workflows/spec-gates-kit-advisory.yml`. It is advisory. Branch protection is unchanged.
@@ -51,7 +66,7 @@ Root `.gitignore` excludes machine-local Spec Kit state (`.specify-dev/`, `featu
 
 **Suggested commits (review order):**
 
-1. **Adapter** — `governance/experimental/spec_gates/**`, `.cursor/hooks.json`, `.cursor/hooks/kit-verify-stop.sh`, `.github/workflows/spec-gates-kit-advisory.yml`, `.gitignore` updates.
+1. **Adapters** — `governance/experimental/spec_gates/**`, `.cursor/hooks.json`, `.cursor/hooks/kit-verify-stop.sh`, `.github/hooks/ai-governance.json`, `.github/hooks/kit-verify-stop.py`, `.github/workflows/spec-gates-kit-advisory.yml`, `.gitignore` updates.
 2. **Projected runtime** — `.specify/gates/**`, `.specify/extensions/gates/{extension.yml,runtime/**}`, registry, and integration manifest from `install-and-project.sh` (regenerate after pinned upstream bumps; do not hand-edit projected copies). Do not commit upstream `README.md` / `LICENSE` / `CHANGELOG.md` under the extension tree (kit link gate); they stay gitignored.
 
 Re-run `sync-policy.sh` after changing `policy.kit.json`; never treat `.specify/gates/policy.json` as the source of truth.

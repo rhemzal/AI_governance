@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "python3 .github/hooks/kit-verify-stop.py",
+        "powershell": "py -3 .github/hooks/kit-verify-stop.py",
+        "cwd": ".",
+        "timeoutSec": 150
+      }
+    ]
+  }
+}

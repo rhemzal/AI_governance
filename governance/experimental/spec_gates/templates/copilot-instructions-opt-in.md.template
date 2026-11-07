@@ -1,0 +1,7 @@
+<!-- AI Governance Tier C route -->
+
+## Governed work
+
+- Follow the shared project policy in `AGENTS.md` and `governance/LOCAL_OVERLAY.md`.
+- Use `.github/skills/governed-work/SKILL.md` for authorized work procedures.
+- In VS Code, select the **Copilot** session target for the Tier C `agentStop` hook in `.github/hooks/ai-governance.json`.

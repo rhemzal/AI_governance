@@ -16,6 +16,7 @@ SPEC.loader.exec_module(VALIDATOR)
 ROOT = Path(__file__).resolve().parents[2]
 STANDING = {
     "stop-hook-fail-open": ("research", "canary", "integrated"),
+    "vscode-hook-recorder-contract": ("research", "canary", "integrated"),
     "native-stop-dispatch-unobserved": ("research", "canary", "integrated"),
     "adr-presence-is-not-rationale": ("advisory", "canary", "integrated"),
     "fabricated-test-evidence": ("advisory", "canary", "integrated"),

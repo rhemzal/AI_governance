@@ -28,11 +28,11 @@ under one IDE's directory is loaded by another IDE. A shared checkout can have s
 entry points, but it still has one policy source and must not have concurrent agents
 writing to it.
 
-| IDE / harness | Project instruction route | Tier B `governed-work` entry | Evidence and limits |
-| --- | --- | --- | --- |
-| Cursor | Existing host `AGENTS.md`; optional `.cursor/rules/` | `.cursor/skills/governed-work/SKILL.md` | Verify in a Cursor session. The Tier C native Stop integration documented below is Cursor-specific. |
-| VS Code + GitHub Copilot | Existing host `AGENTS.md` plus merged `.github/copilot-instructions.md` | `.github/skills/governed-work/SKILL.md` | VS Code supports workspace Agent Skills; verify activation in a fresh Copilot session. This does not provide Cursor Stop behavior. |
-| Other IDE / harness | Its documented workspace instruction entry | Its documented workspace skill path, if supported | Treat as unvalidated until a fresh-session task proves discovery and routing; do not guess paths or infer feature parity. |
+| IDE / harness            | Project instruction route                                               | Tier B `governed-work` entry                      | Evidence and limits                                                                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cursor                   | Existing host `AGENTS.md`; optional `.cursor/rules/`                    | `.cursor/skills/governed-work/SKILL.md`           | Verify in a Cursor session. Tier C registers a Cursor Stop adapter; prove dispatch in Cursor separately.                                                                  |
+| VS Code + GitHub Copilot | Existing host `AGENTS.md` plus merged `.github/copilot-instructions.md` | `.github/skills/governed-work/SKILL.md`           | Verify activation in a fresh Copilot session. VS Code agent hooks are Preview; Tier C registers a separate `agentStop` adapter whose native dispatch needs its own proof. |
+| Other IDE / harness      | Its documented workspace instruction entry                              | Its documented workspace skill path, if supported | Treat as unvalidated until a fresh-session task proves discovery and routing; do not guess paths or infer feature parity.                                                 |
 
 Use the IDE's supported, project-level paths. Merge pointers into existing instruction
 files; never replace host instructions with a kit projection. For a multi-IDE checkout,
@@ -42,18 +42,19 @@ record which adapters were actually tested and which remain unverified.
 
 ## Three adoption tiers
 
-| Tier                                   | What you install                                                                                                                      | Typical CI Maturity                                                 | Authorization                                                                                                                                                                                                                                                              |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **A — Agnostic snapshot**              | `vendor/AI_governance/` via bundle import; host entry point + `governance/LOCAL_OVERLAY.md`; optional CM workflows from contract      | **CM0** first; product tests at **CM1** when they already exist     | Project maintainer; no cross-repo mandate                                                                                                                                                                                                                                  |
-| **B — Work procedures (opt-in copy)**  | Tier A + `vendor/superpowers/v7.0.2/` + one `governed-work` entry at each selected IDE's native skill path + optional Spec Kit preset | Same as tier A                                                      | Same; [HOW_TO_IMPORT § Opt-in work procedures](./HOW_TO_IMPORT.md#opt-in-work-procedures). **Does not** install spec-gates or Stop hook                                                                                                                                    |
-| **C — Full experimental opt-in stack** | Tier A + B layers + spec-gates **0.5.1**, Cursor Stop hook, `ai-governance` workflow, post-implement acceptance, local `specify` venv | Host declares CM; acceptance command is **real** shell (not `true`) | **Named downstream trial** or equivalent host ADR **before** install ([FOR_EXISTING_PROJECTS § Named downstream trial](./FOR_EXISTING_PROJECTS.md#named-downstream-trial-operator-authorization-required), [ADR-0017](../adr/ADR_0017_Opt_In_Stack_Installer_Template.md)) |
+| Tier                                   | What you install                                                                                                                                                          | Typical CI Maturity                                                 | Authorization                                                                                                                                                                                                                                                              |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A — Agnostic snapshot**              | `vendor/AI_governance/` via bundle import; host entry point + `governance/LOCAL_OVERLAY.md`; optional CM workflows from contract                                          | **CM0** first; product tests at **CM1** when they already exist     | Project maintainer; no cross-repo mandate                                                                                                                                                                                                                                  |
+| **B — Work procedures (opt-in copy)**  | Tier A + `vendor/superpowers/v7.0.2/` + one `governed-work` entry at each selected IDE's native skill path + optional Spec Kit preset                                     | Same as tier A                                                      | Same; [HOW_TO_IMPORT § Opt-in work procedures](./HOW_TO_IMPORT.md#opt-in-work-procedures). **Does not** install spec-gates or Stop hook                                                                                                                                    |
+| **C — Full experimental opt-in stack** | Tier A + B layers + spec-gates **0.5.1**, Cursor Stop and VS Code Copilot `agentStop` adapters, `ai-governance` workflow, post-implement acceptance, local `specify` venv | Host declares CM; acceptance command is **real** shell (not `true`) | **Named downstream trial** or equivalent host ADR **before** install ([FOR_EXISTING_PROJECTS § Named downstream trial](./FOR_EXISTING_PROJECTS.md#named-downstream-trial-operator-authorization-required), [ADR-0017](../adr/ADR_0017_Opt_In_Stack_Installer_Template.md)) |
 
 Tier C material lives under `governance/experimental/` and is **excluded from import bundles** ([experimental spec-gates README](../governance/experimental/spec_gates/README.md), [ADR-0017](../adr/ADR_0017_Opt_In_Stack_Installer_Template.md)). Copy or invoke scripts only from a pinned `KIT_SOURCE` checkout after review.
 
 The `.cursor/skills/governed-work/` path shown in the Tier B row is the Cursor adapter,
 not a kit-wide requirement. VS Code + Copilot uses `.github/skills/governed-work/`;
-other IDEs need their own documented and tested route. The native Stop hook in Tier C
-remains Cursor-specific.
+other IDEs need their own documented and tested route. Tier C installs separate
+host-specific Stop adapters; configured files and contract tests do not establish native
+dispatch. Verify each adapter in its own IDE session.
 
 **Middle ground:** Tier B plus a host-native always-on route can improve AEP UX. Cursor's `.cursor/rules/autonomous-aep-execution.mdc` is one such adapter; use another IDE's supported instruction mechanism only after verifying it in that IDE. This is still **not** tier C unless spec-gates, the authorized Stop integration, and workflow acceptance are installed.
 
@@ -66,7 +67,7 @@ remains Cursor-specific.
 ### Allowed when all are true
 
 1. **Operator authorization** — written mandate: repository, kit pin (`KIT_REVISION`), one acceptance command, scope (spec-gates / Stop / workflow), and whether merge/push/deploy is in scope.
-2. **Host authority** — you may change that repository’s `.cursor/`, `.specify/`, `ci/`, and `governance/` per host `AGENTS.md` and overlay.
+2. **Host authority** — you may change that repository’s `.cursor/`, `.github/`, `.specify/`, `ci/`, and `governance/` per host `AGENTS.md` and overlay.
 3. **Acceptance chosen before stack install** — `ADOPTER_VERIFY_COMMAND` recorded in overlay; propagated to policy and `ci/adopter_task_acceptance_cmd.sh`.
 4. **Review path** — ADR (or equivalent) for experimental stack; readopt report reviewed when bumping `vendor/AI_governance/`.
 
@@ -74,14 +75,14 @@ Execute tier C using [FULL_OPT_IN_ADOPTION_PLAYBOOK.md](./FULL_OPT_IN_ADOPTION_P
 
 ### Default to tier A (or B only) when any apply
 
-| Situation                                                                   | Use                                                                                                                                                              |
-| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Evaluation, URL assessment, Recipe D/E only                                 | Tier A; no experimental scripts                                                                                                                                  |
-| Third-party or shared repo without explicit owner approval                  | Tier A only; **stop** — [FOR_EXISTING_PROJECTS](./FOR_EXISTING_PROJECTS.md)                                                                                      |
-| Production runtime, customer-facing deploy hosts, CI runners without Cursor | Tier A (+ host CI); **not** tier C on that machine                                                                                                               |
-| “Try governed-work” with one task                                           | Tier B + [HOW_TO_IMPORT § One live-project trial](./HOW_TO_IMPORT.md#one-live-project-trial) — **no** spec-gates, Stop, or `specify workflow run` for that trial |
-| Disposable fixture / gate test workspace                                    | Structural evidence only; **not** a named downstream checkout                                                                                                    |
-| Reference URL in docs without adoption mandate                              | Tier A assessment; do not install tier C “because the kit mentions a repo”                                                                                       |
+| Situation                                                  | Use                                                                                                                                                              |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Evaluation, URL assessment, Recipe D/E only                | Tier A; no experimental scripts                                                                                                                                  |
+| Third-party or shared repo without explicit owner approval | Tier A only; **stop** — [FOR_EXISTING_PROJECTS](./FOR_EXISTING_PROJECTS.md)                                                                                      |
+| CI runners without an interactive IDE session              | Use Tier A (+ host CI) for CI-only needs; Tier C still requires authorization, and native Stop dispatch cannot be claimed as verified there                      |
+| “Try governed-work” with one task                          | Tier B + [HOW_TO_IMPORT § One live-project trial](./HOW_TO_IMPORT.md#one-live-project-trial) — **no** spec-gates, Stop, or `specify workflow run` for that trial |
+| Disposable fixture / gate test workspace                   | Structural evidence only; **not** a named downstream checkout                                                                                                    |
+| Reference URL in docs without adoption mandate             | Tier A assessment; do not install tier C “because the kit mentions a repo”                                                                                       |
 
 Claiming downstream adoption in research or CHANGELOG requires the **named checkout** to complete the authorized task with recorded evidence — not an agent install on an unapproved repo.
 
@@ -95,7 +96,7 @@ Policy is **capability-based**, not “only slm01”.
 
 - Git, `python3`, `jq`, `sha256sum`, `curl`, [uv](https://docs.astral.sh/uv/), **mikefarah** [yq](https://github.com/mikefarah/yq) on `PATH` (often `~/.local/bin`)
 - Network to install pinned Spec Kit CLI (`specify` v1.2.5) unless you pre-seed `.tools/specify-venv/`
-- **Cursor** (or compatible agent session) when validating Stop hook behavior — workflow acceptance can run headless; native Stop dispatch is a separate observation ([research/SPEC_KIT_SPEC_GATES_PILOT.md](../research/SPEC_KIT_SPEC_GATES_PILOT.md))
+- **Cursor** when proving Cursor Stop dispatch, or **VS Code + GitHub Copilot** when proving Copilot `agentStop` dispatch. VS Code hooks are Preview; workflow acceptance can run headless, but native dispatch must be observed in the matching IDE ([OPT_IN_STACK.md](../governance/experimental/spec_gates/OPT_IN_STACK.md))
 - Sufficient disk and time for `install-and-project.sh` (maintainer projection on kit repo; adopter copy under `governance/experimental/spec_gates/`)
 
 The installer may run `agent sandbox disable` on headless Linux when `agent` is on PATH ([OPT_IN_STACK.md](../governance/experimental/spec_gates/OPT_IN_STACK.md)).
@@ -114,7 +115,7 @@ These are **documented trials**, not an exclusive allowlist:
 | Headless dev server (e.g. team `slm01`) | SSH install, acceptance via `make test` / `make check-go`, push from authorized mandate |
 | Laptop / igpu01                         | Kit development, CI parity tests — tier C only when mandate covers that repo            |
 
-If tier C fails on a host (missing uv, or no Cursor for the documented Stop proof), fix prerequisites or **defer** that integration claim — do not downgrade authorization rules.
+If tier C fails on a host (missing uv, or no matching IDE session for the documented Stop proof), fix prerequisites or **defer** that integration claim — do not downgrade authorization rules.
 
 ### Tier C does not contain the agent shell
 
