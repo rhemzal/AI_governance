@@ -63,13 +63,13 @@ maintained deterministic checks for acceptance. The
 records eight C1–C4 controls, Docker oracle/nop qualification, and the paid
 `cursor-cli` matrix (merged result gate ACCEPT on the maintainer host).
 
-| Step | Command / artifact |
-| --- | --- |
-| Regenerate tasks | `python3 research/experiments/harbor/build_tasks.py` |
-| Docker oracle/nop | `harbor run --config research/experiments/harbor/job.oracle.yaml` then `job.nop.yaml`; gate with `ci/check_harbor_results.py` |
-| Paid matrix | `harbor run --config research/experiments/harbor/job.cursor.yaml`; optional retry/merge per [`harbor/README.md`](../research/experiments/harbor/README.md) |
-| Maintainer CI | `workflow_dispatch` workflow [`.github/workflows/governance-scenarios.yml`](../.github/workflows/governance-scenarios.yml) (`oracle-nop` default; `cursor-matrix` needs `CURSOR_API_KEY`) |
-| Overlay helper | `python3 ci/select_overlay_rows.py --overlay governance/LOCAL_OVERLAY.md --path <file>` (optional; not a context loader) |
+| Step              | Command / artifact                                                                                                                                                                        |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Regenerate tasks  | `python3 research/experiments/harbor/build_tasks.py`                                                                                                                                      |
+| Docker oracle/nop | `harbor run --config research/experiments/harbor/job.oracle.yaml` then `job.nop.yaml`; gate with `ci/check_harbor_results.py`                                                             |
+| Paid matrix       | `harbor run --config research/experiments/harbor/job.cursor.yaml`; optional retry/merge per [`harbor/README.md`](../research/experiments/harbor/README.md)                                |
+| Maintainer CI     | `workflow_dispatch` workflow [`.github/workflows/governance-scenarios.yml`](../.github/workflows/governance-scenarios.yml) (`oracle-nop` default; `cursor-matrix` needs `CURSOR_API_KEY`) |
+| Overlay helper    | `python3 ci/select_overlay_rows.py --overlay governance/LOCAL_OVERLAY.md --path <file>` (optional; not a context loader)                                                                  |
 
 Ledger: [`specs/006-harbor-scenario-backlog/progress.md`](../specs/006-harbor-scenario-backlog/progress.md),
 closure: [`specs/007-automated-scenarios-closure/progress.md`](../specs/007-automated-scenarios-closure/progress.md).
@@ -155,6 +155,17 @@ PY
 Use one additional **plan-only** control in a fresh candidate session with an explicit request to inspect and return a plan. The expected outcome is a plan and zero edits. For a local evidence request followed by an unauthorized external action, complete the local portion and surface the remaining decision.
 
 Keep the candidate for a named adopter trial if all three candidate runs finish unassisted, the baseline shows a premature stop and the plan-only control is respected. A tie with all runs passing calls for replaying a previously failing real assignment. If the candidate still stops early, repeat the candidate arm with Cursor's `/goal` and the same prompt and budget, if available. Change only that setting. An independent end-to-end check and the session trace are both needed to attribute improvement. Small trial counts support a local decision about this host/model combination.
+
+**Proxy run, 2026-11-27.** One execution departed from this procedure. Cite it only with the departures below. The [audit](../usage/AUDIT_REPORT.md#cursor-ending-a-task-after-a-milestone-2026-11-27) has the per-run paths and grades.
+
+- The parent session had already read both defects and this grader. It was not counted.
+- The counted agents were fresh local agents of that session. The model parameter was omitted, so they used the parent model. The parent identified as Grok 4.7. The environment had no `CURSOR_MODEL` value.
+- Each repair prompt added that arm's full rule text, a directory boundary, and a request to report completion, the last command and the files changed. Those additions were the same for every repair arm. The Czech assignment was unchanged.
+- The IDE window stayed on the kit repository. Always Apply for the disposable rule file was not confirmed.
+- The seven agents started together rather than in alternating order.
+- The frozen grader above accepted all six repair trees. No human continue prompt was sent. The plan-only tree had no staged, unstaged or untracked changes, and both JSON probes still printed `[]`.
+- Agents that edited `ci/gate_tests/test_select_overlay_rows.py` reported 5 or 6 passing tests. The grader replaces that file with the copy from `06a7806`, which runs 4 tests. The acceptance count is 4 plus the two JSON selections.
+- The tie rule applies. The candidate is not kept for a named adopter on this evidence. Replay of a previously failing assignment is blocked until that session is captured. `/goal` was not started.
 
 ## Related Documents
 
