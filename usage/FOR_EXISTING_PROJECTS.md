@@ -60,6 +60,14 @@ reported gaps. Details: [`OPT_IN_STACK.md`](../governance/experimental/spec_gate
 **Named downstream example:** MechWeave documents operator practice in
 `docs/GOVERNANCE_OPERATOR.md` (trial merged on `main`, workflow run `eeb22cb0`, always-on AEP rule).
 
+### When Cursor finishes only part of an assignment
+
+In the workspace where it happened, check the active repo/kit revision, the mandate in the host `AGENTS.md`, and the rule Cursor shows under **Customize → Rules**. Read the actual `.cursor/rules/autonomous-aep-execution.mdc` and compare its procedure path with the installed pin. The installer preserves a host-owned rule during refresh. Merge the candidate **After each milestone** paragraph into an existing rule for a trial, keeping the project's own paths and approval boundaries. Tier A can try the same short instruction in its existing host entry. Tier B can use the Cursor rule with its existing procedures. [Cursor rule modes](https://cursor.com/docs/rules) · [Candidate template](../governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template)
+
+For an implementation assignment, use **Agent** mode and name a user-visible result that can be checked independently. Save the exact model/build, last tool action, remaining criterion and whether the turn ended voluntarily, awaited a tool approval, hit an error/limit or was cancelled. In Plan mode the expected review point is the plan. [Agent and Plan modes](https://cursor.com/help/ai-features/plan-mode)
+
+Try the [paired continuation task](../tooling/BENCHMARK_SCENARIOS.md#cursor-continuation-after-a-passing-milestone) in a window whose only workspace is the disposable tree, and confirm the rule mode there. A 2026-11-27 proxy run injected each rule into the prompt instead. Both texts finished the fixture, and the plan-only copy was left unedited, so that run does not clear the candidate for an adopter. The [audit](AUDIT_REPORT.md#cursor-ending-a-task-after-a-milestone-2026-11-27) records the boundary. On a build that offers `/goal`, a long-lived goal is a second native option for work spanning turns. Compare it in a fresh chat with the same rule and task budget. Tier C's existing Stop verifier can check an appropriate task command where wired. Preserve user cancellation, permission decisions and an upper bound on follow-ups. [Cursor goals](https://cursor.com/docs/agent/overview) · [Cursor Stop contract](https://cursor.com/docs/hooks)
+
 ## Named downstream trial (operator authorization required)
 
 **Scope and hosts:** Before tier C (full opt-in stack), read [Adoption scope, authorization, and hosts](./ADOPTION_SCOPE_AND_HOSTS.md). Default adoption is tier A (agnostic snapshot); tier B adds procedures without spec-gates.

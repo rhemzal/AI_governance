@@ -4,6 +4,11 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Cursor continuation after a milestone (2026-11-27)
+
+- [Experimental] The optional Cursor rule now compares each milestone with the requested outcome and directs the agent to investigate and execute a missing supporting step within the host mandate. The installation check reports rule file presence and points to Cursor for its effective mode.
+- [Research] Added a [scoped audit](usage/AUDIT_REPORT.md#cursor-ending-a-task-after-a-milestone-2026-11-27) and a [reproducible Grok trial](tooling/BENCHMARK_SCENARIOS.md#cursor-continuation-after-a-passing-milestone). Offline controls distinguish partial and complete repairs. A same-model proxy run on 2026-11-27 passed all six repair copies under the frozen checks and left the plan-only copy unedited. Both rule texts finished the fixture, so the candidate is not cleared for an adopter. An IDE window that loads the rule itself, and the original unfinished session, remain unrecorded.
+
 ### Opt-in docs (2026-11-06)
 
 - [Docs] `OPT_IN_STACK.md` and `FULL_OPT_IN_ADOPTION_PLAYBOOK.md`: how to verify **native Cursor Stop** dispatch after Tier C (recorder + IDE), vs wiring-only checks.
