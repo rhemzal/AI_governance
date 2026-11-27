@@ -92,8 +92,9 @@ The installer does not change the Cursor sandbox. Cursor keeps that CLI setting
 across sessions ([sandbox controls](https://cursor.com/docs/cli/overview#sandbox-controls)).
 On a repeat install, existing Cursor hooks, Spec Kit workflow entries, the local
 `governed-work` skill, and an existing Cursor rule stay in place. Each selected kit
-hook and workflow is added once. A conflicting host file is left unchanged and named
-in the installer output. The pinned acceptance runner is refreshed from the kit.
+hook and workflow is added once. A hooks or registry file that already contains those
+entries is left byte-for-byte unchanged. A conflicting host file is left unchanged and
+named in the installer output. The pinned acceptance runner is refreshed from the kit.
 Each install rewrites `ci/adopter_task_acceptance_cmd.sh` from `ADOPTER_VERIFY_COMMAND`.
 
 Git commits with projected hooks: `git commit -F msg.txt` (no `Co-Authored-By` trailer).

@@ -36,6 +36,7 @@ def _write_object(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
     temporary = path.with_suffix(path.suffix + ".tmp")
+    _refuse_symlink(temporary)
     temporary.write_text(payload, encoding="utf-8")
     temporary.replace(path)
 
@@ -43,19 +44,23 @@ def _write_object(path: Path, data: dict) -> None:
 def merge_hooks(host_path: Path, kit_path: Path) -> None:
     kit = json.loads(kit_path.read_text(encoding="utf-8"))
     host = _load_object(host_path)
+    changed = host is None
     if host is None:
         host = {"version": kit.get("version", 1), "hooks": {}}
     hooks = host.setdefault("hooks", {})
     if not isinstance(hooks, dict):
         raise SystemExit(f"install-opt-in-stack: refusing to replace hooks in {host_path}")
     for event, entries in (kit.get("hooks") or {}).items():
-        current = hooks.setdefault(event, [])
+        if not isinstance(entries, list):
+            raise SystemExit(f"install-opt-in-stack: kit hook event {event} is not a list")
+        current = hooks.get(event)
+        if current is None:
+            current = []
+            hooks[event] = current
         if not isinstance(current, list):
             raise SystemExit(
                 f"install-opt-in-stack: refusing to replace hook event {event} in {host_path}"
             )
-        if not isinstance(entries, list):
-            raise SystemExit(f"install-opt-in-stack: kit hook event {event} is not a list")
         for item in entries:
             command = item.get("command") if isinstance(item, dict) else None
             match = None
@@ -70,14 +75,17 @@ def merge_hooks(host_path: Path, kit_path: Path) -> None:
                 )
             if match is None:
                 current.append(item)
+                changed = True
             elif match != item:
                 print(f"install-opt-in-stack: keeping existing hook {command}")
-    _write_object(host_path, host)
+    if changed:
+        _write_object(host_path, host)
 
 
 def merge_workflows(host_path: Path, kit_path: Path) -> None:
     kit = json.loads(kit_path.read_text(encoding="utf-8"))
     host = _load_object(host_path)
+    changed = host is None
     if host is None:
         host = {"schema_version": kit.get("schema_version", "1.0"), "workflows": {}}
     workflows = host.setdefault("workflows", {})
@@ -88,9 +96,11 @@ def merge_workflows(host_path: Path, kit_path: Path) -> None:
     for key, value in (kit.get("workflows") or {}).items():
         if key not in workflows:
             workflows[key] = value
+            changed = True
         elif workflows[key] != value:
             print(f"install-opt-in-stack: keeping existing workflow {key}")
-    _write_object(host_path, host)
+    if changed:
+        _write_object(host_path, host)
 
 
 def main(argv: list[str]) -> int:

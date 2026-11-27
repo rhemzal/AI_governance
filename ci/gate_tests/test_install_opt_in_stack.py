@@ -696,6 +696,91 @@ Path(out).write_text(json.dumps(data, indent=2) + "\\n", encoding="utf-8")
             self.assertEqual(outside.read_text(encoding="utf-8"), '{"outside": true}\n')
             self.assertTrue(linked.is_symlink())
 
+    def test_preserve_host_stack_leaves_unchanged_host_bytes_in_place(self):
+        helper = ROOT / "governance/experimental/spec_gates/preserve_host_stack.py"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            kit_hooks = root / "kit-hooks.json"
+            kit_hooks.write_text(
+                json.dumps(
+                    {
+                        "hooks": {
+                            "stop": [
+                                {
+                                    "command": ".cursor/hooks/kit-verify-stop.sh",
+                                    "timeout": 150,
+                                }
+                            ]
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            host_hooks = root / "hooks.json"
+            original = (
+                '{"version":1,"hooks":{"afterFileEdit":[{"command":".cursor/hooks/host-after-edit.sh"}],'
+                '"stop":[{"command":".cursor/hooks/host-stop.sh","timeout":30},'
+                '{"command":".cursor/hooks/kit-verify-stop.sh","timeout":150}]}}\n'
+            )
+            host_hooks.write_text(original, encoding="utf-8")
+            merged = subprocess.run(
+                ["python3", str(helper), "hooks", str(host_hooks), str(kit_hooks)],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+            self.assertEqual(merged.returncode, 0, merged.stdout + merged.stderr)
+            self.assertEqual(host_hooks.read_text(encoding="utf-8"), original)
+
+            kit_registry = root / "kit-registry.json"
+            kit_registry.write_text(
+                '{"workflows":{"ai-governance":{"name":"Kit"}}}\n',
+                encoding="utf-8",
+            )
+            host_registry = root / "registry.json"
+            registry_original = (
+                '{"schema_version":"1.0","workflows":{"ai-governance":{"name":"Local"},'
+                '"host-release":{"name":"Host"}}}\n'
+            )
+            host_registry.write_text(registry_original, encoding="utf-8")
+            registry_merge = subprocess.run(
+                [
+                    "python3",
+                    str(helper),
+                    "workflows",
+                    str(host_registry),
+                    str(kit_registry),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+            self.assertEqual(
+                registry_merge.returncode,
+                0,
+                registry_merge.stdout + registry_merge.stderr,
+            )
+            self.assertEqual(host_registry.read_text(encoding="utf-8"), registry_original)
+            self.assertIn("keeping existing workflow ai-governance", registry_merge.stdout)
+
+            outside = root / "temp-target.json"
+            outside.write_text("OUTSIDE\n", encoding="utf-8")
+            temporary = root / "new-hooks.json.tmp"
+            temporary.symlink_to(outside)
+            leaked = subprocess.run(
+                ["python3", str(helper), "hooks", str(root / "new-hooks.json"), str(kit_hooks)],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+            self.assertNotEqual(leaked.returncode, 0, leaked.stdout + leaked.stderr)
+            self.assertIn("symlink", leaked.stderr.casefold())
+            self.assertEqual(outside.read_text(encoding="utf-8"), "OUTSIDE\n")
+            self.assertTrue(temporary.is_symlink())
+
     def _install_stack_twice(self, adopter, kit, revision, host_configuration):
         adopter.mkdir()
         subprocess.run(["git", "init", "-q"], cwd=adopter, check=True, timeout=15)
