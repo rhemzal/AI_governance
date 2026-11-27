@@ -77,6 +77,10 @@ same_tree() {
   [[ "$(cd "$ROOT" && pwd -P)" == "$(cd "$KIT_SOURCE" && pwd -P)" ]]
 }
 
+same_path() {
+  [[ -e "$1" && -e "$2" && "$1" -ef "$2" ]]
+}
+
 detect_kit_source() {
   if [[ -n "${KIT_SOURCE:-}" ]]; then
     return 0
@@ -263,17 +267,26 @@ ensure_dependencies_txt() {
 }
 
 install_host_adapter() {
-  mkdir -p "$ROOT/governance/experimental"
-  cp -a "$KIT_SOURCE/governance/experimental/spec_gates" "$ROOT/governance/experimental/"
-  local dep
-  dep="$(dependencies_constraint_path)"
-  if [[ "$dep" == "$ROOT/vendor/"* ]]; then
-    sed -i "s|\$root/research/experiments/spec_kit_spec_gates/dependencies.txt|\$root/vendor/AI_governance/research/experiments/spec_kit_spec_gates/dependencies.txt|" \
-      "$ROOT/governance/experimental/spec_gates/install-and-project.sh" 2>/dev/null || true
+  local src="$KIT_SOURCE/governance/experimental/spec_gates"
+  local dest="$ROOT/governance/experimental/spec_gates"
+  if same_path "$src" "$dest"; then
+    echo "install-opt-in-stack: kit adapter is already this checkout"
+  else
+    mkdir -p "$ROOT/governance/experimental"
+    cp -a "$src" "$ROOT/governance/experimental/"
+    local dep
+    dep="$(dependencies_constraint_path)"
+    if [[ "$dep" == "$ROOT/vendor/"* ]]; then
+      sed -i "s|\$root/research/experiments/spec_kit_spec_gates/dependencies.txt|\$root/vendor/AI_governance/research/experiments/spec_kit_spec_gates/dependencies.txt|" \
+        "$ROOT/governance/experimental/spec_gates/install-and-project.sh" 2>/dev/null || true
+    fi
   fi
-  write_adopter_policy "$ROOT/governance/experimental/spec_gates/policy.adopter.json"
-  cp "$ROOT/governance/experimental/spec_gates/policy.adopter.json" \
-    "$ROOT/governance/experimental/spec_gates/policy.kit.json"
+  write_adopter_policy "$dest/policy.adopter.json"
+  if same_tree; then
+    echo "install-opt-in-stack: keeping policy.kit.json"
+  else
+    cp "$dest/policy.adopter.json" "$dest/policy.kit.json"
+  fi
 }
 
 write_adopter_policy() {
@@ -345,6 +358,9 @@ keep_existing_file() {
 
 refresh_kit_file() {
   local src="$1" dest="$2" label="$3"
+  if same_path "$src" "$dest"; then
+    return 0
+  fi
   if [[ -L "$dest" ]]; then
     echo "install-opt-in-stack: refusing to replace symlinked $label" >&2
     exit 1
@@ -382,7 +398,8 @@ install_procedures_and_ci() {
   keep_existing_file "$KIT_SOURCE/.cursor/skills/governed-work/SKILL.md" \
     "$ROOT/.cursor/skills/governed-work/SKILL.md" "governed-work skill"
   install_cursor_rule
-  if [[ -d "$KIT_SOURCE/.specify/presets/ai-governance" ]]; then
+  if [[ -d "$KIT_SOURCE/.specify/presets/ai-governance" ]] \
+    && ! same_path "$KIT_SOURCE/.specify/presets/ai-governance" "$ROOT/.specify/presets/ai-governance"; then
     cp -aL "$KIT_SOURCE/.specify/presets/ai-governance" "$ROOT/.specify/presets/"
   fi
   keep_existing_file "$KIT_SOURCE/.specify/workflows/ai-governance/workflow.yml" \
@@ -437,7 +454,10 @@ PY
 }
 
 install_spec_gates() {
-  cp "$ROOT/governance/experimental/spec_gates/policy.adopter.json" "$ROOT/governance/experimental/spec_gates/policy.kit.json"
+  if ! same_tree; then
+    cp "$ROOT/governance/experimental/spec_gates/policy.adopter.json" \
+      "$ROOT/governance/experimental/spec_gates/policy.kit.json"
+  fi
   ( cd "$ROOT" && printf 'y\n' | timeout 600s bash governance/experimental/spec_gates/install-and-project.sh )
   cp "$ROOT/governance/experimental/spec_gates/policy.adopter.json" "$ROOT/.specify/gates/policy.json"
   ( cd "$ROOT" && bash governance/experimental/spec_gates/sync-policy.sh )
@@ -523,7 +543,11 @@ case "$MODE" in
     ensure_dependencies_txt
     install_host_adapter
     install_procedures_and_ci
-    if [[ "${SKIP_SPEC_GATES:-}" != 1 ]]; then
+    if [[ "${SKIP_SPEC_GATES:-}" == 1 ]]; then
+      echo "install-opt-in-stack: skipping spec-gates projection"
+    elif same_tree && [[ -x "$ROOT/.specify/gates/verify.sh" ]]; then
+      echo "install-opt-in-stack: spec-gates already projected in this checkout"
+    else
       install_spec_gates
     fi
     overlay_kit_slim_speckit_skills
