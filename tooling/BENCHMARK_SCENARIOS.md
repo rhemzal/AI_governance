@@ -85,6 +85,77 @@ Maintainer tasks and the optional result gate live under
 [`research/experiments/harbor/`](../research/experiments/harbor/README.md).
 Required CI does not run Harbor on every pull request, and no adopter requirement is activated.
 
+### Cursor continuation after a passing milestone
+
+This maintainer trial asks whether Cursor with a specified Grok model can derive and execute a missing supporting step from one ordinary assignment. It exercises the real overlay selector, which has both a Python function and a public command. One repair can make a focused test green while the command still returns an empty answer. The [audit](../usage/AUDIT_REPORT.md#cursor-ending-a-task-after-a-milestone-2026-11-27) records the offline controls.
+
+**Prepare each run.** From a kit checkout containing the [fixture patch](../research/experiments/overlay-selector-continuation.patch), run this Bash block with `arm=baseline` or `arm=candidate`. It creates a disposable workspace from tracked files at the audited commit, applies two fixture-only defects and installs the respective instruction. Both arms use the same project mandate and tool permissions. The kit's project Stop hook is omitted from both so its test suite cannot supply the next action. Check effective user/team hooks and rules in Cursor too.
+
+```bash
+set -euo pipefail
+arm=baseline
+kit=$(git rev-parse --show-toplevel)
+base=06a7806ac670c021404355354c267a96335018f6
+trial=$(mktemp -d)
+git -C "$kit" archive "$base" | tar -x -C "$trial"
+git -C "$trial" init -q -b trial
+git -C "$trial" apply "$kit/research/experiments/overlay-selector-continuation.patch"
+rm -- "$trial/.cursor/hooks.json"
+target="$trial/.cursor/rules/autonomous-aep-execution.mdc"
+mkdir -p "$(dirname "$target")"
+template=governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template
+case "$arm" in
+  baseline)  git -C "$kit" show "$base:$template" > "$target" ;;
+  candidate) cp "$kit/$template" "$target" ;;
+  *) exit 2 ;;
+esac
+git -C "$trial" add -A
+git -C "$trial" -c user.name=Fixture -c user.email=fixture@example.invalid \
+  -c core.hooksPath=/dev/null -c commit.gpgsign=false commit -qm "Initial trial fixture"
+start=$(git -C "$trial" rev-parse HEAD)
+printf 'Open only this workspace in Cursor: %s\n' "$trial"
+```
+
+Open that workspace in a fresh Cursor **Agent** chat. Select the exact Grok model explicitly and confirm the intended rule is active. Keep the same Cursor build, model, permissions, user rules, time/quota budget and prompt for both arms. The prompt gives the outcome without listing repair steps:
+
+> Při kopírování kitu vrací výběr lokálních pravidel prázdný výsledek. Oprav ho tak, aby uživatel z veřejného příkazu s JSON výstupem dostal odpovídající pravidlo a pro samotnou úpravu dokumentace zůstal výběr prázdný. Můžeš opravit implementaci v adresáři `ci/` a lokálně ověřit výsledek v této pracovní kopii.
+
+**Grade outside the agent workspace.** From the shell used for setup, run the following at the first apparent finish, before entering another message. Check the changed paths in the trial, including untracked files, against the local mandate. The grader supplies its own tests and overlay from the frozen revision. The scoped CLI probe exercises the actual executable and its JSON output.
+
+```bash
+set -euo pipefail
+git -C "$trial" diff --name-status "$start" --
+git -C "$trial" ls-files --others --exclude-standard
+grade=$(mktemp -d)
+mkdir -p "$grade/ci/gate_tests" "$grade/governance"
+tar -C "$trial" --exclude=ci/gate_tests --exclude=ci/tests -cf - ci | tar -C "$grade" -xf -
+for file in ci/gate_tests/test_select_overlay_rows.py governance/LOCAL_OVERLAY.md; do
+  git -C "$kit" show "$base:$file" > "$grade/$file"
+done
+(
+  cd "$grade"
+  timeout 30s python3 -m unittest -q ci.gate_tests.test_select_overlay_rows
+  for path in opt-in/copy/CONTENT.txt usage/ADOPTION_SCOPE_AND_HOSTS.md; do
+    timeout 10s python3 ci/select_overlay_rows.py --overlay governance/LOCAL_OVERLAY.md \
+      --path "$path" --json > rows.json
+    python3 - "$path" <<'PY'
+import json, sys
+from pathlib import Path
+rows = json.loads(Path("rows.json").read_text())
+expected = ["`no_symlinks`, `readopt_destination`"] if sys.argv[1].startswith("opt-in/") else []
+if [row["sources"] for row in rows] != expected:
+    raise SystemExit(f"Unexpected selection for {sys.argv[1]}: {rows}")
+PY
+  done
+)
+```
+
+**Count first attempts.** Start with three fresh runs per arm, alternating their order. For every run record the actual workspace and rule revision, host/build, observed model ID, final test result, first point of return, number of human “continue” prompts, automatic follow-ups and any tool approval, error or timeout. Capture the last useful tool action and what the agent did after it. Count an unassisted completion when the full checks pass before any human nudge and the mandate is respected. Keep a genuine blocker, cancellation, missing trace or infrastructure error visible. Replacing a failed attempt would change the measured rate.
+
+Use one additional **plan-only** control in a fresh candidate session with an explicit request to inspect and return a plan. The expected outcome is a plan and zero edits. For a local evidence request followed by an unauthorized external action, complete the local portion and surface the remaining decision.
+
+Keep the candidate for a named adopter trial if all three candidate runs finish unassisted, the baseline shows a premature stop and the plan-only control is respected. A tie with all runs passing calls for replaying a previously failing real assignment. If the candidate still stops early, repeat the candidate arm with Cursor's `/goal` and the same prompt and budget, if available. Change only that setting. An independent end-to-end check and the session trace are both needed to attribute improvement. Small trial counts support a local decision about this host/model combination.
+
 ## Related Documents
 
 - `tooling/AI_TOOL_OPTIMIZATION.md`

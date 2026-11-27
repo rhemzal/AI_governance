@@ -2,6 +2,29 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance)._
 
+## Cursor ending a task after a milestone (2026-11-27)
+
+The operator reports having to prompt Cursor, especially with Grok, to continue an assigned task after a partial result. On kit revision `06a7806ac670c021404355354c267a96335018f6`, finishing steps in an existing plan has an explicit route. Discovering the next step when the list is exhausted and the requested outcome is still missing has a weaker prompt and no behavioral measurement. The failing session's transcript, selected model ID and effective workspace configuration were unavailable for this audit. The specific cause in that session remains open.
+
+| Finding | Evidence and consequence |
+| --- | --- |
+| Authority already covers supporting work | [Enforcement §§1.1–1.4](../constitution/AI_ENFORCEMENT.md) permit bounded discovery, plan changes and supporting edits. The [entry skill](../.cursor/skills/governed-work/SKILL.md#continuation-and-stops) says to finish the remaining plan. Its pinned procedure assumes the plan exists. The old Cursor rule names an AEP, wave or task list as examples. An authorized outcome expressed in ordinary language deserves an equally direct instruction after a milestone. |
+| The installed rule can differ from the reviewed template | The [installer](../governance/experimental/spec_gates/install-opt-in-stack.sh) preserves an existing `.mdc`. At MechWeave `a233f14` the [active rule](https://github.com/rhemzal/MechWeave/blob/a233f143e6a60196c99fda285a9f76033f8a485c/.cursor/rules/autonomous-aep-execution.mdc) names Superpowers 7.0.1, while the [entry skill](https://github.com/rhemzal/MechWeave/blob/a233f143e6a60196c99fda285a9f76033f8a485c/.cursor/skills/governed-work/SKILL.md) routes to 7.0.2. Both pins are present there. The pre-audit checker printed an always-on success label even for a file with `alwaysApply: false`. The candidate diagnostic now reports file presence and points to Cursor's effective rule mode. |
+| A passing gate can coexist with an unfinished task | The [Cursor Stop adapter](../.cursor/hooks/kit-verify-stop.sh) runs `verify.sh --boundary agent`. It allows the turn to end on exit 0 and requests a follow-up on exit 2. Its inputs do not identify the user's remaining acceptance criteria. On [Cursor 3.28.7](../research/experiments/cursor-stop/host-2026-11-05/OBSERVATION.md) one native allow was recorded. Native follow-up, renewed tool use and resume remain unobserved there. In a direct script control, a failing verifier also emitted a follow-up for `aborted` and `error` inputs. Confirm actual host handling and preserve user cancellation before expanding this hook's role. |
+| Existing behavioral evidence covers a different task | The [original Harbor matrix](../specs/006-harbor-scenario-backlog/progress.md) ran `cursor-cli` with `composer-2.5` on C1–C4. The first run recorded 21 successes, two reward failures and one install exception out of 24. Three later replacements produced a merged ACCEPT. The [result gate](../ci/check_harbor_results.py) checks agent name and version consistency, with no expected model field. This leaves Grok, editor behavior and unprompted discovery of a missing step unmeasured. |
+
+**Offline reproduction.** A disposable copy of the kit's overlay selector had two seeded defects. The real Stop script called a fixture verifier running the relevant library test. The operator separately ran four frozen tests and invoked the public CLI. These are direct program observations on Python 3.12.14.
+
+| Working state | Focused test | Stop script | Full suite | Public JSON result for a copy path |
+| --- | --- | --- | --- | --- |
+| Both defects present | Fail | Follow-up | 2/4 pass | Empty |
+| Library repaired | Pass | Allow | 3/4 pass | Empty |
+| Library and CLI repaired | Pass | Allow | 4/4 pass | One expected rule |
+
+**Priority.** Check the actual adoption and capture one early-ending session. Trial the short outcome instruction in the existing host route. Measure independently verified completion and human nudges on first attempts. If premature endings persist, compare Cursor's native `/goal` with that rule held fixed. A custom continuation hook would need a task-specific check that distinguishes pending work, completion and legitimate stops, plus evidence that the host acts on its follow-up.
+
+The [matched trial, operator prompt and independent checks](../tooling/BENCHMARK_SCENARIOS.md#cursor-continuation-after-a-passing-milestone) are reproducible from the audited revision. The [adoption instructions](FOR_EXISTING_PROJECTS.md#when-cursor-finishes-only-part-of-an-assignment) cover an existing workspace. The first native Grok run is **pending**.
+
 ## Repair follow-up — A-08–A-17 (2026-11-03)
 
 **Disposition:** A-08 through A-17 are repaired in the working tree described by the commit that contains this section. A-01–A-07 stay as previously verified. Release closure and a `v0.3.0` tag are still not established.

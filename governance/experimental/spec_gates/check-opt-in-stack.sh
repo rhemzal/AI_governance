@@ -69,7 +69,7 @@ else
   warn "no .cursor/skills/governed-work/SKILL.md — run procedure copy or install-opt-in-stack --stack-only"
 fi
 if [[ -f .cursor/rules/autonomous-aep-execution.mdc ]]; then
-  note "alwaysApply autonomous AEP rule (.cursor/rules/autonomous-aep-execution.mdc)"
+  note "Cursor AEP rule file present — confirm Always Apply in Cursor for this workspace"
 else
   warn "no alwaysApply AEP rule — natural-language 'finish the AEP' may not run inline; copy template from kit or re-run stack install"
 fi

@@ -1,35 +1,48 @@
 ---
-description: When the user asks to complete AEP or plan items, run the full authorized chain inline without extra startup rituals
+description: Carry an authorized outcome through investigation, implementation and verification, including newly discovered supporting work
 alwaysApply: true
 ---
 
 # Autonomous AEP execution (when mandated)
 
-If the host `AGENTS.md` and/or `governance/LOCAL_OVERLAY.md` grant inline completion of an
-AEP, wave, or task list without per-step confirmation, **natural-language requests are
-enough** (e.g. “finish all open AEP items”, “udělej všechny body z AEP”). Do not require
-`/governed-work` or any second startup ritual.
+Use the user's requested outcome and the authority granted in the host `AGENTS.md` or
+`governance/LOCAL_OVERLAY.md`. A natural-language request to deliver an outcome or
+finish an authorized AEP, wave, or task list is sufficient (e.g. “fix this behavior”,
+“udělej všechny body z AEP”).
 
 ## Triggers (non-exhaustive)
 
 References to the active AEP, execution ledger, wave packages, or `specs/*/tasks.md`.
+An ordinary request to deliver a result also qualifies. For an analysis-only or plan-only
+request, the requested analysis or plan is the deliverable.
+
+## After each milestone and before ending the turn
+
+Compare the original requested outcome with what the current evidence actually covers.
+For an unmet criterion, choose and perform the next authorized action in this turn.
+If the next action is unclear, inspect a relevant caller, test, log or project decision.
+Use the finding to choose and execute a supporting step. Update the plan if one is in use.
+Continue independent work if one step is blocked. Finish when the whole outcome is
+verified, the user stops the run, or every remaining route has a concrete blocker
+under the host mandate or budget. Report the evidence and any decision still needed.
 
 ## What to do
 
-1. Read the host mandate (`AGENTS.md`, overlay), the execution ledger (for example
-   `docs/EXECUTION_STATE.md` or `specs/*/progress.md`), and the cited AEP or `tasks.md`.
-2. Execute inline per `vendor/superpowers/v7.0.2/skills/executing-plans/SKILL.md` when
-   that pin is present (all remaining tasks; no checkpoint questions between tasks).
+1. Read the host mandate (`AGENTS.md`, overlay) and any task record already in use
+   (for example `docs/EXECUTION_STATE.md`, `specs/*/progress.md`, or a cited AEP).
+   When the task needs an AEP, form it using the host's existing readiness rules.
+2. For a plan with remaining steps and the procedure pin available, execute inline per
+   `vendor/superpowers/v7.0.2/skills/executing-plans/SKILL.md`.
 3. Route debugging, TDD, and completion checks through other pinned Superpowers under
    `vendor/superpowers/v7.0.2/skills/` — same routing as
    `.cursor/skills/governed-work/SKILL.md`, without requiring that skill to be invoked.
-4. Update the host ledger on each meaningful slice.
+4. When the task uses a host ledger, update it on each meaningful slice.
 5. Ambiguity: decide from spec/plan; log `Ruling:` in the ledger; collect
    `Open questions (post-run)` — do not block the chain unless every path is a guess
    (AEP BLOCKED).
-6. Stop only for: security-sensitive action, destructive/irreversible effect outside
-   mandate, merge/push/deploy without explicit permission, or exhausted repair budget on
-   a blocked chain.
+6. Respect the host's decision points for sensitive actions, irreversible effects,
+   merge/push/deploy, missing inputs and exhausted repair budgets. Identify the
+   specific action that is blocked and the evidence or decision needed to proceed.
 7. Before push or merge, record acceptance with `ci/run_task_acceptance_check.sh`
    when that wrapper exists. A green git hook is not that record. Tier C does not
    sandbox the agent shell; downloads into a gitignored tool root need an explicit mandate.

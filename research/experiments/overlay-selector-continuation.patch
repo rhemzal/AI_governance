@@ -1,0 +1,12 @@
+--- a/ci/select_overlay_rows.py
++++ b/ci/select_overlay_rows.py
+@@ -71,3 +71,3 @@
+     if ("copy" in norm or "/opt-in/" in f"/{norm}/") and (
+-        "copies" in lw or "symlink" in lw or "cp -a" in lw
++        "copy" in lw
+     ):
+@@ -121,3 +121,3 @@
+         return 2
+-    rows = select_rows(text, args.paths)
++    rows = select_rows(text, args.paths[:-1])
+     if args.json:
