@@ -7,10 +7,15 @@
 #   bash ci/run_task_acceptance_check.sh
 #
 # Environment:
-#   TASK_ACCEPTANCE_CMD   Shell command to run (required for adopters; kit default when unset)
+#   TASK_ACCEPTANCE_CMD   Explicit shell command. When set, it wins over the saved command.
 #   TASK_ACCEPTANCE_EVIDENCE  Output markdown path (optional)
 #   TASK_ACCEPTANCE_LOG   Command log path (optional; defaults beside evidence)
 #   SPECIFY_FEATURE       When set, default evidence goes under specs/<feature>/
+#
+# With no explicit command, use ci/adopter_task_acceptance_cmd.sh when that file
+# is present. Otherwise use the command printed by
+# ci/kit_maintenance_acceptance_cmd.sh beside this script. If that script is
+# missing, fails, or prints no command, exit 2 and write no evidence.
 #
 # Exit code matches the acceptance command. A report-shaped file is written even
 # on failure so reviewers can see what ran; outcome lines reflect the real exit code.
@@ -21,10 +26,44 @@ ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-CMD="${TASK_ACCEPTANCE_CMD:-}"
-if [[ -z "${CMD//[[:space:]]/}" ]]; then
-  CMD="$(bash "$SCRIPT_DIR/kit_maintenance_acceptance_cmd.sh")"
-fi
+resolve_acceptance_command() {
+  local explicit="${TASK_ACCEPTANCE_CMD:-}"
+  if [[ -n "${explicit//[[:space:]]/}" ]]; then
+    printf '%s\n' "$explicit"
+    return 0
+  fi
+  local wrapper="$ROOT/ci/adopter_task_acceptance_cmd.sh"
+  if [[ -L "$wrapper" ]]; then
+    echo "run_task_acceptance_check: refusing a symlinked saved acceptance command" >&2
+    return 2
+  fi
+  if [[ -f "$wrapper" ]]; then
+    printf '%s\n' "bash ci/adopter_task_acceptance_cmd.sh"
+    return 0
+  fi
+  local kit_default="$SCRIPT_DIR/kit_maintenance_acceptance_cmd.sh"
+  if [[ -L "$kit_default" ]]; then
+    echo "run_task_acceptance_check: refusing a symlinked kit acceptance command" >&2
+    return 2
+  fi
+  if [[ -f "$kit_default" ]]; then
+    local produced status
+    set +e
+    produced="$(bash "$kit_default")"
+    status=$?
+    set -e
+    if [[ "$status" -ne 0 || -z "${produced//[[:space:]]/}" ]]; then
+      echo "run_task_acceptance_check: no acceptance command is selected" >&2
+      return 2
+    fi
+    printf '%s\n' "$produced"
+    return 0
+  fi
+  echo "run_task_acceptance_check: no acceptance command is selected" >&2
+  return 2
+}
+
+CMD="$(resolve_acceptance_command)"
 
 case "${CMD//[[:space:]]/}" in
   true|:)

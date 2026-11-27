@@ -308,6 +308,10 @@ PY
 write_adopter_acceptance_cmd() {
   mkdir -p "$ROOT/ci"
   local out="$ROOT/ci/adopter_task_acceptance_cmd.sh"
+  if [[ -L "$out" ]]; then
+    echo "install-opt-in-stack: refusing to replace symlinked acceptance command" >&2
+    exit 1
+  fi
   python3 - "$out" "$ADOPTER_VERIFY_COMMAND" <<'PY'
 import shlex, sys
 from pathlib import Path
@@ -321,31 +325,87 @@ PY
   chmod +x "$out"
 }
 
+keep_existing_file() {
+  local src="$1" dest="$2" label="$3"
+  if [[ -L "$dest" ]]; then
+    echo "install-opt-in-stack: refusing to replace symlinked $label" >&2
+    exit 1
+  fi
+  if [[ -e "$dest" ]]; then
+    if ! cmp -s "$src" "$dest"; then
+      echo "install-opt-in-stack: keeping existing $label"
+    fi
+    return 0
+  fi
+  mkdir -p "$(dirname "$dest")"
+  cp -L "$src" "$dest"
+  test ! -L "$dest"
+  echo "install-opt-in-stack: installed $label"
+}
+
+refresh_kit_file() {
+  local src="$1" dest="$2" label="$3"
+  if [[ -L "$dest" ]]; then
+    echo "install-opt-in-stack: refusing to replace symlinked $label" >&2
+    exit 1
+  fi
+  if [[ -e "$dest" ]] && ! cmp -s "$src" "$dest"; then
+    echo "install-opt-in-stack: refreshing $label from the pinned kit"
+  fi
+  mkdir -p "$(dirname "$dest")"
+  cp -L "$src" "$dest"
+  test ! -L "$dest"
+}
+
+install_cursor_rule() {
+  local rule="$ROOT/.cursor/rules/autonomous-aep-execution.mdc"
+  local baseline="$SCRIPT_DIR/templates/autonomous-aep-execution.baseline.mdc.template"
+  if [[ -L "$rule" ]]; then
+    echo "install-opt-in-stack: refusing to replace symlinked Cursor rule" >&2
+    exit 1
+  fi
+  if [[ -f "$rule" ]]; then
+    echo "install-opt-in-stack: keeping existing .cursor/rules/autonomous-aep-execution.mdc"
+    return 0
+  fi
+  test -f "$baseline"
+  mkdir -p "$(dirname "$rule")"
+  cp -L "$baseline" "$rule"
+  test ! -L "$rule"
+  echo "install-opt-in-stack: installed the baseline Cursor rule"
+  echo "install-opt-in-stack: candidate rule remains selectable at templates/autonomous-aep-execution.mdc.template"
+}
+
 install_procedures_and_ci() {
   mkdir -p "$ROOT/scripts" "$ROOT/.cursor/skills/governed-work" "$ROOT/.specify/presets" \
     "$ROOT/.specify/workflows/ai-governance" "$ROOT/.specify/scripts/bash" "$ROOT/ci" "$ROOT/.cursor/hooks"
-  cp -L "$KIT_SOURCE/.cursor/skills/governed-work/SKILL.md" "$ROOT/.cursor/skills/governed-work/"
-  mkdir -p "$ROOT/.cursor/rules"
-  if [[ ! -f "$ROOT/.cursor/rules/autonomous-aep-execution.mdc" ]]; then
-    cp -L "$SCRIPT_DIR/templates/autonomous-aep-execution.mdc.template" \
-      "$ROOT/.cursor/rules/autonomous-aep-execution.mdc"
-    echo "install-opt-in-stack: installed .cursor/rules/autonomous-aep-execution.mdc (alwaysApply)"
-  else
-    echo "install-opt-in-stack: keeping existing .cursor/rules/autonomous-aep-execution.mdc"
-  fi
+  keep_existing_file "$KIT_SOURCE/.cursor/skills/governed-work/SKILL.md" \
+    "$ROOT/.cursor/skills/governed-work/SKILL.md" "governed-work skill"
+  install_cursor_rule
   if [[ -d "$KIT_SOURCE/.specify/presets/ai-governance" ]]; then
     cp -aL "$KIT_SOURCE/.specify/presets/ai-governance" "$ROOT/.specify/presets/"
   fi
-  cp -L "$KIT_SOURCE/.specify/workflows/ai-governance/workflow.yml" "$ROOT/.specify/workflows/ai-governance/"
-  cp -L "$KIT_SOURCE/.specify/workflows/workflow-registry.json" "$ROOT/.specify/workflows/"
-  cp -L "$KIT_SOURCE/.specify/scripts/bash/run-task-acceptance-check.sh" "$ROOT/.specify/scripts/bash/"
-  cp -L "$KIT_SOURCE/ci/run_task_acceptance_check.sh" "$ROOT/ci/"
-  cp -L "$KIT_SOURCE/ci/uncommitted_diff_identity.py" "$ROOT/ci/"
+  keep_existing_file "$KIT_SOURCE/.specify/workflows/ai-governance/workflow.yml" \
+    "$ROOT/.specify/workflows/ai-governance/workflow.yml" "ai-governance workflow"
+  python3 "$SCRIPT_DIR/preserve_host_stack.py" workflows \
+    "$ROOT/.specify/workflows/workflow-registry.json" \
+    "$KIT_SOURCE/.specify/workflows/workflow-registry.json"
+  refresh_kit_file "$KIT_SOURCE/.specify/scripts/bash/run-task-acceptance-check.sh" \
+    "$ROOT/.specify/scripts/bash/run-task-acceptance-check.sh" "workflow acceptance wrapper"
+  refresh_kit_file "$KIT_SOURCE/ci/run_task_acceptance_check.sh" \
+    "$ROOT/ci/run_task_acceptance_check.sh" "task acceptance runner"
+  refresh_kit_file "$KIT_SOURCE/ci/uncommitted_diff_identity.py" \
+    "$ROOT/ci/uncommitted_diff_identity.py" "uncommitted diff identity"
   chmod +x "$ROOT/ci/run_task_acceptance_check.sh" "$ROOT/.specify/scripts/bash/run-task-acceptance-check.sh"
   write_adopter_acceptance_cmd
-  cp -L "$KIT_SOURCE/.cursor/hooks/kit-verify-stop.sh" "$ROOT/.cursor/hooks/"
-  cp -L "$KIT_SOURCE/.cursor/hooks.json" "$ROOT/.cursor/hooks.json"
-  chmod +x "$ROOT/.cursor/hooks/kit-verify-stop.sh"
+  keep_existing_file "$KIT_SOURCE/.cursor/hooks/kit-verify-stop.sh" \
+    "$ROOT/.cursor/hooks/kit-verify-stop.sh" "Cursor Stop script"
+  python3 "$SCRIPT_DIR/preserve_host_stack.py" hooks \
+    "$ROOT/.cursor/hooks.json" \
+    "$KIT_SOURCE/.cursor/hooks.json"
+  if [[ -f "$ROOT/.cursor/hooks/kit-verify-stop.sh" && ! -L "$ROOT/.cursor/hooks/kit-verify-stop.sh" ]]; then
+    chmod +x "$ROOT/.cursor/hooks/kit-verify-stop.sh"
+  fi
   python3 "$SCRIPT_DIR/install-vscode-adapter.py" --source "$KIT_SOURCE" --root "$ROOT"
   python3 - <<'PY'
 import json
@@ -397,10 +457,7 @@ install_specify_venv() {
 }
 
 configure_agent_cli() {
-  if command -v agent >/dev/null 2>&1; then
-    agent sandbox disable >/dev/null 2>&1 || true
-    echo "install-opt-in-stack: Cursor agent sandbox disabled (recommended on headless Linux)"
-  fi
+  echo "install-opt-in-stack: leaving the Cursor sandbox choice to the operator"
 }
 
 verify_stack() {

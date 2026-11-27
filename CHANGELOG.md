@@ -4,6 +4,11 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Tier C host settings (2026-11-27)
+
+- [Fix] `install-opt-in-stack.sh` keeps existing Cursor hooks, workflow registry entries, the local governed-work skill, and a customized Cursor rule. Kit hooks and workflows are added once. The installer no longer asks the Cursor CLI to disable the sandbox. A new install receives the baseline continuation rule; the candidate template remains opt-in.
+- [Fix] `ci/run_task_acceptance_check.sh` uses an explicit command first, then the saved adopter command, then the kit default. A fresh shell records `VERIFIED` or `BLOCKED` with the command's exit code. A missing command exits 2 without evidence.
+
 ### Cursor continuation after a milestone (2026-11-27)
 
 - [Experimental] The optional Cursor rule now compares each milestone with the requested outcome and directs the agent to investigate and execute a missing supporting step within the host mandate. The installation check reports rule file presence and points to Cursor for its effective mode.

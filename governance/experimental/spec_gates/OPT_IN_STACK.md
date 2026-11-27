@@ -64,6 +64,19 @@ Optional: `ADOPTER_BUNDLES="standard research"` (default) for readopt when you n
 
 ## After install
 
+A new shell records the command saved at install, with no extra variable:
+
+```bash
+bash ci/run_task_acceptance_check.sh
+```
+
+An explicit `TASK_ACCEPTANCE_CMD`, including the workflow `verify` input, is used
+instead of that saved command. The runner writes `VERIFIED` or `BLOCKED` and exits
+with the command's code. When neither an explicit command nor
+`ci/adopter_task_acceptance_cmd.sh` is present, a kit checkout uses the command
+printed by `ci/kit_maintenance_acceptance_cmd.sh`. If that script is missing,
+fails, or prints no command, the runner exits 2 and writes no evidence.
+
 ```bash
 source scripts/activate-governance-specify-env.sh
 export TASK_ACCEPTANCE_CMD="bash ci/adopter_task_acceptance_cmd.sh"
@@ -75,7 +88,13 @@ specify workflow run ai-governance \
   --input verify="bash ci/adopter_task_acceptance_cmd.sh"
 ```
 
-On headless Linux, the installer runs `agent sandbox disable` when `agent` is on PATH.
+The installer does not change the Cursor sandbox. Cursor keeps that CLI setting
+across sessions ([sandbox controls](https://cursor.com/docs/cli/overview#sandbox-controls)).
+On a repeat install, existing Cursor hooks, Spec Kit workflow entries, the local
+`governed-work` skill, and an existing Cursor rule stay in place. Each selected kit
+hook and workflow is added once. A conflicting host file is left unchanged and named
+in the installer output. The pinned acceptance runner is refreshed from the kit.
+Each install rewrites `ci/adopter_task_acceptance_cmd.sh` from `ADOPTER_VERIFY_COMMAND`.
 
 Git commits with projected hooks: `git commit -F msg.txt` (no `Co-Authored-By` trailer).
 
@@ -156,10 +175,12 @@ a skill.
 | `vendor/superpowers/v7.0.2/`                                       | **Procedures** — `executing-plans`, TDD, debugging (installer does **not** copy this pin; see Phase B below) |
 
 The stack installer copies
-[`templates/autonomous-aep-execution.mdc.template`](./templates/autonomous-aep-execution.mdc.template)
-to `.cursor/rules/autonomous-aep-execution.mdc` when that file does not exist. Customize
-ledger paths and ADR references for your project, then add one sentence in `AGENTS.md`
-that natural-language AEP requests are sufficient (see mechweave dogfood).
+[`templates/autonomous-aep-execution.baseline.mdc.template`](./templates/autonomous-aep-execution.baseline.mdc.template)
+to `.cursor/rules/autonomous-aep-execution.mdc` when that file does not exist. The
+[candidate template](./templates/autonomous-aep-execution.mdc.template) stays available
+for an explicit trial and is not installed by default. Customize ledger paths and ADR
+references for your project, then add one sentence in `AGENTS.md` that natural-language
+AEP requests are sufficient (see mechweave dogfood). An existing rule is kept on reinstall.
 
 Reload the Cursor workspace after adding or changing rules.
 

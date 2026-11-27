@@ -33,6 +33,15 @@ spec-gates experimental and outside import bundles.
    `FOR_EXISTING_PROJECTS.md`.
 4. Add **`ci/gate_tests/test_install_opt_in_stack.py`** for installer syntax and
    policy shape smoke checks only (no live spec-gates install in CI).
+   **Amendment (2026-11-27):** the installer merges Cursor hook commands and Spec Kit
+   workflow registry entries instead of replacing those JSON files. It keeps an
+   existing governed-work skill, Cursor rule, and a differing `ai-governance` workflow
+   file, and names each kept file. It installs the baseline Cursor rule when none
+   exists; the candidate continuation template is not copied automatically. It does
+   not invoke the Cursor CLI and does not change the sandbox setting. The acceptance
+   runner and uncommitted-diff helper are refreshed from the pinned kit. Each install
+   still rewrites `ci/adopter_task_acceptance_cmd.sh` from `ADOPTER_VERIFY_COMMAND`.
+   The preservation fixture runs `--stack-only` with spec-gates downloads skipped.
 
 Out of scope: mandatory adopter adoption, changing import bundles, promoting
 spec-gates to required checks, or claiming downstream trial outcomes.

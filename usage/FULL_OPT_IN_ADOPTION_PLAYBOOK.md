@@ -104,7 +104,7 @@ that file presence is sufficient. Reload the relevant IDE after changes.
 
 - Readopt: never delete `vendor/AI_governance` to “retry”; use `.next` + report + switch.
 - Git commits with projected hooks: `git commit -F msgfile` (no `Co-Authored-By`).
-- Headless Linux: installer runs `agent sandbox disable` when `agent` is on PATH.
+- The installer does not change the Cursor sandbox. That choice stays with the operator.
 - Partial install: run `check-opt-in-stack.sh` — see OPT_IN_STACK § Installation completeness.
 
 ### Downstream examples (dogfood)

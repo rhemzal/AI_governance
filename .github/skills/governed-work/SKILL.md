@@ -12,7 +12,8 @@ A skill cannot widen the mandate, demand a commit, or replace an acceptance crit
 this entry in a fresh session; file presence alone is not proof. For natural-language
 AEP requests, use the host's supported instruction route. Cursor can use the optional
 always-on rule from
-`governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template`;
+`governance/experimental/spec_gates/templates/autonomous-aep-execution.baseline.mdc.template`.
+The candidate template is not installed by default.
 VS Code + Copilot can route through `.github/copilot-instructions.md`. This is
 separate from Tier C Stop behavior.
 

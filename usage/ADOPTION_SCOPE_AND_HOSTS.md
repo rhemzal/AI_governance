@@ -99,7 +99,7 @@ Policy is **capability-based**, not “only slm01”.
 - **Cursor** when proving Cursor Stop dispatch, or **VS Code + GitHub Copilot** when proving Copilot `agentStop` dispatch. VS Code hooks are Preview; workflow acceptance can run headless, but native dispatch must be observed in the matching IDE ([OPT_IN_STACK.md](../governance/experimental/spec_gates/OPT_IN_STACK.md))
 - Sufficient disk and time for `install-and-project.sh` (maintainer projection on kit repo; adopter copy under `governance/experimental/spec_gates/`)
 
-The installer may run `agent sandbox disable` on headless Linux when `agent` is on PATH ([OPT_IN_STACK.md](../governance/experimental/spec_gates/OPT_IN_STACK.md)).
+The installer does not change the Cursor sandbox setting. Cursor keeps the CLI sandbox choice across sessions ([OPT_IN_STACK.md](../governance/experimental/spec_gates/OPT_IN_STACK.md)).
 
 ### Special case: this kit repository (upstream)
 
