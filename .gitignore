@@ -52,3 +52,4 @@ jobs/
 .cursor/hooks/stop-invocations.jsonl
 .github/hooks/record-stop-invocations
 .github/hooks/stop-invocations.jsonl
+vendor/AI_governance.prev/

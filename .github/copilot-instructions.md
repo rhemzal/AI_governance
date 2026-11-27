@@ -32,9 +32,9 @@ Use the declared kit root (normally `vendor/AI_governance/`) for kit-document re
 - High-risk work: `constitution/AI_ENFORCEMENT.md`
 - Adaptive governance (G0–G4): `constitution/ADAPTIVE_GOVERNANCE.md`
 - AEP spec: `usage/AEP_VALIDATION.md`
-- Terminology (G vs CM): `architecture/TERMINOLOGY_GLOSSARY.md` *(minimal+)*
-- Architecture decisions: `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` *(minimal+)*
-- Extended architecture/RAG: `architecture/README.md` *(optional architecture bundle or full)*
+- Terminology (G vs CM): `architecture/TERMINOLOGY_GLOSSARY.md` _(minimal+)_
+- Architecture decisions: `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md` _(minimal+)_
+- Extended architecture/RAG: `architecture/README.md` _(optional architecture bundle or full)_
 
 ## How to work
 
@@ -52,6 +52,7 @@ Use the declared kit root (normally `vendor/AI_governance/`) for kit-document re
 Use routine mode for small, low-risk edits.
 
 Use high-risk mode before changing:
+
 - architecture boundaries
 - dependency rules
 - public contracts
@@ -67,6 +68,7 @@ High-risk work must include a full compliance report, ADR consideration, explici
 ## AEP and verification
 
 For HIGH-risk work, dependent non-trivial steps, handoff, or concurrency:
+
 - produce AEP first; declare READY or BLOCKED
 - include known paths, verification, acceptance criteria, and a repair budget
 - refine the plan as discovery supplies evidence, within the mandate
@@ -78,6 +80,7 @@ Verification must use repo-local commands. Do not assume global test runners.
 ## Failure handling
 
 If verification fails:
+
 - use AVR loop: detect → diagnose → minimal compliant repair → rerun → report
 - do not ask for help unless blocked or the repair budget is exhausted
 
@@ -102,6 +105,7 @@ When `usage/AI_PRODUCTIVITY_CALIBRATION.md` is present: Phase 0–1 = no calenda
 ## Documentation
 
 For behavior changes:
+
 - include DOC DELTA
 - preserve single source of truth
 - avoid duplicate docs
@@ -126,5 +130,13 @@ For high-risk work, use the full `## COMPLIANCE REPORT` from `constitution/AI_EN
 ## Related
 
 - `AGENTS.md`
-- `usage/HOW_TO_USE_WITH_COPILOT.md` *(when imported)*
+- `usage/HOW_TO_USE_WITH_COPILOT.md` _(when imported)_
 - `usage/AEP_VALIDATION.md`
+
+<!-- AI Governance Tier C route -->
+
+## Governed work
+
+- Follow the shared project policy in `AGENTS.md` and `governance/LOCAL_OVERLAY.md`.
+- Use `.github/skills/governed-work/SKILL.md` for authorized work procedures.
+- In VS Code, select the **Copilot** session target for the Tier C `agentStop` hook in `.github/hooks/ai-governance.json`.
