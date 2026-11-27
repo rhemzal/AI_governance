@@ -2,6 +2,16 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance)._
 
+## Next work after PR #64 (2026-11-27)
+
+The following priorities apply to the optional tooling. Tier A remains the general adoption path. Findings, controls and the audited revision are in the [post-merge audit](AUDIT_REPORT.md#adoption-readiness-after-pr-64-2026-11-27).
+
+1. **Preserve host choices on install and reinstall.** Start in `governance/experimental/spec_gates/install-opt-in-stack.sh` and its existing [installer tests](../ci/gate_tests/test_install_opt_in_stack.py). Use a disposable project with a local Cursor hook, workflow, modified skill and a recording CLI stub. After two installs, the host entries must still work, each selected kit hook and workflow must appear once, and the installer must make zero sandbox-changing CLI calls. Preserve a conflicting host file or report the conflict before changing it. Keep the candidate continuation rule selectable for the trial and use the prior rule by default until a comparison supports promotion. An existing customized rule must survive.
+2. **Make the saved acceptance command usable in the next shell.** In the [acceptance runner](../ci/run_task_acceptance_check.sh), resolve an explicit task override first, then the generated host wrapper when present, then the existing kit default in its own checkout. Exercise a fresh shell and the workflow's empty `verify` input. The host fixture must record VERIFIED on green and BLOCKED on red with the original return code. Cover an explicit override and a missing command as separate controls. Use an observable check of the assigned outcome so a passing subtask cannot close the task.
+3. **Replay one genuine premature finish in native Cursor.** Capture the original assignment, remaining criterion, last tool action, reason for stopping, workspace SHA, visible model/build and effective rule. Keep host-specific material in the adopter's own records. If approval, cancellation or a tool limit explains the stop, route it there. For an unexplained voluntary stop, freeze an independent check that fails on the partial result and passes on a complete reference. Run the [existing paired procedure](../tooling/BENCHMARK_SCENARIOS.md#cursor-continuation-after-a-passing-milestone) on that task in fresh Agent windows. Choose the candidate for one adopter only if the baseline shows a premature stop, all three candidate first attempts finish without a human nudge, and the plan-only control leaves the tree clean. If both arms pass, keep the result as a tie. Try native `/goal` separately only if the candidate still stops early.
+
+The suggested next implementation PR covers item 1. The first two items can be verified locally with ordinary fixtures. Extending the Stop loop, adding an orchestrator or expanding the paid Harbor matrix can wait for a reproduced gap in one of these controls.
+
 ## Active backlog — 2026-09-27
 
 **Baseline:** `768e2028eaabf943cb6b68e077d891db16f90332` (merged PR #34).

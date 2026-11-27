@@ -2,6 +2,33 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance)._
 
+## Adoption readiness after PR #64 (2026-11-27)
+
+At `551a7cbba60992e55680306b44637c063a894176`, the kit has repeatable import and verification checks. The highest-priority defect is in full opt-in installation on an existing project. The next behavioral question is whether the installed Cursor rule helps a real task that ended early. [Ordered next work](FIX_PLAN.md#next-work-after-pr-64-2026-11-27)
+
+### What ran
+
+All 240 tests in four maintained suites passed on the audited tree as an unprivileged user on Linux. These comprise 174 gate regressions, 35 import/bundle tests, 18 Autonomous Execution Plan (AEP) validation tests and 13 ratchet tests. The bundle run used the manifest converted with the workflow's pinned yq v4.44.3. These tests exercise the kit's tools. The three adoption tiers have different evidence for daily agent work. [Verification commands](../DEVELOPMENT.md) · [Tier definitions](ADOPTION_SCOPE_AND_HOSTS.md)
+
+| Boundary | Observed result at this audit |
+| --- | --- |
+| Tier A, policy import | The bundle suite checked eight supported selections against the real manifest and exercised preservation of host entry files. |
+| Tier B, work procedures | The pinned Superpowers routing and Spec Kit workflow have executable regression coverage. On the continuation fixture the original and candidate rule each completed 3/3 first attempts without a human nudge. The plan-only control produced zero edits. Fresh agents received the rule in their prompt, the parent identified as Grok 4.7, and the IDE remained open on the kit. The trial gives no basis to prefer either text for an adopter. [Per-run grades](#cursor-ending-a-task-after-a-milestone-2026-11-27) |
+| Tier C, enforcement | Harbor recorded 21 successful first attempts out of 24 on C1–C4 with `cursor-cli` and `composer-2.5`. The merged result replaced two behavioral failures and one installation error with successful retries. The native Cursor evidence records one allow. A failed gate followed by the IDE resuming work remains unobserved. [Harbor ledger](../specs/006-harbor-scenario-backlog/progress.md) · [Native Stop observation](../research/experiments/cursor-stop/host-2026-11-05/OBSERVATION.md) |
+
+### Installation and first-task controls
+
+The installer ran twice through its public `--stack-only` entry point in a disposable Git project. It used the real first import, file installation, generated acceptance wrapper and evidence runner. The fixture supplied a passing gate, skipped the spec-gates download and substituted inert programs for the package installer and Cursor CLI. The CLI recorded its request and returned exit 7. A display variable was set. No real editor or account participated.
+
+| Control | Observed result |
+| --- | --- |
+| Existing host configuration | The host's existing Cursor Stop and after-file-edit hooks disappeared, as did a host Spec Kit workflow registry entry and the local governed-work skill contents. The shared JSON files were copied wholesale. [Installation code](../governance/experimental/spec_gates/install-opt-in-stack.sh) |
+| Host sandbox choice | On both runs the installer requested that the CLI disable its sandbox, ignored exit 7, printed that the sandbox was disabled and exited 0. The code checks for the CLI on PATH. It does not test for a headless host. Cursor documents that CLI sandbox settings persist across sessions. [Installer](../governance/experimental/spec_gates/install-opt-in-stack.sh) · [Cursor CLI documentation](https://cursor.com/docs/cli/overview#sandbox-controls) |
+| Unqualified rule rollout | A first install copied the candidate verbatim as an always-on rule. A repeat install preserved a locally edited rule. Thus two adopters on the same kit SHA can get different instructions, and a new Tier C installation receives the candidate despite the tie decision. [Template](../governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template) |
+| Host acceptance in a fresh shell | The host had already saved a working acceptance command at install. Running `bash ci/run_task_acceptance_check.sh` with no override exited 127 before writing evidence because the kit-only default script was absent. Explicitly selecting `bash ci/adopter_task_acceptance_cmd.sh` returned 0 and wrote VERIFIED. Removing the required fixture input returned 1 and wrote BLOCKED. The documented explicit-input route works. [Runner](../ci/run_task_acceptance_check.sh) · [Installation guide](../governance/experimental/spec_gates/OPT_IN_STACK.md#after-install) |
+
+A separate direct invocation of the shipped Cursor Stop adapter with a verifier returning 2 emitted a follow-up for each of `completed`, `aborted` and `error`. Actual editor dispatch on cancellation remains unmeasured. This audit used no new model runs. [Cursor adapter](../.cursor/hooks/kit-verify-stop.sh)
+
 ## Cursor ending a task after a milestone (2026-11-27)
 
 The operator reports having to prompt Cursor, especially with Grok, to continue an assigned task after a partial result. On kit revision `06a7806ac670c021404355354c267a96335018f6`, finishing steps in an existing plan has an explicit route. Discovering the next step when the list is exhausted and the requested outcome is still missing has a weaker prompt and no behavioral measurement. The failing session's transcript, selected model ID and effective workspace configuration were unavailable for this audit. The specific cause in that session remains open.
