@@ -71,7 +71,7 @@ fi
 if [[ -f .cursor/rules/autonomous-aep-execution.mdc ]]; then
   note "Cursor AEP rule file present — confirm Always Apply in Cursor for this workspace"
 else
-  warn "no alwaysApply AEP rule — natural-language 'finish the AEP' may not run inline; copy template from kit or re-run stack install"
+  warn "no alwaysApply AEP rule — natural-language 'finish the AEP' may not run inline; copy the baseline template from kit or re-run stack install"
 fi
 if grep -q "autonomous-aep-execution\|Active autonomous\|inline completion" AGENTS.md 2>/dev/null; then
   note "AGENTS.md mentions autonomous / AEP execution (review text)"

@@ -383,7 +383,8 @@ the project root, not from `vendor/AI_governance/`. A disposable adopter can che
 authorized inline AEP completion in `AGENTS.md`, add a supported route for the IDE
 being used and test it with a fresh session. Cursor can use the **always-on** project
 rule (`.cursor/rules/autonomous-aep-execution.mdc`, `alwaysApply: true`); the
-full-stack installer copies that Cursor template when absent. VS Code + Copilot can
+full-stack installer copies the baseline rule when that file is absent. The candidate
+template is not installed by default. VS Code + Copilot can
 route through `.github/copilot-instructions.md` to `.github/skills/governed-work/SKILL.md`.
 Do not claim always-on behavior in another IDE without host-specific evidence. See
 [`OPT_IN_STACK.md`](../governance/experimental/spec_gates/OPT_IN_STACK.md)

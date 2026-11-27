@@ -20,7 +20,7 @@ inputs:
   verify:
     type: string
     required: false
-    prompt: "Shell command that checks task acceptance (chosen before the run; empty uses the kit default on this repository)"
+    prompt: "Shell command that checks task acceptance (chosen before the run; empty uses the saved project command, then the kit default)"
 
 steps:
   - id: specify

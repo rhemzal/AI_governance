@@ -188,6 +188,117 @@ class RunTaskAcceptanceCheck(unittest.TestCase):
             self.assertNotEqual(first, second)
 
 
+class SavedAcceptanceCommand(unittest.TestCase):
+    def test_fresh_shell_records_saved_outcome_for_green_and_red(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = _adopter_with_runner(Path(tmp))
+            _write_outcome_wrapper(adopter)
+            (adopter / "ci/kit_maintenance_acceptance_cmd.sh").write_text(
+                "#!/bin/sh\nprintf '%s\\n' \"printf 'kit-default\\\\n'\"\n",
+                encoding="utf-8",
+            )
+            red = _run_acceptance(adopter)
+            self.assertEqual(red.returncode, 1, red.stdout + red.stderr)
+            red_text = _evidence(adopter)
+            self.assertIn("Task outcome: BLOCKED", red_text)
+            self.assertIn("Result: exit 1", red_text)
+            self.assertIn("bash ci/adopter_task_acceptance_cmd.sh", red_text)
+            self.assertNotIn("kit-default", red_text)
+
+            (adopter / "outcome.txt").write_text("complete\n", encoding="utf-8")
+            green = _run_acceptance(adopter)
+            self.assertEqual(green.returncode, 0, green.stdout + green.stderr)
+            green_text = _evidence(adopter)
+            self.assertIn("Task outcome: VERIFIED", green_text)
+            self.assertIn("Result: exit 0", green_text)
+
+            (adopter / "outcome.txt").unlink()
+            empty_verify = _run_acceptance(
+                adopter, {"TASK_ACCEPTANCE_CMD": ""}, unset=False
+            )
+            self.assertEqual(
+                empty_verify.returncode, 1, empty_verify.stdout + empty_verify.stderr
+            )
+            self.assertIn("Task outcome: BLOCKED", _evidence(adopter))
+
+    def test_explicit_command_overrides_saved_wrapper(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = _adopter_with_runner(Path(tmp))
+            _write_outcome_wrapper(adopter)
+            result = _run_acceptance(
+                adopter,
+                {"TASK_ACCEPTANCE_CMD": "printf 'task-override\\n'"},
+                unset=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            text = _evidence(adopter)
+            self.assertIn("Task outcome: VERIFIED", text)
+            self.assertIn("task-override", text)
+            self.assertNotIn("adopter_task_acceptance_cmd.sh", text)
+
+    def test_kit_default_is_used_only_when_no_saved_command_exists(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = _adopter_with_runner(Path(tmp))
+            (adopter / "ci/kit_maintenance_acceptance_cmd.sh").write_text(
+                "#!/bin/sh\nprintf '%s\\n' \"printf 'kit-default\\\\n'\"\n",
+                encoding="utf-8",
+            )
+            result = _run_acceptance(adopter)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            text = _evidence(adopter)
+            self.assertIn("Task outcome: VERIFIED", text)
+            self.assertIn("kit-default", text)
+
+    def test_symlinked_saved_command_is_not_executed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            adopter = root / "adopter"
+            adopter.mkdir()
+            _adopter_with_runner(adopter)
+            outside = root / "outside.sh"
+            outside.write_text("#!/bin/sh\nprintf 'FOLLOWED\\n'\n", encoding="utf-8")
+            outside.chmod(0o755)
+            wrapper = adopter / "ci/adopter_task_acceptance_cmd.sh"
+            wrapper.symlink_to(outside)
+            result = _run_acceptance(adopter)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn("symlink", result.stderr.casefold())
+            self.assertFalse(_evidence_path(adopter).exists())
+            self.assertNotIn("FOLLOWED", result.stdout + result.stderr)
+
+    def test_failing_kit_default_does_not_record_success(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = _adopter_with_runner(Path(tmp))
+            (adopter / "ci/kit_maintenance_acceptance_cmd.sh").write_text(
+                "#!/bin/sh\nexit 3\n",
+                encoding="utf-8",
+            )
+            result = _run_acceptance(adopter)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn("no acceptance command is selected", result.stderr)
+            self.assertFalse(_evidence_path(adopter).exists())
+
+    def test_empty_kit_default_does_not_record_success(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = _adopter_with_runner(Path(tmp))
+            (adopter / "ci/kit_maintenance_acceptance_cmd.sh").write_text(
+                "#!/bin/sh\nexit 0\n",
+                encoding="utf-8",
+            )
+            result = _run_acceptance(adopter)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn("no acceptance command is selected", result.stderr)
+            self.assertFalse(_evidence_path(adopter).exists())
+
+    def test_missing_command_exits_before_writing_a_false_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            adopter = _adopter_with_runner(Path(tmp))
+            result = _run_acceptance(adopter)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn("no acceptance command is selected", result.stderr)
+            self.assertFalse(_evidence_path(adopter).exists())
+
+
 class GovernedWorkflowDefinition(unittest.TestCase):
     def test_verify_shell_step_follows_implement(self):
         text = GOVERNED.read_text(encoding="utf-8")
@@ -195,6 +306,7 @@ class GovernedWorkflowDefinition(unittest.TestCase):
         self.assertIn("type: shell", text)
         self.assertIn("bash ci/run_task_acceptance_check.sh", text)
         self.assertIn("verify:", text)
+        self.assertIn("saved project command", text)
         self.assertRegex(
             text,
             r"id: implement[\s\S]*id: verify-acceptance",
@@ -297,6 +409,54 @@ class SpecKitEngineShellProbe(unittest.TestCase):
                         self.assertEqual(lines[0], "failed")
                         self.assertEqual(lines[-1], "False")
                         self.assertFalse((cwd / "marker.txt").exists())
+
+
+def _adopter_with_runner(adopter: Path) -> Path:
+    _init_git(adopter)
+    ci = adopter / "ci"
+    ci.mkdir()
+    shutil.copy(RUNNER, ci / "run_task_acceptance_check.sh")
+    shutil.copy(ROOT / "ci/uncommitted_diff_identity.py", ci / "uncommitted_diff_identity.py")
+    return adopter
+
+
+def _write_outcome_wrapper(adopter: Path) -> None:
+    wrapper = adopter / "ci/adopter_task_acceptance_cmd.sh"
+    wrapper.write_text(
+        """#!/usr/bin/env bash
+set -euo pipefail
+test "$(cat outcome.txt 2>/dev/null || true)" = complete
+""",
+        encoding="utf-8",
+    )
+    wrapper.chmod(0o755)
+
+
+def _run_acceptance(adopter: Path, updates: dict | None = None, unset: bool = True):
+    env = os.environ.copy()
+    if unset:
+        env.pop("TASK_ACCEPTANCE_CMD", None)
+    if updates:
+        env.update(updates)
+    env.pop("TASK_ACCEPTANCE_EVIDENCE", None)
+    env.pop("TASK_ACCEPTANCE_LOG", None)
+    return subprocess.run(
+        ["bash", "ci/run_task_acceptance_check.sh"],
+        cwd=adopter,
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+
+
+def _evidence_path(adopter: Path) -> Path:
+    return adopter / ".specify/acceptance-run-evidence.latest.md"
+
+
+def _evidence(adopter: Path) -> str:
+    return _evidence_path(adopter).read_text(encoding="utf-8")
 
 
 def _init_git(adopter: Path) -> None:

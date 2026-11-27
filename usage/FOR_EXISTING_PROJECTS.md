@@ -43,8 +43,10 @@ fresh session with one bounded task. For operators who already granted autonomou
 in host `AGENTS.md`:
 
 1. For Cursor, install **`.cursor/rules/autonomous-aep-execution.mdc`** (`alwaysApply: true`) from
-   [`templates/autonomous-aep-execution.mdc.template`](../governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template)
-   (the full-stack installer copies it when absent).
+   [`templates/autonomous-aep-execution.baseline.mdc.template`](../governance/experimental/spec_gates/templates/autonomous-aep-execution.baseline.mdc.template)
+   (the full-stack installer copies that baseline when the file is absent). The
+   [candidate template](../governance/experimental/spec_gates/templates/autonomous-aep-execution.mdc.template)
+   is for an explicit trial and is not installed by default.
 2. For VS Code + GitHub Copilot, merge a short route in `.github/copilot-instructions.md` to
    `.github/skills/governed-work/SKILL.md`; workspace Agent Skills are on-demand, so confirm the
    skill is actually selected in a fresh session. Do not claim Cursor Stop behavior from this route.

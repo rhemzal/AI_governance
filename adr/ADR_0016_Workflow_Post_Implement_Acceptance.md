@@ -36,6 +36,11 @@ schema, orchestrator, or mandatory adopter gate.
    not `git status` text alone, so distinct edits to the same path do not collide.
    **Amendment (2026-11-05):** regression test covers untracked symlink targets in
    `test_dirty_tree_identity_reflects_symlink_target` (Experiment B follow-up).
+   **Amendment (2026-11-27):** direct invocation resolves an explicit
+   `TASK_ACCEPTANCE_CMD` first, then `ci/adopter_task_acceptance_cmd.sh` when that
+   regular file exists, then `ci/kit_maintenance_acceptance_cmd.sh` beside the runner.
+   An empty workflow `verify` input follows that order. A missing command exits 2 and
+   writes no evidence. A symlinked saved command is refused.
 2. Introduce `ci/kit_maintenance_acceptance_cmd.sh` as the kit-repo default command
    for maintenance tasks, shared by the runner, workflow examples, and gate tests.
 3. Extend `ci/validate_test_evidence.py` with non-blocking `advisories` and stderr
