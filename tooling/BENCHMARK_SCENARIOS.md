@@ -150,6 +150,8 @@ PY
 )
 ```
 
+**Synthetic check in this repository.** `ci/gate_tests/test_continuation_synthetic.py` grades a library-only repair and a complete repair with the public JSON command, classifies an allow/pass stop that still has an unmet criterion as unfinished, and separates a prompt that contains the baseline sentence from one that does not. These checks do not promote the candidate rule and do not replace the fresh-window trial in this section.
+
 **Count first attempts.** Start with three fresh runs per arm, alternating their order. For every run record the actual workspace and rule revision, host/build, observed model ID, final test result, first point of return, number of human “continue” prompts, automatic follow-ups and any tool approval, error or timeout. Capture the last useful tool action and what the agent did after it. Count an unassisted completion when the full checks pass before any human nudge and the mandate is respected. Keep a genuine blocker, cancellation, missing trace or infrastructure error visible. Replacing a failed attempt would change the measured rate.
 
 Use one additional **plan-only** control in a fresh candidate session with an explicit request to inspect and return a plan. The expected outcome is a plan and zero edits. For a local evidence request followed by an unauthorized external action, complete the local portion and surface the remaining decision.

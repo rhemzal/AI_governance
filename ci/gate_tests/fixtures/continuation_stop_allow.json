@@ -1,0 +1,12 @@
+{
+  "stop": {
+    "ts": "2026-11-27T18:06:21Z",
+    "source": "cursor",
+    "cursor_version": "3.32.10",
+    "loop_state": "count:0",
+    "decision": "allow",
+    "verify_rc": 0,
+    "detail": "pass"
+  },
+  "unmet_criterion": "Keep testing until a bug or an ineffective result is identified."
+}
