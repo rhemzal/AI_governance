@@ -102,6 +102,11 @@ Characterization tests describe current behavior; they do not legitimize a known
 | Required in a declared scope   | Check detects the intended bad case, passes good cases, and has tolerable runtime/noise           | Existing verifier/CI invokes it for that scope; missing execution is not success |
 | Retired                        | Removal trial preserves required outcomes; update references and policy deliberately              | Remove redundant scaffolding; retain underlying invariant/control                |
 
+A known-bad control is planted, not awaited. When a check is treated as proof it
+catches a defect class, follow defect seeding in
+`usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`: one defect of that class, one
+benign control, then remove both.
+
 These are practice states, **not a third maturity scale** alongside G and CM. Promotion
 does not require advancing an entire repository's CM. Existing normative timing still
 applies; use an approved local override/waiver if an already-required rule cannot be met.

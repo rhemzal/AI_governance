@@ -33,15 +33,15 @@ service. This profile is advisory: it adds no mandatory governance gate, runner,
 store, or model service. A project can adopt one capability at a time and run it locally
 when hosted continuous integration (CI) is unavailable.
 
-| Stage | Smallest useful automation | Evidence / stop condition |
-| --- | --- | --- |
-| Select | Map the symptom or changed boundary to existing scenario IDs | Record required checks before execution; an unknown mapping falls back to an existing broader check, never an empty success |
-| Preflight | Check fixture, build, permissions and declared resource ownership | Missing prerequisites are explicit; discovery alone does not establish execution |
-| Execute | Invoke the existing bounded, non-interactive command | Preserve exit status, timeout, cancellation and every retry |
-| Observe | Collect native test results and the first useful diagnostic | Identify executed behavior assertions, required skips and missing results |
-| Evaluate | Compare observations with independent acceptance criteria | Process exit zero alone is insufficient |
-| Reproduce | Minimize the failure into an existing fixture/replay path | The control detects the defect before the repair and accepts intended behavior after it |
-| Release | Verify cleanup at the actual supervising boundary | Report remaining processes/resources; parent exit alone is insufficient |
+| Stage     | Smallest useful automation                                        | Evidence / stop condition                                                                                                   |
+| --------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Select    | Map the symptom or changed boundary to existing scenario IDs      | Record required checks before execution; an unknown mapping falls back to an existing broader check, never an empty success |
+| Preflight | Check fixture, build, permissions and declared resource ownership | Missing prerequisites are explicit; discovery alone does not establish execution                                            |
+| Execute   | Invoke the existing bounded, non-interactive command              | Preserve exit status, timeout, cancellation and every retry                                                                 |
+| Observe   | Collect native test results and the first useful diagnostic       | Identify executed behavior assertions, required skips and missing results                                                   |
+| Evaluate  | Compare observations with independent acceptance criteria         | Process exit zero alone is insufficient                                                                                     |
+| Reproduce | Minimize the failure into an existing fixture/replay path         | The control detects the defect before the repair and accepts intended behavior after it                                     |
+| Release   | Verify cleanup at the actual supervising boundary                 | Report remaining processes/resources; parent exit alone is insufficient                                                     |
 
 Reuse a project's scenario catalog, metadata and report format. A small explicit mapping
 is usually enough for initial test selection. Measure missed relevant checks before
@@ -52,16 +52,16 @@ introducing a model-based selector or a new coverage database.
 Before trusting automated diagnosis, exercise the instrument with disposable fixtures.
 Select controls for the runner's actual failure modes:
 
-| Control | Expected observation |
-| --- | --- |
-| Known-good selected behavior | Required behavior assertions execute and pass |
-| Injected assertion failure, including a wrapper that exits zero | Native failure remains a failure |
-| Empty selection or renamed test | No successful outcome; report what was selected and executed |
-| Missing fixture or all required behavior skipped | Prerequisite/coverage gap, not a pass |
-| Old report, stale binary or wrong fixture | Reject the mismatched run/build/fixture identity |
-| Timeout or cancellation through the real supervisor | Forward termination, finish bounded cleanup and preserve the outcome |
-| Parent exits while a descendant remains alive | Cleanup remains incomplete; do not release ownership as if nothing remains |
-| Retry after failure | Keep both attempts; a later pass does not erase the first failure |
+| Control                                                         | Expected observation                                                       |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Known-good selected behavior                                    | Required behavior assertions execute and pass                              |
+| Injected assertion failure, including a wrapper that exits zero | Native failure remains a failure                                           |
+| Empty selection or renamed test                                 | No successful outcome; report what was selected and executed               |
+| Missing fixture or all required behavior skipped                | Prerequisite/coverage gap, not a pass                                      |
+| Old report, stale binary or wrong fixture                       | Reject the mismatched run/build/fixture identity                           |
+| Timeout or cancellation through the real supervisor             | Forward termination, finish bounded cleanup and preserve the outcome       |
+| Parent exits while a descendant remains alive                   | Cleanup remains incomplete; do not release ownership as if nothing remains |
+| Retry after failure                                             | Keep both attempts; a later pass does not erase the first failure          |
 
 Count executed behavior assertions, not discovery entries or setup/teardown successes.
 An outer test may pass while a nested framework skips the behavior of interest; normalize
@@ -158,6 +158,25 @@ Use **Prompt 7** → **Prompt 6** and the scientific-style section in `usage/DEB
 
 When investigation depends on test runners, MCP, or CI harnesses, run an **instrument sanity check** (`DBG-science-07`) before long product-code changes.
 
+## Defect seeding (bebugging)
+
+Use this when a check is treated as evidence that it catches a class of defect.
+Do not wait for that defect to appear in ordinary work. Plant it, run the check
+that already exists, and remove the plant.
+
+1. Name the defect class the check is supposed to catch.
+2. Plant one small defect of that class on a real path, and one benign edit that must stay quiet.
+3. Run the existing check. Do not tell it which plant is which.
+4. A pass on the planted defect, or a failure on the benign edit, means the check does not yet support the claim.
+5. Remove every plant before the task ends. A plant left in the tree is a real defect.
+6. Record the class, the result and the revision. Do not install another product because a seed failed until this check has missed it.
+
+A seed that does not resemble the real change inflates the detection rate. Prefer a
+small edit on a path the project already has. Mutation testing is the automated form
+for code: a small syntactic fault counts as caught only when the check's result
+changes. The survey of which deferred tools this replaces is in
+`research/EXTERNAL_PROJECT_EVALUATIONS.md`.
+
 ## Do not hide failures
 
 The AI must not:
@@ -197,11 +216,11 @@ TEST DIAGNOSTICS REPORT
 
 ## Related Documents
 
-* `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
-* `usage/DECISION_PROMPTS_DEBUGGING.md`
-* `ci/TEST_GATES.md`
-* `ci/INTERFACE_GATES.md`
-* `interface/INTERFACE_RULES_PROPOSAL.md`
-* `constitution/AI_ENFORCEMENT_DAILY.md`
-* `AGENTS.md`
-* `usage/PROACTIVE_TRIGGER_MAP.md`
+- `usage/DEBUGGING_EFFECTIVENESS_CATALOG.md`
+- `usage/DECISION_PROMPTS_DEBUGGING.md`
+- `ci/TEST_GATES.md`
+- `ci/INTERFACE_GATES.md`
+- `interface/INTERFACE_RULES_PROPOSAL.md`
+- `constitution/AI_ENFORCEMENT_DAILY.md`
+- `AGENTS.md`
+- `usage/PROACTIVE_TRIGGER_MAP.md`

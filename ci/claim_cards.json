@@ -108,7 +108,7 @@
       "status": "integrated",
       "positive": "A READY plan whose discovery is one sentence and which has no method field passes the AEP validator.",
       "negative": "An empty discovery list fails the AEP validator.",
-      "known_pass_that_is_not_proof": "PASS says authority and results still require review. It does not show that a method was compared.",
+      "known_pass_that_is_not_proof": "PASS says authority and results still require review. It does not show that a method was compared, or that a defect of the claimed class was seeded.",
       "path": "ci/gate_tests/test_method_rationale.py",
       "anchor": "def test_ready_plan_without_a_method_comparison_passes",
       "rerun_when": "The AEP schema or AI_RULES section 6.5 changes."

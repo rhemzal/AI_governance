@@ -4,6 +4,10 @@ This project follows a lightweight changelog intended for governance-kit consume
 
 ## Unreleased
 
+### Defect seeding (2026-11-28)
+
+- [Governance] A check offered as proof it catches a defect class must be run against one planted defect and one benign control, and the plant must be removed. The routine is `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`. Another product is installed only after the current check misses the seed.
+
 ### Tier C host settings (2026-11-27)
 
 - [Fix] `install-opt-in-stack.sh` keeps existing Cursor hooks, workflow registry entries, the local governed-work skill, and a customized Cursor rule. Kit hooks and workflows are added once. A later install does not rewrite a hooks or registry file that already has those entries. The installer no longer asks the Cursor CLI to disable the sandbox. A new install receives the baseline continuation rule; the candidate template remains opt-in.

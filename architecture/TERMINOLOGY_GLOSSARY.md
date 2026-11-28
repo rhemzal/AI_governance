@@ -2,24 +2,28 @@
 
 _Provenance: This document originates from the AI_governance kit (https://github.com/rhemzal/AI_governance). If you copied it into another repository, keep this line to preserve traceability._
 
-
 ## Purpose
+
 Provide a shared vocabulary so architecture discussions are consistent, reviewable, and less “LLM-magic”.
 
 This glossary is **advisory**. Normative rules live in `constitution/`.
 
 ## Recommended Default Vocabulary (Style-Agnostic)
+
 When writing governance text in this repo, prefer these neutral terms:
+
 - **Core**: domain + use-cases/policy that must stay deterministic.
 - **Boundary contract**: the explicit contract at the boundary (ports/interfaces/APIs).
 - **Integration boundary**: code that touches the outside world (adapters/infrastructure).
 
 These map cleanly to multiple architecture styles:
+
 - Hexagonal: core + ports + adapters
 - Layered: domain/application as core, boundaries expressed as interfaces, integrations at the edge
 - Modular monolith: core within modules, integration boundaries at module edges
 
 ## Core Architecture Terms
+
 - **Boundary**: a line beyond which different rules apply (dependencies, ownership, change cadence).
 - **Module**: a unit of code organization with explicit responsibilities (can be enforced by tooling).
 - **Component**: a runtime unit or deployable unit (not always equal to a module).
@@ -28,12 +32,14 @@ These map cleanly to multiple architecture styles:
 - **Port**: an inward-facing contract that defines what the core needs from outside.
 
 ## Domain & Modeling Terms
+
 - **Invariant**: a rule that must always hold (e.g., “balance cannot be negative”).
 - **Aggregate**: a consistency boundary for enforcing invariants in one transaction.
 - **Bounded Context**: a boundary where a domain model and its language are consistent.
 - **Ubiquitous Language**: shared terms used in code, docs, and interfaces.
 
 ## Data & Consistency Terms
+
 - **System of record**: the authoritative source of truth for some facts.
 - **State model**: stores current truth.
 - **Event model**: stores immutable facts over time; state is derived.
@@ -41,35 +47,40 @@ These map cleanly to multiple architecture styles:
 - **Consistency model**: the guarantees about visibility/order of updates (strong vs eventual).
 
 ## Governance & Enforcement Terms (AI Workflow)
+
 - **Governance Level (G0–G4)**: project maturity and risk band from `constitution/ADAPTIVE_GOVERNANCE.md`. Answers “how much process does this **project** need?” G0 = exploration/scratch; G1 = solo prototype; G2 = serious solo/multi-agent (default target); G3 = shared/released; G4 = production/regulated.
 - **CI Maturity (CM0–CM3)**: staged **automation adoption** for repos that imported the kit. Answers “which **CI/review gates** are wired now?” CM0 = doc hygiene; CM1 = deterministic tests; CM2 = boundary + DOC DELTA; CM3 = risk signals (ADR on governance paths, coverage/flakiness). Declared in `governance/LOCAL_OVERLAY.md`. Defaults per `usage/ADOPTION_ENFORCEMENT_CONTRACT.md`.
 - **Do not use bare `L0`–`L3`** in normative text — always write **G** or **CM** (or spell out “Governance Level” / “CI Maturity”). Legacy `L0`–`L3` in older docs means **CM** unless explicitly labeled otherwise.
 - **Human-review fallback (enforcement)**: temporary enforcement mode when CI gates are not wired yet; compliance is checked via PR checklist/review.
 - **Automation-first enforcement**: enforcement is implemented as deterministic checks (CI gates/scripts) and the PR provides evidence (e.g., `DOC DELTA`) rather than relying on informal manual process.
+- **Defect seeding (bebugging)**: planting a known defect of a named class, running the existing check, and removing the plant. A pass on the plant means the check did not catch that class. Mutation testing is the automated form for code. The routine is `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
 
 ### Governance Level × CI Maturity (orientation map)
 
 This map is **advisory** — your overlay records the actual **CM** level. See `usage/ENFORCEMENT_MATRIX.md` for gate-by-gate detail.
 
-| Governance Level | Typical CI Maturity when kit is adopted | Notes |
-| --- | --- | --- |
-| **G0** exploration | None or human-review only | Cloud CI not required; kit import optional |
-| **G1** solo prototype | CM0 optional | Cheap doc hygiene when `standard` bundle imported |
-| **G2** serious solo / multi-agent | CM0 → CM1 | Default target; CM0 link/provenance checks are low-cost |
-| **G3** shared / released | CM2 → CM3 | Boundary, DOC DELTA, ADR on governance paths |
-| **G4** production / regulated | CM3+ | Full risk signals; waivers audited |
+| Governance Level                  | Typical CI Maturity when kit is adopted | Notes                                                   |
+| --------------------------------- | --------------------------------------- | ------------------------------------------------------- |
+| **G0** exploration                | None or human-review only               | Cloud CI not required; kit import optional              |
+| **G1** solo prototype             | CM0 optional                            | Cheap doc hygiene when `standard` bundle imported       |
+| **G2** serious solo / multi-agent | CM0 → CM1                               | Default target; CM0 link/provenance checks are low-cost |
+| **G3** shared / released          | CM2 → CM3                               | Boundary, DOC DELTA, ADR on governance paths            |
+| **G4** production / regulated     | CM3+                                    | Full risk signals; waivers audited                      |
 
 **Common confusion:** G2 says “avoid excessive documentation gates” — that means avoid **heavy** gates (coverage blocks, enterprise PR bureaucracy). **CM0** doc hygiene (link check, manifest paths) is still appropriate at G2 when the kit is imported.
 
 ## Delivery & Operations Terms
+
 - **SLO/SLA**: service-level objective/agreement; what “good” means operationally.
 - **Backpressure**: resisting overload by slowing producers / shedding work.
 - **Observability**: ability to infer internal state from outputs (logs/metrics/traces).
 
 ## Common Acronyms the AI Will Use (And Where Confusion Happens)
+
 Use this section to keep AI conversations precise.
 
 ### Architecture / Design
+
 - **ADR**: Architecture Decision Record.
 - **ATAM**: Architecture Tradeoff Analysis Method (use “ATAM-lite” here: validate choices against measurable quality attribute scenarios).
 - **ISO/IEC 25010**: quality model taxonomy (what “quality attributes” usually refer to in professional contexts).
@@ -86,6 +97,7 @@ Use this section to keep AI conversations precise.
 - **RFC**: Request for Comments (decision proposal format; org-dependent).
 
 ### Security (Common Evaluation Vocabulary)
+
 - **STRIDE**: threat modeling categories (Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege).
 - **CSF**: (NIST) Cybersecurity Framework.
 - **SSDF**: (NIST) Secure Software Development Framework.
@@ -94,6 +106,7 @@ Use this section to keep AI conversations precise.
 - **AuthN/AuthZ**: Authentication vs Authorization.
 
 ### Testing
+
 - **SUT**: System Under Test.
 - **TDD** (Test-Driven Development): a development methodology where failing tests drive design and implementation of new behavior (red → green → refactor).
 - **TFD** (Test-First Development): write a test before production code, without necessarily following the full TDD design loop; broader and less prescriptive than TDD.
@@ -110,11 +123,13 @@ Use this section to keep AI conversations precise.
 - **instrument sanity check**: verifying that test runners, MCP tools, mocks, or CI harnesses work on a trivial case before concluding product defects (`DBG-science-07`).
 
 ### AI-assisted method triage (cross-cutting)
+
 - **method triage**: selecting methods or documents **before** expanding a large corpus; pick methods, not solutions. Reference implementation: debugging Prompt 7 in `usage/DECISION_PROMPTS_DEBUGGING.md`.
 - **corpus budget** (alias **pattern budget**): maximum number of docs, patterns, or actions per iteration (typical: 2–3 for methods/patterns; 1 baseline bundle + max 1 optional for adoption). Prevents catalog dumps and parallel unfocused work.
 - **scope triage**: narrowing task scope (audit scope, bundle scope, discovery scope) before loading full playbooks or governance trees.
 
 ### AI productivity calibration (advisory)
+
 - **cold start** (Phase 0): planning mode with **no calendar ETA** for human or AI teams; scope-only plans (`task_class`, files, iteration count, verify command). See `usage/AI_PRODUCTIVITY_CALIBRATION.md`.
 - **task class**: category for aggregating productivity metrics (e.g. `fix_local`, `boundary`, `cross_cutting`).
 - **T_ai_active**: wall-clock minutes while the AI assistant actively worked (tool calls, generation) — distinct from total lead time (`T_lead`).
@@ -139,6 +154,7 @@ Use this section to keep AI conversations precise.
 - **Fuzzing**: Testing by feeding randomized or malformed inputs to discover crashes, hangs, or vulnerabilities.
 
 ### Delivery / Ops
+
 - **CI/CD**: Continuous Integration / Continuous Delivery.
 - **CD** (ambiguous): may mean Continuous Delivery or Continuous Deployment. This kit uses **Continuous Delivery** unless explicitly stated otherwise. Expand on first use.
 - **SLA/SLO**: availability/latency goals (often confused or used interchangeably).
@@ -147,18 +163,21 @@ Use this section to keep AI conversations precise.
 - **RPO**: Recovery Point Objective (maximum acceptable data loss window, measured in time).
 
 ### Supply Chain / Provenance
+
 - **SBOM**: Software Bill of Materials (inventory of components/dependencies used to build a system).
 - **SLSA**: Supply-chain Levels for Software Artifacts (levels for build provenance and supply-chain integrity).
 - **SPDX**: Software Package Data Exchange (one SBOM/specification format).
 - **CycloneDX**: an SBOM standard/specification (commonly used for dependency inventory).
 
 ### Compliance / Regulation (Context-Dependent)
+
 - **NIS2**: EU Network and Information Systems Directive (NIS2).
 - **DORA** (ambiguous — do not use bare): may mean software delivery performance metrics or EU regulation. Always disambiguate:
   - **DORA metrics**: software delivery performance metrics (deployment frequency, lead time, MTTR, change failure rate).
   - **EU DORA**: Digital Operational Resilience Act.
 
 ### AI Workflow
+
 - **AEP** (Autonomous Execution Plan): **project-local** planning artifact required for HIGH-risk work, dependent non-trivial steps, handoff, or concurrency. READY means next planned actions are authorized and unblocked; BLOCKED records a real blocker. NOT-REQUIRED is an applicability declaration for routine work.
 - **Exit criteria**: explicit, verifiable conditions for completing an AI task.
 - **DoD** (Definition of Done): team/project term; do not use it as a substitute for concrete exit criteria.
@@ -167,38 +186,46 @@ Use this section to keep AI conversations precise.
 - **MCP**: Model Context Protocol (optional external context integration).
 
 **TDD vs AVR (do not conflate):**
+
 - **TDD** is a human/team development methodology that uses failing tests to drive design.
 - **AVR** is an agent execution pattern for autonomous verify → diagnose → repair → rerun cycles.
 - **AVR does not replace** TDD, BDD, CI gates, or integration tests — it complements them when an AI agent executes work autonomously.
 
 ### Accessibility
+
 - **a11y**: Accessibility (shorthand: “a” + 11 letters + “y”).
 - **WCAG**: Web Content Accessibility Guidelines.
 
 ## How to Use Acronyms in Prompts (Examples)
+
 Use “define before use” to prevent the assistant from guessing.
 
 Example prompt snippets:
-- “Use **DDD** to mean *Domain-Driven Design* (bounded contexts + ubiquitous language), not ‘data-driven’."
-- “When you say **ES**, confirm you mean *Event Sourcing* (not Elasticsearch)."
+
+- “Use **DDD** to mean _Domain-Driven Design_ (bounded contexts + ubiquitous language), not ‘data-driven’."
+- “When you say **ES**, confirm you mean _Event Sourcing_ (not Elasticsearch)."
 - “For **CQRS**, explain the operational cost (projections, staleness) and when we should NOT choose it."
 - “Define **SUT** and propose tests by layer (domain/application/adapters)."
 
 ## When Confusion Is Likely
+
 - Same acronym means different things across teams/tools (e.g., ES, DORA, CD).
 - “Model” is overloaded: domain model vs persistence model vs read model.
 - “Architecture” is overloaded: code structure vs deployment topology.
 - “Quality” is overloaded: quality attributes vs code quality vs UX polish.
 
 Mitigation:
+
 - Ask the AI to restate definitions in 2–3 bullets before proposing changes.
 - Prefer explicit terms over acronyms in ADRs and public docs.
 
 ## When this fails
+
 - If terms are used inconsistently, architecture discussions become unreviewable.
 - If the glossary is treated as authority, it can block pragmatic decisions.
 
 ## Agent execution terms
+
 - **Task mandate**: the authorized objective, acceptance criteria, targets, and effects; separate from technical difficulty or a tool being available.
 - **Harness**: the environment and control loop around an agent, including tools, state persistence, and execution limits.
 - **Task outcome**: VERIFIED, PARTIAL, BLOCKED, or CANCELLED; separate from plan readiness and merge/deployment authority.
@@ -206,6 +233,7 @@ Mitigation:
 - **Stale evidence**: a result whose tested code/configuration/environment no longer matches the state being claimed.
 
 ## Related Documents
+
 - `architecture/ARCHITECTURE_DECISION_FRAMEWORK.md`
 - `architecture/DATA_MODELING_GUIDE.md`
 - `architecture/rag/QUALITY_ATTRIBUTES.md`

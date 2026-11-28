@@ -5,12 +5,14 @@ _Provenance: This document originates from the AI_governance kit (https://github
 Use this for 90% of everyday AI-assisted work.
 
 ## Paste This at the Start of Your Prompt
+
 Load `constitution/AI_RULES.md`.
 Respect architectural boundaries.
 If any rule would be violated, stop and report.
 Continue within the authorized task mandate; obtain approval before a new objective or unauthorized effect.
 
 ## Daily Checklist
+
 - AEP: If HIGH-risk, dependent non-trivial steps, handoff, or concurrency are involved, is the Autonomous Execution Plan declared READY before edits? Routine reversible work may use a concise scope and verification statement.
   - **Discovery:** when included in the declared bundle, use `usage/PROACTIVE_TRIGGER_MAP.md` before broad doc loads. Minimal adopters use the bounded discovery rules in `usage/AEP_VALIDATION.md` and the core enforcement document; the trigger map is optional upstream context.
 - Architecture: Which layer is this change in?
@@ -20,6 +22,7 @@ Continue within the authorized task mandate; obtain approval before a new object
 - Method and evidence: For non-trivial work, apply `AI_RULES.md` §6.5 in the existing task record: baseline/gap, observable acceptance, smallest sufficient method and uncertainty. Consult `usage/AI_ENGINEERING_METHODS.md` only as needed; honor the host's adopted controls.
 - Tests: What tests are required and where do they live?
   - **Test execution**: Use repo-local test command (e.g., `make test`, `.venv/bin/python -m pytest`, or docker). **Never assume global pytest.**
+  - **Defect seeding**: When a check is treated as proof it catches a defect class, plant one defect of that class and one benign control, run the check, then remove the plant. See `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`.
 - **AVR loop**: If verification fails, diagnose, apply the smallest compliant fix, rerun checks, and report within the declared repair budget. Stop the affected action only on a real blocker or exhausted budget (`AI_ENFORCEMENT.md` §1.3).
 - Docs: What documentation must be updated (or deleted)?
 - Scope: List affected files.
@@ -27,7 +30,9 @@ Continue within the authorized task mandate; obtain approval before a new object
 - Evidence: Bind results to the tested revision/environment and identify unmet acceptance criteria.
 
 ## Required Mini-Report
+
 ## COMPLIANCE
+
 - AEP: OK / NOT-REQUIRED / BLOCKED
 - Architecture: OK / ISSUE
 - Overlay: OK / NOT-APPLICABLE / UNKNOWN

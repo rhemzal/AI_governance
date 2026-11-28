@@ -227,6 +227,9 @@ following explicit in the existing AEP/task record, before implementation:
 - the observed baseline or a stated verification gap, and the relevant compatibility boundary;
 - the acceptance observation and cheapest credible verification, including a negative or
   known-good control when needed to distinguish a real fix from a misleading pass;
+- when a check is offered as evidence that it catches a class of defect, seed one defect
+  of that class and one benign control, run the existing check, and remove every seed
+  before the task ends. A pass on the seeded defect is not evidence that the check works;
 - the smallest sufficient method (including keeping existing tooling), why it fits, and
   any unresolved assumption that could change the decision.
 

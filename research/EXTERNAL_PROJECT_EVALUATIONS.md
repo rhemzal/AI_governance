@@ -342,12 +342,12 @@ lifecycle. The previously implemented acceptance step itself remains useful.
 tested compatibility. Risk is the incremental maintenance/process burden for
 this kit, not a general judgment of project quality.
 
-| Solution        | Placement and decision                                                            | Benefit to verify / revisit trigger                                                                                                                                  | Overengineering risk                                         |
-| --------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| **Superpowers** | **Deepen B/C now:** qualify selected 7.0.2 pin                                    | Four observed helper defects above; preserve existing task execution and rollback behavior                                                                           | Low for selected update; higher for the full catalog         |
-| **Spec Kit**    | **Deepen existing B/C**, keep current pin unless a needed fix justifies moving it | Real task acceptance and restart behavior. 1.3.0 exists, but the required shell step already works in 1.2.5                                                          | Low for current workflow; medium for more presets/artifacts  |
-| **spec-gates**  | **Keep C experimental**                                                            | One native Stop allow observed 2026-11-05 (Cursor 3.28.7, verify exit 0). Fail/follow-up not run. Same-host workflow/Git/CI acceptance passed; 0 product false blocks | Medium; do not promote from one allow; do not repeat hook setup without a new host or a fail-path gap |
-| **Agent OS**    | **Deepen the already adapted A/B pattern**                                        | Task-scoped discovery/injection of up to three sourced local constraints; fewer concrete violations without loading more irrelevant context                          | Low for existing overlay; medium for a second standards tree |
+| Solution        | Placement and decision                                                            | Benefit to verify / revisit trigger                                                                                                                                   | Overengineering risk                                                                                  |
+| --------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Superpowers** | **Deepen B/C now:** qualify selected 7.0.2 pin                                    | Four observed helper defects above; preserve existing task execution and rollback behavior                                                                            | Low for selected update; higher for the full catalog                                                  |
+| **Spec Kit**    | **Deepen existing B/C**, keep current pin unless a needed fix justifies moving it | Real task acceptance and restart behavior. 1.3.0 exists, but the required shell step already works in 1.2.5                                                           | Low for current workflow; medium for more presets/artifacts                                           |
+| **spec-gates**  | **Keep C experimental**                                                           | One native Stop allow observed 2026-11-05 (Cursor 3.28.7, verify exit 0). Fail/follow-up not run. Same-host workflow/Git/CI acceptance passed; 0 product false blocks | Medium; do not promote from one allow; do not repeat hook setup without a new host or a fail-path gap |
+| **Agent OS**    | **Deepen the already adapted A/B pattern**                                        | Task-scoped discovery/injection of up to three sourced local constraints; fewer concrete violations without loading more irrelevant context                           | Low for existing overlay; medium for a second standards tree                                          |
 
 Kit upstream **Experiment A** (2026-11-04, `specs/003-task-scoped-overlay-trial/`): B1 passed C1–C4; partial PASS — mandate text in governed-work reduces unrelated overlay noise (C4); C1 B0 miss not shown on maintainer-familiar host. Not an Agent OS product install.
 | **Elephant Goldfish Model** | **Next bounded review-pattern candidate**, B procedure or separately qualified host add-on | A fresh-context design reviewer finds independently confirmed defects missed by current review, with controlled noise and cost | Low/medium for one review; high for adopting the full multi-stage protocol by default |
@@ -427,6 +427,70 @@ This is an advisory queue, not an authorization to install on another repository
 No new service, universal mandatory gate, benchmark dashboard, policy authority,
 or process form is proposed. Use at most two implementation/repair attempts per
 selected slice before recording the blocker and retaining the baseline.
+
+##### Active elicitation of the named gaps (2026-11-28)
+
+The 2026-11-04 queue waits until a named gap appears in ordinary work. That
+wait is not the way to decide these candidates. A gap of a known class can be
+planted, the current kit run against it, and the candidate installed only when
+the current kit misses the plant. A plant that the current kit already catches
+keeps the candidate deferred. The plant is removed after the run.
+
+The procedure is defect seeding, also called bebugging: insert a known defect
+of the class under test, run the ordinary check without telling it which defect
+was planted, and score whether that defect is found. Harlan Mills described it
+at IBM in 1972. The [SQRBOK defect-seeding note](https://sqrbok.github.io/content/verif/inspection/defect-seeding.html)
+records the limit that matters here: a seed unlike real defects inflates the
+detection rate, and a seed left behind becomes a real defect. Mutation testing
+is the automated form for code: small syntactic faults, killed only when a
+check's result changes. Google's review-time system mutates the diff under
+review rather than the whole tree, and drops mutants that developers will not
+act on ([Petrovic, Ivankovic, Fraser, and Just](https://homes.cs.washington.edu/~rjust/publ/practical_mutation_testing_tse_2021.pdf)).
+A review-attention prototype applies the same idea to pull requests so an
+approving review that misses the mutant is a measured miss
+([ICSSP 2023](https://doi.org/10.1109/icssp59042.2023.00020)).
+
+This kit already runs that pattern on two slices. Harbor's oracle and nop
+controls are seeded outcomes for agent tasks. The overlay continuation patch
+and `ci/gate_tests/test_continuation_synthetic.py` plant a library-only repair
+and a green stop that still has an unmet criterion. Those checks do not wait
+for the next accident.
+
+The same pattern covers the deferred rows. None of these probes installs the
+named product. The product becomes eligible only when the probe shows a miss.
+
+| Candidate            | Seed, run with today's kit                                                                                                                                                   | Eligible only if                                                                                                                                                                                                                                                                                                                                                      |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ruler                | Change one shared instruction in one host copy and leave the other host stale. Include a host-owned sentence that must survive an update.                                    | The current copy procedure loses the host sentence or leaves the second host stale.                                                                                                                                                                                                                                                                                   |
+| OpenSpec             | On a throwaway spec, rename one requirement, delete one, and leave an unrelated requirement untouched.                                                                       | The current spec edit drops the unrelated requirement or misses the rename.                                                                                                                                                                                                                                                                                           |
+| SpecGov              | On a throwaway branch, change behavior without the spec, then add a requirement with no code. Ask the current check whether they still agree. An unrelated spec stays quiet. | The current check misses either plant. A 2026 comparison of one change family found Spec Kit `converge` reported planted drift in 6 of 6 runs, while OpenSpec `verify` checks only an active change and had nothing to check once the change was archived ([LogicStar](https://logicstar.ai/blog/spec-systems)). That is one source, not a reason to install SpecGov. |
+| GSD Core             | Stop a run after it records a file as done, change that file, and resume in a fresh process.                                                                                 | The resume treats the stale record as the current tree.                                                                                                                                                                                                                                                                                                               |
+| BMAD-METHOD          | Give one assignment two acceptance checks owned by different artifacts, such as a spec sentence and a test oracle.                                                           | One agent path completes with one check unrun.                                                                                                                                                                                                                                                                                                                        |
+| Ruflo                | Start two writers on the same path and integrate the results.                                                                                                                | The current worktree or merge rule loses one writer's result without a recorded conflict.                                                                                                                                                                                                                                                                             |
+| Fresh-context review | Seed one known defect and one clean control into a review packet that excludes the author's verdict. Experiment B already did one packet.                                    | A later packet shows a miss the current review also misses.                                                                                                                                                                                                                                                                                                           |
+| Agent OS loading     | Seed one path that must select a constraint and one path that must select none.                                                                                              | The current selector misses the required row or selects the unrelated row.                                                                                                                                                                                                                                                                                            |
+
+Two further kits describe the same idea and are not adopted here.
+[verif-kit](https://github.com/chitti-learns-ai/verif-kit) is a catalogue of
+conformance, metamorphic, fuzz, and mutation checks chosen by risk. It is a
+technique list, not a dependency. The red-team report
+[Contain, Conform, Compare](https://arxiv.org/html/2611.16485v1) runs scripted
+mutations, including benign controls, and counts whether the intended check
+fails. The kit's existing Harbor and gate fixtures already occupy that role.
+A new evaluation platform is not part of this survey.
+
+Synthetic seeds are harsher on paper than on real changes. One 2026 review
+benchmark built 100 synthetic mutations and 50 real bug-fix pull requests.
+Model F1 on the synthetic set was about 0.75 to 0.85 and fell below 0.07 on
+the real pull requests, with diff size the main drop
+([arXiv:2606.15689](https://arxiv.org/html/2606.15689v1)). A seed that is a
+five-line toy does not by itself justify a framework. The seed should be a
+small edit on a real kit path, with one benign control that must stay quiet.
+
+The first seeds to run are the ones whose class this repo can plant without
+another product: spec/code drift against the current workflow, a stale resume
+record, and a two-writer integration. Ruler waits until two hosts are actually
+in use. BMAD and Ruflo stay deferred unless their seed fails.
 
 The shortlisted upstream projects are available under MIT (Superpowers, Spec Kit,
 spec-gates, Agent OS, Ruler, OpenSpec) or Apache-2.0 (EGM). Check exact files/notices
