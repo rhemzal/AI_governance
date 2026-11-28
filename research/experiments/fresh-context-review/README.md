@@ -27,6 +27,12 @@ Append results to `specs/004-fresh-context-review-trial/progress.md`. Optional t
 Markdown under `research/benchmark_trials/` must follow `ci/benchmark_trials.py` schema
 (scenario `B5`–`B8` is a different benchmark family).
 
+## Scope pairs (2026-11-28)
+
+`scope-2026-11-28/` holds four pairs. B0 includes an author "ship it" sentence
+and B1 does not. The 2026-11-28 screening ran each file in its own workspace.
+B1 repeated B0. The result is `scope-2026-11-28/RESULTS.md`.
+
 ## Automation boundary
 
 A future native subagent or session harness belongs in a separate maintainer experiment.

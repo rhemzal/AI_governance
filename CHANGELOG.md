@@ -7,6 +7,8 @@ This project follows a lightweight changelog intended for governance-kit consume
 ### Defect seeding (2026-11-28)
 
 - [Governance] A check offered as proof it catches a defect class must be run against one planted defect and one benign control, and the plant must be removed. The routine is `usage/AI_TEST_EXECUTION_AND_DIAGNOSTICS.md`. Another product is installed only after the current check misses the seed.
+- [Research] The same seeds now cover the rest of the 2026-11-04 disposition list. The recorded verdicts are in `research/EXTERNAL_PROJECT_EVALUATIONS.md`. Elephant Goldfish Model stays uninstalled because no local check finds the planted review defect.
+- [Research] Four separated review pairs, each with and without an author "ship it" sentence, were read by fresh `grok-4.7` sessions. The sentence changed no finding. The product stays uninstalled. Record: `research/experiments/fresh-context-review/scope-2026-11-28/RESULTS.md`.
 
 ### Tier C host settings (2026-11-27)
 

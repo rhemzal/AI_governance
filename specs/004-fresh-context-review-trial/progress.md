@@ -27,9 +27,9 @@ Review target: content-aware `ci/uncommitted_diff_identity.py` (merged #53).
 
 ## Comparison
 
-| Finding | B0 | B1 |
-|---------|----|----|
-| Symlink test gap | Miss | Found |
+| Finding          | B0      | B1    |
+| ---------------- | ------- | ----- |
+| Symlink test gap | Miss    | Found |
 | Doc completeness | Partial | Found |
 
 **Experiment B screening:** **PASS** — B1 found ≥1 verified gap B0 skim missed; cost one read-only review pass.
@@ -43,3 +43,17 @@ Review target: content-aware `ci/uncommitted_diff_identity.py` (merged #53).
 - Task 1 B0: complete (documented misses)
 - Task 2 B1: complete
 - Task 3: complete (PASS screening)
+
+## Scope pairs (2026-11-28)
+
+Four self-contained pairs in
+`research/experiments/fresh-context-review/scope-2026-11-28/`. B0 carries an
+author "ship it" sentence. B1 does not. Each review was a separate `grok-4.7`
+ask session whose workspace held only that packet.
+
+B1 repeated B0 on all four pairs. Both found the whitespace `ValueError` gap
+and both restated the missing ADR. Both stayed quiet on the covered
+implementation and on the wording edit. The author sentence hid nothing in
+this pass. The ADR finding is the same fact the existing architecture gate
+already fails. Elephant Goldfish Model stays uninstalled. Record:
+`research/experiments/fresh-context-review/scope-2026-11-28/RESULTS.md`.
